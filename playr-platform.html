@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Playr — Built for Athletes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #08080e;
+      --bg-card:    #111118;
+      --bg-card2:   #17171f;
+      --border:     rgba(255,255,255,0.07);
+      --purple:     #7C3AED;
+      --purple-lt:  #9D65FF;
+      --purple-dim: rgba(124,58,237,0.18);
+      --purple-glow:rgba(124,58,237,0.35);
+      --text:       #f0f0f5;
+      --muted:      #8888aa;
+      --white:      #ffffff;
+      --green:      #22c55e;
+      --amber:      #f59e0b;
+      --red:        #ef4444;
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── SCREEN SYSTEM ─── */
+    .screen { display: none; width: 100%; min-height: 100vh; }
+    .screen.active { display: flex; }
+
+    /* ══════════════════════════════════════════
+       ENTRY SCREEN
+    ══════════════════════════════════════════ */
+    #screen-entry {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .entry-logo {
+      position: absolute;
+      top: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      z-index: 10;
+    }
+    .entry-logo span { color: var(--purple-lt); }
+
+    .entry-tagline {
+      text-align: center;
+      margin-bottom: 56px;
+      z-index: 10;
+    }
+    .entry-tagline h1 {
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+    .entry-tagline p { color: var(--muted); font-size: 16px; }
+
+    .entry-paths {
+      display: flex;
+      gap: 24px;
+      z-index: 10;
+      padding: 0 24px;
+      max-width: 960px;
+      width: 100%;
+    }
+
+    .path-card {
+      flex: 1;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 40px 36px;
+      cursor: pointer;
+      transition: all 0.35s ease;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+    .path-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      border-radius: 20px;
+    }
+    .path-card.eaf::before { background: radial-gradient(ellipse at 30% 40%, rgba(124,58,237,0.25) 0%, transparent 70%); }
+    .path-card.network::before { background: radial-gradient(ellipse at 70% 40%, rgba(34,197,94,0.18) 0%, transparent 70%); }
+    .path-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.15); }
+    .path-card:hover::before { opacity: 1; }
+
+    .path-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+      margin-bottom: 24px;
+    }
+    .path-card.eaf .path-icon { background: var(--purple-dim); }
+    .path-card.network .path-icon { background: rgba(34,197,94,0.12); }
+
+    .path-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .path-card.eaf .path-label { color: var(--purple-lt); }
+    .path-card.network .path-label { color: var(--green); }
+
+    .path-card h2 {
+      font-size: clamp(18px, 2.5vw, 26px);
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+    .path-card p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 28px; }
+
+    .path-features { list-style: none; margin-bottom: 32px; }
+    .path-features li {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .path-features li:last-child { border-bottom: none; }
+    .path-features li .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .path-card.eaf .dot { background: var(--purple-lt); }
+    .path-card.network .dot { background: var(--green); }
+
+    .path-cta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .path-card.eaf .path-cta { color: var(--purple-lt); }
+    .path-card.network .path-cta { color: var(--green); }
+
+    .entry-bg-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+    }
+    .orb1 { width: 600px; height: 600px; background: rgba(124,58,237,0.12); top: -200px; left: -200px; }
+    .orb2 { width: 400px; height: 400px; background: rgba(34,197,94,0.07); bottom: -100px; right: -100px; }
+
+    /* ══════════════════════════════════════════
+       EAF PLATFORM SCREEN
+    ══════════════════════════════════════════ */
+    #screen-eaf {
+      flex-direction: row;
+      min-height: 100vh;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      background: var(--bg-card);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      position: fixed;
+      top: 0; left: 0; bottom: 0;
+      z-index: 50;
+    }
+
+    .sidebar-logo {
+      padding: 24px 24px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .sidebar-logo .logo-mark {
+      width: 34px; height: 34px;
+      background: var(--purple);
+      border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px;
+      font-weight: 900;
+      color: white;
+    }
+    .sidebar-logo .logo-text {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+    .sidebar-logo .logo-text span { color: var(--purple-lt); }
+
+    .sidebar-section-label {
+      padding: 20px 20px 8px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      margin: 2px 8px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--muted);
+    }
+    .nav-item:hover { background: var(--bg-card2); color: var(--text); }
+    .nav-item.active { background: var(--purple-dim); color: var(--purple-lt); font-weight: 600; }
+    .nav-item .nav-icon { font-size: 16px; width: 20px; text-align: center; }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      padding: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    .user-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .user-card:hover { background: var(--bg-card2); }
+    .user-avatar {
+      width: 34px; height: 34px;
+      background: var(--purple);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .user-info { flex: 1; min-width: 0; }
+    .user-name { font-size: 13px; font-weight: 600; }
+    .user-tier { font-size: 11px; color: var(--purple-lt); }
+
+    /* ─── MAIN CONTENT ─── */
+    .main-content {
+      margin-left: 240px;
+      flex: 1;
+      min-height: 100vh;
+      background: var(--bg);
+    }
+
+    .top-bar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(8,8,14,0.9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 36px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .top-bar-title { font-size: 15px; font-weight: 700; }
+    .top-bar-actions { display: flex; align-items: center; gap: 12px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary { background: var(--purple); color: white; }
+    .btn-primary:hover { background: var(--purple-lt); transform: translateY(-1px); }
+    .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+
+    .content-area { padding: 36px; }
+
+    /* ─── VIEW SYSTEM ─── */
+    .view { display: none; }
+    .view.active { display: block; }
+
+    /* ─── HOME VIEW ─── */
+    .welcome-banner {
+      background: linear-gradient(135deg, var(--purple-dim) 0%, rgba(124,58,237,0.05) 100%);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 16px;
+      padding: 32px 36px;
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .welcome-text h2 { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+    .welcome-text p { color: var(--muted); font-size: 14px; }
+
+    .streak-widget {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-shrink: 0;
+    }
+    .streak-item { text-align: center; }
+    .streak-number { font-size: 28px; font-weight: 900; color: var(--purple-lt); line-height: 1; }
+    .streak-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+    .streak-divider { width: 1px; height: 40px; background: var(--border); }
+
+    .progress-section { margin-bottom: 36px; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .section-title { font-size: 16px; font-weight: 700; }
+    .section-link { font-size: 13px; color: var(--purple-lt); cursor: pointer; }
+    .section-link:hover { text-decoration: underline; }
+
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 36px; }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 22px;
+    }
+    .stat-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.8px; }
+    .stat-value { font-size: 28px; font-weight: 800; line-height: 1; }
+    .stat-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .stat-up { color: var(--green); }
+    .stat-amber { color: var(--amber); }
+
+    .progress-bar-wrap { background: var(--bg-card2); border-radius: 999px; height: 6px; margin-top: 10px; }
+    .progress-bar-fill { background: linear-gradient(90deg, var(--purple), var(--purple-lt)); border-radius: 999px; height: 6px; transition: width 0.6s ease; }
+
+    /* ─── FEATURED MODULE ─── */
+    .featured-module {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 36px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .featured-module:hover { border-color: rgba(124,58,237,0.5); }
+
+    .featured-thumb {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, #1a0a3a 0%, #0d1a3a 50%, #0a1a20 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .featured-thumb .thumb-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 50%, rgba(124,58,237,0.4) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 30%, rgba(157,101,255,0.2) 0%, transparent 50%);
+    }
+    .play-btn {
+      width: 64px; height: 64px;
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px;
+      z-index: 1;
+      transition: all 0.2s;
+      border: 2px solid rgba(255,255,255,0.2);
+    }
+    .featured-module:hover .play-btn { background: var(--purple); border-color: var(--purple); transform: scale(1.08); }
+
+    .featured-label {
+      position: absolute;
+      top: 16px; left: 16px;
+      background: var(--purple);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 999px;
+      z-index: 1;
+    }
+    .module-number {
+      position: absolute;
+      bottom: 16px; right: 16px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      z-index: 1;
+    }
+
+    .featured-info { padding: 22px 26px; }
+    .featured-info .module-tag {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--purple-lt);
+      margin-bottom: 8px;
+    }
+    .featured-info h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+    .featured-info p { color: var(--muted); font-size: 14px; line-height: 1.7; margin-bottom: 16px; }
+    .featured-meta { display: flex; align-items: center; gap: 20px; font-size: 12px; color: var(--muted); }
+    .featured-meta span { display: flex; align-items: center; gap: 5px; }
+
+    /* ─── MODULE GRID ─── */
+    .modules-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+
+    .module-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: all 0.25s;
+      position: relative;
+    }
+    .module-card:hover:not(.locked) { transform: translateY(-4px); border-color: rgba(124,58,237,0.45); }
+    .module-card.locked { opacity: 0.6; cursor: default; }
+
+    .module-thumb {
+      width: 100%;
+      height: 140px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 40px;
+      position: relative;
+    }
+    .module-thumb .thumb-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(124,58,237,0.25) 0%, rgba(8,8,14,0.4) 100%);
+    }
+    .lock-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(8,8,14,0.6);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 24px;
+    }
+
+    .module-body { padding: 18px 20px; }
+    .module-category {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--purple-lt);
+      margin-bottom: 6px;
+    }
+    .module-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; line-height: 1.3; }
+    .module-card p { font-size: 12.5px; color: var(--muted); line-height: 1.6; margin-bottom: 14px; }
+    .module-footer { display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--muted); }
+    .module-duration { display: flex; align-items: center; gap: 4px; }
+    .badge {
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .badge-new { background: rgba(34,197,94,0.15); color: var(--green); }
+    .badge-locked { background: rgba(136,136,170,0.15); color: var(--muted); }
+    .badge-progress { background: var(--purple-dim); color: var(--purple-lt); }
+
+    /* ─── MODULE DETAIL VIEW ─── */
+    .module-detail-back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 13px;
+      cursor: pointer;
+      margin-bottom: 28px;
+      width: fit-content;
+    }
+    .module-detail-back:hover { color: var(--text); }
+
+    .module-hero {
+      background: linear-gradient(135deg, #150a2e 0%, #0d1530 60%, #0a1520 100%);
+      border-radius: 20px;
+      padding: 48px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(124,58,237,0.25);
+    }
+    .module-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(124,58,237,0.3) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .module-hero-emoji { font-size: 56px; margin-bottom: 20px; display: block; position: relative; z-index: 1; }
+    .module-hero-cat { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--purple-lt); margin-bottom: 10px; position: relative; z-index: 1; }
+    .module-hero h2 { font-size: clamp(24px, 3vw, 36px); font-weight: 900; letter-spacing: -0.5px; margin-bottom: 14px; position: relative; z-index: 1; }
+    .module-hero p { color: var(--muted); font-size: 15px; line-height: 1.8; max-width: 620px; position: relative; z-index: 1; margin-bottom: 24px; }
+    .module-hero-meta { display: flex; gap: 24px; position: relative; z-index: 1; }
+    .module-hero-meta .meta-item { text-align: left; }
+    .module-hero-meta .meta-val { font-size: 18px; font-weight: 800; }
+    .module-hero-meta .meta-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+    .video-placeholder {
+      background: linear-gradient(135deg, #1a0a3a 0%, #0d1a3a 50%, #0a1a20 100%);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      height: 360px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 32px;
+      cursor: pointer;
+      transition: border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .video-placeholder:hover { border-color: rgba(124,58,237,0.5); }
+    .video-placeholder::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(124,58,237,0.2) 0%, transparent 70%);
+    }
+    .video-play {
+      width: 80px; height: 80px;
+      background: var(--purple);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.2s;
+    }
+    .video-placeholder:hover .video-play { transform: scale(1.1); }
+    .video-label { font-size: 14px; color: var(--muted); position: relative; z-index: 1; }
+
+    .video-embed {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      border-radius: 16px;
+      overflow: hidden;
+      background: #000;
+      margin-bottom: 32px;
+      border: 1px solid var(--border);
+    }
+    .video-embed iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .module-content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 28px; }
+
+    .lessons-list { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 28px; }
+    .lessons-header { padding: 18px 22px; border-bottom: 1px solid var(--border); font-size: 14px; font-weight: 700; }
+    .lesson-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 22px;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .lesson-item:last-child { border-bottom: none; }
+    .lesson-item:hover { background: var(--bg-card2); }
+    .lesson-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .lesson-num.done { background: var(--green); color: white; }
+    .lesson-num.active { background: var(--purple); color: white; }
+    .lesson-num.todo { background: var(--bg-card2); color: var(--muted); border: 1px solid var(--border); }
+    .lesson-info h5 { font-size: 14px; font-weight: 600; }
+    .lesson-info span { font-size: 12px; color: var(--muted); }
+
+    .reflection-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 28px;
+    }
+    .reflection-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .reflection-card p { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.6; }
+    .reflection-prompt {
+      background: var(--purple-dim);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 10px;
+      padding: 14px 16px;
+      font-size: 13px;
+      color: var(--purple-lt);
+      font-style: italic;
+      margin-bottom: 14px;
+      line-height: 1.6;
+    }
+    textarea.journal-input {
+      width: 100%;
+      background: var(--bg-card2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 13px;
+      padding: 12px 14px;
+      resize: vertical;
+      min-height: 90px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    textarea.journal-input:focus { border-color: var(--purple); }
+    textarea.journal-input::placeholder { color: var(--muted); }
+
+    .sidebar-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px;
+      margin-bottom: 20px;
+    }
+    .sidebar-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 16px; }
+    .elite-quote {
+      font-size: 15px;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .quote-attr { font-size: 12px; color: var(--muted); }
+
+    .key-concepts { list-style: none; }
+    .key-concepts li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+    .key-concepts li:last-child { border-bottom: none; }
+    .concept-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--purple); margin-top: 5px; flex-shrink: 0; }
+
+    /* ─── NETWORK COMING SOON SCREEN ─── */
+    #screen-network {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      min-height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+    .network-cs {
+      text-align: center;
+      z-index: 10;
+      max-width: 560px;
+      padding: 24px;
+    }
+    .network-cs .icon { font-size: 64px; margin-bottom: 24px; }
+    .network-cs h2 { font-size: 36px; font-weight: 900; margin-bottom: 14px; letter-spacing: -1px; }
+    .network-cs p { color: var(--muted); font-size: 16px; line-height: 1.8; margin-bottom: 32px; }
+    .notify-form { display: flex; gap: 10px; }
+    .notify-form input {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-size: 14px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .notify-form input:focus { border-color: var(--green); }
+    .notify-form input::placeholder { color: var(--muted); }
+    .btn-green { background: var(--green); color: #000; font-weight: 700; }
+    .btn-green:hover { filter: brightness(1.1); }
+    .back-to-entry { color: var(--muted); font-size: 13px; cursor: pointer; margin-top: 20px; }
+    .back-to-entry:hover { color: var(--text); }
+    .waitlist-success {
+      display: none;
+      align-items: center;
+      gap: 12px;
+      background: rgba(34,197,94,0.12);
+      border: 1px solid rgba(34,197,94,0.35);
+      border-radius: 12px;
+      padding: 14px 20px;
+      font-size: 14px;
+      color: var(--green);
+      font-weight: 500;
+    }
+    .waitlist-success.visible { display: flex; }
+    .waitlist-success-icon { font-size: 20px; flex-shrink: 0; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .entry-paths { flex-direction: column; }
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .module-content-grid { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; }
+    }
+    @media (max-width: 600px) {
+      .content-area { padding: 20px; }
+      .module-hero { padding: 28px; }
+      .welcome-banner { flex-direction: column; }
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+    /* Fade-in */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.45s ease forwards; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 1: ENTRY / PATH SELECTION
+══════════════════════════════════════════ -->
+<div id="screen-entry" class="screen active">
+  <div class="entry-bg-orb orb1"></div>
+  <div class="entry-bg-orb orb2"></div>
+
+  <div class="entry-logo">Pl<span>a</span>yr</div>
+
+  <div class="entry-tagline fade-up">
+    <h1>Where do you want to start?</h1>
+    <p>Choose your path — you can always switch between both.</p>
+  </div>
+
+  <div class="entry-paths">
+
+    <!-- EAF PATH -->
+    <div class="path-card eaf fade-up" onclick="showEAF()">
+      <div class="path-icon">🧠</div>
+      <div class="path-label">Elite Athlete Framework</div>
+      <h2>Build Your Game<br>From The Inside</h2>
+      <p>The mental operating system used by elite footballers. Train your psychology, identity, resilience, and focus — the parts of the game no coach is teaching you.</p>
+      <ul class="path-features">
+        <li><span class="dot"></span>Identity &amp; self-concept as an athlete</li>
+        <li><span class="dot"></span>Pre-match pressure &amp; anxiety protocols</li>
+        <li><span class="dot"></span>Resilience after rejection or injury</li>
+        <li><span class="dot"></span>Focus, flow states &amp; mental reps</li>
+        <li><span class="dot"></span>Guided reflections from elite players</li>
+      </ul>
+      <div class="path-cta">Enter the framework <span>→</span></div>
+    </div>
+
+    <!-- NETWORK PATH -->
+    <div class="path-card network fade-up" onclick="showNetwork()">
+      <div class="path-icon">⚡</div>
+      <div class="path-label">Athlete Discovery Network</div>
+      <h2>Get On The Radar.<br>Get Found.</h2>
+      <p>The professional ecosystem for players, scouts, coaches and clubs. Build your profile, upload your highlights, and connect with the people who can change your career.</p>
+      <ul class="path-features">
+        <li><span class="dot"></span>Professional athlete &amp; coach profiles</li>
+        <li><span class="dot"></span>AI-powered scout discovery tools</li>
+        <li><span class="dot"></span>Verified performance stats &amp; clips</li>
+        <li><span class="dot"></span>Club pages &amp; trial announcements</li>
+        <li><span class="dot"></span>Direct messaging with verified scouts</li>
+      </ul>
+      <div class="path-cta">Join the network <span>→</span></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 2: ELITE ATHLETE FRAMEWORK PLATFORM
+══════════════════════════════════════════ -->
+<div id="screen-eaf" class="screen">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-mark">P</div>
+      <div class="logo-text">Pl<span>a</span>yr</div>
+    </div>
+
+    <div class="sidebar-section-label">Framework</div>
+    <div class="nav-item active" onclick="showView('home', this)">
+      <span class="nav-icon">🏠</span> Home
+    </div>
+    <div class="nav-item" onclick="showView('modules', this)">
+      <span class="nav-icon">📚</span> Modules
+    </div>
+    <div class="nav-item" onclick="showView('progress', this)">
+      <span class="nav-icon">📈</span> My Progress
+    </div>
+    <div class="nav-item" onclick="showView('journal', this)">
+      <span class="nav-icon">✍️</span> Journal
+    </div>
+
+    <div class="sidebar-section-label">Discover</div>
+    <div class="nav-item" onclick="showView('elites', this)">
+      <span class="nav-icon">⭐</span> Elite Stories
+    </div>
+    <div class="nav-item" onclick="showView('community', this)">
+      <span class="nav-icon">👥</span> Community
+    </div>
+
+    <div class="sidebar-bottom">
+      <div class="user-card">
+        <div class="user-avatar">A</div>
+        <div class="user-info">
+          <div class="user-name">Adham</div>
+          <div class="user-tier">🔮 Pro Member</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="main-content">
+    <div class="top-bar">
+      <span class="top-bar-title" id="topbar-title">Dashboard</span>
+      <div class="top-bar-actions">
+        <button class="btn btn-ghost" onclick="goToEntry()">← Switch Path</button>
+        <button class="btn btn-primary" onclick="showView('modules', document.querySelector('.nav-item:nth-child(3)'))">Continue Learning</button>
+      </div>
+    </div>
+
+    <div class="content-area">
+
+      <!-- ── HOME VIEW ── -->
+      <div id="view-home" class="view active">
+
+        <div class="welcome-banner">
+          <div class="welcome-text">
+            <h2>Welcome back, Adham 👊</h2>
+            <p>You're on a 3-day streak. Don't break the chain — Module 2 is waiting.</p>
+          </div>
+          <div class="streak-widget">
+            <div class="streak-item">
+              <div class="streak-number" id="stat-streak">—</div>
+              <div class="streak-label">Day Streak</div>
+            </div>
+            <div class="streak-divider"></div>
+            <div class="streak-item">
+              <div class="streak-number" id="stat-completed">—</div>
+              <div class="streak-label">Completed</div>
+            </div>
+            <div class="streak-divider"></div>
+            <div class="streak-item">
+              <div class="streak-number" id="stat-progress-pct">—</div>
+              <div class="streak-label">Progress</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Mental Score</div>
+            <div class="stat-value" style="color:var(--purple-lt)">74</div>
+            <div class="stat-sub stat-up">↑ +6 this week</div>
+            <div class="progress-bar-wrap" style="margin-top:12px"><div class="progress-bar-fill" style="width:74%"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Resilience Index</div>
+            <div class="stat-value" style="color:var(--green)">68</div>
+            <div class="stat-sub stat-up">↑ Building</div>
+            <div class="progress-bar-wrap" style="margin-top:12px"><div class="progress-bar-fill" style="width:68%; background: linear-gradient(90deg, var(--green), #4ade80)"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Focus Level</div>
+            <div class="stat-value" style="color:var(--amber)">55</div>
+            <div class="stat-sub stat-amber">Needs work</div>
+            <div class="progress-bar-wrap" style="margin-top:12px"><div class="progress-bar-fill" style="width:55%; background: linear-gradient(90deg, var(--amber), #fbbf24)"></div></div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Modules Done</div>
+            <div class="stat-value" id="stat-modules-done-value">—<span style="font-size:16px;color:var(--muted)">/10</span></div>
+            <div class="stat-sub" id="stat-modules-remaining">— remaining</div>
+            <div class="progress-bar-wrap" style="margin-top:12px"><div class="progress-bar-fill" id="stat-modules-bar" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <div class="section-title">Continue Where You Left Off</div>
+        </div>
+
+        <div class="featured-module" onclick="openModule(1)">
+          <div class="featured-thumb">
+            <div class="thumb-bg"></div>
+            <div class="featured-label">In Progress</div>
+            <div class="play-btn">▶</div>
+            <div class="module-number">Module 2 of 10</div>
+          </div>
+          <div class="featured-info">
+            <div class="module-tag">Identity &amp; Mindset</div>
+            <h3>Pressure Protocol — Performing When It Matters Most</h3>
+            <p>Understand why your performance drops under pressure and build the psychological tools to override it. Drawn from elite sports psychology and the experiences of professional footballers.</p>
+            <div class="featured-meta">
+              <span>🕐 38 min</span>
+              <span>📖 4 lessons</span>
+              <span>✍️ 1 reflection exercise</span>
+              <span style="color:var(--purple-lt)">60% complete</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ── MODULES VIEW ── -->
+      <div id="view-modules" class="view">
+        <div class="section-header" style="margin-bottom:28px">
+          <div>
+            <div class="section-title" style="font-size:20px;font-weight:800">All Modules</div>
+            <div style="color:var(--muted);font-size:13px;margin-top:4px">10 modules · 2 completed · 8 remaining</div>
+          </div>
+        </div>
+        <div class="modules-grid" id="modules-grid"></div>
+      </div>
+
+      <!-- ── PROGRESS VIEW ── -->
+      <div id="view-progress" class="view">
+        <div class="section-title" style="font-size:20px;font-weight:800;margin-bottom:28px">My Progress</div>
+        <div class="stats-row">
+          <div class="stat-card"><div class="stat-label">Overall Completion</div><div class="stat-value" id="progress-overall-pct" style="color:var(--purple-lt)">—</div><div class="progress-bar-wrap" style="margin-top:12px"><div class="progress-bar-fill" id="progress-overall-bar" style="width:0%"></div></div></div>
+          <div class="stat-card"><div class="stat-label">Journal Entries</div><div class="stat-value" id="progress-journal-count">—</div><div class="stat-sub stat-up">Keep reflecting</div></div>
+          <div class="stat-card"><div class="stat-label">Total Time</div><div class="stat-value">1h 12m</div><div class="stat-sub">Invested in your game</div></div>
+          <div class="stat-card"><div class="stat-label">Current Streak</div><div class="stat-value" id="progress-streak" style="color:var(--amber)">— 🔥</div><div class="stat-sub">Days in a row</div></div>
+        </div>
+        <div class="sidebar-card" style="margin-top:8px">
+          <h4>Module Progress</h4>
+          <div id="progress-list"></div>
+        </div>
+      </div>
+
+      <!-- ── JOURNAL VIEW ── -->
+      <div id="view-journal" class="view">
+        <div class="section-title" style="font-size:20px;font-weight:800;margin-bottom:6px">Athlete Journal</div>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:28px">Your private space to reflect, process, and grow.</p>
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:24px;">
+          <div>
+            <div class="sidebar-card">
+              <h4>New Entry</h4>
+              <div class="reflection-prompt">"What's one mental barrier that showed up in training or a match this week? Where do you think it comes from?"</div>
+              <textarea id="journal-main-textarea" class="journal-input" placeholder="Write your thoughts here..." style="min-height:160px"></textarea>
+              <div style="margin-top:12px;display:flex;justify-content:flex-end"><button class="btn btn-primary" onclick="saveJournalEntry()">Save Entry</button></div>
+            </div>
+            <div class="sidebar-card">
+              <h4>Past Entries</h4>
+              <div id="past-entries-list" style="display:flex;flex-direction:column;gap:12px">
+                <div style="color:var(--muted);font-size:13px">Loading entries...</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="sidebar-card">
+              <h4>Daily Prompt</h4>
+              <div class="reflection-prompt">"On a scale of 1–10, how present were you in today's session? What was pulling your mind away?"</div>
+              <textarea class="journal-input" placeholder="Quick answer..."></textarea>
+            </div>
+            <div class="sidebar-card">
+              <h4 style="margin-bottom:12px">Journal Stats</h4>
+              <div style="display:flex;flex-direction:column;gap:10px;font-size:13px;color:var(--muted)">
+                <div style="display:flex;justify-content:space-between"><span>Total entries</span><span id="journal-total-entries" style="color:var(--text);font-weight:600">—</span></div>
+                <div style="display:flex;justify-content:space-between"><span>This week</span><span id="journal-week-entries" style="color:var(--text);font-weight:600">—</span></div>
+                <div style="display:flex;justify-content:space-between"><span>Current streak</span><span id="journal-streak-stat" style="color:var(--amber);font-weight:600">— days 🔥</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ELITE STORIES VIEW ── -->
+      <div id="view-elites" class="view">
+        <div class="section-title" style="font-size:20px;font-weight:800;margin-bottom:6px">Elite Stories</div>
+        <p style="color:var(--muted);font-size:14px;margin-bottom:28px">Real accounts of how elite athletes built their minds — not just their bodies.</p>
+        <div class="modules-grid">
+          <div class="module-card" style="cursor:pointer">
+            <div class="module-thumb" style="background:linear-gradient(135deg,#1a0a2e,#0d1030)"><div class="thumb-overlay"></div><span style="position:relative;z-index:1;font-size:42px">🦁</span></div>
+            <div class="module-body"><div class="module-category">Identity</div><h4>How Ronaldo rewired his self-belief after being released at 15</h4><p style="font-size:12.5px;color:var(--muted)">The psychological framework behind elite confidence and what ordinary players can extract from it.</p><div class="module-footer"><span class="module-duration">⏱ 22 min</span><span class="badge badge-new">Featured</span></div></div>
+          </div>
+          <div class="module-card" style="cursor:pointer">
+            <div class="module-thumb" style="background:linear-gradient(135deg,#0a1a1a,#0d2020)"><div class="thumb-overlay"></div><span style="position:relative;z-index:1;font-size:42px">🧊</span></div>
+            <div class="module-body"><div class="module-category">Pressure</div><h4>The Ice Man Protocol — How Zlatan performs under impossible pressure</h4><p style="font-size:12.5px;color:var(--muted)">Dissecting the psychological techniques that turn high-pressure moments into peak performances.</p><div class="module-footer"><span class="module-duration">⏱ 18 min</span><span class="badge badge-new">New</span></div></div>
+          </div>
+          <div class="module-card" style="cursor:pointer">
+            <div class="module-thumb" style="background:linear-gradient(135deg,#1a1000,#2a1a00)"><div class="thumb-overlay"></div><span style="position:relative;z-index:1;font-size:42px">🔥</span></div>
+            <div class="module-body"><div class="module-category">Resilience</div><h4>Marcus Rashford — from nearly quitting to England's starting 11</h4><p style="font-size:12.5px;color:var(--muted)">How Rashford rebuilt after injury and what his mental recovery reveals about athlete identity.</p><div class="module-footer"><span class="module-duration">⏱ 25 min</span><span class="badge badge-progress">Popular</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── COMMUNITY VIEW ── -->
+      <div id="view-community" class="view">
+        <div style="text-align:center;padding:80px 24px">
+          <div style="font-size:56px;margin-bottom:24px">🔜</div>
+          <h2 style="font-size:26px;font-weight:800;margin-bottom:12px">Community Coming Soon</h2>
+          <p style="color:var(--muted);font-size:15px;max-width:440px;margin:0 auto">Connect with other athletes doing the work. Share reflections, hold each other accountable, ask questions.</p>
+        </div>
+      </div>
+
+      <!-- ── MODULE DETAIL VIEW ── -->
+      <div id="view-module-detail" class="view">
+        <div class="module-detail-back" onclick="showView('modules', document.querySelector('.nav-item:nth-child(3)'))">
+          ← Back to Modules
+        </div>
+        <div id="module-detail-content"></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 3: NETWORK COMING SOON
+══════════════════════════════════════════ -->
+<div id="screen-network" class="screen">
+  <div class="entry-bg-orb orb1" style="background:rgba(34,197,94,0.08)"></div>
+  <div class="network-cs fade-up">
+    <div class="icon">⚡</div>
+    <h2>The Network is Coming</h2>
+    <p>The professional discovery platform for players, coaches, scouts, and clubs is in development. Be first in when it launches.</p>
+    <div class="notify-form" id="waitlist-form">
+      <input id="waitlist-email" type="email" placeholder="Enter your email for early access" onkeydown="if(event.key==='Enter')joinWaitlist()" />
+      <button class="btn btn-green" onclick="joinWaitlist()">Notify Me</button>
+    </div>
+    <div class="waitlist-success" id="waitlist-success">
+      <span class="waitlist-success-icon">✓</span>
+      You're on the list — we'll email you the moment The Network goes live.
+    </div>
+    <div class="back-to-entry" onclick="goToEntry()">← Back to Playr</div>
+  </div>
+</div>
+
+<script>
+  // ─── USER IDENTITY ───
+  const userId = (() => {
+    let id = localStorage.getItem('playr_user_id');
+    if (!id) {
+      id = 'user_' + Math.random().toString(36).substr(2, 9);
+      localStorage.setItem('playr_user_id', id);
+    }
+    return id;
+  })();
+
+  // ─── API HELPERS ───
+  async function apiGet(path) {
+    const res = await fetch(path);
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  }
+
+  async function apiPost(path, body) {
+    const res = await fetch(path, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) throw new Error(await res.text());
+    return res.json();
+  }
+
+  // ─── MODULE DATA ───
+  const modules = [
+    {
+      id: 0,
+      emoji: "🪞",
+      title: "The Identity Reset",
+      subtitle: "Who are you beyond the shirt?",
+      category: "Identity & Self",
+      color: "#1a0a2e",
+      duration: "32 min",
+      lessons: 4,
+      status: "done",
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      description: "Most athletes build their entire identity around football. When results go wrong, their sense of self collapses. This module dismantles that trap and builds a more resilient, multidimensional athletic identity — drawn from Carl Jung's concept of the 'shadow self' applied to sport.",
+      lessons_list: [
+        { title: "The athlete identity trap", duration: "7 min", status: "done" },
+        { title: "Who are you without the game?", duration: "9 min", status: "done" },
+        { title: "Separating performance from worth", duration: "8 min", status: "done" },
+        { title: "Building your identity foundation", duration: "8 min", status: "done" },
+      ],
+      quote: "When I was released by Sporting at 15, I realised I had to become more than a footballer first. That's what made me unbreakable.",
+      quote_attr: "— Elite Academy Graduate",
+      concepts: ["Identity ≠ Performance", "The shadow athlete", "Values-based self-concept", "Post-rejection rebuilding"],
+      reflection: "When you have a bad match, how do you feel about yourself as a person — not just as a player? Where does that reaction come from?"
+    },
+    {
+      id: 1,
+      emoji: "🎯",
+      title: "Pressure Protocol",
+      subtitle: "Performing when it matters most",
+      category: "Pressure & Anxiety",
+      color: "#0a1a2e",
+      duration: "38 min",
+      lessons: 4,
+      status: "progress",
+      videoUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      description: "Pressure kills more careers than lack of talent. This module teaches you the exact psychological mechanisms behind performance anxiety — and how to rewire your nervous system to perform at your ceiling when the stakes are highest.",
+      lessons_list: [
+        { title: "The science of pressure", duration: "9 min", status: "done" },
+        { title: "Why your body works against you", duration: "10 min", status: "done" },
+        { title: "The pre-match activation protocol", duration: "11 min", status: "active" },
+        { title: "Building pressure immunity over time", duration: "8 min", status: "todo" },
+      ],
+      quote: "I used to throw up before big games. Learning to interpret that anxiety as excitement — not fear — changed everything.",
+      quote_attr: "— Premier League Academy Player",
+      concepts: ["Arousal vs anxiety", "Somatic regulation", "Pre-match rituals", "Reframing pressure"],
+      reflection: "Think of the last time pressure affected your performance. What were the physical sensations? What story were you telling yourself?"
+    },
+    {
+      id: 2,
+      emoji: "🛡️",
+      title: "The Resilience Code",
+      subtitle: "Bouncing back from setbacks",
+      category: "Resilience",
+      color: "#1a0a0a",
+      duration: "41 min",
+      lessons: 5,
+      status: "locked",
+      description: "Being released, losing form, long-term injury — these aren't just football problems. They're psychological crucibles. Learn the resilience frameworks used by elite athletes and sports psychologists to rebuild faster and come back stronger.",
+      lessons_list: [],
+      quote: "Resilience isn't about not breaking. It's about knowing exactly how to rebuild yourself.",
+      quote_attr: "— Sports Psychologist, Premier League",
+      concepts: ["Post-traumatic growth", "The comeback arc", "Support systems", "Identity continuity through adversity"],
+      reflection: "What has been your biggest setback in sport so far? What did it teach you — even if it hurt?"
+    },
+    {
+      id: 3,
+      emoji: "💎",
+      title: "Inner Confidence",
+      subtitle: "Self-belief that doesn't depend on form",
+      category: "Confidence",
+      color: "#0a0a1a",
+      duration: "35 min",
+      lessons: 4,
+      status: "locked",
+      description: "Most athletes confuse form with confidence. But elite-level self-belief is unconditional — it doesn't rise and fall with results. This module builds the psychological foundation for confidence that survives bad games, hostile crowds, and external criticism.",
+      lessons_list: [],
+      quote: "My confidence doesn't come from my last match. It comes from knowing exactly how I prepare and who I am.",
+      quote_attr: "— International Footballer",
+      concepts: ["Unconditional self-belief", "The confidence floor", "Body language feedback loops", "Internal vs external validation"],
+      reflection: "Is your confidence currently dependent on playing well? What would it take for you to feel confident independent of results?"
+    },
+    {
+      id: 4,
+      emoji: "🌊",
+      title: "The Flow Formula",
+      subtitle: "Finding the zone on demand",
+      category: "Focus & Flow",
+      color: "#0a1a1a",
+      duration: "29 min",
+      lessons: 3,
+      status: "locked",
+      description: "Flow state — the 'zone' — is not random. It's engineered. This module breaks down the neurological conditions required for peak mental performance in sport, and gives you repeatable triggers to access it consistently on matchday.",
+      lessons_list: [],
+      quote: "When I'm in flow, the game slows down. I can see three moves ahead. It's not luck — I learned how to get there.",
+      quote_attr: "— Champions League Midfielder",
+      concepts: ["Flow state triggers", "Challenge-skill balance", "Attentional control", "Pre-performance rituals"],
+      reflection: "Describe the last time you were completely in the zone. What was different about that day — in your preparation, mindset, or environment?"
+    },
+    {
+      id: 5,
+      emoji: "🌑",
+      title: "The Shadow Work",
+      subtitle: "Confronting what holds you back",
+      category: "Deep Psychology",
+      color: "#0a0a0a",
+      duration: "44 min",
+      lessons: 5,
+      status: "locked",
+      description: "Jung's concept of the 'shadow' — the repressed, unconscious parts of our psychology — applies directly to athletic performance. Self-sabotage, fear of success, imposter syndrome, destructive habits: all shadow-driven. This is the deepest module in the framework.",
+      lessons_list: [],
+      quote: "I had to face the parts of myself I was ashamed of before I could actually perform without holding back.",
+      quote_attr: "— Pro Athlete, anonymous",
+      concepts: ["Jungian shadow in sport", "Self-sabotage patterns", "Fear of success", "Integrating the shadow"],
+      reflection: "Is there a part of your game — or yourself — that you avoid looking at? What would happen if you confronted it?"
+    },
+    {
+      id: 6,
+      emoji: "🎭",
+      title: "Emotional Mastery",
+      subtitle: "Control what you feel, not just what you do",
+      category: "Emotional Control",
+      color: "#0a1a0a",
+      duration: "36 min",
+      lessons: 4,
+      status: "locked",
+      description: "Anger after a bad touch. Anxiety during a penalty shootout. Elation after a goal that kills your focus. Elite performance requires emotional regulation — the ability to process emotions without being controlled by them.",
+      lessons_list: [],
+      quote: "Emotion isn't weakness. Unmanaged emotion is. Learning the difference saved my career.",
+      quote_attr: "— Under-21 International",
+      concepts: ["Emotional granularity", "Regulation vs suppression", "Anger in competition", "Post-match emotional recovery"],
+      reflection: "Which emotion most consistently disrupts your game? What happens in your body when that emotion takes over?"
+    },
+    {
+      id: 7,
+      emoji: "👁️",
+      title: "Visualisation & Mental Reps",
+      subtitle: "Train the mind like you train the body",
+      category: "Mental Training",
+      color: "#1a1a0a",
+      duration: "31 min",
+      lessons: 3,
+      status: "locked",
+      description: "Research shows that mental imagery activates the same neural pathways as physical execution. This module teaches you the sport psychology protocols used by Olympic athletes and elite coaches to programme peak performance through the mind.",
+      lessons_list: [],
+      quote: "I visualise every game the night before. By kickoff, I've already played it. My body knows what to do.",
+      quote_attr: "— International Goalkeeper",
+      concepts: ["PETTLEP imagery model", "Movement rehearsal", "Pre-sleep visualisation", "Outcome vs process imagery"],
+      reflection: "Have you ever used visualisation before? What did it feel like — and what stopped you from making it a habit?"
+    },
+    {
+      id: 8,
+      emoji: "🔥",
+      title: "Purpose & Drive",
+      subtitle: "What keeps elites going when it's hard",
+      category: "Motivation",
+      color: "#1a0f00",
+      duration: "33 min",
+      lessons: 4,
+      status: "locked",
+      description: "Motivation is unreliable. Elite athletes don't rely on it. They operate from deep, intrinsic purpose — a 'why' so strong it survives the worst periods of their career. This module helps you excavate and define yours.",
+      lessons_list: [],
+      quote: "Motivation comes and goes. My purpose never does. That's the difference.",
+      quote_attr: "— 15-year professional career",
+      concepts: ["Intrinsic vs extrinsic motivation", "Identifying your 'why'", "Purpose vs passion", "Long-game thinking in sport"],
+      reflection: "Why do you play football, really? Not the answer you'd give a coach — the honest one. What would you lose if you stopped?"
+    },
+    {
+      id: 9,
+      emoji: "⚡",
+      title: "Peak State Activation",
+      subtitle: "Your morning routine & matchday rituals",
+      category: "Performance Rituals",
+      color: "#0a0a1a",
+      duration: "27 min",
+      lessons: 3,
+      status: "locked",
+      description: "The most consistent high performers in sport all share one thing: deliberate rituals that prime their mind and body for peak performance. This final module helps you engineer yours — from morning routines to pre-match warm-up protocols.",
+      lessons_list: [],
+      quote: "My routine is non-negotiable. It's not superstition — it's psychology. It tells my brain: game mode on.",
+      quote_attr: "— Bundesliga First Team Player",
+      concepts: ["Ritual vs superstition", "Morning activation sequence", "Pre-match priming", "Designing your performance window"],
+      reflection: "Do you have a consistent pre-match routine? What would an intentional, psychology-backed version of it look like?"
+    }
+  ];
+
+  // ─── YOUTUBE HELPER ───
+  function extractYouTubeId(url) {
+    if (!url) return null;
+    const patterns = [
+      /youtube\.com\/watch\?(?:.*&)?v=([^&]+)/,
+      /youtu\.be\/([^?]+)/,
+      /youtube\.com\/embed\/([^?]+)/,
+    ];
+    for (const p of patterns) {
+      const m = url.match(p);
+      if (m) return m[1];
+    }
+    return null;
+  }
+
+  // ─── RENDER MODULES GRID ───
+  function renderModulesGrid() {
+    const grid = document.getElementById('modules-grid');
+    grid.innerHTML = '';
+    modules.forEach((m, i) => {
+      const statusBadge = m.status === 'done'
+        ? '<span class="badge badge-new">✓ Done</span>'
+        : m.status === 'progress'
+        ? '<span class="badge badge-progress">In Progress</span>'
+        : '<span class="badge badge-locked">🔒 Locked</span>';
+
+      const card = document.createElement('div');
+      card.className = `module-card ${m.status === 'locked' ? 'locked' : ''}`;
+      card.innerHTML = `
+        <div class="module-thumb" style="background:linear-gradient(135deg,${m.color},#0a0a0e)">
+          <div class="thumb-overlay"></div>
+          <span style="position:relative;z-index:1;font-size:42px">${m.emoji}</span>
+          ${m.status === 'locked' ? '<div class="lock-overlay">🔒</div>' : ''}
+        </div>
+        <div class="module-body">
+          <div class="module-category">${m.category}</div>
+          <h4>${m.title}</h4>
+          <p>${m.subtitle}</p>
+          <div class="module-footer">
+            <span class="module-duration">⏱ ${m.duration} · ${m.lessons} lessons</span>
+            ${statusBadge}
+          </div>
+        </div>
+      `;
+      if (m.status !== 'locked') {
+        card.onclick = () => openModule(i);
+      }
+      grid.appendChild(card);
+    });
+  }
+
+  // ─── RENDER PROGRESS LIST ───
+  function renderProgressList() {
+    const list = document.getElementById('progress-list');
+    list.innerHTML = '';
+    modules.slice(0, 5).forEach(m => {
+      const pct = m.status === 'done' ? 100 : m.status === 'progress' ? 60 : 0;
+      list.innerHTML += `
+        <div style="margin-bottom:16px">
+          <div style="display:flex;justify-content:space-between;margin-bottom:8px">
+            <span style="font-size:13px">${m.emoji} ${m.title}</span>
+            <span style="font-size:12px;color:var(--muted)">${pct}%</span>
+          </div>
+          <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pct}%"></div></div>
+        </div>
+      `;
+    });
+  }
+
+  // ─── OPEN MODULE DETAIL ───
+  function openModule(id) {
+    const m = modules[id];
+    const isDone = m.status === 'done';
+
+    const lessonsHTML = m.lessons_list.length > 0 ? `
+      <div class="lessons-list">
+        <div class="lessons-header">📖 Lessons — ${m.title}</div>
+        ${m.lessons_list.map((l, i) => `
+          <div class="lesson-item">
+            <div class="lesson-num ${l.status}">${l.status === 'done' ? '✓' : l.status === 'active' ? '▶' : i + 1}</div>
+            <div class="lesson-info">
+              <h5>${l.title}</h5>
+              <span>${l.duration}</span>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    ` : '<div class="sidebar-card" style="text-align:center;padding:32px"><div style="font-size:32px;margin-bottom:12px">🔒</div><div style="font-weight:700;margin-bottom:6px">Lessons Locked</div><div style="color:var(--muted);font-size:13px">Complete previous modules to unlock.</div></div>';
+
+    document.getElementById('module-detail-content').innerHTML = `
+      <div class="module-hero">
+        <span class="module-hero-emoji">${m.emoji}</span>
+        <div class="module-hero-cat">${m.category}</div>
+        <h2>${m.title}</h2>
+        <p>${m.description}</p>
+        <div class="module-hero-meta">
+          <div class="meta-item"><div class="meta-val">${m.duration}</div><div class="meta-lbl">Duration</div></div>
+          <div style="width:1px;height:36px;background:var(--border)"></div>
+          <div class="meta-item"><div class="meta-val">${m.lessons}</div><div class="meta-lbl">Lessons</div></div>
+          <div style="width:1px;height:36px;background:var(--border)"></div>
+          <div class="meta-item"><div class="meta-val">1</div><div class="meta-lbl">Reflection</div></div>
+        </div>
+      </div>
+
+      ${(ytId => ytId
+        ? `<div class="video-embed">
+             <iframe
+               src="https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white"
+               title="${m.title} — Introduction"
+               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+               allowfullscreen>
+             </iframe>
+           </div>`
+        : `<div class="video-placeholder">
+             <div class="video-play">▶</div>
+             <div class="video-label">Watch: ${m.title} — Introduction</div>
+           </div>`
+      )(extractYouTubeId(m.videoUrl))}
+
+      <div class="module-content-grid">
+        <div>
+          ${lessonsHTML}
+          <div class="reflection-card">
+            <h4>✍️ Reflection Exercise</h4>
+            <p>Take a moment to sit with this question. There's no right answer — only honest ones.</p>
+            <div class="reflection-prompt">"${m.reflection}"</div>
+            <textarea id="module-reflection-textarea" class="journal-input" placeholder="Write your response here — it's saved privately to your journal..."></textarea>
+            <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:10px">
+              <button class="btn btn-ghost" onclick="saveJournalEntry(${id})">Save to Journal</button>
+              <button id="mark-complete-btn" class="btn btn-primary" onclick="markModuleComplete(${id})"
+                ${isDone ? 'disabled style="background:var(--green);opacity:0.8"' : ''}>
+                ${isDone ? '✓ Completed' : 'Mark Module Complete ✓'}
+              </button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="sidebar-card">
+            <h4>💬 Elite Perspective</h4>
+            <div class="elite-quote">"${m.quote}"</div>
+            <div class="quote-attr">${m.quote_attr}</div>
+          </div>
+          <div class="sidebar-card">
+            <h4>🧠 Key Concepts</h4>
+            <ul class="key-concepts">
+              ${m.concepts.map(c => `<li><div class="concept-dot"></div>${c}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      </div>
+    `;
+    showView('module-detail', null);
+    document.getElementById('topbar-title').textContent = m.title;
+    window.scrollTo(0, 0);
+  }
+
+  // ─── LOAD STATS FROM API ───
+  async function loadStats() {
+    try {
+      const s = await apiGet(`/api/stats?user_id=${encodeURIComponent(userId)}`);
+
+      // Streak widget
+      document.getElementById('stat-streak').textContent = s.streak;
+      document.getElementById('stat-completed').textContent = s.completedCount;
+      document.getElementById('stat-progress-pct').textContent = s.overallPct + '%';
+
+      // Modules done card
+      document.getElementById('stat-modules-done-value').innerHTML =
+        `${s.completedCount}<span style="font-size:16px;color:var(--muted)">/10</span>`;
+      document.getElementById('stat-modules-remaining').textContent =
+        `${10 - s.completedCount} remaining`;
+      document.getElementById('stat-modules-bar').style.width = s.overallPct + '%';
+
+      // Progress view
+      document.getElementById('progress-overall-pct').textContent = s.overallPct + '%';
+      document.getElementById('progress-overall-bar').style.width = s.overallPct + '%';
+      document.getElementById('progress-journal-count').textContent = s.journalCount;
+      document.getElementById('progress-streak').textContent = s.streak + ' 🔥';
+
+      // Journal stats
+      document.getElementById('journal-total-entries').textContent = s.journalCount;
+      document.getElementById('journal-week-entries').textContent = s.thisWeekCount;
+      document.getElementById('journal-streak-stat').textContent = s.streak + ' days 🔥';
+    } catch (e) {
+      console.error('Failed to load stats:', e);
+    }
+  }
+
+  // ─── LOAD USER PROGRESS FROM API ───
+  async function loadUserProgress() {
+    try {
+      const completedIds = await apiGet(`/api/progress?user_id=${encodeURIComponent(userId)}`);
+      const completedSet = new Set(completedIds);
+      modules.forEach((m, i) => {
+        if (completedSet.has(i)) {
+          m.status = 'done';
+        } else if (i === 0 || completedSet.has(i - 1)) {
+          m.status = 'progress';
+        } else {
+          m.status = 'locked';
+        }
+      });
+    } catch (e) {
+      console.error('Failed to load progress:', e);
+    }
+  }
+
+  // ─── LOAD JOURNAL ENTRIES FROM API ───
+  async function loadJournalEntries() {
+    const list = document.getElementById('past-entries-list');
+    if (!list) return;
+    list.innerHTML = '<div style="color:var(--muted);font-size:13px">Loading...</div>';
+    try {
+      const entries = await apiGet(`/api/journal?user_id=${encodeURIComponent(userId)}`);
+      if (entries.length === 0) {
+        list.innerHTML = '<div style="color:var(--muted);font-size:13px">No entries yet. Write your first reflection above.</div>';
+        return;
+      }
+      list.innerHTML = entries.map(e => {
+        const date = new Date(e.created_at + 'Z').toLocaleDateString('en-GB', {
+          day: 'numeric', month: 'short', year: 'numeric'
+        });
+        const context = e.module_id !== null
+          ? `Module ${e.module_id + 1} · ${modules[e.module_id]?.title || ''}`
+          : 'Free reflection';
+        const preview = e.content.length > 220 ? e.content.slice(0, 220) + '…' : e.content;
+        const safe = preview.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return `
+          <div style="padding:14px;background:var(--bg-card2);border-radius:10px;border:1px solid var(--border)">
+            <div style="font-size:11px;color:var(--muted);margin-bottom:6px">${context} · ${date}</div>
+            <div style="font-size:13px;line-height:1.7">${safe}</div>
+          </div>
+        `;
+      }).join('');
+    } catch (e) {
+      list.innerHTML = '<div style="color:var(--red);font-size:13px">Failed to load entries.</div>';
+    }
+  }
+
+  // ─── SAVE JOURNAL ENTRY ───
+  async function saveJournalEntry(moduleId = null) {
+    const textarea = moduleId !== null
+      ? document.getElementById('module-reflection-textarea')
+      : document.getElementById('journal-main-textarea');
+    if (!textarea) return;
+
+    const content = textarea.value.trim();
+    if (!content) {
+      textarea.style.borderColor = 'var(--red)';
+      setTimeout(() => textarea.style.borderColor = '', 1500);
+      return;
+    }
+
+    const prompt = moduleId !== null ? modules[moduleId]?.reflection ?? null : null;
+
+    try {
+      await apiPost('/api/journal', { user_id: userId, module_id: moduleId, prompt, content });
+      textarea.value = '';
+      textarea.style.borderColor = 'var(--green)';
+      setTimeout(() => textarea.style.borderColor = '', 1500);
+      await loadStats();
+      if (moduleId === null) await loadJournalEntries();
+    } catch (e) {
+      console.error('Failed to save entry:', e);
+    }
+  }
+
+  // ─── MARK MODULE COMPLETE ───
+  async function markModuleComplete(moduleId) {
+    try {
+      await apiPost('/api/progress', { user_id: userId, module_id: moduleId });
+
+      // Update local state
+      modules[moduleId].status = 'done';
+      if (moduleId + 1 < modules.length && modules[moduleId + 1].status === 'locked') {
+        modules[moduleId + 1].status = 'progress';
+      }
+
+      renderModulesGrid();
+      renderProgressList();
+      await loadStats();
+
+      // Update button in the current detail view
+      const btn = document.getElementById('mark-complete-btn');
+      if (btn) {
+        btn.textContent = '✓ Completed';
+        btn.style.background = 'var(--green)';
+        btn.disabled = true;
+      }
+    } catch (e) {
+      console.error('Failed to mark complete:', e);
+    }
+  }
+
+  // ─── NAVIGATION ───
+  function showView(viewName, navEl) {
+    document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + viewName).classList.add('active');
+
+    if (navEl) {
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      navEl.classList.add('active');
+      const titles = { home: 'Dashboard', modules: 'All Modules', progress: 'My Progress', journal: 'Journal', elites: 'Elite Stories', community: 'Community' };
+      document.getElementById('topbar-title').textContent = titles[viewName] || 'Playr';
+    }
+
+    if (viewName === 'journal') loadJournalEntries();
+  }
+
+  async function showEAF() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-eaf').classList.add('active');
+    await loadUserProgress();
+    renderModulesGrid();
+    renderProgressList();
+    loadStats();
+  }
+
+  // ─── WAITLIST ───
+  async function joinWaitlist() {
+    const input = document.getElementById('waitlist-email');
+    const email = input.value.trim();
+
+    if (!email) {
+      input.style.borderColor = 'var(--red)';
+      setTimeout(() => input.style.borderColor = '', 1500);
+      return;
+    }
+
+    const btn = input.nextElementSibling;
+    btn.disabled = true;
+    btn.textContent = 'Saving...';
+
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      const data = await res.json();
+
+      if (res.ok) {
+        document.getElementById('waitlist-form').style.display = 'none';
+        document.getElementById('waitlist-success').classList.add('visible');
+      } else {
+        input.style.borderColor = 'var(--red)';
+        btn.disabled = false;
+        btn.textContent = 'Notify Me';
+        input.placeholder = data.error || 'Something went wrong';
+      }
+    } catch {
+      btn.disabled = false;
+      btn.textContent = 'Notify Me';
+    }
+  }
+
+  function showNetwork() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-network').classList.add('active');
+    // Reset form state each time the screen is shown
+    document.getElementById('waitlist-form').style.display = 'flex';
+    document.getElementById('waitlist-success').classList.remove('visible');
+    document.getElementById('waitlist-email').value = '';
+  }
+
+  function goToEntry() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-entry').classList.add('active');
+  }
+</script>
+</body>
+</html>
