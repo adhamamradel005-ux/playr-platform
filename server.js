@@ -12,6 +12,10 @@ const db = new DatabaseSync(dbPath);
 app.use(express.json());
 app.use(express.static(__dirname));
 
+app.get('/', (_req, res) => {
+  res.sendFile(join(__dirname, 'playr-platform.html'));
+});
+
 // ── Schema ──
 db.exec(`
   CREATE TABLE IF NOT EXISTS journal_entries (
