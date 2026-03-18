@@ -5,24 +5,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Playr — Built for Athletes</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <!-- Apply saved theme before paint to prevent flash -->
+  <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('playr_theme')||'light');})();</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ─── LIGHT MODE (default) ─── */
     :root {
-      --bg:         #08080e;
-      --bg-card:    #111118;
-      --bg-card2:   #17171f;
-      --border:     rgba(255,255,255,0.07);
-      --purple:     #7C3AED;
-      --purple-lt:  #9D65FF;
-      --purple-dim: rgba(124,58,237,0.18);
-      --purple-glow:rgba(124,58,237,0.35);
-      --text:       #f0f0f5;
-      --muted:      #8888aa;
-      --white:      #ffffff;
-      --green:      #22c55e;
-      --amber:      #f59e0b;
-      --red:        #ef4444;
+      --bg:              #F8F8FC;
+      --bg-card:         #FFFFFF;
+      --bg-card2:        #F0F0F8;
+      --border:          rgba(26,26,46,0.1);
+      --purple:          #7C3AED;
+      --purple-lt:       #6D28D9;
+      --purple-dim:      rgba(124,58,237,0.08);
+      --purple-glow:     rgba(124,58,237,0.2);
+      --text:            #1a1a2e;
+      --muted:           #6B6B8A;
+      --white:           #ffffff;
+      --green:           #16a34a;
+      --amber:           #d97706;
+      --red:             #dc2626;
+      /* theme extras */
+      --bg-top-bar:      rgba(248,248,252,0.92);
+      --bg-hero:         linear-gradient(135deg, #f0ebff 0%, #eaebff 60%, #eaefff 100%);
+      --bg-video-ph:     linear-gradient(135deg, #eee8ff 0%, #e8e8ff 50%, #e8efff 100%);
+      --bg-lock:         rgba(240,240,248,0.8);
+      --hero-glow:       rgba(124,58,237,0.1);
+      --hover-border:    rgba(26,26,46,0.2);
+      --card-shadow:     0 1px 4px rgba(26,26,46,0.07), 0 1px 2px rgba(26,26,46,0.05);
+      --scrollbar-thumb: rgba(26,26,46,0.15);
+      --scrollbar-hover: rgba(26,26,46,0.25);
+    }
+
+    /* ─── DARK MODE ─── */
+    [data-theme="dark"] {
+      --bg:              #08080e;
+      --bg-card:         #111118;
+      --bg-card2:        #17171f;
+      --border:          rgba(255,255,255,0.07);
+      --purple:          #7C3AED;
+      --purple-lt:       #9D65FF;
+      --purple-dim:      rgba(124,58,237,0.18);
+      --purple-glow:     rgba(124,58,237,0.35);
+      --text:            #f0f0f5;
+      --muted:           #8888aa;
+      --white:           #ffffff;
+      --green:           #22c55e;
+      --amber:           #f59e0b;
+      --red:             #ef4444;
+      --bg-top-bar:      rgba(8,8,14,0.9);
+      --bg-hero:         linear-gradient(135deg, #150a2e 0%, #0d1530 60%, #0a1520 100%);
+      --bg-video-ph:     linear-gradient(135deg, #1a0a3a 0%, #0d1a3a 50%, #0a1a20 100%);
+      --bg-lock:         rgba(8,8,14,0.65);
+      --hero-glow:       rgba(124,58,237,0.3);
+      --hover-border:    rgba(255,255,255,0.15);
+      --card-shadow:     none;
+      --scrollbar-thumb: rgba(255,255,255,0.1);
+      --scrollbar-hover: rgba(255,255,255,0.2);
+    }
+
+    /* ─── SMOOTH THEME TRANSITION ─── */
+    /* Only applied during the toggle, not on every hover */
+    .theme-transitioning,
+    .theme-transitioning *,
+    .theme-transitioning *::before,
+    .theme-transitioning *::after {
+      transition:
+        background-color 0.25s ease,
+        border-color     0.25s ease,
+        color            0.15s ease,
+        box-shadow       0.25s ease !important;
+    }
+
+    /* ─── LIGHT MODE CARD DEPTH ─── */
+    [data-theme="light"] .stat-card,
+    [data-theme="light"] .module-card,
+    [data-theme="light"] .featured-module,
+    [data-theme="light"] .sidebar-card,
+    [data-theme="light"] .lessons-list,
+    [data-theme="light"] .reflection-card,
+    [data-theme="light"] .path-card {
+      box-shadow: var(--card-shadow);
     }
 
     html { scroll-behavior: smooth; }
@@ -59,7 +123,7 @@
       font-size: 22px;
       font-weight: 900;
       letter-spacing: -0.5px;
-      color: var(--white);
+      color: var(--text);
       z-index: 10;
     }
     .entry-logo span { color: var(--purple-lt); }
@@ -107,7 +171,7 @@
     }
     .path-card.eaf::before { background: radial-gradient(ellipse at 30% 40%, rgba(124,58,237,0.25) 0%, transparent 70%); }
     .path-card.network::before { background: radial-gradient(ellipse at 70% 40%, rgba(34,197,94,0.18) 0%, transparent 70%); }
-    .path-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,0.15); }
+    .path-card:hover { transform: translateY(-6px); border-color: var(--hover-border); }
     .path-card:hover::before { opacity: 1; }
 
     .path-icon {
@@ -289,7 +353,7 @@
       position: sticky;
       top: 0;
       z-index: 40;
-      background: rgba(8,8,14,0.9);
+      background: var(--bg-top-bar);
       backdrop-filter: blur(14px);
       border-bottom: 1px solid var(--border);
       padding: 0 36px;
@@ -316,7 +380,8 @@
     .btn-primary { background: var(--purple); color: white; }
     .btn-primary:hover { background: var(--purple-lt); transform: translateY(-1px); }
     .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
-    .btn-ghost:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+    .btn-ghost:hover { border-color: var(--hover-border); color: var(--text); }
+    .btn-icon-only { width: 36px; height: 36px; padding: 0; font-size: 17px; flex-shrink: 0; }
 
     .content-area { padding: 36px; }
 
@@ -483,7 +548,7 @@
     .lock-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(8,8,14,0.6);
+      background: var(--bg-lock);
       display: flex; align-items: center; justify-content: center;
       font-size: 24px;
     }
@@ -526,7 +591,7 @@
     .module-detail-back:hover { color: var(--text); }
 
     .module-hero {
-      background: linear-gradient(135deg, #150a2e 0%, #0d1530 60%, #0a1520 100%);
+      background: var(--bg-hero);
       border-radius: 20px;
       padding: 48px;
       margin-bottom: 32px;
@@ -539,7 +604,7 @@
       position: absolute;
       top: -100px; right: -100px;
       width: 400px; height: 400px;
-      background: radial-gradient(circle, rgba(124,58,237,0.3) 0%, transparent 70%);
+      background: radial-gradient(circle, var(--hero-glow) 0%, transparent 70%);
       pointer-events: none;
     }
     .module-hero-emoji { font-size: 56px; margin-bottom: 20px; display: block; position: relative; z-index: 1; }
@@ -552,7 +617,7 @@
     .module-hero-meta .meta-lbl { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 
     .video-placeholder {
-      background: linear-gradient(135deg, #1a0a3a 0%, #0d1a3a 50%, #0a1a20 100%);
+      background: var(--bg-video-ph);
       border: 1px solid var(--border);
       border-radius: 16px;
       height: 360px;
@@ -770,8 +835,8 @@
     /* Scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 999px; }
-    ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 999px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-hover); }
 
     /* Fade-in */
     @keyframes fadeUp {
@@ -884,6 +949,7 @@
     <div class="top-bar">
       <span class="top-bar-title" id="topbar-title">Dashboard</span>
       <div class="top-bar-actions">
+        <button class="btn btn-ghost btn-icon-only" id="theme-toggle" onclick="toggleTheme()" title="Toggle light / dark mode">🌙</button>
         <button class="btn btn-ghost" onclick="goToEntry()">← Switch Path</button>
         <button class="btn btn-primary" onclick="showView('modules', document.querySelector('.nav-item:nth-child(3)'))">Continue Learning</button>
       </div>
@@ -1678,6 +1744,24 @@
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-entry').classList.add('active');
   }
+
+  // ─── THEME TOGGLE ───
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    const btn = document.getElementById('theme-toggle');
+    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+  }
+
+  function toggleTheme() {
+    const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    localStorage.setItem('playr_theme', next);
+    document.body.classList.add('theme-transitioning');
+    applyTheme(next);
+    setTimeout(() => document.body.classList.remove('theme-transitioning'), 300);
+  }
+
+  // Sync toggle button icon with the theme applied by the head script
+  applyTheme(document.documentElement.getAttribute('data-theme') || 'light');
 </script>
 </body>
 </html>
