@@ -846,6 +846,86 @@
     .fade-up { animation: fadeUp 0.45s ease forwards; }
 
     /* ══════════════════════════════════════════
+       ROLE SELECTION SCREEN
+    ══════════════════════════════════════════ */
+    #screen-role {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 40px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+    .role-screen-logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+    .role-screen-logo span { color: var(--purple-lt); }
+    .role-screen-heading {
+      text-align: center;
+      margin-bottom: 48px;
+      z-index: 2;
+    }
+    .role-screen-heading h1 {
+      font-size: clamp(26px, 4vw, 40px);
+      font-weight: 900;
+      letter-spacing: -1px;
+      margin-bottom: 10px;
+    }
+    .role-screen-heading p { color: var(--muted); font-size: 16px; }
+    .role-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 820px;
+      width: 100%;
+      z-index: 2;
+    }
+    .role-card {
+      background: var(--bg-card);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 28px;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
+      text-align: left;
+    }
+    .role-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(124,58,237,0.18);
+    }
+    .role-card.selected {
+      border-color: var(--purple);
+      background: linear-gradient(135deg, rgba(124,58,237,0.08), var(--bg-card));
+    }
+    .role-card-icon { font-size: 44px; margin-bottom: 16px; }
+    .role-card-title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: -0.3px;
+    }
+    .role-card-desc { color: var(--muted); font-size: 14px; line-height: 1.65; }
+    .role-screen-back {
+      margin-top: 28px;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      z-index: 2;
+      transition: color 0.15s;
+    }
+    .role-screen-back:hover { color: var(--purple-lt); }
+    @media (max-width: 640px) {
+      .role-cards-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ══════════════════════════════════════════
        NETWORK FEED SCREEN
     ══════════════════════════════════════════ */
     #screen-network {
@@ -1246,6 +1326,51 @@
 </div>
 
 <!-- ══════════════════════════════════════════
+     SCREEN 1.5: ROLE SELECTION
+══════════════════════════════════════════ -->
+<div id="screen-role" class="screen">
+  <div class="entry-bg-orb orb1"></div>
+  <div class="entry-bg-orb orb2"></div>
+
+  <div class="role-screen-logo">Pl<span>a</span>yr</div>
+
+  <div class="role-screen-heading fade-up">
+    <h1>What's your role in the game?</h1>
+    <p>Choose your role to personalise your Network experience.</p>
+  </div>
+
+  <div class="role-cards-grid">
+
+    <div class="role-card fade-up" onclick="selectRole('player')">
+      <div class="role-card-icon">🏃</div>
+      <div class="role-card-title">Player</div>
+      <div class="role-card-desc">Create your profile, upload highlights, get discovered by scouts and clubs looking for your position and profile.</div>
+    </div>
+
+    <div class="role-card fade-up" onclick="selectRole('scout')">
+      <div class="role-card-icon">🔍</div>
+      <div class="role-card-title">Scout</div>
+      <div class="role-card-desc">Find verified talent, filter by position, age and nationality, build your shortlist and track promising players.</div>
+    </div>
+
+    <div class="role-card fade-up" onclick="selectRole('coach')">
+      <div class="role-card-icon">📋</div>
+      <div class="role-card-title">Coach</div>
+      <div class="role-card-desc">Build your coaching portfolio, share insights and expertise, and get found by clubs and players seeking coaching support.</div>
+    </div>
+
+    <div class="role-card fade-up" onclick="selectRole('club')">
+      <div class="role-card-icon">🏟️</div>
+      <div class="role-card-title">Club</div>
+      <div class="role-card-desc">Create your official club page, post trial announcements, find staff and players that match your club's philosophy.</div>
+    </div>
+
+  </div>
+
+  <div class="role-screen-back" onclick="goToEntry()">← Back to path selection</div>
+</div>
+
+<!-- ══════════════════════════════════════════
      SCREEN 2: ELITE ATHLETE FRAMEWORK PLATFORM
 ══════════════════════════════════════════ -->
 <div id="screen-eaf" class="screen">
@@ -1518,14 +1643,13 @@
         <div class="profile-card-banner"></div>
         <div class="profile-card-body">
           <div class="profile-avatar-wrap">
-            <div class="profile-avatar">A</div>
+            <div class="profile-avatar" id="network-profile-avatar">A</div>
           </div>
-          <div class="profile-name">Adham Amradel</div>
-          <div style="margin-bottom:8px">
+          <div class="profile-name" id="network-profile-name">You</div>
+          <div style="margin-bottom:8px" id="network-profile-badge">
             <span class="role-badge role-player">⚽ Player</span>
           </div>
-          <div class="profile-meta">
-            Attacking Midfielder · 🇪🇬 Egyptian<br>
+          <div class="profile-meta" id="network-profile-meta">
             Open to opportunities
           </div>
           <div class="profile-stats">
@@ -1811,59 +1935,9 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     <!-- ── RIGHT: People you may know ── -->
     <aside class="network-right">
 
-      <div class="people-card">
-        <div class="people-card-title">People you may know</div>
-
-        <div class="person-row">
-          <div class="person-avatar" style="background:linear-gradient(135deg,#7C3AED,#6d28d9)">JA</div>
-          <div class="person-info">
-            <div class="person-name">Jamie Asante</div>
-            <div class="person-sub"><span class="role-badge role-player">⚽ Player</span> · Winger</div>
-            <div class="person-sub" style="margin-top:3px">12 mutual connections</div>
-          </div>
-          <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
-        </div>
-
-        <div class="person-row">
-          <div class="person-avatar" style="background:linear-gradient(135deg,#d97706,#b45309)">LC</div>
-          <div class="person-info">
-            <div class="person-name">Lisa Chen</div>
-            <div class="person-sub"><span class="role-badge role-scout">🔍 Scout</span> · PL Scout</div>
-            <div class="person-sub" style="margin-top:3px">8 mutual connections</div>
-          </div>
-          <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
-        </div>
-
-        <div class="person-row">
-          <div class="person-avatar" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">RB</div>
-          <div class="person-info">
-            <div class="person-name">Rayan Bouzid</div>
-            <div class="person-sub"><span class="role-badge role-player">⚽ Player</span> · CM</div>
-            <div class="person-sub" style="margin-top:3px">15 mutual connections</div>
-          </div>
-          <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
-        </div>
-
-        <div class="person-row">
-          <div class="person-avatar" style="background:linear-gradient(135deg,#2563eb,#1e40af)">DO</div>
-          <div class="person-info">
-            <div class="person-name">David Osei</div>
-            <div class="person-sub"><span class="role-badge role-coach">🎯 Coach</span> · Academy</div>
-            <div class="person-sub" style="margin-top:3px">5 mutual connections</div>
-          </div>
-          <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
-        </div>
-
-        <div class="person-row">
-          <div class="person-avatar" style="background:linear-gradient(135deg,#16a34a,#15803d)">AT</div>
-          <div class="person-info">
-            <div class="person-name">Amara Touré</div>
-            <div class="person-sub"><span class="role-badge role-player">⚽ Player</span> · Striker</div>
-            <div class="person-sub" style="margin-top:3px">9 mutual connections</div>
-          </div>
-          <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
-        </div>
-
+      <div class="people-card" id="suggestions-card">
+        <div class="people-card-title" id="suggestions-title">People you may know</div>
+        <div id="suggestions-list"></div>
         <div style="margin-top:14px;text-align:center;font-size:13px;color:var(--purple-lt);cursor:pointer">Show all recommendations →</div>
       </div>
 
@@ -2490,7 +2564,92 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     }
   }
 
+  // ─── ROLE DATA ───
+  const ROLE_META = {
+    player: {
+      badge: '<span class="role-badge role-player">⚽ Player</span>',
+      meta: 'Open to opportunities',
+      suggestionsTitle: 'Scouts & Clubs looking for talent',
+      suggestions: [
+        { initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>', sub: 'Premier League Affiliated', mutual: '8 mutual connections' },
+        { initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>', sub: 'Senior Scout', mutual: '14 mutual connections' },
+        { initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy', badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>', sub: 'Verified Club', mutual: '3 mutual connections' },
+        { initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo', badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'UEFA A Licensed', mutual: '6 mutual connections' },
+        { initials: 'RM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Ryan Morris', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>', sub: 'Championship Scout', mutual: '11 mutual connections' },
+      ]
+    },
+    scout: {
+      badge: '<span class="role-badge role-scout">🔍 Scout</span>',
+      meta: 'Scouting for talent',
+      suggestionsTitle: 'Players on your radar',
+      suggestions: [
+        { initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · FC Velocity', mutual: '5 mutual connections' },
+        { initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)', name: 'Marcus Diallo', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Central Midfielder · Free Agent', mutual: '9 mutual connections' },
+        { initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇸🇳 Senegalese', mutual: '7 mutual connections' },
+        { initials: 'JA', grad: 'linear-gradient(135deg,#7C3AED,#6d28d9)', name: 'Jamie Asante', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Winger · U21', mutual: '12 mutual connections' },
+        { initials: 'RB', grad: 'linear-gradient(135deg,#2563eb,#1d4ed8)', name: 'Rayan Bouzid', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · 🇫🇷 French', mutual: '4 mutual connections' },
+      ]
+    },
+    coach: {
+      badge: '<span class="role-badge role-coach">🎯 Coach</span>',
+      meta: 'UEFA Licensed · Available for roles',
+      suggestionsTitle: 'Clubs & Players to connect with',
+      suggestions: [
+        { initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy', badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>', sub: 'Verified Academy Club', mutual: '4 mutual connections' },
+        { initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei', badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'Academy Coach', mutual: '7 mutual connections' },
+        { initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Seeking coaching', mutual: '3 mutual connections' },
+        { initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>', sub: 'PL Scout · Talent network', mutual: '6 mutual connections' },
+        { initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)', name: 'Marcus Diallo', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · Free Agent', mutual: '2 mutual connections' },
+      ]
+    },
+    club: {
+      badge: '<span class="role-badge role-club">🏟️ Club</span>',
+      meta: 'Official Club Page · Verified',
+      suggestionsTitle: 'Players & Staff to recruit',
+      suggestions: [
+        { initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>', sub: 'Senior Scout · Available', mutual: '10 mutual connections' },
+        { initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo', badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'UEFA A · Sports Psychologist', mutual: '8 mutual connections' },
+        { initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇬🇭 Ghanaian', mutual: '5 mutual connections' },
+        { initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Free Agent', mutual: '3 mutual connections' },
+        { initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei', badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'Academy Coach · 🇬🇭 Ghanaian', mutual: '7 mutual connections' },
+      ]
+    }
+  };
+
+  function renderNetworkProfile(role) {
+    const meta = ROLE_META[role] || ROLE_META.player;
+    document.getElementById('network-profile-badge').innerHTML = meta.badge;
+    document.getElementById('network-profile-meta').innerHTML = meta.meta;
+    // Suggestions
+    document.getElementById('suggestions-title').textContent = meta.suggestionsTitle;
+    document.getElementById('suggestions-list').innerHTML = meta.suggestions.map(p => `
+      <div class="person-row">
+        <div class="person-avatar" style="background:${p.grad}">${p.initials}</div>
+        <div class="person-info">
+          <div class="person-name">${p.name}</div>
+          <div class="person-sub">${p.badgeHtml} · ${p.sub}</div>
+          <div class="person-sub" style="margin-top:3px">${p.mutual}</div>
+        </div>
+        <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
+      </div>`).join('');
+  }
+
   function showNetwork() {
+    const savedRole = localStorage.getItem('playr_role');
+    if (!savedRole) {
+      // Show role selection first
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-role').classList.add('active');
+    } else {
+      renderNetworkProfile(savedRole);
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById('screen-network').classList.add('active');
+    }
+  }
+
+  function selectRole(role) {
+    localStorage.setItem('playr_role', role);
+    renderNetworkProfile(role);
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-network').classList.add('active');
   }
