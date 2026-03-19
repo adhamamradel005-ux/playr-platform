@@ -844,6 +844,282 @@
       to { opacity: 1; transform: translateY(0); }
     }
     .fade-up { animation: fadeUp 0.45s ease forwards; }
+
+    /* ══════════════════════════════════════════
+       NETWORK FEED SCREEN
+    ══════════════════════════════════════════ */
+    #screen-network {
+      justify-content: flex-start;
+      align-items: stretch;
+      overflow-y: auto;
+    }
+
+    /* ─── NETWORK TOP BAR ─── */
+    .network-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--bg-top-bar);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      gap: 20px;
+    }
+    .network-logo {
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      flex-shrink: 0;
+    }
+    .network-logo span { color: var(--purple); }
+    .network-logo-sub { font-weight: 400; color: var(--muted); font-size: 14px; }
+    .network-nav {
+      display: flex;
+      gap: 2px;
+      flex: 1;
+      justify-content: center;
+    }
+    .network-nav-item {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .network-nav-item:hover { background: var(--bg-card2); color: var(--text); }
+    .network-nav-item.active {
+      color: var(--purple);
+      font-weight: 700;
+      border-bottom: 2px solid var(--purple);
+      border-radius: 8px 8px 0 0;
+    }
+    .network-topbar-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+    /* ─── FEED LAYOUT ─── */
+    .network-feed-layout {
+      max-width: 1180px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 24px 16px 48px;
+      display: grid;
+      grid-template-columns: 272px 1fr 300px;
+      gap: 20px;
+      align-items: start;
+    }
+
+    /* ─── LEFT SIDEBAR ─── */
+    .network-left { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 80px; }
+
+    .profile-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .profile-card-banner {
+      height: 60px;
+      background: linear-gradient(135deg, var(--purple) 0%, #4c1d95 100%);
+    }
+    .profile-card-body { padding: 0 16px 16px; }
+    .profile-avatar-wrap { margin-top: -22px; margin-bottom: 10px; }
+    .profile-avatar {
+      width: 52px; height: 52px;
+      background: var(--purple);
+      border-radius: 50%;
+      border: 3px solid var(--bg-card);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800; color: white;
+    }
+    .profile-name { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
+    .profile-meta { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
+    .profile-stats { border-top: 1px solid var(--border); padding-top: 12px; display: flex; flex-direction: column; gap: 7px; }
+    .profile-stat-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+    .profile-stat-val { font-weight: 700; color: var(--purple-lt); }
+
+    /* ─── ROLE BADGES ─── */
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 1px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+      vertical-align: middle;
+    }
+    .role-player { background: var(--purple-dim); color: var(--purple-lt); }
+    .role-scout  { background: rgba(217,119,6,0.12); color: var(--amber); }
+    .role-coach  { background: rgba(59,130,246,0.12); color: #3b82f6; }
+    .role-club   { background: rgba(22,163,74,0.12);  color: var(--green); }
+
+    /* ─── CENTER FEED ─── */
+    .network-feed { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+
+    /* Start-a-post box */
+    .start-post-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .start-post-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+    .start-post-input {
+      flex: 1;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 18px;
+      font-size: 14px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      user-select: none;
+    }
+    .start-post-input:hover { border-color: var(--purple); background: var(--bg-card2); }
+    .start-post-actions { display: flex; gap: 4px; border-top: 1px solid var(--border); padding-top: 12px; }
+    .post-action-btn {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      gap: 6px;
+      padding: 8px 6px;
+      border-radius: 8px;
+      font-size: 12px; font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      white-space: nowrap;
+    }
+    .post-action-btn:hover { background: var(--bg-card2); color: var(--purple); }
+
+    /* Post card */
+    .post-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+    }
+    .post-header { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+    .post-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px; font-weight: 800; color: white;
+      flex-shrink: 0;
+    }
+    .post-author-info { flex: 1; min-width: 0; }
+    .post-author-name { font-size: 14px; font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .post-author-sub { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+    .post-timestamp { font-size: 11px; color: var(--muted); }
+    .post-more {
+      margin-left: auto;
+      font-size: 20px; color: var(--muted);
+      cursor: pointer; padding: 2px 8px; border-radius: 6px;
+      line-height: 1; flex-shrink: 0;
+    }
+    .post-more:hover { background: var(--bg-card2); color: var(--text); }
+    .post-text {
+      font-size: 14px; line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 14px;
+      white-space: pre-line;
+    }
+    .post-tag { color: var(--purple); font-weight: 600; }
+    .post-stats {
+      font-size: 12px; color: var(--muted);
+      display: flex; gap: 14px;
+      margin-bottom: 10px;
+    }
+    .post-stats span { cursor: pointer; }
+    .post-stats span:hover { text-decoration: underline; color: var(--text); }
+    .post-divider { height: 1px; background: var(--border); margin-bottom: 10px; }
+    .post-footer { display: flex; gap: 2px; }
+    .post-react-btn {
+      flex: 1;
+      display: flex; align-items: center; justify-content: center;
+      gap: 5px;
+      padding: 8px 4px;
+      border-radius: 8px;
+      font-size: 13px; font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .post-react-btn:hover { background: var(--bg-card2); color: var(--purple); }
+    .post-react-btn.liked { color: var(--purple); font-weight: 700; }
+
+    /* ─── RIGHT SIDEBAR ─── */
+    .network-right { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 80px; }
+
+    .people-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .people-card-title { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
+    .person-row {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .person-row:last-of-type { border-bottom: none; margin-bottom: 4px; }
+    .person-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: white;
+      flex-shrink: 0;
+    }
+    .person-info { flex: 1; min-width: 0; }
+    .person-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .person-sub { font-size: 11px; color: var(--muted); }
+    .connect-btn {
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px; font-weight: 600;
+      border: 1.5px solid var(--purple);
+      color: var(--purple);
+      background: transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+    .connect-btn:hover { background: var(--purple); color: white; }
+    .connect-btn.pending { border-color: var(--border); color: var(--muted); cursor: default; }
+    .connect-btn.pending:hover { background: transparent; color: var(--muted); }
+
+    /* Light mode card shadows on network screen too */
+    [data-theme="light"] .post-card,
+    [data-theme="light"] .start-post-box,
+    [data-theme="light"] .profile-card,
+    [data-theme="light"] .people-card {
+      box-shadow: var(--card-shadow);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1080px) {
+      .network-feed-layout { grid-template-columns: 240px 1fr; }
+      .network-right { display: none; }
+    }
+    @media (max-width: 720px) {
+      .network-feed-layout { grid-template-columns: 1fr; }
+      .network-left { position: static; display: none; }
+      .network-nav { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -949,7 +1225,7 @@
     <div class="top-bar">
       <span class="top-bar-title" id="topbar-title">Dashboard</span>
       <div class="top-bar-actions">
-        <button class="btn btn-ghost btn-icon-only" id="theme-toggle" onclick="toggleTheme()" title="Toggle light / dark mode">🌙</button>
+        <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle light / dark mode">🌙</button>
         <button class="btn btn-ghost" onclick="goToEntry()">← Switch Path</button>
         <button class="btn btn-primary" onclick="showView('modules', document.querySelector('.nav-item:nth-child(3)'))">Continue Learning</button>
       </div>
@@ -1141,23 +1417,380 @@
 </div>
 
 <!-- ══════════════════════════════════════════
-     SCREEN 3: NETWORK COMING SOON
+     SCREEN 3: ATHLETE DISCOVERY NETWORK
 ══════════════════════════════════════════ -->
 <div id="screen-network" class="screen">
-  <div class="entry-bg-orb orb1" style="background:rgba(34,197,94,0.08)"></div>
-  <div class="network-cs fade-up">
-    <div class="icon">⚡</div>
-    <h2>The Network is Coming</h2>
-    <p>The professional discovery platform for players, coaches, scouts, and clubs is in development. Be first in when it launches.</p>
-    <div class="notify-form" id="waitlist-form">
-      <input id="waitlist-email" type="email" placeholder="Enter your email for early access" onkeydown="if(event.key==='Enter')joinWaitlist()" />
-      <button class="btn btn-green" onclick="joinWaitlist()">Notify Me</button>
+
+  <!-- Top navigation bar -->
+  <div class="network-topbar">
+    <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
+
+    <nav class="network-nav">
+      <div class="network-nav-item active">🏠 Home</div>
+      <div class="network-nav-item">👥 My Network</div>
+      <div class="network-nav-item">🔍 Scout Hub</div>
+      <div class="network-nav-item">💼 Trials</div>
+    </nav>
+
+    <div class="network-topbar-actions">
+      <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
+      <button class="btn btn-ghost" onclick="goToEntry()">← Switch Path</button>
     </div>
-    <div class="waitlist-success" id="waitlist-success">
-      <span class="waitlist-success-icon">✓</span>
-      You're on the list — we'll email you the moment The Network goes live.
-    </div>
-    <div class="back-to-entry" onclick="goToEntry()">← Back to Playr</div>
+  </div>
+
+  <!-- 3-column feed layout -->
+  <div class="network-feed-layout">
+
+    <!-- ── LEFT: Profile sidebar ── -->
+    <aside class="network-left">
+
+      <div class="profile-card">
+        <div class="profile-card-banner"></div>
+        <div class="profile-card-body">
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar">A</div>
+          </div>
+          <div class="profile-name">Adham Amradel</div>
+          <div style="margin-bottom:8px">
+            <span class="role-badge role-player">⚽ Player</span>
+          </div>
+          <div class="profile-meta">
+            Attacking Midfielder · 🇪🇬 Egyptian<br>
+            Open to opportunities
+          </div>
+          <div class="profile-stats">
+            <div class="profile-stat-row">
+              <span>Profile views</span>
+              <span class="profile-stat-val">142</span>
+            </div>
+            <div class="profile-stat-row">
+              <span>Connections</span>
+              <span class="profile-stat-val">87</span>
+            </div>
+            <div class="profile-stat-row">
+              <span>Post impressions</span>
+              <span class="profile-stat-val">1.2k</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sidebar-card" style="margin-bottom:0">
+        <h4 style="font-size:13px;margin-bottom:12px">Followed Hashtags</h4>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:13px;color:var(--purple-lt);cursor:pointer">#FootballTrials</div>
+          <div style="font-size:13px;color:var(--purple-lt);cursor:pointer">#YoungPlayers</div>
+          <div style="font-size:13px;color:var(--purple-lt);cursor:pointer">#AcademyFootball</div>
+          <div style="font-size:13px;color:var(--purple-lt);cursor:pointer">#SportsPsychology</div>
+        </div>
+      </div>
+
+    </aside>
+
+    <!-- ── CENTRE: Feed ── -->
+    <main class="network-feed">
+
+      <!-- Start a post -->
+      <div class="start-post-box">
+        <div class="start-post-row">
+          <div class="post-avatar" style="background:var(--purple);width:40px;height:40px;font-size:15px">A</div>
+          <div class="start-post-input">Start a post, share an update...</div>
+        </div>
+        <div class="start-post-actions">
+          <div class="post-action-btn">📷 Photo</div>
+          <div class="post-action-btn">🎬 Video</div>
+          <div class="post-action-btn">📝 Article</div>
+          <div class="post-action-btn">⚽ Highlight</div>
+        </div>
+      </div>
+
+      <!-- Post 1 — Signing announcement (Player) -->
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,#7C3AED,#4c1d95)">KM</div>
+          <div class="post-author-info">
+            <div class="post-author-name">
+              Kai Mensah
+              <span class="role-badge role-player">⚽ Player</span>
+            </div>
+            <div class="post-author-sub">Striker · FC Velocity Academy · 🇬🇭 Ghanaian</div>
+            <div class="post-timestamp">2h ago · 🌍</div>
+          </div>
+          <div class="post-more">···</div>
+        </div>
+        <div class="post-text">🚀 Incredibly excited to announce that I've signed my first professional contract!
+
+After two years in the academy system and a lot of hard work, I'm officially joining <span class="post-tag">FC Velocity's first team squad</span> for next season.
+
+This journey hasn't been easy — two injuries, one release, and countless setbacks. But every one of those moments taught me something. To every young player grinding right now: keep going. The breakthrough comes.
+
+Huge thanks to my family, my coaches, and everyone who believed in me before I believed in myself. 🙏
+
+<span class="post-tag">#ProContract #NeverGiveUp #FootballJourney</span></div>
+        <div class="post-stats">
+          <span>👍 247 likes</span>
+          <span>38 comments</span>
+          <span>12 reposts</span>
+        </div>
+        <div class="post-divider"></div>
+        <div class="post-footer">
+          <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
+          <div class="post-react-btn">💬 Comment</div>
+          <div class="post-react-btn">🔁 Repost</div>
+          <div class="post-react-btn">📤 Share</div>
+        </div>
+      </div>
+
+      <!-- Post 2 — Scout looking for talent -->
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,#d97706,#92400e)">JH</div>
+          <div class="post-author-info">
+            <div class="post-author-name">
+              James Harrison
+              <span class="role-badge role-scout">🔍 Scout</span>
+            </div>
+            <div class="post-author-sub">Senior Scout · Premier League Affiliated</div>
+            <div class="post-timestamp">4h ago · 🌍</div>
+          </div>
+          <div class="post-more">···</div>
+        </div>
+        <div class="post-text">🔍 TALENT SEARCH | Currently scouting for our regional program.
+
+Looking for:
+→ Attacking midfielders &amp; wingers, aged 16–21
+→ Technically strong on both feet
+→ High work rate and coachability are non-negotiable
+→ Based in or willing to relocate to the North West
+
+If you or someone you know fits this profile — drop your highlight reel in the comments or DM me directly. I watch everything.
+
+<span class="post-tag">#ScoutingNetwork #TalentID #FootballTrials</span></div>
+        <div class="post-stats">
+          <span>👍 183 likes</span>
+          <span>94 comments</span>
+          <span>67 reposts</span>
+        </div>
+        <div class="post-divider"></div>
+        <div class="post-footer">
+          <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
+          <div class="post-react-btn">💬 Comment</div>
+          <div class="post-react-btn">🔁 Repost</div>
+          <div class="post-react-btn">📤 Share</div>
+        </div>
+      </div>
+
+      <!-- Post 3 — Club trial announcement -->
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,#16a34a,#14532d)">FV</div>
+          <div class="post-author-info">
+            <div class="post-author-name">
+              FC Velocity Academy
+              <span class="role-badge role-club">🏟️ Club</span>
+            </div>
+            <div class="post-author-sub">Professional Academy · Verified Club</div>
+            <div class="post-timestamp">Yesterday · 🌍</div>
+          </div>
+          <div class="post-more">···</div>
+        </div>
+        <div class="post-text">📢 OPEN TRIALS ANNOUNCEMENT
+
+We're holding open trials for our U18 and U21 squads this April.
+
+📅 April 12–13, 2026
+📍 Velocity Training Ground, Manchester
+⚽ Positions: GK · CB · CM · CAM · ST
+
+What we're looking for:
+✅ Technical ability &amp; football IQ
+✅ Physical readiness &amp; athleticism
+✅ Mental toughness (this one matters more than most think)
+✅ Character and coachability
+
+Apply via the link in our bio. Spaces are strictly limited.
+
+<span class="post-tag">#OpenTrials #U18Football #U21Football #FCVelocity</span></div>
+        <div class="post-stats">
+          <span>👍 412 likes</span>
+          <span>156 comments</span>
+          <span>203 reposts</span>
+        </div>
+        <div class="post-divider"></div>
+        <div class="post-footer">
+          <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
+          <div class="post-react-btn">💬 Comment</div>
+          <div class="post-react-btn">🔁 Repost</div>
+          <div class="post-react-btn">📤 Share</div>
+        </div>
+      </div>
+
+      <!-- Post 4 — Coach sharing a tip -->
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,#2563eb,#1e40af)">SO</div>
+          <div class="post-author-info">
+            <div class="post-author-name">
+              Sarah Okonkwo
+              <span class="role-badge role-coach">🎯 Coach</span>
+            </div>
+            <div class="post-author-sub">UEFA A Licensed · Sports Psychologist</div>
+            <div class="post-timestamp">2 days ago · 🌍</div>
+          </div>
+          <div class="post-more">···</div>
+        </div>
+        <div class="post-text">💡 Something I tell every player I work with:
+
+Pressure is not the problem. Your relationship with pressure is the problem.
+
+Most young players try to eliminate nerves before a big game. That's the wrong goal. Elite performers learn to use that energy — to interpret it as excitement, not threat.
+
+The body doesn't actually know the difference between anxiety and excitement. Same physiological response. What changes is the story you tell about it.
+
+Three things that actually help:
+1. Name the feeling out loud — "I'm excited" not "I'm nervous"
+2. Focus on process, not outcome — what's the first action in this game?
+3. Use a physical anchor — a routine that tells your nervous system: I've done this before
+
+What's your pre-match routine? Share it below 👇
+
+<span class="post-tag">#SportsPsychology #MentalPerformance #FootballMindset</span></div>
+        <div class="post-stats">
+          <span>👍 891 likes</span>
+          <span>204 comments</span>
+          <span>145 reposts</span>
+        </div>
+        <div class="post-divider"></div>
+        <div class="post-footer">
+          <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
+          <div class="post-react-btn">💬 Comment</div>
+          <div class="post-react-btn">🔁 Repost</div>
+          <div class="post-react-btn">📤 Share</div>
+        </div>
+      </div>
+
+      <!-- Post 5 — Player update, free agent -->
+      <div class="post-card">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,#7C3AED,#1e40af)">MD</div>
+          <div class="post-author-info">
+            <div class="post-author-name">
+              Marcus Diallo
+              <span class="role-badge role-player">⚽ Player</span>
+            </div>
+            <div class="post-author-sub">Central Midfielder · Free Agent · 🇫🇷 French</div>
+            <div class="post-timestamp">3 days ago · 🌍</div>
+          </div>
+          <div class="post-more">···</div>
+        </div>
+        <div class="post-text">Back on the training pitch. 💪
+
+3 weeks out with a hamstring injury — the hardest part wasn't the physical rehab. It was the mental side. Watching your teammates train while you're in the gym on your own. Questioning if you're falling behind.
+
+Used the time to go deep on the mental game (shoutout to the Playr framework — genuinely helped). Came back with more clarity about my game than I had before the injury.
+
+Open to trial opportunities in England or Germany. Central midfielder, 22, full fitness as of this week. DMs open.
+
+<span class="post-tag">#FreeAgent #CentralMidfielder #BackFit #TrialOpportunity</span></div>
+        <div class="post-stats">
+          <span>👍 156 likes</span>
+          <span>43 comments</span>
+          <span>28 reposts</span>
+        </div>
+        <div class="post-divider"></div>
+        <div class="post-footer">
+          <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
+          <div class="post-react-btn">💬 Comment</div>
+          <div class="post-react-btn">🔁 Repost</div>
+          <div class="post-react-btn">📤 Share</div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- ── RIGHT: People you may know ── -->
+    <aside class="network-right">
+
+      <div class="people-card">
+        <div class="people-card-title">People you may know</div>
+
+        <div class="person-row">
+          <div class="person-avatar" style="background:linear-gradient(135deg,#7C3AED,#6d28d9)">JA</div>
+          <div class="person-info">
+            <div class="person-name">Jamie Asante</div>
+            <div class="person-sub"><span class="role-badge role-player">⚽ Player</span> · Winger</div>
+            <div class="person-sub" style="margin-top:3px">12 mutual connections</div>
+          </div>
+          <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
+        </div>
+
+        <div class="person-row">
+          <div class="person-avatar" style="background:linear-gradient(135deg,#d97706,#b45309)">LC</div>
+          <div class="person-info">
+            <div class="person-name">Lisa Chen</div>
+            <div class="person-sub"><span class="role-badge role-scout">🔍 Scout</span> · PL Scout</div>
+            <div class="person-sub" style="margin-top:3px">8 mutual connections</div>
+          </div>
+          <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
+        </div>
+
+        <div class="person-row">
+          <div class="person-avatar" style="background:linear-gradient(135deg,#2563eb,#1d4ed8)">RB</div>
+          <div class="person-info">
+            <div class="person-name">Rayan Bouzid</div>
+            <div class="person-sub"><span class="role-badge role-player">⚽ Player</span> · CM</div>
+            <div class="person-sub" style="margin-top:3px">15 mutual connections</div>
+          </div>
+          <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
+        </div>
+
+        <div class="person-row">
+          <div class="person-avatar" style="background:linear-gradient(135deg,#2563eb,#1e40af)">DO</div>
+          <div class="person-info">
+            <div class="person-name">David Osei</div>
+            <div class="person-sub"><span class="role-badge role-coach">🎯 Coach</span> · Academy</div>
+            <div class="person-sub" style="margin-top:3px">5 mutual connections</div>
+          </div>
+          <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
+        </div>
+
+        <div class="person-row">
+          <div class="person-avatar" style="background:linear-gradient(135deg,#16a34a,#15803d)">AT</div>
+          <div class="person-info">
+            <div class="person-name">Amara Touré</div>
+            <div class="person-sub"><span class="role-badge role-player">⚽ Player</span> · Striker</div>
+            <div class="person-sub" style="margin-top:3px">9 mutual connections</div>
+          </div>
+          <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
+        </div>
+
+        <div style="margin-top:14px;text-align:center;font-size:13px;color:var(--purple-lt);cursor:pointer">Show all recommendations →</div>
+      </div>
+
+      <div class="people-card">
+        <div class="people-card-title">Trending in Football</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="cursor:pointer">
+            <div style="font-size:13px;font-weight:600">#OpenTrials</div>
+            <div style="font-size:11px;color:var(--muted)">2.4k posts this week</div>
+          </div>
+          <div style="cursor:pointer">
+            <div style="font-size:13px;font-weight:600">#FreeAgent</div>
+            <div style="font-size:11px;color:var(--muted)">1.8k posts this week</div>
+          </div>
+          <div style="cursor:pointer">
+            <div style="font-size:13px;font-weight:600">#SportsPsychology</div>
+            <div style="font-size:11px;color:var(--muted)">987 posts this week</div>
+          </div>
+          <div style="cursor:pointer">
+            <div style="font-size:13px;font-weight:600">#TalentID</div>
+            <div style="font-size:11px;color:var(--muted)">743 posts this week</div>
+          </div>
+        </div>
+      </div>
+
+    </aside>
+
   </div>
 </div>
 
@@ -1734,10 +2367,17 @@
   function showNetwork() {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-network').classList.add('active');
-    // Reset form state each time the screen is shown
-    document.getElementById('waitlist-form').style.display = 'flex';
-    document.getElementById('waitlist-success').classList.remove('visible');
-    document.getElementById('waitlist-email').value = '';
+  }
+
+  // ─── NETWORK INTERACTIONS ───
+  function toggleLike(btn) {
+    const isLiked = btn.classList.toggle('liked');
+    btn.textContent = isLiked ? '💜 Liked' : '👍 Like';
+  }
+
+  function handleConnect(btn) {
+    btn.textContent = 'Pending';
+    btn.classList.add('pending');
   }
 
   function goToEntry() {
@@ -1748,8 +2388,8 @@
   // ─── THEME TOGGLE ───
   function applyTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
-    const btn = document.getElementById('theme-toggle');
-    if (btn) btn.textContent = theme === 'dark' ? '☀️' : '🌙';
+    const icon = theme === 'dark' ? '☀️' : '🌙';
+    document.querySelectorAll('[data-theme-icon]').forEach(btn => btn.textContent = icon);
   }
 
   function toggleTheme() {
