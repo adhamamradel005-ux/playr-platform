@@ -1411,6 +1411,184 @@
       box-shadow: var(--card-shadow);
     }
 
+    /* ══════════════════════════════════════════
+       DISCOVERY PAGE
+    ══════════════════════════════════════════ */
+    #screen-discover {
+      justify-content: flex-start;
+      align-items: stretch;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .discover-layout {
+      display: grid;
+      grid-template-columns: 248px 1fr;
+      gap: 20px;
+      padding: 24px 24px 48px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    /* Filter sidebar */
+    .discover-filters-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .filter-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 16px;
+    }
+    .filter-card-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .filter-group { margin-bottom: 14px; }
+    .filter-group:last-child { margin-bottom: 0; }
+    .filter-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 6px;
+      display: block;
+    }
+    .filter-select, .filter-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 10px;
+      font-size: 13px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+      cursor: pointer;
+    }
+    .filter-select:focus, .filter-input:focus { border-color: var(--purple); }
+    .filter-reset-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 4px;
+    }
+    .filter-reset-btn:hover { border-color: var(--purple); color: var(--purple-lt); }
+
+    /* Discover main area */
+    .discover-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+    .discover-search-wrap { position: relative; }
+    .discover-search-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      font-size: 15px; pointer-events: none; color: var(--muted);
+    }
+    .discover-search-input {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 14px 12px 40px;
+      font-size: 14px;
+      color: var(--text);
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .discover-search-input:focus { border-color: var(--purple); }
+    .discover-search-input::placeholder { color: var(--muted); }
+
+    /* Tab bar */
+    .discover-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .discover-tab {
+      padding: 8px 18px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--muted);
+      font-size: 13px; font-weight: 700;
+      cursor: pointer;
+      transition: all 0.18s;
+      white-space: nowrap;
+    }
+    .discover-tab:hover { border-color: var(--purple); color: var(--purple-lt); }
+    .discover-tab.active { background: var(--purple); border-color: var(--purple); color: #fff; }
+    .discover-count {
+      font-size: 13px;
+      color: var(--muted);
+      padding: 0 2px;
+    }
+
+    /* User grid */
+    .discover-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
+      gap: 14px;
+    }
+    .discover-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.18s, box-shadow 0.2s;
+      gap: 6px;
+    }
+    .discover-card:hover {
+      border-color: var(--purple);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 30px rgba(124,58,237,0.14);
+    }
+    .discover-card-avatar {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800; color: #fff;
+      margin-bottom: 6px;
+      flex-shrink: 0;
+    }
+    .discover-card-name {
+      font-size: 14px; font-weight: 800;
+      line-height: 1.3;
+    }
+    .discover-card-meta {
+      font-size: 12px; color: var(--muted);
+      line-height: 1.4;
+    }
+    .discover-card-location {
+      font-size: 11px; color: var(--muted);
+    }
+    .discover-card .connect-btn {
+      margin-top: 8px;
+      width: 100%;
+    }
+    .discover-empty {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .discover-empty-icon { font-size: 40px; margin-bottom: 12px; }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 1080px) {
       .network-feed-layout { grid-template-columns: 240px 1fr; }
@@ -1420,6 +1598,8 @@
       .network-feed-layout { grid-template-columns: 1fr; }
       .network-left { position: static; display: none; }
       .network-nav { display: none; }
+      .discover-layout { grid-template-columns: 1fr; }
+      .discover-filters-sidebar { display: none; }
     }
   </style>
 </head>
@@ -1773,8 +1953,8 @@
 
     <nav class="network-nav">
       <div class="network-nav-item active">🏠 Home</div>
-      <div class="network-nav-item">👥 My Network</div>
-      <div class="network-nav-item">🔍 Scout Hub</div>
+      <div class="network-nav-item" onclick="showDiscover()">👥 My Network</div>
+      <div class="network-nav-item" onclick="showDiscover()">🔍 Scout Hub</div>
       <div class="network-nav-item">💼 Trials</div>
     </nav>
 
@@ -2155,8 +2335,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
     <nav class="network-nav">
       <div class="network-nav-item" onclick="goBackToNetwork()">🏠 Home</div>
-      <div class="network-nav-item">👥 My Network</div>
-      <div class="network-nav-item">🔍 Scout Hub</div>
+      <div class="network-nav-item" onclick="showDiscover()">👥 My Network</div>
+      <div class="network-nav-item" onclick="showDiscover()">🔍 Scout Hub</div>
       <div class="network-nav-item">💼 Trials</div>
     </nav>
     <div class="network-topbar-actions">
@@ -2203,6 +2383,111 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       </div>
     </aside>
 
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: DISCOVERY / MY NETWORK
+══════════════════════════════════════════ -->
+<div id="screen-discover" class="screen">
+
+  <div class="network-topbar">
+    <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
+    <nav class="network-nav">
+      <div class="network-nav-item" onclick="goBackToNetwork()">🏠 Home</div>
+      <div class="network-nav-item active">👥 My Network</div>
+      <div class="network-nav-item">🔍 Scout Hub</div>
+      <div class="network-nav-item">💼 Trials</div>
+    </nav>
+    <div class="network-topbar-actions">
+      <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
+      <button class="btn btn-ghost" onclick="goBackToNetwork()">← Feed</button>
+    </div>
+  </div>
+
+  <div class="discover-layout">
+
+    <!-- ── LEFT: Filters ── -->
+    <aside class="discover-filters-sidebar">
+
+      <div class="filter-card">
+        <div class="filter-card-title">Filters</div>
+
+        <div class="filter-group">
+          <label class="filter-label">Position</label>
+          <select class="filter-select" id="filter-position" onchange="discoverState.position=this.value;filterDiscover()">
+            <option value="all">All Positions</option>
+            <option value="Striker">Striker</option>
+            <option value="Winger">Winger</option>
+            <option value="Central Midfielder">Central Midfielder</option>
+            <option value="Defensive Midfielder">Defensive Midfielder</option>
+            <option value="Attacking Midfielder">Attacking Midfielder</option>
+            <option value="Centre-Back">Centre-Back</option>
+            <option value="Full-Back">Full-Back</option>
+            <option value="Goalkeeper">Goalkeeper</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Nationality</label>
+          <select class="filter-select" id="filter-nationality" onchange="discoverState.nationality=this.value;filterDiscover()">
+            <option value="all">All Nationalities</option>
+            <option value="British">British</option>
+            <option value="French">French</option>
+            <option value="Ghanaian">Ghanaian</option>
+            <option value="Senegalese">Senegalese</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Italian">Italian</option>
+            <option value="Nigerian">Nigerian</option>
+            <option value="Ivorian">Ivorian</option>
+            <option value="Irish">Irish</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Age Range</label>
+          <select class="filter-select" id="filter-age" onchange="discoverState.ageRange=this.value;filterDiscover()">
+            <option value="all">All Ages</option>
+            <option value="16-18">16 – 18</option>
+            <option value="19-22">19 – 22</option>
+            <option value="23-26">23 – 26</option>
+            <option value="27-35">27 – 35</option>
+            <option value="36-99">36+</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label class="filter-label">Location</label>
+          <input class="filter-input" id="filter-location" type="text" placeholder="e.g. Manchester, Paris…" oninput="discoverState.location=this.value;filterDiscover()">
+        </div>
+
+        <button class="filter-reset-btn" onclick="resetDiscoverFilters()">✕ Clear all filters</button>
+      </div>
+
+    </aside>
+
+    <!-- ── MAIN: Search + Tabs + Grid ── -->
+    <div class="discover-main">
+
+      <div class="discover-search-wrap">
+        <span class="discover-search-icon">🔍</span>
+        <input class="discover-search-input" id="discover-search" type="text" placeholder="Search by name, position, nationality, club…" oninput="discoverState.search=this.value;filterDiscover()">
+      </div>
+
+      <div class="discover-tabs">
+        <button class="discover-tab active" data-tab="all"    onclick="setDiscoverTab('all',this)">🌐 All</button>
+        <button class="discover-tab"        data-tab="player" onclick="setDiscoverTab('player',this)">⚽ Players</button>
+        <button class="discover-tab"        data-tab="scout"  onclick="setDiscoverTab('scout',this)">🔍 Scouts</button>
+        <button class="discover-tab"        data-tab="coach"  onclick="setDiscoverTab('coach',this)">🎯 Coaches</button>
+        <button class="discover-tab"        data-tab="club"   onclick="setDiscoverTab('club',this)">🏟️ Clubs</button>
+      </div>
+
+      <div class="discover-count" id="discover-count"></div>
+
+      <div class="discover-grid" id="discover-grid"></div>
+
+    </div>
   </div>
 </div>
 
@@ -3310,6 +3595,175 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   function goBackToNetwork() {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-network').classList.add('active');
+  }
+
+  // ─── DISCOVERY PAGE ───
+  // Extend PROFILES with 6 more users (light profiles for discovery)
+  Object.assign(PROFILES, {
+    ibrahima_kone: {
+      initials: 'IK', grad: 'linear-gradient(135deg,#f97316,#c2410c)',
+      cover: 'linear-gradient(135deg,#1a0800 0%,#c2410c 55%,#f97316 100%)',
+      name: 'Ibrahima Koné', role: 'player',
+      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
+      location: '📍 Abidjan, Ivory Coast · 🇨🇮 Ivorian', connections: '41', views: '187', impressions: '940',
+      bio: 'Young defensive midfielder with exceptional reading of the game. Part of the Ivory Coast U20 setup and looking to break into European football.',
+      career: [{ club: 'ASEC Mimosas', role: 'Defensive Midfielder', dates: '2024 — Present', current: true }, { club: 'ASEC Academy', role: 'Academy Midfielder', dates: '2021 — 2024', current: false }],
+      stats: [{ label: 'Tackles / 90', value: '6.2' }, { label: 'Pass Acc.', value: '86%' }, { label: 'Interceptions', value: '4.1' }, { label: 'Age', value: '18' }],
+      highlights: [{ title: 'IK Defensive Highlights 2024', ytId: 'dQw4w9WgXcQ' }],
+      certs: [], posts: [], alsoViewed: ['marcus_diallo', 'rayan_bouzid', 'kai_mensah'],
+    },
+    carlos_herrera: {
+      initials: 'CH', grad: 'linear-gradient(135deg,#dc2626,#991b1b)',
+      cover: 'linear-gradient(135deg,#200505 0%,#991b1b 55%,#dc2626 100%)',
+      name: 'Carlos Herrera', role: 'player',
+      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
+      location: '📍 Madrid, Spain · 🇪🇸 Spanish', connections: '118', views: '562', impressions: '3.1k',
+      bio: 'Commanding goalkeeper trained in the Atlético de Madrid system. Excellent distribution, aggressive in the box. Looking for first-team opportunities in England or France.',
+      career: [{ club: 'Atlético de Madrid B', role: 'Goalkeeper', dates: '2023 — Present', current: true }, { club: 'Atlético Academy', role: 'U21 GK', dates: '2020 — 2023', current: false }],
+      stats: [{ label: 'Clean Sheets', value: '11' }, { label: 'Save %', value: '74%' }, { label: 'Dist. Accuracy', value: '82%' }, { label: 'Age', value: '23' }],
+      highlights: [{ title: 'GK Highlights — 2024/25', ytId: 'dQw4w9WgXcQ' }],
+      certs: [], posts: [], alsoViewed: ['kai_mensah', 'marcus_diallo', 'amara_toure'],
+    },
+    elena_marchetti: {
+      initials: 'EM', grad: 'linear-gradient(135deg,#0ea5e9,#0369a1)',
+      cover: 'linear-gradient(135deg,#020e1a 0%,#0369a1 55%,#0ea5e9 100%)',
+      name: 'Elena Marchetti', role: 'scout',
+      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',
+      location: '📍 Milan, Italy', connections: '334', views: '1.4k', impressions: '9.2k',
+      bio: 'Italian scout specialising in Serie A and B talent pipelines. Strong network across Southern Europe and Africa. Particularly focused on technical forwards and creative midfielders.',
+      career: [{ club: 'Serie A Club (Undisclosed)', role: 'International Scout', dates: '2021 — Present', current: true }, { club: 'AC Milan Academy', role: 'Talent Analyst', dates: '2018 — 2021', current: false }],
+      stats: [{ label: 'Players Signed', value: '22' }, { label: 'Countries Covered', value: '9' }, { label: 'Years Scouting', value: '7' }, { label: 'Reports Filed', value: '540+' }],
+      highlights: [], certs: [{ icon: '📋', name: 'UEFA Scouting Certificate', org: 'UEFA · 2021' }],
+      posts: [], alsoViewed: ['james_harrison', 'lisa_chen', 'ryan_morris'],
+    },
+    yuki_tanaka: {
+      initials: 'YT', grad: 'linear-gradient(135deg,#ec4899,#9d174d)',
+      cover: 'linear-gradient(135deg,#1a0411 0%,#9d174d 55%,#ec4899 100%)',
+      name: 'Yuki Tanaka', role: 'player',
+      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
+      location: '📍 Tokyo, Japan · 🇯🇵 Japanese', connections: '87', views: '403', impressions: '2.4k',
+      bio: 'Technical attacking midfielder with elite close control and vision. Trained in Japan\'s elite J1 League academy. Eager to test myself in European football — particularly Germany and the Netherlands.',
+      career: [{ club: 'Urawa Red Diamonds Academy', role: 'Attacking Midfielder', dates: '2023 — Present', current: true }, { club: 'FC Tokyo Academy', role: 'Youth CAM', dates: '2020 — 2023', current: false }],
+      stats: [{ label: 'Goals (24/25)', value: '12' }, { label: 'Assists', value: '18' }, { label: 'Key Passes / 90', value: '4.3' }, { label: 'Age', value: '21' }],
+      highlights: [{ title: 'Yuki Tanaka — Technical Highlights', ytId: 'dQw4w9WgXcQ' }],
+      certs: [], posts: [], alsoViewed: ['rayan_bouzid', 'marcus_diallo', 'jamie_asante'],
+    },
+    patrick_obrien: {
+      initials: 'PO', grad: 'linear-gradient(135deg,#16a34a,#064e3b)',
+      cover: 'linear-gradient(135deg,#021a0d 0%,#064e3b 55%,#16a34a 100%)',
+      name: 'Patrick O\'Brien', role: 'coach',
+      badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',
+      location: '📍 Dublin, Ireland · 🇮🇪 Irish', connections: '198', views: '764', impressions: '4.8k',
+      bio: 'Former League of Ireland professional turned UEFA B Licensed coach. Passionate about developing young Irish talent and creating pathways to the UK and European game.',
+      career: [{ club: 'St. Patrick\'s Athletic Academy', role: 'Head of Academy Coaching', dates: '2022 — Present', current: true }, { club: 'Shamrock Rovers', role: 'U19 Coach', dates: '2018 — 2022', current: false }],
+      stats: [{ label: 'Players Coached', value: '60+' }, { label: 'Pro Transitions', value: '7' }, { label: 'Years Coaching', value: '7' }, { label: 'Clubs Worked', value: '3' }],
+      highlights: [], certs: [{ icon: '🎯', name: 'UEFA B Licence', org: 'FAI · 2020' }, { icon: '📋', name: 'FAI Youth Award Level 3', org: 'Football Association of Ireland · 2018' }],
+      posts: [], alsoViewed: ['david_osei', 'sarah_okonkwo', 'fc_velocity'],
+    },
+    fatou_dieng: {
+      initials: 'FD', grad: 'linear-gradient(135deg,#a855f7,#6d28d9)',
+      cover: 'linear-gradient(135deg,#0f0520 0%,#6d28d9 55%,#a855f7 100%)',
+      name: 'Fatou Dieng', role: 'player',
+      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
+      location: '📍 Dakar, Senegal · 🇸🇳 Senegalese', connections: '56', views: '231', impressions: '1.2k',
+      bio: 'Explosive forward with blistering pace and 1v1 ability. Trained under the same Génération Foot programme that produced Sadio Mané. Targeting a European move in the next transfer window.',
+      career: [{ club: 'Génération Foot', role: 'Forward', dates: '2023 — Present', current: true }, { club: 'Génération Foot Academy', role: 'Academy Forward', dates: '2020 — 2023', current: false }],
+      stats: [{ label: 'Goals (24/25)', value: '17' }, { label: 'Assists', value: '6' }, { label: 'Sprint Speed', value: '35 km/h' }, { label: 'Age', value: '20' }],
+      highlights: [{ title: 'Fatou Dieng — Forward Highlights', ytId: 'dQw4w9WgXcQ' }],
+      certs: [], posts: [], alsoViewed: ['amara_toure', 'kai_mensah', 'marcus_diallo'],
+    },
+  });
+
+  const DISCOVER_USERS = [
+    { id: 'kai_mensah',    role: 'player', position: 'Striker',              nationality: 'Ghanaian',  age: 19, location: 'Manchester, England',   initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah',        badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 247 },
+    { id: 'marcus_diallo', role: 'player', position: 'Central Midfielder',   nationality: 'French',    age: 22, location: 'London, England',         initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)', name: 'Marcus Diallo',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 156 },
+    { id: 'jamie_asante',  role: 'player', position: 'Winger',               nationality: 'British',   age: 20, location: 'Birmingham, England',      initials: 'JA', grad: 'linear-gradient(135deg,#7C3AED,#6d28d9)', name: 'Jamie Asante',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 94  },
+    { id: 'rayan_bouzid',  role: 'player', position: 'Central Midfielder',   nationality: 'French',    age: 20, location: 'Lyon, France',             initials: 'RB', grad: 'linear-gradient(135deg,#2563eb,#1d4ed8)', name: 'Rayan Bouzid',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 128 },
+    { id: 'amara_toure',   role: 'player', position: 'Striker',              nationality: 'Senegalese',age: 21, location: 'Dakar, Senegal',           initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré',       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 83  },
+    { id: 'ibrahima_kone', role: 'player', position: 'Defensive Midfielder', nationality: 'Ivorian',   age: 18, location: 'Abidjan, Ivory Coast',     initials: 'IK', grad: 'linear-gradient(135deg,#f97316,#c2410c)', name: 'Ibrahima Koné',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 41  },
+    { id: 'carlos_herrera',role: 'player', position: 'Goalkeeper',           nationality: 'Spanish',   age: 23, location: 'Madrid, Spain',            initials: 'CH', grad: 'linear-gradient(135deg,#dc2626,#991b1b)', name: 'Carlos Herrera',    badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 118 },
+    { id: 'yuki_tanaka',   role: 'player', position: 'Attacking Midfielder', nationality: 'Japanese',  age: 21, location: 'Tokyo, Japan',             initials: 'YT', grad: 'linear-gradient(135deg,#ec4899,#9d174d)', name: 'Yuki Tanaka',       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 87  },
+    { id: 'fatou_dieng',   role: 'player', position: 'Striker',              nationality: 'Senegalese',age: 20, location: 'Dakar, Senegal',           initials: 'FD', grad: 'linear-gradient(135deg,#a855f7,#6d28d9)', name: 'Fatou Dieng',       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 56  },
+    { id: 'james_harrison',role: 'scout',  position: null,                   nationality: 'British',   age: 38, location: 'Manchester, England',      initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison',    badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 612 },
+    { id: 'lisa_chen',     role: 'scout',  position: null,                   nationality: 'British',   age: 31, location: 'London, England',          initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen',         badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 744 },
+    { id: 'ryan_morris',   role: 'scout',  position: null,                   nationality: 'British',   age: 40, location: 'Leeds, England',           initials: 'RM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Ryan Morris',       badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 389 },
+    { id: 'elena_marchetti',role:'scout',  position: null,                   nationality: 'Italian',   age: 29, location: 'Milan, Italy',             initials: 'EM', grad: 'linear-gradient(135deg,#0ea5e9,#0369a1)', name: 'Elena Marchetti',   badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 334 },
+    { id: 'sarah_okonkwo', role: 'coach',  position: null,                   nationality: 'Nigerian',  age: 36, location: 'London, England',          initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo',     badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',    connections: 891 },
+    { id: 'david_osei',    role: 'coach',  position: null,                   nationality: 'Ghanaian',  age: 33, location: 'Manchester, England',      initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei',        badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',    connections: 267 },
+    { id: 'patrick_obrien',role: 'coach',  position: null,                   nationality: 'Irish',     age: 39, location: 'Dublin, Ireland',          initials: 'PO', grad: 'linear-gradient(135deg,#16a34a,#064e3b)', name: "Patrick O'Brien",   badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',    connections: 198 },
+    { id: 'fc_velocity',   role: 'club',   position: null,                   nationality: null,        age: null,location: 'Manchester, England',     initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy',badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',     connections: 1800},
+  ];
+
+  const discoverState = { tab: 'all', search: '', position: 'all', nationality: 'all', ageRange: 'all', location: '' };
+
+  function setDiscoverTab(tab, btn) {
+    discoverState.tab = tab;
+    document.querySelectorAll('.discover-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filterDiscover();
+  }
+
+  function filterDiscover() {
+    const q = discoverState.search.toLowerCase();
+    const filtered = DISCOVER_USERS.filter(u => {
+      if (discoverState.tab !== 'all' && u.role !== discoverState.tab) return false;
+      if (q && !u.name.toLowerCase().includes(q) && !(u.position || '').toLowerCase().includes(q) && !(u.nationality || '').toLowerCase().includes(q) && !(u.location || '').toLowerCase().includes(q)) return false;
+      if (discoverState.position !== 'all' && u.position !== discoverState.position) return false;
+      if (discoverState.nationality !== 'all' && !(u.nationality || '').includes(discoverState.nationality)) return false;
+      if (discoverState.ageRange !== 'all' && u.age != null) {
+        const [min, max] = discoverState.ageRange.split('-').map(Number);
+        if (u.age < min || u.age > max) return false;
+      }
+      if (discoverState.location && !(u.location || '').toLowerCase().includes(discoverState.location.toLowerCase())) return false;
+      return true;
+    });
+    renderDiscoverGrid(filtered);
+  }
+
+  function renderDiscoverGrid(users) {
+    const count = document.getElementById('discover-count');
+    count.textContent = `${users.length} profile${users.length !== 1 ? 's' : ''} found`;
+    const grid = document.getElementById('discover-grid');
+    if (!users.length) {
+      grid.innerHTML = '<div class="discover-empty"><div class="discover-empty-icon">🔍</div><div>No profiles match your search.<br>Try adjusting your filters.</div></div>';
+      return;
+    }
+    grid.innerHTML = users.map(u => {
+      const metaParts = [u.position, u.nationality ? u.nationality : null, u.age ? u.age + ' yrs' : null].filter(Boolean);
+      return `
+        <div class="discover-card" onclick="showProfile('${u.id}')">
+          <div class="discover-card-avatar" style="background:${u.grad}">${u.initials}</div>
+          <div class="discover-card-name">${u.name}</div>
+          <div style="margin:2px 0">${u.badgeHtml}</div>
+          ${metaParts.length ? `<div class="discover-card-meta">${metaParts.join(' · ')}</div>` : ''}
+          ${u.location ? `<div class="discover-card-location">📍 ${u.location.split(',')[0]}</div>` : ''}
+          <button class="connect-btn" onclick="event.stopPropagation();handleConnect(this)">+ Connect</button>
+        </div>`;
+    }).join('');
+  }
+
+  function resetDiscoverFilters() {
+    discoverState.search = '';
+    discoverState.position = 'all';
+    discoverState.nationality = 'all';
+    discoverState.ageRange = 'all';
+    discoverState.location = '';
+    document.getElementById('discover-search').value = '';
+    document.getElementById('filter-position').value = 'all';
+    document.getElementById('filter-nationality').value = 'all';
+    document.getElementById('filter-age').value = 'all';
+    document.getElementById('filter-location').value = '';
+    filterDiscover();
+  }
+
+  function showDiscover() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-discover').classList.add('active');
+    document.getElementById('screen-discover').scrollTop = 0;
+    // Reset tab to All and render
+    discoverState.tab = 'all';
+    document.querySelectorAll('.discover-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === 'all'));
+    filterDiscover();
   }
 
   function goToEntry() {
