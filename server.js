@@ -41,6 +41,18 @@ db.exec(`
     email      TEXT    NOT NULL UNIQUE,
     created_at DATETIME DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS messages (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    conv_id     TEXT    NOT NULL,
+    sender_id   TEXT    NOT NULL,
+    receiver_id TEXT    NOT NULL,
+    content     TEXT    NOT NULL,
+    is_read     INTEGER NOT NULL DEFAULT 0,
+    created_at  DATETIME DEFAULT (datetime('now'))
+  );
+  CREATE INDEX IF NOT EXISTS idx_messages_conv ON messages(conv_id);
+  CREATE INDEX IF NOT EXISTS idx_messages_recv ON messages(receiver_id, is_read);
 `);
 
 // ── Journal ──
@@ -157,6 +169,46 @@ app.post('/api/waitlist', (req, res) => {
       throw e;
     }
   }
+});
+
+// ── Messages ──
+
+app.post('/api/messages', (req, res) => {
+  const { conv_id, sender_id, receiver_id, content } = req.body;
+  if (!conv_id || !sender_id || !content?.trim()) {
+    return res.status(400).json({ error: 'conv_id, sender_id, content required' });
+  }
+  const result = db.prepare(
+    'INSERT INTO messages (conv_id, sender_id, receiver_id, content) VALUES (?, ?, ?, ?)'
+  ).run(conv_id, sender_id, receiver_id || '', content.trim());
+  res.json({ id: result.lastInsertRowid });
+});
+
+app.get('/api/messages', (req, res) => {
+  const { conv_id } = req.query;
+  if (!conv_id) return res.status(400).json({ error: 'conv_id required' });
+  const rows = db.prepare(
+    'SELECT * FROM messages WHERE conv_id = ? ORDER BY created_at ASC'
+  ).all(conv_id);
+  res.json(rows);
+});
+
+app.patch('/api/messages/read', (req, res) => {
+  const { conv_id, user_id } = req.body;
+  if (!conv_id || !user_id) return res.status(400).json({ error: 'conv_id and user_id required' });
+  db.prepare(
+    'UPDATE messages SET is_read = 1 WHERE conv_id = ? AND receiver_id = ? AND is_read = 0'
+  ).run(conv_id, user_id);
+  res.json({ success: true });
+});
+
+app.get('/api/messages/unread', (req, res) => {
+  const { user_id } = req.query;
+  if (!user_id) return res.status(400).json({ error: 'user_id required' });
+  const row = db.prepare(
+    'SELECT COUNT(*) as c FROM messages WHERE receiver_id = ? AND is_read = 0'
+  ).get(user_id);
+  res.json({ count: row.c });
 });
 
 app.get('/admin/waitlist', (_req, res) => {

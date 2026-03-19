@@ -1711,7 +1711,144 @@
       .network-nav { display: none; }
       .discover-layout { grid-template-columns: 1fr; }
       .discover-filters-sidebar { display: none; }
+      .chat-drawer { width: calc(100vw - 32px); right: 16px; }
     }
+
+    /* ══════════════════════════════════════════
+       CHAT / MESSAGING DRAWER
+    ══════════════════════════════════════════ */
+    .chat-topbar-btn { position: relative; display: inline-flex; }
+    .chat-notif {
+      position: absolute; top: -4px; right: -4px;
+      background: #ef4444; color: #fff;
+      min-width: 16px; height: 16px; border-radius: 999px;
+      font-size: 10px; font-weight: 800; padding: 0 3px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none;
+    }
+    .chat-drawer {
+      position: fixed;
+      bottom: 0; right: 20px;
+      width: 360px;
+      max-height: 520px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -8px 48px rgba(0,0,0,0.22);
+      display: flex; flex-direction: column;
+      z-index: 2000;
+      transform: translateY(calc(100% - 54px));
+      transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+    .chat-drawer.open { transform: translateY(0); }
+    .chat-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+      border-radius: 16px 16px 0 0;
+      flex-shrink: 0;
+      transition: border-color 0.2s;
+      user-select: none;
+    }
+    .chat-drawer.open .chat-header { border-bottom-color: var(--border); }
+    .chat-header-title {
+      font-size: 14px; font-weight: 800;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .chat-header-badge {
+      background: #ef4444; color: #fff;
+      min-width: 18px; height: 18px; border-radius: 999px;
+      font-size: 10px; font-weight: 800; padding: 0 4px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .chat-icon-btn {
+      background: transparent; border: none; cursor: pointer;
+      font-size: 16px; color: var(--muted);
+      padding: 4px 6px; border-radius: 6px; line-height: 1;
+      transition: background 0.15s, color 0.15s;
+    }
+    .chat-icon-btn:hover { background: var(--bg); color: var(--text); }
+    .chat-body { flex: 1; overflow-y: auto; min-height: 0; }
+
+    /* Conversation list */
+    .conv-item {
+      display: flex; gap: 11px; align-items: center;
+      padding: 11px 14px; cursor: pointer;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+    .conv-item:hover { background: var(--bg); }
+    .conv-item:last-child { border-bottom: none; }
+    .conv-av {
+      width: 42px; height: 42px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .conv-info { flex: 1; min-width: 0; }
+    .conv-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .conv-preview {
+      font-size: 12px; color: var(--muted);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .conv-preview.unread { color: var(--text); font-weight: 600; }
+    .conv-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; flex-shrink: 0; }
+    .conv-time { font-size: 11px; color: var(--muted); white-space: nowrap; }
+    .conv-unread-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--purple); flex-shrink: 0;
+    }
+
+    /* Thread view */
+    .thread-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; border-bottom: 1px solid var(--border);
+      cursor: pointer; flex-shrink: 0;
+      transition: background 0.15s;
+    }
+    .thread-header:hover { background: var(--bg); }
+    .thread-back { font-size: 20px; color: var(--muted); line-height: 1; margin-right: 2px; }
+    .thread-messages {
+      flex: 1; overflow-y: auto; padding: 14px 14px 8px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .msg-group { display: flex; flex-direction: column; gap: 2px; }
+    .msg-group.mine { align-items: flex-end; }
+    .msg-group.theirs { align-items: flex-start; }
+    .msg-bubble {
+      max-width: 80%; padding: 9px 13px;
+      border-radius: 16px; font-size: 13px; line-height: 1.5;
+      word-break: break-word;
+    }
+    .msg-mine {
+      background: var(--purple); color: #fff;
+      border-bottom-right-radius: 4px;
+    }
+    .msg-theirs {
+      background: var(--bg); border: 1px solid var(--border); color: var(--text);
+      border-bottom-left-radius: 4px;
+    }
+    .msg-time { font-size: 10px; color: var(--muted); padding: 0 2px; }
+    .thread-input-row {
+      display: flex; gap: 8px; padding: 10px 12px;
+      border-top: 1px solid var(--border); flex-shrink: 0;
+    }
+    .thread-input {
+      flex: 1; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 20px; padding: 9px 14px;
+      font-size: 13px; color: var(--text); font-family: inherit;
+      outline: none; transition: border-color 0.2s;
+    }
+    .thread-input:focus { border-color: var(--purple); }
+    .thread-input::placeholder { color: var(--muted); }
+    .thread-send-btn {
+      background: var(--purple); color: #fff; border: none;
+      border-radius: 50%; width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 15px; flex-shrink: 0;
+      transition: opacity 0.2s;
+    }
+    .thread-send-btn:hover { opacity: 0.85; }
   </style>
 </head>
 <body>
@@ -2072,6 +2209,10 @@
     </nav>
 
     <div class="network-topbar-actions">
+      <div class="chat-topbar-btn">
+        <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
+        <span class="chat-notif" id="chat-notif-feed" style="display:none">0</span>
+      </div>
       <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
       <button class="btn btn-ghost" onclick="goToEntry()">← Switch Path</button>
     </div>
@@ -2456,6 +2597,10 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       <div class="network-nav-item">💼 Trials</div>
     </nav>
     <div class="network-topbar-actions">
+      <div class="chat-topbar-btn">
+        <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
+        <span class="chat-notif" id="chat-notif-profile" style="display:none">0</span>
+      </div>
       <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
       <button class="btn btn-ghost" onclick="goBackToNetwork()">← Feed</button>
     </div>
@@ -2518,6 +2663,10 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       <div class="network-nav-item">💼 Trials</div>
     </nav>
     <div class="network-topbar-actions">
+      <div class="chat-topbar-btn">
+        <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
+        <span class="chat-notif" id="chat-notif-discover" style="display:none">0</span>
+      </div>
       <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
       <button class="btn btn-ghost" onclick="goBackToNetwork()">← Feed</button>
     </div>
@@ -2625,6 +2774,10 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       <div class="network-nav-item">💼 Trials</div>
     </nav>
     <div class="network-topbar-actions">
+      <div class="chat-topbar-btn">
+        <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
+        <span class="chat-notif" id="chat-notif-mn" style="display:none">0</span>
+      </div>
       <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
       <button class="btn btn-ghost" onclick="goBackToNetwork()">← Feed</button>
     </div>
@@ -3924,7 +4077,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
           <div class="profile-page-bio">${p.bio}</div>
           <div class="profile-page-actions" id="profile-connect-actions-${id}">
             ${profileConnectBtn(id)}
-            <button class="btn btn-ghost" style="padding:9px 22px">✉️ Message</button>
+            <button class="btn btn-ghost" style="padding:9px 22px" onclick="openMessageTo('${id}')">✉️ Message</button>
           </div>
         </div>
         <div class="profile-page-stats">
@@ -3971,6 +4124,236 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-profile').classList.add('active');
     document.getElementById('screen-profile').scrollTop = 0;
+  }
+
+  // ─── MESSAGING SYSTEM ───
+  const AUTO_REPLY_MAP = {
+    kai_mensah:     ["Thanks for connecting! Really excited about this new chapter 🙏","Appreciate the support! What's on your mind?","Cheers! Let's connect properly."],
+    james_harrison: ["Thanks for reaching out. Send your highlight reel when you can.","Good to connect. What position do you play?","Noted — I'll have a look at your profile."],
+    fc_velocity:    ["Thanks for your interest in FC Velocity! Trials info is in our bio.","We appreciate the message. Next trials are April 12–13. Stay tuned!","Thanks for connecting. We'll be in touch about upcoming opportunities."],
+    sarah_okonkwo:  ["Thanks for reaching out! The mental game is everything 🧠","Love the engagement! What aspect of mental performance are you working on?","Great to connect. Let me know how I can help your journey."],
+    marcus_diallo:  ["Hey! Good to connect. Back to full fitness and ready to go 💪","Cheers! Open to any trial opportunities — hit me up.","Thanks! It's been tough but I'm back stronger."],
+    jamie_asante:   ["Thanks for connecting! Always looking to expand my network 🙌","Hey! Good to hear from you. Any opportunities you know of?","Appreciate the message. Let's stay in touch!"],
+    lisa_chen:      ["Thanks for connecting. I'll take a look at your profile.","Good to connect! Send me your highlights if you're a player.","Noted — I'll keep you in mind for suitable opportunities."],
+    rayan_bouzid:   ["Merci pour le message! Great to connect.","Hey! Looking forward to making my move to Europe this summer.","Thanks! Let's chat about opportunities."],
+    david_osei:     ["Good to connect! Always looking for players with the right mentality.","Thanks for reaching out. What are your development goals?","Great to hear from you! Happy to share coaching insights."],
+    amara_toure:    ["Merci! Hoping to make my European move soon 🙏","Good to connect! My numbers this season speak for themselves.","Thanks! Always happy to connect with the football community."],
+    ryan_morris:    ["Thanks for connecting. I'll add you to my watchlist.","Good to hear from you. What position and age group?","Noted. Drop your highlights and I'll take a look."],
+    elena_marchetti:["Grazie for connecting! Happy to expand my network.","Ciao! Always looking for technical talent. What position?","Good to connect. I cover Southern Europe and Africa mainly."],
+    carlos_herrera: ["¡Hola! Good to connect. Looking for first-team opportunities.","Thanks! My distribution stats are strong — happy to discuss.","Appreciate the message. Let's stay in touch!"],
+    ibrahima_kone:  ["Thanks for connecting! Working hard to get to Europe 💪","Good to connect. My reading of the game is my biggest strength.","Merci! Always happy to connect with scouts and clubs."],
+    yuki_tanaka:    ["Arigatou! Great to connect 🙏 Hoping to play in Europe soon.","Thanks! My assist numbers this season have been strong.","Good to connect! Happy to share my highlights."],
+    patrick_obrien: ["Thanks for reaching out! Happy to connect with the football community.","Good to hear from you. Always looking to share knowledge.","Cheers! Drop me a message if you need coaching advice."],
+    fatou_dieng:    ["Merci beaucoup! Working hard to get to Europe 🙏","Good to connect! My pace and finishing are my strengths.","Thanks! Happy to connect with anyone in football."],
+  };
+
+  const chatState = { open: false, view: 'list', activeId: null };
+
+  function convId(otherId) {
+    return [userId, otherId].sort().join('__');
+  }
+
+  function getMsgs(otherId) {
+    try { return JSON.parse(localStorage.getItem('playr_chat_' + convId(otherId)) || '[]'); }
+    catch { return []; }
+  }
+
+  function saveMsgs(otherId, msgs) {
+    localStorage.setItem('playr_chat_' + convId(otherId), JSON.stringify(msgs));
+  }
+
+  function getTotalUnread() {
+    const c = loadConnections();
+    return c.connected.reduce((sum, id) => {
+      return sum + getMsgs(id).filter(m => m.from !== 'me' && !m.read).length;
+    }, 0);
+  }
+
+  function updateChatBadge() {
+    const n = getTotalUnread();
+    ['chat-notif-feed','chat-notif-profile','chat-notif-discover','chat-notif-mn'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.textContent = n; el.style.display = n > 0 ? 'flex' : 'none'; }
+    });
+    const hb = document.getElementById('chat-header-badge');
+    if (hb) { hb.textContent = n; hb.style.display = n > 0 ? 'flex' : 'none'; }
+  }
+
+  function relTime(ts) {
+    const d = Date.now() - ts;
+    if (d < 60000)    return 'just now';
+    if (d < 3600000)  return Math.floor(d / 60000) + 'm ago';
+    if (d < 86400000) return Math.floor(d / 3600000) + 'h ago';
+    return Math.floor(d / 86400000) + 'd ago';
+  }
+
+  function toggleChat() {
+    if (chatState.open) {
+      chatState.open = false;
+      document.getElementById('chat-drawer').classList.remove('open');
+    } else {
+      openChat();
+    }
+  }
+
+  function openChat() {
+    chatState.open = true;
+    document.getElementById('chat-drawer').classList.add('open');
+    if (chatState.view === 'thread' && chatState.activeId) renderThread(chatState.activeId);
+    else { chatState.view = 'list'; renderConvList(); }
+  }
+
+  function closeChat() {
+    chatState.open = false;
+    chatState.view = 'list';
+    chatState.activeId = null;
+    document.getElementById('chat-drawer').classList.remove('open');
+  }
+
+  function openMessageTo(otherId) {
+    const c = loadConnections();
+    if (!c.connected.includes(otherId)) {
+      // Not connected — open chat list and show connect hint
+      openChat();
+      document.getElementById('chat-body').innerHTML =
+        '<div style="text-align:center;padding:32px 20px;color:var(--muted);font-size:13px">' +
+        '<div style="font-size:28px;margin-bottom:10px">🔒</div>' +
+        'Connect with this person first to send them a message.</div>';
+      return;
+    }
+    chatState.view = 'thread';
+    chatState.activeId = otherId;
+    openChat();
+  }
+
+  function openConversation(otherId) {
+    // Mark incoming messages as read
+    const msgs = getMsgs(otherId).map(m => ({ ...m, read: true }));
+    saveMsgs(otherId, msgs);
+    updateChatBadge();
+    chatState.view = 'thread';
+    chatState.activeId = otherId;
+    renderThread(otherId);
+    // Persist read status to backend
+    apiPost('/api/messages/read', { conv_id: convId(otherId), user_id: userId }).catch(() => {});
+  }
+
+  function backToConvList() {
+    chatState.view = 'list';
+    chatState.activeId = null;
+    renderConvList();
+  }
+
+  function renderConvList() {
+    const c = loadConnections();
+    const body = document.getElementById('chat-body');
+    if (!c.connected.length) {
+      body.innerHTML = '<div style="text-align:center;padding:40px 20px;color:var(--muted);font-size:13px"><div style="font-size:28px;margin-bottom:10px">💬</div>Connect with scouts, players and coaches to start messaging.</div>';
+      return;
+    }
+    const convos = c.connected.map(id => {
+      const msgs = getMsgs(id);
+      const last = msgs[msgs.length - 1];
+      const unread = msgs.filter(m => m.from !== 'me' && !m.read).length;
+      return { id, msgs, last, unread };
+    }).sort((a, b) => {
+      if (!a.last && !b.last) return 0;
+      if (!a.last) return 1;
+      if (!b.last) return -1;
+      return b.last.ts - a.last.ts;
+    });
+
+    body.innerHTML = convos.map(({ id, last, unread }) => {
+      const u = DISCOVER_USERS.find(x => x.id === id);
+      if (!u) return '';
+      const preview = last
+        ? (last.from === 'me' ? 'You: ' + last.text : last.text).slice(0, 48) + (last.text.length > 48 ? '…' : '')
+        : 'Start a conversation';
+      return `<div class="conv-item" onclick="openConversation('${id}')">
+        <div class="conv-av" style="background:${u.grad}">${u.initials}</div>
+        <div class="conv-info">
+          <div class="conv-name">${u.name}</div>
+          <div class="conv-preview${unread ? ' unread' : ''}">${preview}</div>
+        </div>
+        <div class="conv-meta">
+          ${last ? `<span class="conv-time">${relTime(last.ts)}</span>` : ''}
+          ${unread ? `<span class="conv-unread-dot"></span>` : ''}
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function renderThread(otherId) {
+    const u = DISCOVER_USERS.find(x => x.id === otherId);
+    if (!u) return;
+    const msgs = getMsgs(otherId);
+    const body = document.getElementById('chat-body');
+
+    body.innerHTML = `
+      <div class="thread-header" onclick="backToConvList()">
+        <span class="thread-back">‹</span>
+        <div class="conv-av" style="background:${u.grad};width:36px;height:36px;font-size:12px">${u.initials}</div>
+        <div>
+          <div style="font-size:13px;font-weight:700">${u.name}</div>
+          <div style="font-size:11px;color:var(--muted)">${u.badgeHtml}</div>
+        </div>
+      </div>
+      <div class="thread-messages" id="thread-messages">
+        ${msgs.length
+          ? msgs.map(m => `
+              <div class="msg-group ${m.from === 'me' ? 'mine' : 'theirs'}">
+                <div class="msg-bubble ${m.from === 'me' ? 'msg-mine' : 'msg-theirs'}">${m.text}</div>
+                <div class="msg-time">${relTime(m.ts)}</div>
+              </div>`).join('')
+          : `<div style="text-align:center;padding:28px 16px;color:var(--muted);font-size:12px">
+               Say hello to ${u.name.split(' ')[0]} 👋
+             </div>`}
+      </div>
+      <div class="thread-input-row">
+        <input class="thread-input" id="thread-input" placeholder="Write a message…"
+               onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg('${otherId}')}">
+        <button class="thread-send-btn" onclick="sendMsg('${otherId}')">➤</button>
+      </div>`;
+
+    const msgEl = document.getElementById('thread-messages');
+    if (msgEl) msgEl.scrollTop = msgEl.scrollHeight;
+    setTimeout(() => document.getElementById('thread-input')?.focus(), 50);
+  }
+
+  function sendMsg(otherId) {
+    const input = document.getElementById('thread-input');
+    if (!input) return;
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+
+    const msgs = getMsgs(otherId);
+    const isFirst = !msgs.some(m => m.from === 'me');
+    msgs.push({ from: 'me', text, ts: Date.now(), read: true });
+    saveMsgs(otherId, msgs);
+
+    // Persist to backend
+    apiPost('/api/messages', { conv_id: convId(otherId), sender_id: userId, receiver_id: otherId, content: text }).catch(() => {});
+
+    renderThread(otherId);
+
+    // Auto-reply
+    if (isFirst || Math.random() < 0.35) {
+      const pool = AUTO_REPLY_MAP[otherId] || ["Thanks for the message!", "Got it, will get back to you soon 🙌"];
+      const reply = pool[Math.floor(Math.random() * pool.length)];
+      const delay = 1400 + Math.random() * 2200;
+      setTimeout(() => {
+        const current = getMsgs(otherId);
+        const isActive = chatState.activeId === otherId && chatState.open;
+        current.push({ from: otherId, text: reply, ts: Date.now(), read: isActive });
+        saveMsgs(otherId, current);
+        if (isActive) renderThread(otherId);
+        updateChatBadge();
+        if (chatState.view === 'list' && chatState.open) renderConvList();
+        // Persist auto-reply
+        apiPost('/api/messages', { conv_id: convId(otherId), sender_id: otherId, receiver_id: userId, content: reply }).catch(() => {});
+      }, delay);
+    }
   }
 
   function goBackToNetwork() {
@@ -4173,6 +4556,23 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   // Init connections (seeds simulated requests on first visit) + update badges
   loadConnections();
   updateNotifBadges();
+  updateChatBadge();
 </script>
+<!-- ══════════════════════════════════════════
+     CHAT DRAWER (persistent, overlays all screens)
+══════════════════════════════════════════ -->
+<div id="chat-drawer" class="chat-drawer">
+  <div class="chat-header" onclick="toggleChat()">
+    <div class="chat-header-title">
+      💬 Messaging
+      <span class="chat-header-badge" id="chat-header-badge" style="display:none">0</span>
+    </div>
+    <div style="display:flex;gap:4px" onclick="event.stopPropagation()">
+      <button class="chat-icon-btn" title="Compose" onclick="openChat()">✏️</button>
+      <button class="chat-icon-btn" title="Close" onclick="closeChat()">✕</button>
+    </div>
+  </div>
+  <div class="chat-body" id="chat-body"></div>
+</div>
 </body>
 </html>
