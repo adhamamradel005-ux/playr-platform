@@ -1400,8 +1400,119 @@
       flex-shrink: 0;
     }
     .connect-btn:hover { background: var(--purple); color: white; }
-    .connect-btn.pending { border-color: var(--border); color: var(--muted); cursor: default; }
-    .connect-btn.pending:hover { background: transparent; color: var(--muted); }
+    .connect-btn.pending { border-color: var(--purple-lt); color: var(--purple-lt); }
+    .connect-btn.pending:hover { background: rgba(124,58,237,0.08); color: var(--purple-lt); }
+    .connect-btn.connected { border-color: #22c55e; color: #22c55e; cursor: default; }
+    .connect-btn.connected:hover { background: transparent; color: #22c55e; }
+
+    /* Notification badge on nav item */
+    .nav-badge-wrap { position: relative; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
+    .notif-badge {
+      position: absolute; top: -7px; right: -10px;
+      background: #ef4444; color: #fff;
+      min-width: 16px; height: 16px; border-radius: 999px;
+      font-size: 10px; font-weight: 800; padding: 0 3px;
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1;
+    }
+
+    /* ══════════════════════════════════════════
+       MY NETWORK PAGE
+    ══════════════════════════════════════════ */
+    #screen-my-network {
+      flex-direction: column;
+      align-items: stretch;
+      overflow-y: auto;
+    }
+    .my-network-body {
+      max-width: 920px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 24px 24px 48px;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .mn-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+    }
+    .mn-section-title {
+      font-size: 15px; font-weight: 800;
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .mn-empty { color: var(--muted); font-size: 13px; text-align: center; padding: 16px 0; }
+
+    /* Request cards (incoming/sent) */
+    .request-card {
+      display: flex; gap: 12px; align-items: center;
+      padding: 12px 0; border-bottom: 1px solid var(--border);
+    }
+    .request-card:last-child { border-bottom: none; padding-bottom: 0; }
+    .request-av {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700; color: #fff;
+      cursor: pointer; flex-shrink: 0;
+      transition: opacity 0.15s;
+    }
+    .request-av:hover { opacity: 0.8; }
+    .request-info { flex: 1; min-width: 0; }
+    .request-name {
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: color 0.15s; margin-bottom: 2px;
+    }
+    .request-name:hover { color: var(--purple-lt); }
+    .request-sub { font-size: 12px; color: var(--muted); }
+    .request-actions { display: flex; gap: 8px; flex-shrink: 0; }
+    .btn-accept {
+      background: var(--purple); color: #fff; border: none;
+      border-radius: 8px; padding: 7px 16px;
+      font-size: 12px; font-weight: 700; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .btn-accept:hover { opacity: 0.85; }
+    .btn-decline {
+      background: transparent; border: 1px solid var(--border);
+      border-radius: 8px; padding: 7px 12px;
+      font-size: 12px; color: var(--muted); cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-decline:hover { border-color: var(--purple); color: var(--purple-lt); }
+
+    /* Connection grid (accepted connections) */
+    .connections-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 12px;
+    }
+    .connection-card {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 14px; padding: 16px 12px;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; gap: 5px; cursor: pointer;
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .connection-card:hover { border-color: var(--purple); transform: translateY(-2px); }
+    .connection-av {
+      width: 52px; height: 52px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; font-weight: 700; color: #fff;
+      margin-bottom: 4px;
+    }
+    .connection-card-name { font-size: 13px; font-weight: 700; line-height: 1.3; }
+    .connection-card-meta { font-size: 11px; color: var(--muted); }
+
+    /* Suggestion row inside My Network */
+    .mn-suggestion-row {
+      display: flex; gap: 12px; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .mn-suggestion-row:last-child { border-bottom: none; }
 
     /* Light mode card shadows on network screen too */
     [data-theme="light"] .post-card,
@@ -1953,7 +2064,9 @@
 
     <nav class="network-nav">
       <div class="network-nav-item active">🏠 Home</div>
-      <div class="network-nav-item" onclick="showDiscover()">👥 My Network</div>
+      <div class="network-nav-item" onclick="showMyNetwork()">
+        <span class="nav-badge-wrap">👥 My Network<span class="notif-badge" id="feed-notif-badge" style="display:none">0</span></span>
+      </div>
       <div class="network-nav-item" onclick="showDiscover()">🔍 Scout Hub</div>
       <div class="network-nav-item">💼 Trials</div>
     </nav>
@@ -2048,6 +2161,7 @@
       <!-- Category filter bar -->
       <div class="feed-filters">
         <button class="filter-btn active" onclick="applyFilter('all', this)">All Posts</button>
+        <button class="filter-btn" onclick="applyFilter('network', this)">🔗 My Network</button>
         <button class="filter-btn" onclick="applyFilter('transfer', this)">Transfer News</button>
         <button class="filter-btn" onclick="applyFilter('trial', this)">Trial Announcements</button>
         <button class="filter-btn" onclick="applyFilter('scout', this)">Scout Alerts</button>
@@ -2058,7 +2172,7 @@
       <div id="network-feed-posts">
 
       <!-- Post 1 — Signing announcement (Player) -->
-      <div class="post-card" data-category="transfer">
+      <div class="post-card" data-category="transfer" data-user-id="kai_mensah">
         <div class="post-header">
           <div class="post-avatar user-link" style="background:linear-gradient(135deg,#7C3AED,#4c1d95)" onclick="showProfile('kai_mensah')">KM</div>
           <div class="post-author-info">
@@ -2095,7 +2209,7 @@ Huge thanks to my family, my coaches, and everyone who believed in me before I b
       </div>
 
       <!-- Post 2 — Scout looking for talent -->
-      <div class="post-card" data-category="scout">
+      <div class="post-card" data-category="scout" data-user-id="james_harrison">
         <div class="post-header">
           <div class="post-avatar user-link" style="background:linear-gradient(135deg,#d97706,#92400e)" onclick="showProfile('james_harrison')">JH</div>
           <div class="post-author-info">
@@ -2134,7 +2248,7 @@ If you or someone you know fits this profile — drop your highlight reel in the
       </div>
 
       <!-- Post 3 — Club trial announcement -->
-      <div class="post-card" data-category="trial">
+      <div class="post-card" data-category="trial" data-user-id="fc_velocity">
         <div class="post-header">
           <div class="post-avatar user-link" style="background:linear-gradient(135deg,#16a34a,#14532d)" onclick="showProfile('fc_velocity')">FV</div>
           <div class="post-author-info">
@@ -2179,7 +2293,7 @@ Apply via the link in our bio. Spaces are strictly limited.
       </div>
 
       <!-- Post 4 — Coach sharing a tip -->
-      <div class="post-card" data-category="coaching">
+      <div class="post-card" data-category="coaching" data-user-id="sarah_okonkwo">
         <div class="post-header">
           <div class="post-avatar user-link" style="background:linear-gradient(135deg,#2563eb,#1e40af)" onclick="showProfile('sarah_okonkwo')">SO</div>
           <div class="post-author-info">
@@ -2223,7 +2337,7 @@ What's your pre-match routine? Share it below 👇
       </div>
 
       <!-- Post 5 — Player update, free agent -->
-      <div class="post-card" data-category="transfer">
+      <div class="post-card" data-category="transfer" data-user-id="marcus_diallo">
         <div class="post-header">
           <div class="post-avatar user-link" style="background:linear-gradient(135deg,#7C3AED,#1e40af)" onclick="showProfile('marcus_diallo')">MD</div>
           <div class="post-author-info">
@@ -2335,7 +2449,9 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
     <nav class="network-nav">
       <div class="network-nav-item" onclick="goBackToNetwork()">🏠 Home</div>
-      <div class="network-nav-item" onclick="showDiscover()">👥 My Network</div>
+      <div class="network-nav-item" onclick="showMyNetwork()">
+        <span class="nav-badge-wrap">👥 My Network<span class="notif-badge" id="profile-notif-badge" style="display:none">0</span></span>
+      </div>
       <div class="network-nav-item" onclick="showDiscover()">🔍 Scout Hub</div>
       <div class="network-nav-item">💼 Trials</div>
     </nav>
@@ -2395,8 +2511,10 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
     <nav class="network-nav">
       <div class="network-nav-item" onclick="goBackToNetwork()">🏠 Home</div>
-      <div class="network-nav-item active">👥 My Network</div>
-      <div class="network-nav-item">🔍 Scout Hub</div>
+      <div class="network-nav-item active">
+        <span class="nav-badge-wrap">👥 My Network<span class="notif-badge" id="mn-notif-badge" style="display:none">0</span></span>
+      </div>
+      <div class="network-nav-item" onclick="showDiscover()">🔍 Scout Hub</div>
       <div class="network-nav-item">💼 Trials</div>
     </nav>
     <div class="network-topbar-actions">
@@ -2489,6 +2607,31 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
 
     </div>
   </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: MY NETWORK
+══════════════════════════════════════════ -->
+<div id="screen-my-network" class="screen">
+
+  <div class="network-topbar">
+    <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
+    <nav class="network-nav">
+      <div class="network-nav-item" onclick="goBackToNetwork()">🏠 Home</div>
+      <div class="network-nav-item active">
+        <span class="nav-badge-wrap">👥 My Network<span class="notif-badge" id="mnscreen-notif-badge" style="display:none">0</span></span>
+      </div>
+      <div class="network-nav-item" onclick="showDiscover()">🔍 Scout Hub</div>
+      <div class="network-nav-item">💼 Trials</div>
+    </nav>
+    <div class="network-topbar-actions">
+      <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
+      <button class="btn btn-ghost" onclick="goBackToNetwork()">← Feed</button>
+    </div>
+  </div>
+
+  <div class="my-network-body" id="my-network-body"></div>
+
 </div>
 
 <script>
@@ -3135,7 +3278,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
           <div class="person-sub">${p.badgeHtml} · ${p.sub}</div>
           <div class="person-sub" style="margin-top:3px">${p.mutual}</div>
         </div>
-        <button class="connect-btn" onclick="handleConnect(this)">+ Connect</button>
+        ${connBtnHtml(p.id || '')}
       </div>`).join('');
   }
 
@@ -3165,9 +3308,203 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     btn.textContent = isLiked ? '💜 Liked' : '👍 Like';
   }
 
-  function handleConnect(btn) {
-    btn.textContent = 'Pending';
-    btn.classList.add('pending');
+  // ─── CONNECTIONS SYSTEM ───
+  const SIMULATED_INCOMING = ['marcus_diallo', 'jamie_asante']; // pre-seeded requests
+
+  function loadConnections() {
+    try {
+      const raw = localStorage.getItem('playr_connections');
+      if (raw) return JSON.parse(raw);
+      // First visit: seed simulated incoming requests
+      const init = { sent: [], received: [...SIMULATED_INCOMING], connected: [] };
+      localStorage.setItem('playr_connections', JSON.stringify(init));
+      return init;
+    } catch { return { sent: [], received: [], connected: [] }; }
+  }
+
+  function saveConnections(c) {
+    localStorage.setItem('playr_connections', JSON.stringify(c));
+    updateNotifBadges();
+  }
+
+  function connStatus(id) {
+    const c = loadConnections();
+    if (c.connected.includes(id)) return 'connected';
+    if (c.sent.includes(id))      return 'pending';
+    if (c.received.includes(id))  return 'received';
+    return 'none';
+  }
+
+  function connBtnHtml(id) {
+    const s = connStatus(id);
+    if (s === 'connected') return `<button class="connect-btn connected" onclick="event.stopPropagation()" disabled>✓ Connected</button>`;
+    if (s === 'pending')   return `<button class="connect-btn pending"   onclick="event.stopPropagation();withdrawConnection('${id}',this)">Pending ✕</button>`;
+    if (s === 'received')  return `<button class="btn btn-primary"        onclick="event.stopPropagation();acceptConnection('${id}')" style="font-size:12px;padding:6px 14px">Accept</button>`;
+    return `<button class="connect-btn" onclick="event.stopPropagation();sendConnectionRequest('${id}',this)">+ Connect</button>`;
+  }
+
+  function sendConnectionRequest(id, btn) {
+    if (!id) return;
+    const c = loadConnections();
+    if (!c.sent.includes(id) && !c.connected.includes(id) && !c.received.includes(id)) {
+      c.sent.push(id);
+      saveConnections(c);
+    }
+    if (btn) {
+      btn.textContent = 'Pending ✕';
+      btn.classList.add('pending');
+      btn.onclick = (e) => { e.stopPropagation(); withdrawConnection(id, btn); };
+    }
+  }
+
+  function acceptConnection(id) {
+    const c = loadConnections();
+    c.received = c.received.filter(x => x !== id);
+    if (!c.connected.includes(id)) c.connected.push(id);
+    saveConnections(c);
+    if (document.getElementById('my-network-body').children.length) renderMyNetworkPage();
+  }
+
+  function declineConnection(id) {
+    const c = loadConnections();
+    c.received = c.received.filter(x => x !== id);
+    saveConnections(c);
+    if (document.getElementById('my-network-body').children.length) renderMyNetworkPage();
+  }
+
+  function withdrawConnection(id, btn) {
+    const c = loadConnections();
+    c.sent = c.sent.filter(x => x !== id);
+    saveConnections(c);
+    if (btn) {
+      btn.textContent = '+ Connect';
+      btn.classList.remove('pending');
+      btn.onclick = (e) => { e.stopPropagation(); sendConnectionRequest(id, btn); };
+    }
+  }
+
+  function updateNotifBadges() {
+    const c = loadConnections();
+    const count = c.received.length;
+    ['feed-notif-badge','profile-notif-badge','mn-notif-badge','mnscreen-notif-badge'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) { el.textContent = count; el.style.display = count > 0 ? 'flex' : 'none'; }
+    });
+  }
+
+  // ─── MY NETWORK PAGE ───
+  function showMyNetwork() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-my-network').classList.add('active');
+    document.getElementById('screen-my-network').scrollTop = 0;
+    renderMyNetworkPage();
+  }
+
+  function renderMyNetworkPage() {
+    const c = loadConnections();
+    const role = localStorage.getItem('playr_role') || 'player';
+
+    // ── Incoming requests
+    const incomingHtml = c.received.length
+      ? c.received.map(id => {
+          const u = DISCOVER_USERS.find(x => x.id === id);
+          if (!u) return '';
+          const p = PROFILES[id];
+          const sub = [u.position, u.nationality, u.location ? u.location.split(',')[0] : null].filter(Boolean).join(' · ');
+          return `<div class="request-card">
+            <div class="request-av" style="background:${u.grad}" onclick="showProfile('${id}')">${u.initials}</div>
+            <div class="request-info">
+              <div class="request-name" onclick="showProfile('${id}')">${u.name}</div>
+              <div class="request-sub">${u.badgeHtml} · ${sub}</div>
+              ${p ? `<div class="request-sub" style="margin-top:4px;color:var(--text);font-size:12px">"${p.bio.slice(0,80)}…"</div>` : ''}
+            </div>
+            <div class="request-actions">
+              <button class="btn-accept" onclick="acceptConnection('${id}')">Accept</button>
+              <button class="btn-decline" onclick="declineConnection('${id}')">✕</button>
+            </div>
+          </div>`;
+        }).join('')
+      : '<div class="mn-empty">No pending requests right now.</div>';
+
+    // ── Accepted connections
+    const connectedHtml = c.connected.length
+      ? `<div class="connections-grid">${c.connected.map(id => {
+          const u = DISCOVER_USERS.find(x => x.id === id);
+          if (!u) return '';
+          const metaParts = [u.position, u.nationality ? u.nationality : null].filter(Boolean);
+          return `<div class="connection-card" onclick="showProfile('${id}')">
+            <div class="connection-av" style="background:${u.grad}">${u.initials}</div>
+            <div class="connection-card-name">${u.name}</div>
+            <div style="margin:2px 0">${u.badgeHtml}</div>
+            ${metaParts.length ? `<div class="connection-card-meta">${metaParts.join(' · ')}</div>` : ''}
+          </div>`;
+        }).join('')}</div>`
+      : '<div class="mn-empty">Connect with scouts, players and coaches to see them here.</div>';
+
+    // ── Sent (pending) requests
+    const sentHtml = c.sent.length
+      ? c.sent.map(id => {
+          const u = DISCOVER_USERS.find(x => x.id === id);
+          if (!u) return '';
+          return `<div class="request-card">
+            <div class="request-av" style="background:${u.grad}" onclick="showProfile('${id}')">${u.initials}</div>
+            <div class="request-info">
+              <div class="request-name" onclick="showProfile('${id}')">${u.name}</div>
+              <div class="request-sub">${u.badgeHtml} · ${(u.location||'').split(',')[0]}</div>
+            </div>
+            <div class="request-actions">
+              <button class="btn-decline" onclick="withdrawConnection('${id}',this)">Withdraw</button>
+            </div>
+          </div>`;
+        }).join('')
+      : '<div class="mn-empty">No sent requests.</div>';
+
+    // ── Smart suggestions (not already connected/sent/received, matching role context)
+    const excludeIds = new Set([...c.sent, ...c.received, ...c.connected]);
+    const suggestPool = DISCOVER_USERS.filter(u => !excludeIds.has(u.id));
+
+    // Score: same position > same nationality > same broad role group
+    const myRoleGroup = { player: ['scout','club'], scout: ['player'], coach: ['player','club'], club: ['coach','scout','player'] }[role] || [];
+    const scored = suggestPool.map(u => {
+      let score = 0;
+      if (myRoleGroup.includes(u.role)) score += 3;
+      return { u, score };
+    }).sort((a, b) => b.score - a.score).slice(0, 6);
+
+    const suggestHtml = scored.length
+      ? scored.map(({ u }) => {
+          const meta = [u.position, u.nationality, u.location ? u.location.split(',')[0] : null].filter(Boolean).join(' · ');
+          return `<div class="mn-suggestion-row">
+            <div class="request-av" style="background:${u.grad}" onclick="showProfile('${u.id}')">${u.initials}</div>
+            <div class="request-info">
+              <div class="request-name" onclick="showProfile('${u.id}')">${u.name}</div>
+              <div class="request-sub">${u.badgeHtml}${meta ? ' · ' + meta : ''}</div>
+            </div>
+            ${connBtnHtml(u.id)}
+          </div>`;
+        }).join('')
+      : '<div class="mn-empty">You\'re connected to everyone! 🎉</div>';
+
+    document.getElementById('my-network-body').innerHTML = `
+      <div class="mn-section">
+        <div class="mn-section-title">📬 Connection Requests <span style="font-size:13px;font-weight:600;color:var(--purple-lt)">${c.received.length > 0 ? c.received.length + ' pending' : ''}</span></div>
+        ${incomingHtml}
+      </div>
+
+      <div class="mn-section">
+        <div class="mn-section-title">🔗 My Connections <span style="font-size:13px;font-weight:600;color:var(--muted)">${c.connected.length}</span></div>
+        ${connectedHtml}
+      </div>
+
+      ${c.sent.length ? `<div class="mn-section">
+        <div class="mn-section-title">📤 Sent Requests <span style="font-size:13px;font-weight:600;color:var(--muted)">${c.sent.length}</span></div>
+        ${sentHtml}
+      </div>` : ''}
+
+      <div class="mn-section">
+        <div class="mn-section-title">✨ Suggested for You</div>
+        ${suggestHtml}
+      </div>`;
   }
 
   // ─── POST FORM ───
@@ -3240,13 +3577,57 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     closePostForm();
   }
 
+  // Large styled connect button used on profile pages
+  function profileConnectBtn(id) {
+    const s = connStatus(id);
+    const base = 'style="padding:9px 22px;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s"';
+    if (s === 'connected') return `<button class="btn" ${base} style="padding:9px 22px;border-radius:10px;font-size:14px;font-weight:700;background:rgba(34,197,94,0.12);border:1.5px solid #22c55e;color:#22c55e;cursor:default">✓ Connected</button>`;
+    if (s === 'pending')   return `<button class="btn btn-ghost" ${base} onclick="withdrawConnection('${id}',this)">Pending ✕</button>`;
+    if (s === 'received')  return `<button class="btn btn-primary" ${base} onclick="acceptConnection('${id}')">Accept Request</button>`;
+    return `<button class="btn btn-primary" ${base} onclick="sendConnectionRequestFromProfile('${id}',this)">+ Connect</button>`;
+  }
+
+  function sendConnectionRequestFromProfile(id, btn) {
+    sendConnectionRequest(id, null);
+    // Re-render just the actions area
+    const wrap = document.getElementById('profile-connect-actions-' + id);
+    if (wrap) wrap.innerHTML = profileConnectBtn(id) + '<button class="btn btn-ghost" style="padding:9px 22px">✉️ Message</button>';
+  }
+
   // ─── FEED FILTER ───
   function applyFilter(category, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     if (btn) { btn.classList.add('active'); btn.dataset.filter = category; }
+    const connected = loadConnections().connected;
     document.querySelectorAll('#network-feed-posts .post-card').forEach(card => {
-      card.style.display = (category === 'all' || card.dataset.category === category) ? '' : 'none';
+      let show;
+      if (category === 'all') {
+        show = true;
+      } else if (category === 'network') {
+        const uid = card.dataset.userId;
+        show = !uid || connected.includes(uid); // show your own posts + connected users
+      } else {
+        show = card.dataset.category === category;
+      }
+      card.style.display = show ? '' : 'none';
     });
+    // If network filter shows nothing, show a helpful empty state
+    if (category === 'network') {
+      const visible = [...document.querySelectorAll('#network-feed-posts .post-card')].filter(c => c.style.display !== 'none');
+      const container = document.getElementById('network-feed-posts');
+      const existing = document.getElementById('network-empty-state');
+      if (existing) existing.remove();
+      if (!visible.length) {
+        const empty = document.createElement('div');
+        empty.id = 'network-empty-state';
+        empty.style.cssText = 'text-align:center;padding:40px 20px;color:var(--muted);font-size:14px';
+        empty.innerHTML = '<div style="font-size:32px;margin-bottom:12px">🔗</div>Connect with people on the platform to see their posts here.';
+        container.appendChild(empty);
+      }
+    } else {
+      const existing = document.getElementById('network-empty-state');
+      if (existing) existing.remove();
+    }
   }
 
   // ─── PROFILE DATA ───
@@ -3541,15 +3922,15 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
           <div style="margin-bottom:6px">${p.badgeHtml}</div>
           <div class="profile-page-location">${p.location}</div>
           <div class="profile-page-bio">${p.bio}</div>
-          <div class="profile-page-actions">
-            <button class="btn btn-primary" onclick="handleConnect(this)" style="padding:9px 22px">+ Connect</button>
+          <div class="profile-page-actions" id="profile-connect-actions-${id}">
+            ${profileConnectBtn(id)}
             <button class="btn btn-ghost" style="padding:9px 22px">✉️ Message</button>
           </div>
         </div>
         <div class="profile-page-stats">
           <div class="profile-page-stat">
             <span class="profile-page-stat-label">Connections</span>
-            <span class="profile-page-stat-value">${p.connections}</span>
+            <span class="profile-page-stat-value">${Number(p.connections) + (connStatus(id) === 'connected' ? 1 : 0)}</span>
           </div>
           <div class="profile-page-stat">
             <span class="profile-page-stat-label">Profile views</span>
@@ -3737,7 +4118,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
           <div style="margin:2px 0">${u.badgeHtml}</div>
           ${metaParts.length ? `<div class="discover-card-meta">${metaParts.join(' · ')}</div>` : ''}
           ${u.location ? `<div class="discover-card-location">📍 ${u.location.split(',')[0]}</div>` : ''}
-          <button class="connect-btn" onclick="event.stopPropagation();handleConnect(this)">+ Connect</button>
+          ${connBtnHtml(u.id)}
         </div>`;
     }).join('');
   }
@@ -3788,6 +4169,10 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
 
   // Sync toggle button icon with the theme applied by the head script
   applyTheme(document.documentElement.getAttribute('data-theme') || 'light');
+
+  // Init connections (seeds simulated requests on first visit) + update badges
+  loadConnections();
+  updateNotifBadges();
 </script>
 </body>
 </html>
