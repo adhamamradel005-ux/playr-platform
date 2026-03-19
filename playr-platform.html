@@ -1003,6 +1003,76 @@
     }
     .post-action-btn:hover { background: var(--bg-card2); color: var(--purple); }
 
+    /* Post form (expanded) */
+    .post-form { display: none; margin-top: 14px; border-top: 1px solid var(--border); padding-top: 14px; }
+    .post-form.open { display: block; }
+    .post-textarea {
+      width: 100%; min-height: 100px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 12px;
+      padding: 12px 14px; font-size: 14px; color: var(--text); font-family: inherit;
+      resize: vertical; outline: none; transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .post-textarea:focus { border-color: var(--purple); }
+    .post-url-input {
+      width: 100%; margin-top: 8px;
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 9px 12px; font-size: 13px; color: var(--text); font-family: inherit;
+      outline: none; transition: border-color 0.2s; box-sizing: border-box;
+    }
+    .post-url-input:focus { border-color: var(--purple); }
+    .post-form-footer { display: flex; align-items: center; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
+    .post-category-select {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 8px;
+      padding: 7px 10px; font-size: 13px; color: var(--text); outline: none;
+      cursor: pointer; flex: 1; min-width: 140px;
+    }
+    .post-submit-btn {
+      background: var(--purple); color: #fff;
+      border: none; border-radius: 8px; padding: 8px 20px;
+      font-size: 13px; font-weight: 700; cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .post-submit-btn:hover { opacity: 0.85; }
+    .post-cancel-btn {
+      background: transparent; border: 1px solid var(--border); border-radius: 8px;
+      padding: 8px 14px; font-size: 13px; color: var(--muted); cursor: pointer;
+      transition: border-color 0.2s;
+    }
+    .post-cancel-btn:hover { border-color: var(--purple); color: var(--purple); }
+    .post-embed { margin-top: 12px; border-radius: 12px; overflow: hidden; }
+    .post-embed iframe { width: 100%; height: 220px; border: none; display: block; }
+    .post-embed img { width: 100%; border-radius: 12px; display: block; max-height: 320px; object-fit: cover; }
+
+    /* Feed filter bar */
+    .feed-filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 7px 16px; border-radius: 999px;
+      border: 1px solid var(--border); background: var(--bg-card);
+      color: var(--muted); font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.18s; white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: var(--purple); color: var(--purple); }
+    .filter-btn.active { background: var(--purple); border-color: var(--purple); color: #fff; }
+
+    /* User-created posts animation */
+    @keyframes postSlideIn {
+      from { opacity: 0; transform: translateY(-12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .post-new { animation: postSlideIn 0.3s ease; }
+
+    /* News section */
+    .news-item { display: flex; flex-direction: column; gap: 2px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+    .news-item:last-child { border-bottom: none; }
+    .news-headline {
+      font-size: 13px; font-weight: 600; color: var(--text);
+      text-decoration: none; line-height: 1.4;
+      transition: color 0.15s;
+    }
+    .news-headline:hover { color: var(--purple-lt); }
+    .news-source { font-size: 11px; color: var(--muted); }
+
     /* Post card */
     .post-card {
       background: var(--bg-card);
@@ -1494,18 +1564,46 @@
       <div class="start-post-box">
         <div class="start-post-row">
           <div class="post-avatar" style="background:var(--purple);width:40px;height:40px;font-size:15px">A</div>
-          <div class="start-post-input">Start a post, share an update...</div>
+          <div class="start-post-input" onclick="openPostForm()">Start a post, share an update...</div>
         </div>
         <div class="start-post-actions">
-          <div class="post-action-btn">📷 Photo</div>
-          <div class="post-action-btn">🎬 Video</div>
-          <div class="post-action-btn">📝 Article</div>
-          <div class="post-action-btn">⚽ Highlight</div>
+          <div class="post-action-btn" onclick="openPostForm()">📷 Photo</div>
+          <div class="post-action-btn" onclick="openPostForm()">🎬 Video</div>
+          <div class="post-action-btn" onclick="openPostForm()">📝 Article</div>
+          <div class="post-action-btn" onclick="openPostForm()">⚽ Highlight</div>
+        </div>
+        <!-- Expanded post form -->
+        <div class="post-form" id="post-form">
+          <textarea class="post-textarea" id="post-textarea" placeholder="What's on your mind?"></textarea>
+          <input class="post-url-input" id="post-url-input" type="url" placeholder="YouTube link or image URL (optional)">
+          <div class="post-form-footer">
+            <select class="post-category-select" id="post-category-select">
+              <option value="all">All Posts</option>
+              <option value="transfer">Transfer News</option>
+              <option value="trial">Trial Announcements</option>
+              <option value="scout">Scout Alerts</option>
+              <option value="coaching">Coaching Tips</option>
+            </select>
+            <button class="post-cancel-btn" onclick="closePostForm()">Cancel</button>
+            <button class="post-submit-btn" onclick="submitPost()">Post</button>
+          </div>
         </div>
       </div>
 
+      <!-- Category filter bar -->
+      <div class="feed-filters">
+        <button class="filter-btn active" onclick="applyFilter('all', this)">All Posts</button>
+        <button class="filter-btn" onclick="applyFilter('transfer', this)">Transfer News</button>
+        <button class="filter-btn" onclick="applyFilter('trial', this)">Trial Announcements</button>
+        <button class="filter-btn" onclick="applyFilter('scout', this)">Scout Alerts</button>
+        <button class="filter-btn" onclick="applyFilter('coaching', this)">Coaching Tips</button>
+      </div>
+
+      <!-- Feed posts container -->
+      <div id="network-feed-posts">
+
       <!-- Post 1 — Signing announcement (Player) -->
-      <div class="post-card">
+      <div class="post-card" data-category="transfer">
         <div class="post-header">
           <div class="post-avatar" style="background:linear-gradient(135deg,#7C3AED,#4c1d95)">KM</div>
           <div class="post-author-info">
@@ -1542,7 +1640,7 @@ Huge thanks to my family, my coaches, and everyone who believed in me before I b
       </div>
 
       <!-- Post 2 — Scout looking for talent -->
-      <div class="post-card">
+      <div class="post-card" data-category="scout">
         <div class="post-header">
           <div class="post-avatar" style="background:linear-gradient(135deg,#d97706,#92400e)">JH</div>
           <div class="post-author-info">
@@ -1581,7 +1679,7 @@ If you or someone you know fits this profile — drop your highlight reel in the
       </div>
 
       <!-- Post 3 — Club trial announcement -->
-      <div class="post-card">
+      <div class="post-card" data-category="trial">
         <div class="post-header">
           <div class="post-avatar" style="background:linear-gradient(135deg,#16a34a,#14532d)">FV</div>
           <div class="post-author-info">
@@ -1626,7 +1724,7 @@ Apply via the link in our bio. Spaces are strictly limited.
       </div>
 
       <!-- Post 4 — Coach sharing a tip -->
-      <div class="post-card">
+      <div class="post-card" data-category="coaching">
         <div class="post-header">
           <div class="post-avatar" style="background:linear-gradient(135deg,#2563eb,#1e40af)">SO</div>
           <div class="post-author-info">
@@ -1670,7 +1768,7 @@ What's your pre-match routine? Share it below 👇
       </div>
 
       <!-- Post 5 — Player update, free agent -->
-      <div class="post-card">
+      <div class="post-card" data-category="transfer">
         <div class="post-header">
           <div class="post-avatar" style="background:linear-gradient(135deg,#7C3AED,#1e40af)">MD</div>
           <div class="post-author-info">
@@ -1705,6 +1803,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
           <div class="post-react-btn">📤 Share</div>
         </div>
       </div>
+
+      </div><!-- #network-feed-posts -->
 
     </main>
 
@@ -1765,6 +1865,32 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
         </div>
 
         <div style="margin-top:14px;text-align:center;font-size:13px;color:var(--purple-lt);cursor:pointer">Show all recommendations →</div>
+      </div>
+
+      <div class="people-card">
+        <div class="people-card-title">⚽ Football News</div>
+        <div style="display:flex;flex-direction:column">
+          <div class="news-item">
+            <a class="news-headline" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener">England secure top spot with dominant Nations League display</a>
+            <span class="news-source">BBC Sport · 1h ago</span>
+          </div>
+          <div class="news-item">
+            <a class="news-headline" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener">Champions League quarter-final draw: who plays who?</a>
+            <span class="news-source">BBC Sport · 3h ago</span>
+          </div>
+          <div class="news-item">
+            <a class="news-headline" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener">Premier League title race heats up with five games to go</a>
+            <span class="news-source">BBC Sport · 5h ago</span>
+          </div>
+          <div class="news-item">
+            <a class="news-headline" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener">Young African stars shaking up European football this season</a>
+            <span class="news-source">BBC Sport · Yesterday</span>
+          </div>
+          <div class="news-item">
+            <a class="news-headline" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener">Summer transfer window: clubs already eyeing free agents</a>
+            <span class="news-source">BBC Sport · Yesterday</span>
+          </div>
+        </div>
       </div>
 
       <div class="people-card">
@@ -2378,6 +2504,85 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   function handleConnect(btn) {
     btn.textContent = 'Pending';
     btn.classList.add('pending');
+  }
+
+  // ─── POST FORM ───
+  function openPostForm() {
+    document.getElementById('post-form').classList.add('open');
+    document.getElementById('post-textarea').focus();
+  }
+
+  function closePostForm() {
+    document.getElementById('post-form').classList.remove('open');
+    document.getElementById('post-textarea').value = '';
+    document.getElementById('post-url-input').value = '';
+    document.getElementById('post-category-select').value = 'all';
+  }
+
+  function submitPost() {
+    const text = document.getElementById('post-textarea').value.trim();
+    if (!text) return;
+    const url = document.getElementById('post-url-input').value.trim();
+    const category = document.getElementById('post-category-select').value;
+    const categoryLabels = {
+      all: 'All Posts', transfer: 'Transfer News',
+      trial: 'Trial Announcements', scout: 'Scout Alerts', coaching: 'Coaching Tips'
+    };
+
+    let embedHtml = '';
+    if (url) {
+      const ytId = extractYouTubeId(url);
+      if (ytId) {
+        embedHtml = `<div class="post-embed"><iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe></div>`;
+      } else {
+        embedHtml = `<div class="post-embed"><img src="${url.replace(/"/g, '')}" alt="Post image" onerror="this.style.display='none'"></div>`;
+      }
+    }
+
+    const card = document.createElement('div');
+    card.className = 'post-card post-new';
+    card.dataset.category = category;
+    card.innerHTML = `
+      <div class="post-header">
+        <div class="post-avatar" style="background:var(--purple);font-size:15px">A</div>
+        <div class="post-author-info">
+          <div class="post-author-name">You <span class="role-badge role-player">⚽ Player</span></div>
+          <div class="post-author-sub">${categoryLabels[category]}</div>
+          <div class="post-timestamp">Just now · 🌍</div>
+        </div>
+        <div class="post-more">···</div>
+      </div>
+      <div class="post-text">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}</div>
+      ${embedHtml}
+      <div class="post-stats"><span>👍 0 likes</span><span>0 comments</span></div>
+      <div class="post-divider"></div>
+      <div class="post-footer">
+        <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
+        <div class="post-react-btn">💬 Comment</div>
+        <div class="post-react-btn">🔁 Repost</div>
+        <div class="post-react-btn">📤 Share</div>
+      </div>`;
+
+    const container = document.getElementById('network-feed-posts');
+    container.insertBefore(card, container.firstChild);
+
+    // Apply current filter to new post
+    const activeFilter = document.querySelector('.filter-btn.active');
+    if (activeFilter) {
+      const current = activeFilter.dataset.filter || 'all';
+      if (current !== 'all' && category !== current) card.style.display = 'none';
+    }
+
+    closePostForm();
+  }
+
+  // ─── FEED FILTER ───
+  function applyFilter(category, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btn) { btn.classList.add('active'); btn.dataset.filter = category; }
+    document.querySelectorAll('#network-feed-posts .post-card').forEach(card => {
+      card.style.display = (category === 'all' || card.dataset.category === category) ? '' : 'none';
+    });
   }
 
   function goToEntry() {
