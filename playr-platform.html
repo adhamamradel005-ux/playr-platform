@@ -818,6 +818,157 @@
     .waitlist-success.visible { display: flex; }
     .waitlist-success-icon { font-size: 20px; flex-shrink: 0; }
 
+    /* ══════════════════════════════════════════
+       PROFILE PAGE
+    ══════════════════════════════════════════ */
+    #screen-profile {
+      justify-content: flex-start;
+      align-items: stretch;
+      overflow-y: auto;
+      flex-direction: column;
+    }
+    .profile-cover {
+      height: 190px;
+      border-radius: 16px 16px 0 0;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .profile-photo-wrap {
+      position: absolute;
+      bottom: -44px;
+      left: 24px;
+    }
+    .profile-photo {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      border: 4px solid var(--bg-card);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 30px; font-weight: 800; color: #fff;
+      cursor: pointer;
+    }
+    .profile-page-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .profile-page-body {
+      padding: 54px 24px 20px;
+    }
+    .profile-page-name {
+      font-size: 22px; font-weight: 800; letter-spacing: -0.3px;
+      margin-bottom: 6px; cursor: default;
+    }
+    .profile-page-location {
+      font-size: 13px; color: var(--muted); margin: 6px 0 12px;
+    }
+    .profile-page-bio {
+      font-size: 14px; line-height: 1.75; color: var(--text); margin-bottom: 18px;
+    }
+    .profile-page-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+    .profile-page-stats {
+      display: flex; gap: 0;
+      border-top: 1px solid var(--border);
+      padding: 14px 24px; gap: 28px;
+      flex-wrap: wrap;
+    }
+    .profile-page-stat { display: flex; flex-direction: column; gap: 2px; }
+    .profile-page-stat-label { font-size: 11px; color: var(--muted); }
+    .profile-page-stat-value { font-size: 16px; font-weight: 800; color: var(--purple-lt); }
+
+    /* Section cards */
+    .profile-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 22px 24px;
+      margin-bottom: 14px;
+    }
+    .profile-section-title {
+      font-size: 15px; font-weight: 800;
+      margin-bottom: 18px;
+      display: flex; align-items: center; gap: 8px;
+    }
+
+    /* Career timeline */
+    .timeline { display: flex; flex-direction: column; }
+    .timeline-item { display: flex; gap: 14px; padding-bottom: 20px; }
+    .timeline-item:last-child { padding-bottom: 0; }
+    .timeline-left { display: flex; flex-direction: column; align-items: center; flex-shrink: 0; }
+    .timeline-dot {
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--purple); margin-top: 3px; flex-shrink: 0;
+    }
+    .timeline-dot.current {
+      background: #22c55e;
+      box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+    }
+    .timeline-line { width: 2px; flex: 1; background: var(--border); margin-top: 6px; min-height: 16px; }
+    .timeline-item:last-child .timeline-line { display: none; }
+    .timeline-club { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+    .timeline-role-text { font-size: 13px; color: var(--muted); margin-bottom: 2px; }
+    .timeline-dates { font-size: 12px; color: var(--purple-lt); font-weight: 600; }
+
+    /* Stats & achievements */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
+    }
+    .stat-box {
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px 16px; text-align: center;
+    }
+    .stat-box-value { font-size: 26px; font-weight: 900; color: var(--purple-lt); margin-bottom: 4px; }
+    .stat-box-label { font-size: 12px; color: var(--muted); }
+
+    /* Highlight reel */
+    .highlight-list { display: flex; flex-direction: column; gap: 14px; }
+    .highlight-frame { border-radius: 12px; overflow: hidden; }
+    .highlight-frame iframe { width: 100%; height: 215px; border: none; display: block; }
+    .highlight-label { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+    /* Certs */
+    .cert-list { display: flex; flex-direction: column; gap: 10px; }
+    .cert-item {
+      display: flex; gap: 14px; align-items: flex-start;
+      background: var(--bg); border: 1px solid var(--border);
+      border-radius: 12px; padding: 12px 14px;
+    }
+    .cert-icon { font-size: 26px; flex-shrink: 0; }
+    .cert-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+    .cert-org { font-size: 12px; color: var(--muted); }
+
+    /* Recent posts on profile */
+    .profile-mini-post {
+      border: 1px solid var(--border); border-radius: 12px;
+      padding: 14px 16px; margin-bottom: 10px; background: var(--bg);
+    }
+    .profile-mini-post:last-child { margin-bottom: 0; }
+    .profile-mini-post-ts { font-size: 11px; color: var(--muted); margin-bottom: 8px; }
+    .profile-mini-post-text { font-size: 13px; line-height: 1.65; color: var(--text); }
+
+    /* Profile page right sidebar: people also viewed */
+    .also-viewed-item {
+      display: flex; gap: 10px; align-items: center;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+      cursor: pointer; transition: opacity 0.15s;
+    }
+    .also-viewed-item:hover { opacity: 0.75; }
+    .also-viewed-item:last-child { border-bottom: none; }
+    .also-viewed-av {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0;
+    }
+    .also-viewed-name { font-size: 13px; font-weight: 600; margin-bottom: 1px; }
+    .also-viewed-sub { font-size: 11px; color: var(--muted); }
+
+    /* Clickable user links in feed */
+    .user-link {
+      cursor: pointer; transition: color 0.15s;
+    }
+    .user-link:hover { color: var(--purple-lt); }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 900px) {
       .entry-paths { flex-direction: column; }
@@ -1729,10 +1880,10 @@
       <!-- Post 1 — Signing announcement (Player) -->
       <div class="post-card" data-category="transfer">
         <div class="post-header">
-          <div class="post-avatar" style="background:linear-gradient(135deg,#7C3AED,#4c1d95)">KM</div>
+          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#7C3AED,#4c1d95)" onclick="showProfile('kai_mensah')">KM</div>
           <div class="post-author-info">
             <div class="post-author-name">
-              Kai Mensah
+              <span class="user-link" onclick="showProfile('kai_mensah')">Kai Mensah</span>
               <span class="role-badge role-player">⚽ Player</span>
             </div>
             <div class="post-author-sub">Striker · FC Velocity Academy · 🇬🇭 Ghanaian</div>
@@ -1766,10 +1917,10 @@ Huge thanks to my family, my coaches, and everyone who believed in me before I b
       <!-- Post 2 — Scout looking for talent -->
       <div class="post-card" data-category="scout">
         <div class="post-header">
-          <div class="post-avatar" style="background:linear-gradient(135deg,#d97706,#92400e)">JH</div>
+          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#d97706,#92400e)" onclick="showProfile('james_harrison')">JH</div>
           <div class="post-author-info">
             <div class="post-author-name">
-              James Harrison
+              <span class="user-link" onclick="showProfile('james_harrison')">James Harrison</span>
               <span class="role-badge role-scout">🔍 Scout</span>
             </div>
             <div class="post-author-sub">Senior Scout · Premier League Affiliated</div>
@@ -1805,10 +1956,10 @@ If you or someone you know fits this profile — drop your highlight reel in the
       <!-- Post 3 — Club trial announcement -->
       <div class="post-card" data-category="trial">
         <div class="post-header">
-          <div class="post-avatar" style="background:linear-gradient(135deg,#16a34a,#14532d)">FV</div>
+          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#16a34a,#14532d)" onclick="showProfile('fc_velocity')">FV</div>
           <div class="post-author-info">
             <div class="post-author-name">
-              FC Velocity Academy
+              <span class="user-link" onclick="showProfile('fc_velocity')">FC Velocity Academy</span>
               <span class="role-badge role-club">🏟️ Club</span>
             </div>
             <div class="post-author-sub">Professional Academy · Verified Club</div>
@@ -1850,10 +2001,10 @@ Apply via the link in our bio. Spaces are strictly limited.
       <!-- Post 4 — Coach sharing a tip -->
       <div class="post-card" data-category="coaching">
         <div class="post-header">
-          <div class="post-avatar" style="background:linear-gradient(135deg,#2563eb,#1e40af)">SO</div>
+          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#2563eb,#1e40af)" onclick="showProfile('sarah_okonkwo')">SO</div>
           <div class="post-author-info">
             <div class="post-author-name">
-              Sarah Okonkwo
+              <span class="user-link" onclick="showProfile('sarah_okonkwo')">Sarah Okonkwo</span>
               <span class="role-badge role-coach">🎯 Coach</span>
             </div>
             <div class="post-author-sub">UEFA A Licensed · Sports Psychologist</div>
@@ -1894,10 +2045,10 @@ What's your pre-match routine? Share it below 👇
       <!-- Post 5 — Player update, free agent -->
       <div class="post-card" data-category="transfer">
         <div class="post-header">
-          <div class="post-avatar" style="background:linear-gradient(135deg,#7C3AED,#1e40af)">MD</div>
+          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#7C3AED,#1e40af)" onclick="showProfile('marcus_diallo')">MD</div>
           <div class="post-author-info">
             <div class="post-author-name">
-              Marcus Diallo
+              <span class="user-link" onclick="showProfile('marcus_diallo')">Marcus Diallo</span>
               <span class="role-badge role-player">⚽ Player</span>
             </div>
             <div class="post-author-sub">Central Midfielder · Free Agent · 🇫🇷 French</div>
@@ -1989,6 +2140,67 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
         </div>
       </div>
 
+    </aside>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: PROFILE PAGE
+══════════════════════════════════════════ -->
+<div id="screen-profile" class="screen">
+
+  <!-- Top navigation bar (reused) -->
+  <div class="network-topbar">
+    <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
+    <nav class="network-nav">
+      <div class="network-nav-item" onclick="goBackToNetwork()">🏠 Home</div>
+      <div class="network-nav-item">👥 My Network</div>
+      <div class="network-nav-item">🔍 Scout Hub</div>
+      <div class="network-nav-item">💼 Trials</div>
+    </nav>
+    <div class="network-topbar-actions">
+      <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
+      <button class="btn btn-ghost" onclick="goBackToNetwork()">← Feed</button>
+    </div>
+  </div>
+
+  <!-- 3-column layout -->
+  <div class="network-feed-layout">
+
+    <!-- LEFT: logged-in user mini card -->
+    <aside class="network-left">
+      <div class="profile-card">
+        <div class="profile-card-banner"></div>
+        <div class="profile-card-body">
+          <div class="profile-avatar-wrap">
+            <div class="profile-avatar" id="ps-avatar">A</div>
+          </div>
+          <div class="profile-name" id="ps-name">You</div>
+          <div style="margin-bottom:8px" id="ps-badge">
+            <span class="role-badge role-player">⚽ Player</span>
+          </div>
+          <div class="profile-meta" id="ps-meta">Open to opportunities</div>
+          <div class="profile-stats">
+            <div class="profile-stat-row"><span>Profile views</span><span class="profile-stat-val">142</span></div>
+            <div class="profile-stat-row"><span>Connections</span><span class="profile-stat-val">87</span></div>
+            <div class="profile-stat-row"><span>Post impressions</span><span class="profile-stat-val">1.2k</span></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- CENTER: dynamic profile content -->
+    <main class="network-feed">
+      <div id="profile-page-content"></div>
+    </main>
+
+    <!-- RIGHT: people also viewed -->
+    <aside class="network-right">
+      <div class="people-card" id="profile-also-viewed">
+        <div class="people-card-title">People also viewed</div>
+        <div id="profile-also-viewed-list"></div>
+      </div>
     </aside>
 
   </div>
@@ -2571,11 +2783,11 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       meta: 'Open to opportunities',
       suggestionsTitle: 'Scouts & Clubs looking for talent',
       suggestions: [
-        { initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>', sub: 'Premier League Affiliated', mutual: '8 mutual connections' },
-        { initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>', sub: 'Senior Scout', mutual: '14 mutual connections' },
-        { initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy', badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>', sub: 'Verified Club', mutual: '3 mutual connections' },
-        { initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo', badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'UEFA A Licensed', mutual: '6 mutual connections' },
-        { initials: 'RM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Ryan Morris', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>', sub: 'Championship Scout', mutual: '11 mutual connections' },
+        { id: 'lisa_chen',      initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen',          badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Premier League Affiliated',  mutual: '8 mutual connections' },
+        { id: 'james_harrison', initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison',    badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Senior Scout',               mutual: '14 mutual connections' },
+        { id: 'fc_velocity',    initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy',badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',   sub: 'Verified Club',              mutual: '3 mutual connections' },
+        { id: 'sarah_okonkwo', initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo',    badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'UEFA A Licensed',            mutual: '6 mutual connections' },
+        { id: 'ryan_morris',   initials: 'RM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Ryan Morris',      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Championship Scout',         mutual: '11 mutual connections' },
       ]
     },
     scout: {
@@ -2583,11 +2795,11 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       meta: 'Scouting for talent',
       suggestionsTitle: 'Players on your radar',
       suggestions: [
-        { initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · FC Velocity', mutual: '5 mutual connections' },
-        { initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)', name: 'Marcus Diallo', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Central Midfielder · Free Agent', mutual: '9 mutual connections' },
-        { initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇸🇳 Senegalese', mutual: '7 mutual connections' },
-        { initials: 'JA', grad: 'linear-gradient(135deg,#7C3AED,#6d28d9)', name: 'Jamie Asante', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Winger · U21', mutual: '12 mutual connections' },
-        { initials: 'RB', grad: 'linear-gradient(135deg,#2563eb,#1d4ed8)', name: 'Rayan Bouzid', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · 🇫🇷 French', mutual: '4 mutual connections' },
+        { id: 'kai_mensah',    initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah',    badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · FC Velocity',             mutual: '5 mutual connections' },
+        { id: 'marcus_diallo', initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)', name: 'Marcus Diallo', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Central Midfielder · Free Agent',   mutual: '9 mutual connections' },
+        { id: 'amara_toure',   initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré',   badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇸🇳 Senegalese',          mutual: '7 mutual connections' },
+        { id: 'jamie_asante',  initials: 'JA', grad: 'linear-gradient(135deg,#7C3AED,#6d28d9)', name: 'Jamie Asante',  badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Winger · U21',                      mutual: '12 mutual connections' },
+        { id: 'rayan_bouzid',  initials: 'RB', grad: 'linear-gradient(135deg,#2563eb,#1d4ed8)', name: 'Rayan Bouzid',  badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · 🇫🇷 French',                   mutual: '4 mutual connections' },
       ]
     },
     coach: {
@@ -2595,11 +2807,11 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       meta: 'UEFA Licensed · Available for roles',
       suggestionsTitle: 'Clubs & Players to connect with',
       suggestions: [
-        { initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy', badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>', sub: 'Verified Academy Club', mutual: '4 mutual connections' },
-        { initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei', badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'Academy Coach', mutual: '7 mutual connections' },
-        { initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Seeking coaching', mutual: '3 mutual connections' },
-        { initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>', sub: 'PL Scout · Talent network', mutual: '6 mutual connections' },
-        { initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)', name: 'Marcus Diallo', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · Free Agent', mutual: '2 mutual connections' },
+        { id: 'fc_velocity',   initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy', badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',   sub: 'Verified Academy Club',     mutual: '4 mutual connections' },
+        { id: 'david_osei',    initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei',         badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'Academy Coach',             mutual: '7 mutual connections' },
+        { id: 'kai_mensah',    initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah',         badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Seeking coaching', mutual: '3 mutual connections' },
+        { id: 'lisa_chen',     initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen',          badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'PL Scout · Talent network', mutual: '6 mutual connections' },
+        { id: 'marcus_diallo', initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)', name: 'Marcus Diallo',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · Free Agent',           mutual: '2 mutual connections' },
       ]
     },
     club: {
@@ -2607,26 +2819,34 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       meta: 'Official Club Page · Verified',
       suggestionsTitle: 'Players & Staff to recruit',
       suggestions: [
-        { initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>', sub: 'Senior Scout · Available', mutual: '10 mutual connections' },
-        { initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo', badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'UEFA A · Sports Psychologist', mutual: '8 mutual connections' },
-        { initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇬🇭 Ghanaian', mutual: '5 mutual connections' },
-        { initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Free Agent', mutual: '3 mutual connections' },
-        { initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei', badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'Academy Coach · 🇬🇭 Ghanaian', mutual: '7 mutual connections' },
+        { id: 'james_harrison', initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Senior Scout · Available',        mutual: '10 mutual connections' },
+        { id: 'sarah_okonkwo',  initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo',  badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'UEFA A · Sports Psychologist',    mutual: '8 mutual connections' },
+        { id: 'kai_mensah',     initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇬🇭 Ghanaian',          mutual: '5 mutual connections' },
+        { id: 'amara_toure',    initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré',    badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Free Agent',           mutual: '3 mutual connections' },
+        { id: 'david_osei',     initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei',     badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'Academy Coach · 🇬🇭 Ghanaian',   mutual: '7 mutual connections' },
       ]
     }
   };
 
   function renderNetworkProfile(role) {
     const meta = ROLE_META[role] || ROLE_META.player;
+    // Network feed sidebar
     document.getElementById('network-profile-badge').innerHTML = meta.badge;
     document.getElementById('network-profile-meta').innerHTML = meta.meta;
+    // Profile screen sidebar (same data)
+    if (document.getElementById('ps-badge')) {
+      document.getElementById('ps-badge').innerHTML = meta.badge;
+      document.getElementById('ps-meta').innerHTML = meta.meta;
+    }
     // Suggestions
     document.getElementById('suggestions-title').textContent = meta.suggestionsTitle;
     document.getElementById('suggestions-list').innerHTML = meta.suggestions.map(p => `
       <div class="person-row">
-        <div class="person-avatar" style="background:${p.grad}">${p.initials}</div>
+        <div class="person-avatar user-link" style="background:${p.grad}" onclick="showProfile('${p.id || ''}')">
+          ${p.initials}
+        </div>
         <div class="person-info">
-          <div class="person-name">${p.name}</div>
+          <div class="person-name user-link" onclick="showProfile('${p.id || ''}')">${p.name}</div>
           <div class="person-sub">${p.badgeHtml} · ${p.sub}</div>
           <div class="person-sub" style="margin-top:3px">${p.mutual}</div>
         </div>
@@ -2742,6 +2962,354 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     document.querySelectorAll('#network-feed-posts .post-card').forEach(card => {
       card.style.display = (category === 'all' || card.dataset.category === category) ? '' : 'none';
     });
+  }
+
+  // ─── PROFILE DATA ───
+  const PROFILES = {
+    kai_mensah: {
+      initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)',
+      cover: 'linear-gradient(135deg,#1a0a2e 0%,#4c1d95 60%,#7C3AED 100%)',
+      name: 'Kai Mensah', role: 'player',
+      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
+      location: '📍 Manchester, England', connections: '247', views: '1.4k', impressions: '8.3k',
+      bio: 'Professional footballer recently signed with FC Velocity\'s first team. After two years in the academy and multiple setbacks — two injuries, one release — I\'m here to prove what I\'m capable of. Mental strength is the edge nobody talks about.',
+      career: [
+        { club: 'FC Velocity', role: 'First Team Striker', dates: '2026 — Present', current: true },
+        { club: 'FC Velocity Academy', role: 'Academy Striker', dates: '2024 — 2026', current: false },
+        { club: 'Ashford United FC', role: 'Youth Striker', dates: '2022 — 2024', current: false },
+      ],
+      stats: [{ label: 'Goals (24/25)', value: '18' }, { label: 'Assists', value: '7' }, { label: 'Appearances', value: '31' }, { label: 'Sprint Speed', value: '33 km/h' }],
+      highlights: [{ title: '2024/25 Season Highlight Reel', ytId: 'dQw4w9WgXcQ' }],
+      certs: [],
+      posts: [
+        { ts: '2h ago', text: '🚀 Incredibly excited to announce that I\'ve signed my first professional contract!\n\nAfter two years in the academy and a lot of hard work — I\'m officially joining FC Velocity\'s first team for next season. To every young player grinding right now: keep going. The breakthrough comes. 🙏' },
+      ],
+      alsoViewed: ['marcus_diallo', 'amara_toure', 'jamie_asante'],
+    },
+    james_harrison: {
+      initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)',
+      cover: 'linear-gradient(135deg,#1a0f00 0%,#92400e 60%,#d97706 100%)',
+      name: 'James Harrison', role: 'scout',
+      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',
+      location: '📍 Manchester, England', connections: '612', views: '3.1k', impressions: '21k',
+      bio: 'Senior Scout with 12 years\' experience across the Football League and Premier League affiliates. Specialist in identifying technical midfielders and technically proficient wingers aged 16–23. I watch every clip sent to me.',
+      career: [
+        { club: 'Premier League Affiliate Club', role: 'Senior Scout', dates: '2021 — Present', current: true },
+        { club: 'Championship Club', role: 'Regional Scout – North West', dates: '2017 — 2021', current: false },
+        { club: 'League One Club', role: 'Academy Scout', dates: '2013 — 2017', current: false },
+      ],
+      stats: [{ label: 'Players Signed', value: '34' }, { label: 'Clubs Worked With', value: '6' }, { label: 'Reports Filed', value: '1.2k' }, { label: 'Years Experience', value: '12' }],
+      highlights: [],
+      certs: [{ icon: '📋', name: 'UEFA Scouting Certificate', org: 'UEFA · 2019' }, { icon: '🏆', name: 'FA Talent ID Level 2', org: 'The Football Association · 2015' }],
+      posts: [
+        { ts: '4h ago', text: '🔍 TALENT SEARCH | Currently scouting for our regional programme. Looking for attacking midfielders & wingers, aged 16–21. High work rate and coachability are non-negotiable. DM your highlight reel.' },
+      ],
+      alsoViewed: ['lisa_chen', 'ryan_morris', 'fc_velocity'],
+    },
+    fc_velocity: {
+      initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)',
+      cover: 'linear-gradient(135deg,#022c0a 0%,#14532d 60%,#16a34a 100%)',
+      name: 'FC Velocity Academy', role: 'club',
+      badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',
+      location: '📍 Manchester, England · Est. 2004', connections: '1.8k', views: '12k', impressions: '94k',
+      bio: 'Professional academy developing next-generation footballers. Our philosophy: technical excellence, physical conditioning, and mental performance. We produce players — not just athletes.',
+      career: [
+        { club: 'Northern Premier League', role: 'First Team', dates: '2010 — Present', current: true },
+        { club: 'FA Youth Cup', role: 'Academy Finalists', dates: '2023', current: false },
+        { club: 'Manchester FA', role: 'Regional Champions', dates: '2021', current: false },
+      ],
+      stats: [{ label: 'Players Developed', value: '140+' }, { label: 'Pro Contracts', value: '23' }, { label: 'Academy Alumni', value: '67' }, { label: 'Years Active', value: '21' }],
+      highlights: [{ title: 'U18 Training Highlights 2025', ytId: 'dQw4w9WgXcQ' }],
+      certs: [{ icon: '🏟️', name: 'FA Licensed Academy', org: 'The Football Association · Verified' }, { icon: '⭐', name: 'Elite Performance Environment', org: 'Premier League Academy Standards · 2024' }],
+      posts: [
+        { ts: 'Yesterday', text: '📢 OPEN TRIALS — April 12–13, 2026\n📍 Velocity Training Ground, Manchester\n⚽ U18 & U21 squads: GK · CB · CM · CAM · ST\n✅ Technical ability, mental toughness, and coachability required. Apply via the link in our bio.' },
+      ],
+      alsoViewed: ['james_harrison', 'sarah_okonkwo', 'david_osei'],
+    },
+    sarah_okonkwo: {
+      initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)',
+      cover: 'linear-gradient(135deg,#0a1535 0%,#1e40af 60%,#2563eb 100%)',
+      name: 'Sarah Okonkwo', role: 'coach',
+      badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',
+      location: '📍 London, England', connections: '891', views: '4.7k', impressions: '62k',
+      bio: 'UEFA A Licensed coach and certified sports psychologist specialising in mental performance for elite footballers. I help players transform their relationship with pressure, failure, and identity. Because the mental game decides everything at the top.',
+      career: [
+        { club: 'Independent Practice', role: 'Sports Psychologist & Coach', dates: '2020 — Present', current: true },
+        { club: 'Premier League Academy', role: 'Head of Mental Performance', dates: '2016 — 2020', current: false },
+        { club: 'National Women\'s Team', role: 'Assistant Coach', dates: '2013 — 2016', current: false },
+      ],
+      stats: [{ label: 'Athletes Coached', value: '200+' }, { label: 'Clubs Partnered', value: '14' }, { label: 'Pro Players', value: '38' }, { label: 'Years Experience', value: '13' }],
+      highlights: [{ title: 'Mental Performance Talk — Pressure Protocol', ytId: 'dQw4w9WgXcQ' }],
+      certs: [
+        { icon: '🎯', name: 'UEFA A Licence', org: 'UEFA · 2015' },
+        { icon: '🧠', name: 'MSc Sports Psychology', org: 'Loughborough University · 2013' },
+        { icon: '📋', name: 'BPS Chartered Psychologist', org: 'British Psychological Society · 2014' },
+      ],
+      posts: [
+        { ts: '2 days ago', text: '💡 Pressure is not the problem. Your relationship with pressure is the problem.\n\nElite performers learn to use that energy — interpret it as excitement, not threat. The body can\'t tell the difference between anxiety and excitement. What changes is the story you tell about it.' },
+      ],
+      alsoViewed: ['david_osei', 'james_harrison', 'fc_velocity'],
+    },
+    marcus_diallo: {
+      initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)',
+      cover: 'linear-gradient(135deg,#0d0a2e 0%,#1e40af 50%,#7C3AED 100%)',
+      name: 'Marcus Diallo', role: 'player',
+      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
+      location: '📍 London, England · 🇫🇷 French', connections: '156', views: '892', impressions: '4.1k',
+      bio: 'Central midfielder, 22. Three weeks back to full fitness after a hamstring injury. The rehab process taught me more about myself than any season on the pitch. Open to trial opportunities in England or Germany.',
+      career: [
+        { club: 'Free Agent', role: 'Central Midfielder', dates: '2025 — Present', current: true },
+        { club: 'Stade Brestois B', role: 'Reserve Central Midfielder', dates: '2023 — 2025', current: false },
+        { club: 'INF Clairefontaine', role: 'Academy Midfielder', dates: '2019 — 2023', current: false },
+      ],
+      stats: [{ label: 'Pass Accuracy', value: '89%' }, { label: 'Km Covered / 90', value: '11.4' }, { label: 'Tackles Won', value: '68%' }, { label: 'Goals (23/24)', value: '6' }],
+      highlights: [{ title: 'Season 23/24 Best Moments', ytId: 'dQw4w9WgXcQ' }],
+      certs: [],
+      posts: [
+        { ts: '3 days ago', text: 'Back on the training pitch. 💪\n\n3 weeks out with a hamstring injury. Used the time to go deep on the mental game. Came back with more clarity about my game than I had before. Open to trial opportunities in England or Germany. DMs open.' },
+      ],
+      alsoViewed: ['kai_mensah', 'rayan_bouzid', 'jamie_asante'],
+    },
+    jamie_asante: {
+      initials: 'JA', grad: 'linear-gradient(135deg,#7C3AED,#6d28d9)',
+      cover: 'linear-gradient(135deg,#1a0a2e 0%,#6d28d9 60%,#9D65FF 100%)',
+      name: 'Jamie Asante', role: 'player',
+      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
+      location: '📍 Birmingham, England', connections: '94', views: '412', impressions: '2.8k',
+      bio: 'U21 winger with rapid acceleration and strong 1v1 ability. Currently in pre-season training with my club. 12 mutual connections with scouts and coaches. Serious about taking the next step.',
+      career: [
+        { club: 'FC Solihull Academy', role: 'Winger', dates: '2024 — Present', current: true },
+        { club: 'Aston Villa Academy', role: 'U18 Winger', dates: '2022 — 2024', current: false },
+      ],
+      stats: [{ label: 'Sprint Speed', value: '34 km/h' }, { label: 'Goals (24/25)', value: '9' }, { label: 'Assists', value: '11' }, { label: 'Dribbles / 90', value: '4.2' }],
+      highlights: [{ title: 'U21 Season Highlights', ytId: 'dQw4w9WgXcQ' }],
+      certs: [],
+      posts: [],
+      alsoViewed: ['kai_mensah', 'marcus_diallo', 'rayan_bouzid'],
+    },
+    lisa_chen: {
+      initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)',
+      cover: 'linear-gradient(135deg,#1c0e00 0%,#b45309 60%,#d97706 100%)',
+      name: 'Lisa Chen', role: 'scout',
+      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',
+      location: '📍 London, England', connections: '744', views: '2.9k', impressions: '18k',
+      bio: 'Premier League affiliated scout with a focus on Asian and European talent pipelines. Former player turned analyst. I identify players with elite physical and technical profiles — and a mindset to match.',
+      career: [
+        { club: 'Premier League Club (Undisclosed)', role: 'Scout – Asian & European Markets', dates: '2022 — Present', current: true },
+        { club: 'EFL Championship Club', role: 'Talent Analyst', dates: '2019 — 2022', current: false },
+        { club: 'Women\'s Super League', role: 'Performance Analyst', dates: '2016 — 2019', current: false },
+      ],
+      stats: [{ label: 'Players Signed', value: '19' }, { label: 'Reports Filed', value: '680+' }, { label: 'Countries Covered', value: '12' }, { label: 'Years Scouting', value: '7' }],
+      highlights: [],
+      certs: [{ icon: '📊', name: 'UEFA Scouting Certificate', org: 'UEFA · 2020' }, { icon: '📐', name: 'Sports Analytics (MSc)', org: 'University of Manchester · 2016' }],
+      posts: [],
+      alsoViewed: ['james_harrison', 'ryan_morris', 'sarah_okonkwo'],
+    },
+    rayan_bouzid: {
+      initials: 'RB', grad: 'linear-gradient(135deg,#2563eb,#1d4ed8)',
+      cover: 'linear-gradient(135deg,#040d24 0%,#1d4ed8 60%,#2563eb 100%)',
+      name: 'Rayan Bouzid', role: 'player',
+      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
+      location: '📍 Lyon, France · 🇫🇷 French', connections: '128', views: '534', impressions: '3.2k',
+      bio: 'Technically refined central midfielder raised in the French academy system. Strong in tight spaces, exceptional vision. Currently finishing my final season at youth level and exploring professional opportunities abroad.',
+      career: [
+        { club: 'Olympique Lyonnais B', role: 'Central Midfielder', dates: '2024 — Present', current: true },
+        { club: 'INF Clairefontaine', role: 'Academy Midfielder', dates: '2020 — 2024', current: false },
+      ],
+      stats: [{ label: 'Pass Accuracy', value: '91%' }, { label: 'Key Passes / 90', value: '3.7' }, { label: 'Goals (24/25)', value: '8' }, { label: 'Assists', value: '14' }],
+      highlights: [{ title: 'Technical Highlights — 2024/25', ytId: 'dQw4w9WgXcQ' }],
+      certs: [],
+      posts: [],
+      alsoViewed: ['marcus_diallo', 'kai_mensah', 'jamie_asante'],
+    },
+    david_osei: {
+      initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)',
+      cover: 'linear-gradient(135deg,#040d24 0%,#1e40af 55%,#2563eb 100%)',
+      name: 'David Osei', role: 'coach',
+      badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',
+      location: '📍 Manchester, England · 🇬🇭 Ghanaian', connections: '267', views: '1.1k', impressions: '7.2k',
+      bio: 'Academy coach working across U16–U21 levels in Manchester. Ghanaian background gives me a unique lens on player development across cultures. I help young players find their voice on and off the pitch.',
+      career: [
+        { club: 'FC Velocity Academy', role: 'U18 Head Coach', dates: '2023 — Present', current: true },
+        { club: 'Manchester FA', role: 'Regional Development Coach', dates: '2020 — 2023', current: false },
+        { club: 'Kumasi Asante Kotoko', role: 'Youth Assistant Coach', dates: '2017 — 2020', current: false },
+      ],
+      stats: [{ label: 'Players Coached', value: '85+' }, { label: 'Pro Transitions', value: '11' }, { label: 'Years Coaching', value: '9' }, { label: 'Clubs Worked', value: '4' }],
+      highlights: [],
+      certs: [{ icon: '🎯', name: 'UEFA B Licence', org: 'UEFA · 2021' }, { icon: '📋', name: 'FA Level 3 Youth Award', org: 'The Football Association · 2020' }],
+      posts: [],
+      alsoViewed: ['sarah_okonkwo', 'fc_velocity', 'james_harrison'],
+    },
+    amara_toure: {
+      initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)',
+      cover: 'linear-gradient(135deg,#021a0a 0%,#15803d 55%,#16a34a 100%)',
+      name: 'Amara Touré', role: 'player',
+      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
+      location: '📍 Dakar, Senegal · 🇸🇳 Senegalese', connections: '83', views: '321', impressions: '1.9k',
+      bio: 'Powerful, clinical striker with pace to burn. Trained extensively in the Senegalese development system and looking to make my move to European football. Strong aerial ability and finishing from tight angles.',
+      career: [
+        { club: 'AS Pikine', role: 'Striker', dates: '2023 — Present', current: true },
+        { club: 'Génération Foot', role: 'Academy Striker', dates: '2019 — 2023', current: false },
+      ],
+      stats: [{ label: 'Goals (24/25)', value: '22' }, { label: 'Assists', value: '5' }, { label: 'Appearances', value: '28' }, { label: 'Aerial Duels Won', value: '71%' }],
+      highlights: [{ title: 'Senegal League Best Goals 2024', ytId: 'dQw4w9WgXcQ' }],
+      certs: [],
+      posts: [],
+      alsoViewed: ['kai_mensah', 'marcus_diallo', 'jamie_asante'],
+    },
+    ryan_morris: {
+      initials: 'RM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)',
+      cover: 'linear-gradient(135deg,#0f0520 0%,#4c1d95 55%,#7C3AED 100%)',
+      name: 'Ryan Morris', role: 'scout',
+      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',
+      location: '📍 Leeds, England', connections: '389', views: '1.7k', impressions: '11k',
+      bio: 'Championship scout with a particular eye for defensive midfielders and centre-backs. Data-informed approach backed by 8 years of hands-on match observation across the EFL. I go to the games nobody else attends.',
+      career: [
+        { club: 'Championship Club (Undisclosed)', role: 'Scout – Defensive Profiles', dates: '2020 — Present', current: true },
+        { club: 'League One Club', role: 'First Team Scout', dates: '2016 — 2020', current: false },
+        { club: 'Yorkshire FA', role: 'Talent Identification', dates: '2013 — 2016', current: false },
+      ],
+      stats: [{ label: 'Players Recruited', value: '27' }, { label: 'Games Attended', value: '900+' }, { label: 'Reports Filed', value: '820+' }, { label: 'Years Experience', value: '11' }],
+      highlights: [],
+      certs: [{ icon: '📋', name: 'FA Talent ID Level 2', org: 'The Football Association · 2017' }],
+      posts: [],
+      alsoViewed: ['james_harrison', 'lisa_chen', 'fc_velocity'],
+    },
+  };
+
+  function showProfile(id) {
+    if (!id || !PROFILES[id]) return;
+    const p = PROFILES[id];
+
+    // Build sections
+    const careerHtml = p.career.map((c, i) => `
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <div class="timeline-dot${c.current ? ' current' : ''}"></div>
+          ${i < p.career.length - 1 ? '<div class="timeline-line"></div>' : ''}
+        </div>
+        <div>
+          <div class="timeline-club">${c.club}</div>
+          <div class="timeline-role-text">${c.role}</div>
+          <div class="timeline-dates">${c.dates}${c.current ? ' · <span style="color:#22c55e">Current</span>' : ''}</div>
+        </div>
+      </div>`).join('');
+
+    const statsHtml = p.stats.length ? `
+      <div class="profile-section">
+        <div class="profile-section-title">📊 Stats & Achievements</div>
+        <div class="stats-grid">
+          ${p.stats.map(s => `
+            <div class="stat-box">
+              <div class="stat-box-value">${s.value}</div>
+              <div class="stat-box-label">${s.label}</div>
+            </div>`).join('')}
+        </div>
+      </div>` : '';
+
+    const highlightsHtml = p.highlights.length ? `
+      <div class="profile-section">
+        <div class="profile-section-title">🎬 Highlight Reel</div>
+        <div class="highlight-list">
+          ${p.highlights.map(h => `
+            <div>
+              <div class="highlight-frame"><iframe src="https://www.youtube.com/embed/${h.ytId}" allowfullscreen></iframe></div>
+              <div class="highlight-label">${h.title}</div>
+            </div>`).join('')}
+        </div>
+      </div>` : '';
+
+    const certsHtml = p.certs.length ? `
+      <div class="profile-section">
+        <div class="profile-section-title">🏅 Certifications & Licences</div>
+        <div class="cert-list">
+          ${p.certs.map(c => `
+            <div class="cert-item">
+              <div class="cert-icon">${c.icon}</div>
+              <div>
+                <div class="cert-name">${c.name}</div>
+                <div class="cert-org">${c.org}</div>
+              </div>
+            </div>`).join('')}
+        </div>
+      </div>` : '';
+
+    const postsHtml = p.posts.length ? `
+      <div class="profile-section">
+        <div class="profile-section-title">📝 Recent Posts</div>
+        ${p.posts.map(post => `
+          <div class="profile-mini-post">
+            <div class="profile-mini-post-ts">${post.ts}</div>
+            <div class="profile-mini-post-text">${post.text.replace(/\n/g,'<br>')}</div>
+          </div>`).join('')}
+      </div>` : '';
+
+    document.getElementById('profile-page-content').innerHTML = `
+      <div class="profile-page-card">
+        <div class="profile-cover" style="background:${p.cover}">
+          <div class="profile-photo-wrap">
+            <div class="profile-photo" style="background:${p.grad}">${p.initials}</div>
+          </div>
+        </div>
+        <div class="profile-page-body">
+          <div class="profile-page-name">${p.name}</div>
+          <div style="margin-bottom:6px">${p.badgeHtml}</div>
+          <div class="profile-page-location">${p.location}</div>
+          <div class="profile-page-bio">${p.bio}</div>
+          <div class="profile-page-actions">
+            <button class="btn btn-primary" onclick="handleConnect(this)" style="padding:9px 22px">+ Connect</button>
+            <button class="btn btn-ghost" style="padding:9px 22px">✉️ Message</button>
+          </div>
+        </div>
+        <div class="profile-page-stats">
+          <div class="profile-page-stat">
+            <span class="profile-page-stat-label">Connections</span>
+            <span class="profile-page-stat-value">${p.connections}</span>
+          </div>
+          <div class="profile-page-stat">
+            <span class="profile-page-stat-label">Profile views</span>
+            <span class="profile-page-stat-value">${p.views}</span>
+          </div>
+          <div class="profile-page-stat">
+            <span class="profile-page-stat-label">Post impressions</span>
+            <span class="profile-page-stat-value">${p.impressions}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-section">
+        <div class="profile-section-title">💼 Career Timeline</div>
+        <div class="timeline">${careerHtml}</div>
+      </div>
+
+      ${statsHtml}
+      ${highlightsHtml}
+      ${certsHtml}
+      ${postsHtml}`;
+
+    // "People also viewed" sidebar
+    const alsoHtml = (p.alsoViewed || []).map(aid => {
+      const a = PROFILES[aid];
+      if (!a) return '';
+      return `<div class="also-viewed-item" onclick="showProfile('${aid}')">
+        <div class="also-viewed-av" style="background:${a.grad}">${a.initials}</div>
+        <div>
+          <div class="also-viewed-name">${a.name}</div>
+          <div class="also-viewed-sub">${a.badgeHtml}</div>
+        </div>
+      </div>`;
+    }).join('');
+    document.getElementById('profile-also-viewed-list').innerHTML = alsoHtml;
+
+    // Show screen
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-profile').classList.add('active');
+    document.getElementById('screen-profile').scrollTop = 0;
+  }
+
+  function goBackToNetwork() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-network').classList.add('active');
   }
 
   function goToEntry() {
