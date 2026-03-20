@@ -1901,9 +1901,177 @@
       background: var(--purple); flex-shrink: 0; margin-top: 5px;
     }
     .notif-empty { padding: 36px 16px; text-align: center; color: var(--muted); font-size: 14px; }
+
+    /* ── Global Playr Topbar (LinkedIn-style) ── */
+    .playr-topbar {
+      position: fixed; top: 0; left: 0; right: 0; height: 52px;
+      z-index: 200;
+      background: var(--bg-card);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(16px);
+      display: flex; align-items: stretch; padding: 0 16px;
+    }
+    .playr-topbar-left {
+      flex-shrink: 0; display: flex; align-items: center; min-width: 148px;
+    }
+    .playr-logo {
+      font-size: 20px; font-weight: 900; letter-spacing: -0.5px; color: var(--text);
+    }
+    .playr-logo span { color: var(--purple); }
+    .playr-topbar-nav {
+      flex: 1; display: flex; justify-content: center; align-items: stretch; height: 100%;
+    }
+    .playr-nav-item {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 0 20px; gap: 3px; cursor: pointer;
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: var(--muted); font-family: inherit;
+      transition: color 0.15s, background 0.15s, border-color 0.15s;
+      position: relative; min-width: 72px;
+    }
+    .playr-nav-item:hover { color: var(--text); background: var(--bg-card2); }
+    .playr-nav-item.active { color: var(--purple); border-bottom-color: var(--purple); }
+    .playr-nav-icon-wrap {
+      font-size: 22px; line-height: 1; position: relative;
+      display: flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px;
+    }
+    .playr-nav-label {
+      font-size: 11px; font-weight: 500; line-height: 1; white-space: nowrap;
+    }
+    .playr-nav-badge {
+      position: absolute; top: -5px; right: -8px;
+      background: var(--red); color: #fff; font-size: 10px; font-weight: 700;
+      min-width: 16px; height: 16px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 3px; pointer-events: none;
+    }
+    .playr-topbar-fw-label {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 0.2px;
+    }
+    .playr-topbar-right {
+      flex-shrink: 0; display: flex; align-items: center; gap: 8px;
+      min-width: 148px; justify-content: flex-end;
+    }
+    .side-switcher {
+      display: flex; background: var(--bg-card2);
+      border-radius: 8px; padding: 3px; border: 1px solid var(--border); gap: 2px;
+    }
+    .side-sw-btn {
+      padding: 4px 11px; border-radius: 6px; border: none;
+      font-size: 12px; font-weight: 600; font-family: inherit;
+      cursor: pointer; background: transparent; color: var(--muted);
+      transition: all 0.2s; white-space: nowrap;
+    }
+    .side-sw-btn.active { background: var(--purple); color: #fff; }
+    .side-sw-btn:not(.active):hover { background: var(--border); color: var(--text); }
+
+    /* ── Me Dropdown ── */
+    .me-dropdown {
+      position: fixed; top: 54px; right: 16px; width: 220px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      z-index: 3000; overflow: hidden;
+      transform: translateY(-10px); opacity: 0; pointer-events: none;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .me-dropdown.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .me-dropdown-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 16px; border-bottom: 1px solid var(--border);
+    }
+    .me-dropdown-av {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--purple); color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 700; flex-shrink: 0;
+    }
+    .me-dropdown-info { flex: 1; min-width: 0; }
+    .me-dropdown-name {
+      font-size: 14px; font-weight: 700; color: var(--text);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .me-dropdown-role { font-size: 11px; color: var(--muted); margin-top: 1px; }
+    .me-dropdown-item {
+      display: flex; align-items: center; gap: 10px; padding: 12px 16px;
+      font-size: 13px; color: var(--text); cursor: pointer;
+      transition: background 0.15s; border: none; background: none;
+      width: 100%; font-family: inherit; text-align: left;
+    }
+    .me-dropdown-item:hover { background: var(--bg-card2); }
+    .me-dropdown-divider { border-top: 1px solid var(--border); margin: 0; }
+
+    /* ── Adjust EAF layout for global topbar ── */
+    #screen-eaf .sidebar { top: 52px; }
+    #screen-eaf .top-bar { top: 52px; }
+
+    /* Network screens: reserve space for fixed global topbar */
+    #screen-network, #screen-profile, #screen-discover, #screen-my-network {
+      padding-top: 52px;
+    }
   </style>
 </head>
 <body>
+
+<!-- ══════════════════════════════════════════
+     GLOBAL PLAYR TOPBAR (LinkedIn-style, persistent)
+══════════════════════════════════════════ -->
+<header id="playr-topbar" class="playr-topbar" style="display:none">
+
+  <!-- Left: Logo -->
+  <div class="playr-topbar-left">
+    <div class="playr-logo">Pl<span>a</span>yr</div>
+  </div>
+
+  <!-- Center: Network Nav (icon + label) -->
+  <nav class="playr-topbar-nav" id="playr-nav-network" style="display:none">
+    <button class="playr-nav-item active" id="nav-home" onclick="goBackToNetwork()">
+      <span class="playr-nav-icon-wrap">🏠</span>
+      <span class="playr-nav-label">Home</span>
+    </button>
+    <button class="playr-nav-item" id="nav-mynetwork" onclick="showMyNetwork()">
+      <span class="playr-nav-icon-wrap">
+        👥
+        <span class="playr-nav-badge" id="nav-badge-network" style="display:none">0</span>
+      </span>
+      <span class="playr-nav-label">My Network</span>
+    </button>
+    <button class="playr-nav-item" id="nav-messaging" onclick="toggleChat()">
+      <span class="playr-nav-icon-wrap">
+        💬
+        <span class="playr-nav-badge" id="nav-badge-messaging" style="display:none">0</span>
+      </span>
+      <span class="playr-nav-label">Messaging</span>
+    </button>
+    <button class="playr-nav-item" id="nav-notifications" onclick="toggleNotifDropdown()">
+      <span class="playr-nav-icon-wrap">
+        🔔
+        <span class="playr-nav-badge" id="nav-badge-notifs" style="display:none">0</span>
+      </span>
+      <span class="playr-nav-label">Notifications</span>
+    </button>
+    <button class="playr-nav-item" id="nav-me" onclick="toggleMeDropdown()">
+      <span class="playr-nav-icon-wrap" id="nav-me-av">👤</span>
+      <span class="playr-nav-label">Me ▾</span>
+    </button>
+  </nav>
+
+  <!-- Center: Framework label -->
+  <div class="playr-topbar-fw-label" id="playr-nav-framework" style="display:none">
+    🧠 Elite Athlete Framework
+  </div>
+
+  <!-- Right: Side switcher + theme toggle -->
+  <div class="playr-topbar-right">
+    <div class="side-switcher">
+      <button class="side-sw-btn" id="sw-btn-framework" onclick="switchToFramework()">📚 Framework</button>
+      <button class="side-sw-btn" id="sw-btn-network" onclick="switchToNetwork()">🌐 Network</button>
+    </div>
+    <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
+  </div>
+
+</header>
 
 <!-- ══════════════════════════════════════════
      SCREEN 1: ENTRY / PATH SELECTION
@@ -2051,8 +2219,6 @@
     <div class="top-bar">
       <span class="top-bar-title" id="topbar-title">Dashboard</span>
       <div class="top-bar-actions">
-        <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle light / dark mode">🌙</button>
-        <button class="btn btn-ghost" onclick="goToEntry()">← Switch Path</button>
         <button class="btn btn-primary" onclick="showView('modules', document.querySelector('.nav-item:nth-child(3)'))">Continue Learning</button>
       </div>
     </div>
@@ -2246,33 +2412,6 @@
      SCREEN 3: ATHLETE DISCOVERY NETWORK
 ══════════════════════════════════════════ -->
 <div id="screen-network" class="screen">
-
-  <!-- Top navigation bar -->
-  <div class="network-topbar">
-    <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
-
-    <nav class="network-nav">
-      <div class="network-nav-item active">🏠 Home</div>
-      <div class="network-nav-item" onclick="showMyNetwork()">
-        <span class="nav-badge-wrap">👥 My Network<span class="notif-badge" id="feed-notif-badge" style="display:none">0</span></span>
-      </div>
-      <div class="network-nav-item" onclick="showDiscover()">🔍 Scout Hub</div>
-      <div class="network-nav-item">💼 Trials</div>
-    </nav>
-
-    <div class="network-topbar-actions">
-      <div class="notif-bell-wrap">
-        <button class="btn btn-ghost btn-icon-only" onclick="toggleNotifDropdown()" title="Notifications">🔔</button>
-        <span class="notif-bell-badge" id="bell-badge-feed" style="display:none">0</span>
-      </div>
-      <div class="chat-topbar-btn">
-        <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
-        <span class="chat-notif" id="chat-notif-feed" style="display:none">0</span>
-      </div>
-      <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
-      <button class="btn btn-ghost" onclick="goToEntry()">← Switch Path</button>
-    </div>
-  </div>
 
   <!-- 3-column feed layout -->
   <div class="network-feed-layout">
@@ -2641,31 +2780,6 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
 ══════════════════════════════════════════ -->
 <div id="screen-profile" class="screen">
 
-  <!-- Top navigation bar (reused) -->
-  <div class="network-topbar">
-    <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
-    <nav class="network-nav">
-      <div class="network-nav-item" onclick="goBackToNetwork()">🏠 Home</div>
-      <div class="network-nav-item" onclick="showMyNetwork()">
-        <span class="nav-badge-wrap">👥 My Network<span class="notif-badge" id="profile-notif-badge" style="display:none">0</span></span>
-      </div>
-      <div class="network-nav-item" onclick="showDiscover()">🔍 Scout Hub</div>
-      <div class="network-nav-item">💼 Trials</div>
-    </nav>
-    <div class="network-topbar-actions">
-      <div class="notif-bell-wrap">
-        <button class="btn btn-ghost btn-icon-only" onclick="toggleNotifDropdown()" title="Notifications">🔔</button>
-        <span class="notif-bell-badge" id="bell-badge-profile" style="display:none">0</span>
-      </div>
-      <div class="chat-topbar-btn">
-        <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
-        <span class="chat-notif" id="chat-notif-profile" style="display:none">0</span>
-      </div>
-      <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
-      <button class="btn btn-ghost" onclick="goBackToNetwork()">← Feed</button>
-    </div>
-  </div>
-
   <!-- 3-column layout -->
   <div class="network-feed-layout">
 
@@ -2711,30 +2825,6 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
      SCREEN: DISCOVERY / MY NETWORK
 ══════════════════════════════════════════ -->
 <div id="screen-discover" class="screen">
-
-  <div class="network-topbar">
-    <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
-    <nav class="network-nav">
-      <div class="network-nav-item" onclick="goBackToNetwork()">🏠 Home</div>
-      <div class="network-nav-item active">
-        <span class="nav-badge-wrap">👥 My Network<span class="notif-badge" id="mn-notif-badge" style="display:none">0</span></span>
-      </div>
-      <div class="network-nav-item" onclick="showDiscover()">🔍 Scout Hub</div>
-      <div class="network-nav-item">💼 Trials</div>
-    </nav>
-    <div class="network-topbar-actions">
-      <div class="notif-bell-wrap">
-        <button class="btn btn-ghost btn-icon-only" onclick="toggleNotifDropdown()" title="Notifications">🔔</button>
-        <span class="notif-bell-badge" id="bell-badge-discover" style="display:none">0</span>
-      </div>
-      <div class="chat-topbar-btn">
-        <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
-        <span class="chat-notif" id="chat-notif-discover" style="display:none">0</span>
-      </div>
-      <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
-      <button class="btn btn-ghost" onclick="goBackToNetwork()">← Feed</button>
-    </div>
-  </div>
 
   <div class="discover-layout">
 
@@ -2826,30 +2916,6 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
      SCREEN: MY NETWORK
 ══════════════════════════════════════════ -->
 <div id="screen-my-network" class="screen">
-
-  <div class="network-topbar">
-    <div class="network-logo">Pl<span>a</span>yr <span class="network-logo-sub">Network</span></div>
-    <nav class="network-nav">
-      <div class="network-nav-item" onclick="goBackToNetwork()">🏠 Home</div>
-      <div class="network-nav-item active">
-        <span class="nav-badge-wrap">👥 My Network<span class="notif-badge" id="mnscreen-notif-badge" style="display:none">0</span></span>
-      </div>
-      <div class="network-nav-item" onclick="showDiscover()">🔍 Scout Hub</div>
-      <div class="network-nav-item">💼 Trials</div>
-    </nav>
-    <div class="network-topbar-actions">
-      <div class="notif-bell-wrap">
-        <button class="btn btn-ghost btn-icon-only" onclick="toggleNotifDropdown()" title="Notifications">🔔</button>
-        <span class="notif-bell-badge" id="bell-badge-mn" style="display:none">0</span>
-      </div>
-      <div class="chat-topbar-btn">
-        <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
-        <span class="chat-notif" id="chat-notif-mn" style="display:none">0</span>
-      </div>
-      <button class="btn btn-ghost btn-icon-only" data-theme-icon onclick="toggleTheme()" title="Toggle theme">🌙</button>
-      <button class="btn btn-ghost" onclick="goBackToNetwork()">← Feed</button>
-    </div>
-  </div>
 
   <div class="my-network-body" id="my-network-body"></div>
 
@@ -3381,6 +3447,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   async function showEAF() {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-eaf').classList.add('active');
+    setTopbarSide('framework');
     await loadUserProgress();
     renderModulesGrid();
     renderProgressList();
@@ -3506,13 +3573,15 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   function showNetwork() {
     const savedRole = localStorage.getItem('playr_role');
     if (!savedRole) {
-      // Show role selection first
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById('screen-role').classList.add('active');
+      document.getElementById('playr-topbar').style.display = 'none';
     } else {
       renderNetworkProfile(savedRole);
       document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
       document.getElementById('screen-network').classList.add('active');
+      setTopbarSide('network');
+      setActiveNavItem('nav-home');
     }
   }
 
@@ -3521,6 +3590,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     renderNetworkProfile(role);
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-network').classList.add('active');
+    setTopbarSide('network');
+    setActiveNavItem('nav-home');
   }
 
   // ─── NETWORK INTERACTIONS ───
@@ -3609,10 +3680,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   function updateNotifBadges() {
     const c = loadConnections();
     const count = c.received.length;
-    ['feed-notif-badge','profile-notif-badge','mn-notif-badge','mnscreen-notif-badge'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) { el.textContent = count; el.style.display = count > 0 ? 'flex' : 'none'; }
-    });
+    const el = document.getElementById('nav-badge-network');
+    if (el) { el.textContent = count; el.style.display = count > 0 ? 'flex' : 'none'; }
   }
 
   // ─── MY NETWORK PAGE ───
@@ -3621,6 +3690,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     document.getElementById('screen-my-network').classList.add('active');
     document.getElementById('screen-my-network').scrollTop = 0;
     renderMyNetworkPage();
+    setActiveNavItem('nav-mynetwork');
   }
 
   function renderMyNetworkPage() {
@@ -4241,10 +4311,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
 
   function updateChatBadge() {
     const n = getTotalUnread();
-    ['chat-notif-feed','chat-notif-profile','chat-notif-discover','chat-notif-mn'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) { el.textContent = n; el.style.display = n > 0 ? 'flex' : 'none'; }
-    });
+    const el = document.getElementById('nav-badge-messaging');
+    if (el) { el.textContent = n; el.style.display = n > 0 ? 'flex' : 'none'; }
     const hb = document.getElementById('chat-header-badge');
     if (hb) { hb.textContent = n; hb.style.display = n > 0 ? 'flex' : 'none'; }
   }
@@ -4436,8 +4504,6 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   const NOTIF_KEY       = 'playr_notifs';
   const NOTIF_SEED_KEY  = 'playr_notifs_seeded';
 
-  const BELL_BADGE_IDS = ['bell-badge-feed','bell-badge-profile','bell-badge-discover','bell-badge-mn'];
-
   function loadNotifs() {
     try { return JSON.parse(localStorage.getItem(NOTIF_KEY) || '[]'); } catch { return []; }
   }
@@ -4456,12 +4522,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   }
   function updateBellBadge() {
     const count = loadNotifs().filter(n => !n.read).length;
-    BELL_BADGE_IDS.forEach(id => {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.textContent = count > 9 ? '9+' : count;
-      el.style.display = count > 0 ? 'flex' : 'none';
-    });
+    const el = document.getElementById('nav-badge-notifs');
+    if (el) { el.textContent = count > 9 ? '9+' : count; el.style.display = count > 0 ? 'flex' : 'none'; }
   }
 
   const notifState = { open: false };
@@ -4535,9 +4597,59 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     setTimeout(() => addNotif('comment', 'Marcus Diallo commented: "Great mindset 💪"', '💬'), 22000);
   }
 
+  // ── Global topbar & side switcher ──
+
+  function setTopbarSide(side) {
+    document.getElementById('playr-topbar').style.display = 'flex';
+    document.getElementById('sw-btn-framework').classList.toggle('active', side === 'framework');
+    document.getElementById('sw-btn-network').classList.toggle('active', side === 'network');
+    document.getElementById('playr-nav-network').style.display = side === 'network' ? 'flex' : 'none';
+    document.getElementById('playr-nav-framework').style.display = side === 'framework' ? 'flex' : 'none';
+  }
+
+  function setActiveNavItem(id) {
+    document.querySelectorAll('.playr-nav-item').forEach(el => el.classList.remove('active'));
+    const el = document.getElementById(id);
+    if (el) el.classList.add('active');
+  }
+
+  function switchToFramework() { showEAF(); }
+  function switchToNetwork()   { showNetwork(); }
+
+  // ── Me dropdown ──
+
+  const meDropState = { open: false };
+
+  function toggleMeDropdown() { meDropState.open ? closeMeDropdown() : openMeDropdown(); }
+
+  function openMeDropdown() {
+    const name = document.getElementById('network-profile-name')?.textContent || 'You';
+    const role = localStorage.getItem('playr_role') || 'player';
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'A';
+    document.getElementById('me-dropdown-av').textContent = initials;
+    document.getElementById('me-dropdown-name').textContent = name;
+    document.getElementById('me-dropdown-role').textContent = role.charAt(0).toUpperCase() + role.slice(1);
+    document.getElementById('me-dropdown').classList.add('open');
+    meDropState.open = true;
+    setTimeout(() => document.addEventListener('click', _outsideMeClick), 0);
+  }
+
+  function closeMeDropdown() {
+    document.getElementById('me-dropdown').classList.remove('open');
+    meDropState.open = false;
+    document.removeEventListener('click', _outsideMeClick);
+  }
+
+  function _outsideMeClick(e) {
+    const drop = document.getElementById('me-dropdown');
+    const btn  = document.getElementById('nav-me');
+    if (!drop.contains(e.target) && !btn.contains(e.target)) closeMeDropdown();
+  }
+
   function goBackToNetwork() {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-network').classList.add('active');
+    setActiveNavItem('nav-home');
   }
 
   // ─── DISCOVERY PAGE ───
@@ -4703,15 +4815,16 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-discover').classList.add('active');
     document.getElementById('screen-discover').scrollTop = 0;
-    // Reset tab to All and render
     discoverState.tab = 'all';
     document.querySelectorAll('.discover-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === 'all'));
     filterDiscover();
+    setActiveNavItem('nav-mynetwork');
   }
 
   function goToEntry() {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-entry').classList.add('active');
+    document.getElementById('playr-topbar').style.display = 'none';
   }
 
   // ─── THEME TOGGLE ───
@@ -4739,6 +4852,23 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   _seedInitialNotifs();
   updateBellBadge();
 </script>
+<!-- ══════════════════════════════════════════
+     ME DROPDOWN (global overlay)
+══════════════════════════════════════════ -->
+<div id="me-dropdown" class="me-dropdown">
+  <div class="me-dropdown-header">
+    <div class="me-dropdown-av" id="me-dropdown-av">A</div>
+    <div class="me-dropdown-info">
+      <div class="me-dropdown-name" id="me-dropdown-name">You</div>
+      <div class="me-dropdown-role" id="me-dropdown-role">Player</div>
+    </div>
+  </div>
+  <button class="me-dropdown-item" onclick="goBackToNetwork();closeMeDropdown()">🏠 Network Home</button>
+  <button class="me-dropdown-item" onclick="switchToFramework();closeMeDropdown()">📚 Switch to Framework</button>
+  <hr class="me-dropdown-divider">
+  <button class="me-dropdown-item" onclick="toggleTheme();closeMeDropdown()">🌙 Toggle Theme</button>
+</div>
+
 <!-- ══════════════════════════════════════════
      NOTIFICATION DROPDOWN (global overlay)
 ══════════════════════════════════════════ -->
