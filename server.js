@@ -53,6 +53,15 @@ db.exec(`
   );
   CREATE INDEX IF NOT EXISTS idx_messages_conv ON messages(conv_id);
   CREATE INDEX IF NOT EXISTS idx_messages_recv ON messages(receiver_id, is_read);
+
+  CREATE TABLE IF NOT EXISTS user_locations (
+    user_id    TEXT PRIMARY KEY,
+    lat        REAL NOT NULL,
+    lng        REAL NOT NULL,
+    city       TEXT DEFAULT '',
+    country    TEXT DEFAULT '',
+    updated_at DATETIME DEFAULT (datetime('now'))
+  );
 `);
 
 // ── Journal ──
@@ -209,6 +218,27 @@ app.get('/api/messages/unread', (req, res) => {
     'SELECT COUNT(*) as c FROM messages WHERE receiver_id = ? AND is_read = 0'
   ).get(user_id);
   res.json({ count: row.c });
+});
+
+// ── Location ──
+
+app.post('/api/location', (req, res) => {
+  const { user_id, lat, lng, city, country } = req.body;
+  if (!user_id || lat === undefined || lng === undefined) {
+    return res.status(400).json({ error: 'user_id, lat, lng required' });
+  }
+  db.prepare(`
+    INSERT INTO user_locations (user_id, lat, lng, city, country)
+    VALUES (?, ?, ?, ?, ?)
+    ON CONFLICT(user_id) DO UPDATE SET
+      lat = ?, lng = ?, city = ?, country = ?, updated_at = datetime('now')
+  `).run(user_id, lat, lng, city || '', country || '', lat, lng, city || '', country || '');
+  res.json({ success: true });
+});
+
+app.get('/api/locations', (_req, res) => {
+  const rows = db.prepare('SELECT user_id, lat, lng, city, country FROM user_locations').all();
+  res.json(rows);
 });
 
 app.get('/admin/waitlist', (_req, res) => {

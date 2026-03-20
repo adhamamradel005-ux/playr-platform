@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Playr — Built for Athletes</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <!-- Apply saved theme before paint to prevent flash -->
   <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('playr_theme')||'light');})();</script>
   <style>
@@ -2010,6 +2012,77 @@
     #screen-network, #screen-profile, #screen-discover, #screen-my-network {
       padding-top: 52px;
     }
+
+    /* ── Map Screen ── */
+    #screen-map {
+      flex-direction: column;
+      height: 100vh;
+      padding-top: 52px;
+      overflow: hidden;
+    }
+    .map-filter-bar {
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+      padding: 9px 16px; background: var(--bg-card);
+      border-bottom: 1px solid var(--border); flex-wrap: wrap;
+    }
+    .map-filter-label { font-size: 12px; font-weight: 600; color: var(--muted); margin-right: 4px; }
+    .map-filter-btn {
+      display: flex; align-items: center; gap: 5px;
+      padding: 5px 13px; border-radius: 20px; border: 2px solid var(--border);
+      font-size: 12px; font-weight: 600; cursor: pointer; font-family: inherit;
+      background: var(--bg-card2); color: var(--muted);
+      transition: all 0.2s;
+    }
+    .map-filter-btn.fp  { border-color: #7C3AED; background: rgba(124,58,237,0.1); color: #7C3AED; }
+    .map-filter-btn.fs  { border-color: #1d4ed8; background: rgba(29,78,216,0.1);  color: #1d4ed8; }
+    .map-filter-btn.ftr { border-color: #16a34a; background: rgba(22,163,74,0.1);  color: #16a34a; }
+    .map-filter-btn.fco { border-color: #d97706; background: rgba(217,119,6,0.1);  color: #d97706; }
+    .map-filter-btn.fnw { border-color: #dc2626; background: rgba(220,38,38,0.1);  color: #dc2626; }
+    .map-wrapper { flex: 1; min-height: 0; position: relative; }
+    #map-container { width: 100%; height: 100%; }
+    /* Legend */
+    .map-legend {
+      position: absolute; bottom: 32px; left: 14px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 11px 14px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.14); z-index: 1000;
+    }
+    .map-legend-title {
+      font-size: 10px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 1px; color: var(--muted); margin-bottom: 7px;
+    }
+    .map-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text); padding: 2px 0; }
+    .map-legend-dot { width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0; }
+    /* Location permission dialog */
+    .loc-dialog-overlay {
+      position: absolute; inset: 0;
+      background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+      display: flex; align-items: center; justify-content: center; z-index: 2000;
+    }
+    .loc-dialog-card {
+      background: var(--bg-card); border-radius: 20px; padding: 32px 28px;
+      text-align: center; max-width: 340px; width: 90%;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.2);
+    }
+    .loc-dialog-card .loc-icon { font-size: 44px; margin-bottom: 14px; }
+    .loc-dialog-card h3 { font-size: 20px; font-weight: 800; margin-bottom: 8px; color: var(--text); }
+    .loc-dialog-card p  { font-size: 13px; color: var(--muted); margin-bottom: 22px; line-height: 1.6; }
+    .loc-dialog-btns { display: flex; gap: 10px; justify-content: center; }
+    .loc-allow-btn { padding: 10px 24px; background: var(--purple); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .loc-deny-btn  { padding: 10px 22px; background: var(--bg-card2); color: var(--muted); border: 1px solid var(--border); border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+    /* Leaflet popup theming */
+    .map-popup { display: flex; gap: 10px; align-items: flex-start; min-width: 190px; font-family: 'Inter', sans-serif; }
+    .map-popup-av { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .map-popup-icon { font-size: 26px; flex-shrink: 0; }
+    .map-popup-body { flex: 1; min-width: 0; }
+    .map-popup-name { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; line-height: 1.3; }
+    .map-popup-sub  { font-size: 12px; color: #6B6B8A; line-height: 1.5; }
+    .map-popup-btn  { margin-top: 8px; padding: 5px 13px; border-radius: 7px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; color: #fff; }
+    [data-theme="dark"] .leaflet-popup-content-wrapper { background: #111118; color: #f0f0f5; border: 1px solid rgba(255,255,255,0.1); }
+    [data-theme="dark"] .leaflet-popup-tip { background: #111118; }
+    [data-theme="dark"] .map-popup-name { color: #f0f0f5; }
+    [data-theme="dark"] .map-popup-sub  { color: #8888aa; }
+    .map-player-icon div { cursor: pointer; }
   </style>
 </head>
 <body>
@@ -2036,6 +2109,10 @@
         <span class="playr-nav-badge" id="nav-badge-network" style="display:none">0</span>
       </span>
       <span class="playr-nav-label">My Network</span>
+    </button>
+    <button class="playr-nav-item" id="nav-map" onclick="showMap()">
+      <span class="playr-nav-icon-wrap">🗺️</span>
+      <span class="playr-nav-label">Map</span>
     </button>
     <button class="playr-nav-item" id="nav-messaging" onclick="toggleChat()">
       <span class="playr-nav-icon-wrap">
@@ -2918,6 +2995,62 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
 <div id="screen-my-network" class="screen">
 
   <div class="my-network-body" id="my-network-body"></div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: MAP — ATHLETE DISCOVERY MAP
+══════════════════════════════════════════ -->
+<div id="screen-map" class="screen">
+
+  <!-- Filter toggles -->
+  <div class="map-filter-bar">
+    <span class="map-filter-label">Show:</span>
+    <button class="map-filter-btn fp"  id="mf-players"  onclick="toggleMapFilter('players',this)">
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#7C3AED"></span> Players
+    </button>
+    <button class="map-filter-btn fs"  id="mf-scouts"   onclick="toggleMapFilter('scouts',this)">
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#1d4ed8"></span> Scouts
+    </button>
+    <button class="map-filter-btn ftr" id="mf-trials"   onclick="toggleMapFilter('trials',this)">
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#16a34a"></span> Trials
+    </button>
+    <button class="map-filter-btn fco" id="mf-coaching" onclick="toggleMapFilter('coaching',this)">
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#d97706"></span> Coaching
+    </button>
+    <button class="map-filter-btn fnw" id="mf-news"     onclick="toggleMapFilter('news',this)">
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#dc2626"></span> News
+    </button>
+  </div>
+
+  <!-- Map + overlays -->
+  <div class="map-wrapper">
+    <div id="map-container"></div>
+
+    <!-- Colour legend -->
+    <div class="map-legend">
+      <div class="map-legend-title">Legend</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#7C3AED"></div> Players</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#1d4ed8"></div> Scouts</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#16a34a"></div> Trials</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#d97706"></div> Coaching</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#dc2626"></div> News</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#fff;border:2px solid #7C3AED"></div> You</div>
+    </div>
+
+    <!-- Location permission dialog -->
+    <div id="loc-dialog-overlay" class="loc-dialog-overlay" style="display:none">
+      <div class="loc-dialog-card">
+        <div class="loc-icon">📍</div>
+        <h3>Show your location?</h3>
+        <p>We'll place you on the map at city level — never your exact address. Helps scouts find players near them.</p>
+        <div class="loc-dialog-btns">
+          <button class="loc-allow-btn" onclick="requestUserLocation()">Allow</button>
+          <button class="loc-deny-btn"  onclick="denyLocation()">Not now</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
@@ -4497,6 +4630,266 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
         apiPost('/api/messages', { conv_id: convId(otherId), sender_id: otherId, receiver_id: userId, content: reply }).catch(() => {});
       }, delay);
     }
+  }
+
+  // ── Map Page ──
+
+  let leafletMap = null;
+  const mapLayerGroups = { players: [], scouts: [], trials: [], coaching: [], news: [] };
+  const mapFilterState  = { players: true, scouts: true, trials: true, coaching: true, news: true };
+
+  // ─── Simulated geographic data ───
+
+  const MAP_PLAYERS = [
+    { id: 'kai_mensah',     lat: 51.51,  lng: -0.13,   name: 'Kai Mensah',     position: 'Winger',             age: 20 },
+    { id: 'sofia_reyes',    lat: 40.42,  lng: -3.70,   name: 'Sofia Reyes',    position: 'Central Midfielder', age: 22 },
+    { id: 'amira_osei',     lat: 52.37,  lng:  4.90,   name: 'Amira Osei',     position: 'Striker',            age: 19 },
+    { id: 'marcus_diallo',  lat: 48.85,  lng:  2.35,   name: 'Marcus Diallo',  position: 'Winger',             age: 23 },
+    { id: 'jamie_asante',   lat: 51.48,  lng: -3.17,   name: 'Jamie Asante',   position: 'Defensive Mid',      age: 21 },
+    { id: 'lucas_ferreira', lat: 38.72,  lng: -9.14,   name: 'Lucas Ferreira', position: 'Striker',            age: 21 },
+    { id: 'yuki_tanaka',    lat: 35.68,  lng: 139.69,  name: 'Yuki Tanaka',    position: 'Goalkeeper',         age: 24 },
+    { id: 'ibrahima_kone',  lat:  5.36,  lng: -4.01,   name: 'Ibrahima Koné',  position: 'Winger',             age: 20 },
+    { id: 'lena_hoffmann',  lat: 52.52,  lng: 13.40,   name: 'Lena Hoffmann',  position: 'Striker',            age: 21 },
+    { id: 'dmitri_volkov',  lat: 55.75,  lng: 37.62,   name: 'Dmitri Volkov',  position: 'Center Back',        age: 25 },
+    { id: 'fatou_diallo',   lat: 14.69,  lng: -17.44,  name: 'Fatou Diallo',   position: 'Winger',             age: 19 },
+    { id: 'tomas_novak',    lat: 50.08,  lng: 14.44,   name: 'Tomáš Novák',    position: 'Goalkeeper',         age: 23 },
+  ];
+
+  const MAP_SCOUTS = [
+    { id: 'james_harrison', lat: 53.48, lng: -2.24,   name: 'James Harrison', club: 'Manchester City Academy',        verified: true  },
+    { id: 'elena_vasquez',  lat: 40.45, lng: -3.68,   name: 'Elena Vásquez',  club: 'Real Madrid Foundation',         verified: true  },
+    { id: 'raj_patel',      lat: 51.50, lng: -0.08,   name: 'Raj Patel',      club: 'Chelsea FC Scout Network',       verified: false },
+    { id: 'chen_wei',       lat: 31.23, lng: 121.47,  name: 'Chen Wei',       club: 'Shanghai Port FC',               verified: true  },
+    { id: 'sarah_okonkwo',  lat:  6.52, lng:   3.37,  name: 'Sarah Okonkwo',  club: 'Nigeria Football Federation',    verified: true  },
+  ];
+
+  const MAP_TRIALS = [
+    { id: 'tr1', lat: 51.45, lng: -0.09, title: 'AFC Brixton Open Trial',          club: 'AFC Brixton',         ageGroup: 'U21',     date: 'April 15, 2026',  location: 'Brixton Rec Ground, London',           apply: 'trials@afcbrixton.com' },
+    { id: 'tr2', lat: 52.49, lng: -1.90, title: 'Birmingham City Foundation Trial', club: 'Birmingham City FC',  ageGroup: 'U18–U23', date: 'April 22, 2026',  location: 'St. Andrews Training Ground',          apply: 'bcfc.com/trials' },
+    { id: 'tr3', lat: 40.40, lng: -3.73, title: 'Atlético de Madrid Open Day',      club: 'Atlético de Madrid B',ageGroup: 'U19–U22', date: 'May 3, 2026',     location: 'Ciudad Deportiva, Madrid',             apply: 'cantera@atletico.es' },
+    { id: 'tr4', lat: 53.46, lng: -2.29, title: 'Salford City FC Trial',            club: 'Salford City FC',     ageGroup: 'U23',     date: 'May 10, 2026',    location: 'Peninsula Stadium, Salford',           apply: 'Apply via Playr' },
+    { id: 'tr5', lat: 48.88, lng:  2.39, title: 'PSG Academy International Day',   club: 'PSG Academy',         ageGroup: 'U17–U20', date: 'April 28, 2026',  location: 'Camp des Loges, Paris',                apply: 'psg.fr/academy' },
+    { id: 'tr6', lat:  5.36, lng: -4.01, title: 'ASEC Mimosas Talent Search',       club: 'ASEC Mimosas',        ageGroup: 'U16–U21', date: 'May 17, 2026',    location: 'Abidjan Sports Complex',               apply: 'talent@asecmimosas.com' },
+  ];
+
+  const MAP_COACHING = [
+    { id: 'co1', lat: 51.52, lng: -0.07, title: 'Elite Striker Masterclass',        coach: 'Rafael Santos · UEFA Pro',            date: 'April 12, 2026',  location: 'Mile End Stadium, London',     spots: 16, price: '£120' },
+    { id: 'co2', lat: 53.44, lng: -2.16, title: 'Goalkeeper Training Camp',         coach: 'David Ekwueme · UEFA A',              date: 'April 19, 2026',  location: 'JD Stadium, Rochdale',         spots:  8, price: '£95'  },
+    { id: 'co3', lat: 41.38, lng:  2.17, title: 'Barcelona Positional Play Camp',   coach: 'Carlos Mendoza · UEFA Pro',           date: 'May 6, 2026',     location: 'Sant Joan Despí, Barcelona',   spots: 20, price: '€150' },
+    { id: 'co4', lat: 52.51, lng: 13.38, title: 'Mental Performance Bootcamp',      coach: 'Lena Hoffmann · Sports Psychologist', date: 'April 25, 2026',  location: 'Berlin Sports Centre',         spots: 24, price: '€80'  },
+    { id: 'co5', lat: 48.87, lng:  2.33, title: 'Pressing & High-Line Tactics Lab', coach: 'Antoine Moreau · UEFA Pro',           date: 'May 2, 2026',     location: 'Stade Charléty, Paris',        spots: 18, price: '€110' },
+  ];
+
+  const MAP_NEWS = [
+    { id: 'nw1', lat: 51.48, lng: -0.19, title: 'Chelsea sign Malian winger for £18m',                 source: '⚽ Transfer News',      time: '1h ago',  detail: 'Blues complete signing from Stade de Reims ahead of the summer window.' },
+    { id: 'nw2', lat: 40.43, lng: -3.66, title: 'Real Madrid B recall three prospects from loan',      source: '📰 Official Statement', time: '3h ago',  detail: 'La Fabrica recalls Pérez, Russo and Nakamura effective immediately.' },
+    { id: 'nw3', lat: 48.84, lng:  2.25, title: 'PSG announce new partnership with Playr',             source: '🤝 Club News',          time: '5h ago',  detail: 'Partnership opens scouting pipeline to 200+ verified players on the network.' },
+    { id: 'nw4', lat: 53.47, lng: -2.22, title: 'Manchester United open emergency trial',              source: '⚡ Breaking',           time: '8h ago',  detail: 'Following first-team injuries, academy pathways are fast-tracked for next window.' },
+    { id: 'nw5', lat: 52.37, lng:  4.90, title: 'Ajax release 4 youth players — all on the market',   source: '📋 Scout Alert',         time: '12h ago', detail: 'Four released prospects available immediately; all have Eredivisie youth experience.' },
+  ];
+
+  // ─── Map init & control ───
+
+  function showMap() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-map').classList.add('active');
+    setActiveNavItem('nav-map');
+    setTimeout(initLeafletMap, 50); // wait for container to be visible
+  }
+
+  function initLeafletMap() {
+    if (typeof L === 'undefined') return;
+    if (leafletMap) { leafletMap.invalidateSize(); return; }
+
+    leafletMap = L.map('map-container').setView([48, 10], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 18
+    }).addTo(leafletMap);
+
+    renderMapMarkers();
+    checkLocationPermission();
+  }
+
+  function renderMapMarkers() {
+    // Clear old layers
+    Object.keys(mapLayerGroups).forEach(type => {
+      mapLayerGroups[type].forEach(m => leafletMap.removeLayer(m));
+      mapLayerGroups[type] = [];
+    });
+
+    const connections = loadConnections();
+
+    // Players
+    MAP_PLAYERS.forEach(p => {
+      const isConn = connections.connected.includes(p.id);
+      let marker;
+
+      if (isConn) {
+        const prof = PROFILES[p.id] || {};
+        const icon = L.divIcon({
+          className: 'map-player-icon',
+          html: `<div style="width:30px;height:30px;border-radius:50%;background:${prof.grad||'#7C3AED'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.35)">${prof.initials||'?'}</div>`,
+          iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15]
+        });
+        marker = L.marker([p.lat, p.lng], { icon });
+        marker.bindPopup(_playerPopup(p, true), { maxWidth: 250 });
+      } else {
+        marker = L.circleMarker([p.lat, p.lng], { radius: 9, fillColor: '#7C3AED', color: '#5b21b6', weight: 2, opacity: 1, fillOpacity: 0.85 });
+        marker.bindPopup(_playerPopup(p, false), { maxWidth: 250 });
+      }
+      if (mapFilterState.players) marker.addTo(leafletMap);
+      mapLayerGroups.players.push(marker);
+    });
+
+    // Scouts
+    MAP_SCOUTS.forEach(s => {
+      const m = L.circleMarker([s.lat, s.lng], { radius: 9, fillColor: '#1d4ed8', color: '#1e3a8a', weight: 2, opacity: 1, fillOpacity: 0.88 });
+      m.bindPopup(`
+        <div class="map-popup">
+          <div class="map-popup-av" style="background:#1d4ed8;font-size:16px">🔍</div>
+          <div class="map-popup-body">
+            <div class="map-popup-name">${s.name}</div>
+            <div class="map-popup-sub">${s.club}${s.verified ? '<br>✅ Verified Scout' : ''}</div>
+            <button class="map-popup-btn" style="background:#1d4ed8" onclick="showProfile('${s.id}')">View Profile</button>
+          </div>
+        </div>`, { maxWidth: 260 });
+      if (mapFilterState.scouts) m.addTo(leafletMap);
+      mapLayerGroups.scouts.push(m);
+    });
+
+    // Trials
+    MAP_TRIALS.forEach(t => {
+      const m = L.circleMarker([t.lat, t.lng], { radius: 10, fillColor: '#16a34a', color: '#14532d', weight: 2, opacity: 1, fillOpacity: 0.88 });
+      m.bindPopup(`
+        <div class="map-popup">
+          <div class="map-popup-icon">🏟️</div>
+          <div class="map-popup-body">
+            <div class="map-popup-name">${t.title}</div>
+            <div class="map-popup-sub"><b>${t.club}</b> · ${t.ageGroup}<br>📅 ${t.date}<br>📍 ${t.location}<br>📩 ${t.apply}</div>
+            <button class="map-popup-btn" style="background:#16a34a">Apply Now</button>
+          </div>
+        </div>`, { maxWidth: 290 });
+      if (mapFilterState.trials) m.addTo(leafletMap);
+      mapLayerGroups.trials.push(m);
+    });
+
+    // Coaching
+    MAP_COACHING.forEach(c => {
+      const m = L.circleMarker([c.lat, c.lng], { radius: 10, fillColor: '#d97706', color: '#92400e', weight: 2, opacity: 1, fillOpacity: 0.88 });
+      m.bindPopup(`
+        <div class="map-popup">
+          <div class="map-popup-icon">📋</div>
+          <div class="map-popup-body">
+            <div class="map-popup-name">${c.title}</div>
+            <div class="map-popup-sub">${c.coach}<br>📅 ${c.date}<br>📍 ${c.location}<br>${c.spots} spots · ${c.price}</div>
+            <button class="map-popup-btn" style="background:#d97706">Sign Up</button>
+          </div>
+        </div>`, { maxWidth: 290 });
+      if (mapFilterState.coaching) m.addTo(leafletMap);
+      mapLayerGroups.coaching.push(m);
+    });
+
+    // News
+    MAP_NEWS.forEach(n => {
+      const m = L.circleMarker([n.lat, n.lng], { radius: 8, fillColor: '#dc2626', color: '#7f1d1d', weight: 2, opacity: 1, fillOpacity: 0.88 });
+      m.bindPopup(`
+        <div class="map-popup">
+          <div class="map-popup-icon">📰</div>
+          <div class="map-popup-body">
+            <div class="map-popup-name">${n.title}</div>
+            <div class="map-popup-sub">${n.source} · ${n.time}<br>${n.detail}</div>
+          </div>
+        </div>`, { maxWidth: 290 });
+      if (mapFilterState.news) m.addTo(leafletMap);
+      mapLayerGroups.news.push(m);
+    });
+  }
+
+  function _playerPopup(p, isConnected) {
+    const prof = PROFILES[p.id] || {};
+    if (isConnected) {
+      return `<div class="map-popup">
+        <div class="map-popup-av" style="background:${prof.grad||'#7C3AED'}">${prof.initials||'?'}</div>
+        <div class="map-popup-body">
+          <div class="map-popup-name">${p.name}</div>
+          <div class="map-popup-sub">${p.position} · Age ${p.age}</div>
+          <button class="map-popup-btn" style="background:#7C3AED" onclick="showProfile('${p.id}')">View Profile</button>
+        </div>
+      </div>`;
+    }
+    return `<div class="map-popup">
+      <div class="map-popup-av" style="background:#9ca3af">?</div>
+      <div class="map-popup-body">
+        <div class="map-popup-name">Anonymous Player</div>
+        <div class="map-popup-sub">${p.position} · Near this area<br>Connect to reveal their profile</div>
+      </div>
+    </div>`;
+  }
+
+  function toggleMapFilter(type, btn) {
+    if (!leafletMap) return;
+    mapFilterState[type] = !mapFilterState[type];
+    const activeClass = { players: 'fp', scouts: 'fs', trials: 'ftr', coaching: 'fco', news: 'fnw' }[type];
+    btn.classList.toggle(activeClass, mapFilterState[type]);
+    mapLayerGroups[type].forEach(m => mapFilterState[type] ? m.addTo(leafletMap) : leafletMap.removeLayer(m));
+  }
+
+  // ─── Location permission ───
+
+  function checkLocationPermission() {
+    if (!localStorage.getItem('playr_location_asked')) {
+      document.getElementById('loc-dialog-overlay').style.display = 'flex';
+    } else {
+      _loadSavedPin();
+    }
+  }
+
+  function requestUserLocation() {
+    document.getElementById('loc-dialog-overlay').style.display = 'none';
+    localStorage.setItem('playr_location_asked', '1');
+    if (!navigator.geolocation) return;
+    navigator.geolocation.getCurrentPosition(pos => {
+      // Round to ~11 km precision — city level, not exact
+      const lat = Math.round(pos.coords.latitude  * 10) / 10;
+      const lng = Math.round(pos.coords.longitude * 10) / 10;
+      localStorage.setItem('playr_user_lat', lat);
+      localStorage.setItem('playr_user_lng', lng);
+      apiPost('/api/location', { user_id: userId, lat, lng }).catch(() => {});
+      _addUserPin(lat, lng);
+      leafletMap.setView([lat, lng], 10);
+    }, () => {/* denied */});
+  }
+
+  function denyLocation() {
+    document.getElementById('loc-dialog-overlay').style.display = 'none';
+    localStorage.setItem('playr_location_asked', '1');
+  }
+
+  function _loadSavedPin() {
+    const lat = parseFloat(localStorage.getItem('playr_user_lat'));
+    const lng = parseFloat(localStorage.getItem('playr_user_lng'));
+    if (!isNaN(lat) && !isNaN(lng)) { _addUserPin(lat, lng); leafletMap.setView([lat, lng], 9); }
+  }
+
+  function _addUserPin(lat, lng) {
+    const role = localStorage.getItem('playr_role') || 'player';
+    const name = document.getElementById('network-profile-name')?.textContent || 'You';
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'ME';
+    const color = { scout: '#1d4ed8', coach: '#d97706', club: '#16a34a' }[role] || '#7C3AED';
+    const icon = L.divIcon({
+      className: 'map-player-icon',
+      html: `<div style="width:34px;height:34px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:12px;border:3px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,0.4)">${initials}</div>`,
+      iconSize: [34, 34], iconAnchor: [17, 17], popupAnchor: [0, -17]
+    });
+    L.marker([lat, lng], { icon }).addTo(leafletMap)
+      .bindPopup(`<div class="map-popup">
+        <div class="map-popup-av" style="background:${color}">${initials}</div>
+        <div class="map-popup-body">
+          <div class="map-popup-name">${name} (You)</div>
+          <div class="map-popup-sub">Your location · city level precision</div>
+        </div>
+      </div>`, { maxWidth: 240 });
   }
 
   // ── Notifications ──
