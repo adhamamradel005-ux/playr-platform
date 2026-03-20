@@ -1849,6 +1849,58 @@
       transition: opacity 0.2s;
     }
     .thread-send-btn:hover { opacity: 0.85; }
+
+    /* ── Notification Bell ── */
+    .notif-bell-wrap { position: relative; display: flex; align-items: center; }
+    .notif-bell-badge {
+      position: absolute; top: -3px; right: -3px;
+      background: var(--red); color: #fff;
+      font-size: 10px; font-weight: 700; line-height: 1;
+      min-width: 16px; height: 16px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; padding: 0 3px;
+    }
+    .notif-dropdown {
+      position: fixed; top: 58px; right: 16px;
+      width: 360px; max-height: 480px;
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      z-index: 3000; overflow: hidden;
+      display: flex; flex-direction: column;
+      transform: translateY(-10px); opacity: 0;
+      pointer-events: none;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+    .notif-dropdown.open { transform: translateY(0); opacity: 1; pointer-events: all; }
+    .notif-dropdown-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 14px 16px; border-bottom: 1px solid var(--border); flex-shrink: 0;
+    }
+    .notif-dropdown-header h3 { font-size: 15px; font-weight: 700; color: var(--text); }
+    .notif-mark-all-btn {
+      font-size: 12px; color: var(--purple); cursor: pointer;
+      background: none; border: none; font-family: inherit; padding: 0;
+    }
+    .notif-mark-all-btn:hover { text-decoration: underline; }
+    .notif-list { overflow-y: auto; flex: 1; }
+    .notif-item {
+      display: flex; gap: 12px; padding: 13px 16px;
+      border-bottom: 1px solid var(--border); cursor: pointer;
+      transition: background 0.15s; align-items: flex-start;
+    }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item:hover { background: var(--bg-card2); }
+    .notif-item.unread { background: var(--purple-dim); }
+    .notif-item.unread:hover { background: rgba(124,58,237,0.13); }
+    .notif-item-icon { font-size: 22px; flex-shrink: 0; }
+    .notif-item-body { flex: 1; min-width: 0; }
+    .notif-item-text { font-size: 13px; color: var(--text); line-height: 1.45; }
+    .notif-item-ts { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .notif-unread-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--purple); flex-shrink: 0; margin-top: 5px;
+    }
+    .notif-empty { padding: 36px 16px; text-align: center; color: var(--muted); font-size: 14px; }
   </style>
 </head>
 <body>
@@ -2209,6 +2261,10 @@
     </nav>
 
     <div class="network-topbar-actions">
+      <div class="notif-bell-wrap">
+        <button class="btn btn-ghost btn-icon-only" onclick="toggleNotifDropdown()" title="Notifications">🔔</button>
+        <span class="notif-bell-badge" id="bell-badge-feed" style="display:none">0</span>
+      </div>
       <div class="chat-topbar-btn">
         <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
         <span class="chat-notif" id="chat-notif-feed" style="display:none">0</span>
@@ -2597,6 +2653,10 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       <div class="network-nav-item">💼 Trials</div>
     </nav>
     <div class="network-topbar-actions">
+      <div class="notif-bell-wrap">
+        <button class="btn btn-ghost btn-icon-only" onclick="toggleNotifDropdown()" title="Notifications">🔔</button>
+        <span class="notif-bell-badge" id="bell-badge-profile" style="display:none">0</span>
+      </div>
       <div class="chat-topbar-btn">
         <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
         <span class="chat-notif" id="chat-notif-profile" style="display:none">0</span>
@@ -2663,6 +2723,10 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       <div class="network-nav-item">💼 Trials</div>
     </nav>
     <div class="network-topbar-actions">
+      <div class="notif-bell-wrap">
+        <button class="btn btn-ghost btn-icon-only" onclick="toggleNotifDropdown()" title="Notifications">🔔</button>
+        <span class="notif-bell-badge" id="bell-badge-discover" style="display:none">0</span>
+      </div>
       <div class="chat-topbar-btn">
         <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
         <span class="chat-notif" id="chat-notif-discover" style="display:none">0</span>
@@ -2774,6 +2838,10 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       <div class="network-nav-item">💼 Trials</div>
     </nav>
     <div class="network-topbar-actions">
+      <div class="notif-bell-wrap">
+        <button class="btn btn-ghost btn-icon-only" onclick="toggleNotifDropdown()" title="Notifications">🔔</button>
+        <span class="notif-bell-badge" id="bell-badge-mn" style="display:none">0</span>
+      </div>
       <div class="chat-topbar-btn">
         <button class="btn btn-ghost btn-icon-only" onclick="toggleChat()" title="Messages">💬</button>
         <span class="chat-notif" id="chat-notif-mn" style="display:none">0</span>
@@ -3516,6 +3584,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     if (!c.connected.includes(id)) c.connected.push(id);
     saveConnections(c);
     if (document.getElementById('my-network-body').children.length) renderMyNetworkPage();
+    const name = (PROFILES[id] || {}).name || id;
+    addNotif('connection_accepted', `You are now connected with ${name}`, '🤝');
   }
 
   function declineConnection(id) {
@@ -4350,10 +4420,119 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
         if (isActive) renderThread(otherId);
         updateChatBadge();
         if (chatState.view === 'list' && chatState.open) renderConvList();
+        // Notify user of reply if chat not actively focused on this thread
+        if (!isActive) {
+          const senderName = (PROFILES[otherId] || {}).name || otherId;
+          addNotif('message', `${senderName} replied to your message`, '💬');
+        }
         // Persist auto-reply
         apiPost('/api/messages', { conv_id: convId(otherId), sender_id: otherId, receiver_id: userId, content: reply }).catch(() => {});
       }, delay);
     }
+  }
+
+  // ── Notifications ──
+
+  const NOTIF_KEY       = 'playr_notifs';
+  const NOTIF_SEED_KEY  = 'playr_notifs_seeded';
+
+  const BELL_BADGE_IDS = ['bell-badge-feed','bell-badge-profile','bell-badge-discover','bell-badge-mn'];
+
+  function loadNotifs() {
+    try { return JSON.parse(localStorage.getItem(NOTIF_KEY) || '[]'); } catch { return []; }
+  }
+  function saveNotifs(arr) {
+    localStorage.setItem(NOTIF_KEY, JSON.stringify(arr.slice(0, 40)));
+  }
+  function addNotif(type, text, icon) {
+    const arr = loadNotifs();
+    arr.unshift({ id: Date.now() + Math.random(), type, text, icon, ts: Date.now(), read: false });
+    saveNotifs(arr);
+    updateBellBadge();
+  }
+  function markAllNotifsRead() {
+    saveNotifs(loadNotifs().map(n => ({ ...n, read: true })));
+    updateBellBadge();
+  }
+  function updateBellBadge() {
+    const count = loadNotifs().filter(n => !n.read).length;
+    BELL_BADGE_IDS.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = count > 9 ? '9+' : count;
+      el.style.display = count > 0 ? 'flex' : 'none';
+    });
+  }
+
+  const notifState = { open: false };
+
+  function toggleNotifDropdown() {
+    notifState.open ? closeNotifDropdown() : openNotifDropdown();
+  }
+  function openNotifDropdown() {
+    renderNotifDropdown();
+    document.getElementById('notif-dropdown').classList.add('open');
+    notifState.open = true;
+    // Mark all read after a short delay so user sees the unread highlight briefly
+    setTimeout(() => { markAllNotifsRead(); renderNotifDropdown(); }, 1200);
+    setTimeout(() => document.addEventListener('click', _outsideNotifClick), 0);
+  }
+  function closeNotifDropdown() {
+    document.getElementById('notif-dropdown').classList.remove('open');
+    notifState.open = false;
+    document.removeEventListener('click', _outsideNotifClick);
+  }
+  function _outsideNotifClick(e) {
+    const drop = document.getElementById('notif-dropdown');
+    let inside = drop.contains(e.target);
+    document.querySelectorAll('.notif-bell-wrap').forEach(w => { if (w.contains(e.target)) inside = true; });
+    if (!inside) closeNotifDropdown();
+  }
+
+  function _notifRelTime(ts) {
+    const s = Math.floor((Date.now() - ts) / 1000);
+    if (s < 60)    return 'just now';
+    if (s < 3600)  return Math.floor(s / 60) + 'm ago';
+    if (s < 86400) return Math.floor(s / 3600) + 'h ago';
+    return Math.floor(s / 86400) + 'd ago';
+  }
+
+  function renderNotifDropdown() {
+    const arr = loadNotifs();
+    const list = document.getElementById('notif-list');
+    if (!arr.length) {
+      list.innerHTML = '<div class="notif-empty">You\'re all caught up 👋</div>';
+      return;
+    }
+    list.innerHTML = arr.map(n => `
+      <div class="notif-item${n.read ? '' : ' unread'}">
+        <div class="notif-item-icon">${n.icon}</div>
+        <div class="notif-item-body">
+          <div class="notif-item-text">${n.text}</div>
+          <div class="notif-item-ts">${_notifRelTime(n.ts)}</div>
+        </div>
+        ${n.read ? '' : '<div class="notif-unread-dot"></div>'}
+      </div>
+    `).join('');
+  }
+
+  function _seedInitialNotifs() {
+    if (localStorage.getItem(NOTIF_SEED_KEY)) return;
+    localStorage.setItem(NOTIF_SEED_KEY, '1');
+    const now = Date.now();
+    const initial = [
+      { id: now+1, type: 'connection_request', text: 'Marcus Diallo sent you a connection request', icon: '👥', ts: now - 1000*60*60*5, read: false },
+      { id: now+2, type: 'connection_request', text: 'Jamie Asante sent you a connection request',  icon: '👥', ts: now - 1000*60*60*3, read: false },
+      { id: now+3, type: 'like',               text: 'Amira Osei liked your post',                  icon: '❤️', ts: now - 1000*60*42,    read: false },
+      { id: now+4, type: 'comment',            text: 'Sofia Reyes commented: "Keep grinding, this is 🔥"', icon: '💬', ts: now - 1000*60*28, read: false },
+      { id: now+5, type: 'like',               text: 'Kai Mensah liked your post',                  icon: '❤️', ts: now - 1000*60*18,    read: false },
+    ];
+    saveNotifs(initial);
+    updateBellBadge();
+
+    // Simulate a few more arriving after page load
+    setTimeout(() => addNotif('like',    'James Harrison liked your post',             '❤️'), 8000);
+    setTimeout(() => addNotif('comment', 'Marcus Diallo commented: "Great mindset 💪"', '💬'), 22000);
   }
 
   function goBackToNetwork() {
@@ -4557,7 +4736,20 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   loadConnections();
   updateNotifBadges();
   updateChatBadge();
+  _seedInitialNotifs();
+  updateBellBadge();
 </script>
+<!-- ══════════════════════════════════════════
+     NOTIFICATION DROPDOWN (global overlay)
+══════════════════════════════════════════ -->
+<div id="notif-dropdown" class="notif-dropdown">
+  <div class="notif-dropdown-header">
+    <h3>🔔 Notifications</h3>
+    <button class="notif-mark-all-btn" onclick="markAllNotifsRead();renderNotifDropdown()">Mark all as read</button>
+  </div>
+  <div class="notif-list" id="notif-list"></div>
+</div>
+
 <!-- ══════════════════════════════════════════
      CHAT DRAWER (persistent, overlays all screens)
 ══════════════════════════════════════════ -->
