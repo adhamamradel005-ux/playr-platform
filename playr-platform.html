@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Playr — Built for Athletes</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <!-- Apply saved theme before paint to prevent flash -->
@@ -2083,6 +2083,163 @@
     [data-theme="dark"] .map-popup-name { color: #f0f0f5; }
     [data-theme="dark"] .map-popup-sub  { color: #8888aa; }
     .map-player-icon div { cursor: pointer; }
+
+    /* ═══════════════════════════════════════════════
+       SPORTIQUE REDESIGN — Bold · Athletic · Inclusive
+    ═══════════════════════════════════════════════ */
+
+    /* ── Color tokens: higher contrast, more electric ── */
+    :root {
+      --bg:              #F3F3F7;
+      --text:            #08080F;
+      --muted:           #56566E;
+      --purple:          #6D28D9;
+      --purple-lt:       #7C3AED;
+      --card-shadow:     0 2px 16px rgba(8,8,15,0.09), 0 1px 4px rgba(8,8,15,0.06);
+      --bg-top-bar:      rgba(243,243,247,0.96);
+    }
+    [data-theme="dark"] {
+      --bg:              #030308;
+      --bg-card:         #09090F;
+      --bg-card2:        #0F0F18;
+      --border:          rgba(255,255,255,0.075);
+      --purple:          #9333EA;
+      --purple-lt:       #A855F7;
+      --purple-dim:      rgba(147,51,234,0.14);
+      --purple-glow:     rgba(147,51,234,0.30);
+      --bg-top-bar:      rgba(3,3,8,0.97);
+      --bg-hero:         linear-gradient(135deg,#0A0314 0%,#030820 60%,#030812 100%);
+      --text:            #F2F2FA;
+      --muted:           #6868A8;
+      --scrollbar-thumb: rgba(255,255,255,0.07);
+      --scrollbar-hover: rgba(255,255,255,0.14);
+    }
+
+    /* ── Buttons — angular, athletic ── */
+    .btn { border-radius: 6px; font-weight: 700; letter-spacing: 0.2px; font-family: inherit; }
+    .btn-primary { box-shadow: 0 1px 4px rgba(0,0,0,0.18); }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(109,40,217,0.36); background: var(--purple-lt); }
+    [data-theme="dark"] .btn-primary:hover { box-shadow: 0 8px 32px rgba(147,51,234,0.48); }
+    .btn-ghost { border-radius: 6px; }
+
+    /* ── Entry logo — left-aligned, Nike-style ── */
+    .entry-logo { font-size: 26px; letter-spacing: -1px; left: 44px; transform: none; }
+
+    /* ── Entry tagline — massive, uppercase, Barlow ── */
+    .entry-tagline { margin-bottom: 48px; }
+    .entry-tagline h1 {
+      font-family: 'Barlow Condensed', 'Inter', sans-serif;
+      font-size: clamp(46px, 7.5vw, 96px);
+      font-weight: 900;
+      letter-spacing: 0.5px;
+      line-height: 0.93;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .entry-tagline p { font-size: 15px; max-width: 500px; margin: 0 auto; line-height: 1.65; }
+
+    /* ── Path cards — more editorial ── */
+    .path-card { border-radius: 14px; }
+    .path-card h2 {
+      font-family: 'Barlow Condensed', 'Inter', sans-serif;
+      font-size: clamp(24px, 3.2vw, 38px);
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      line-height: 1.0;
+    }
+    .path-cta { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; }
+    [data-theme="dark"] .path-card { background: #0D0D16; border-color: rgba(255,255,255,0.06); }
+    [data-theme="dark"] .path-card:hover { border-color: rgba(255,255,255,0.13); box-shadow: 0 24px 64px rgba(0,0,0,0.55); }
+
+    /* ── Entry stats bar ── */
+    .entry-stats {
+      display: flex; align-items: stretch; z-index: 10;
+      margin-top: 32px; border-radius: 12px; overflow: hidden;
+      background: var(--bg-card); border: 1px solid var(--border);
+    }
+    [data-theme="light"] .entry-stats { box-shadow: var(--card-shadow); }
+    .entry-stat { padding: 14px 28px; text-align: center; flex: 1; }
+    .entry-stat + .entry-stat { border-left: 1px solid var(--border); }
+    .entry-stat-num {
+      display: block; font-family: 'Barlow Condensed', Inter, sans-serif;
+      font-size: 21px; font-weight: 900; color: var(--purple-lt);
+      letter-spacing: -0.3px; line-height: 1;
+    }
+    .entry-stat-label {
+      display: block; font-size: 9.5px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.3px; color: var(--muted); margin-top: 4px;
+    }
+
+    /* ── Role cards — bold, angular ── */
+    .role-card { border-radius: 12px; }
+    .role-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,0.14); }
+    [data-theme="dark"] .role-card { background: #0D0D16; border-color: rgba(255,255,255,0.06); }
+    [data-theme="dark"] .role-card:hover { border-color: rgba(147,51,234,0.45); box-shadow: 0 16px 52px rgba(0,0,0,0.65); }
+    .role-card-icon { font-size: 40px; margin-bottom: 12px; }
+    .role-card-title {
+      font-family: 'Barlow Condensed', Inter, sans-serif;
+      font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
+    }
+
+    /* ── Global topbar — sharper ── */
+    .playr-topbar { height: 54px; }
+    [data-theme="dark"] .playr-topbar { background: rgba(9,9,15,0.97); border-bottom-color: rgba(255,255,255,0.06); }
+    .playr-logo { font-size: 22px; letter-spacing: -1px; }
+    .playr-nav-label { font-weight: 700; font-size: 10.5px; letter-spacing: 0.3px; }
+    .playr-nav-item.active { border-bottom-width: 3px; }
+
+    /* ── Post cards — editorial ── */
+    .post-card { border-radius: 12px; }
+    [data-theme="dark"] .post-card { background: #09090F; border-color: rgba(255,255,255,0.06); }
+    .post-author-name { font-weight: 800; font-size: 14px; }
+
+    /* ── Discover cards ── */
+    [data-theme="dark"] .discover-card { background: #09090F; border-color: rgba(255,255,255,0.06); }
+
+    /* ── Module cards ── */
+    .module-card { border-radius: 12px; }
+    .module-thumb { height: 150px; }
+    .module-category { font-size: 10.5px; letter-spacing: 2.5px; }
+    .module-card h4 { font-size: 15.5px; font-weight: 800; }
+    [data-theme="dark"] .module-card { background: #09090F; border-color: rgba(255,255,255,0.06); }
+
+    /* ── EAF sidebar ── */
+    .sidebar-logo .logo-mark { border-radius: 8px; width: 36px; height: 36px; font-size: 17px; }
+    .sidebar-logo .logo-text { font-size: 20px; font-weight: 900; letter-spacing: -0.8px; }
+    [data-theme="dark"] .sidebar { background: #09090F; border-color: rgba(255,255,255,0.06); }
+    [data-theme="dark"] .top-bar { background: rgba(9,9,15,0.97); border-color: rgba(255,255,255,0.06); }
+
+    /* ── Network profile card ── */
+    [data-theme="dark"] .profile-card,
+    [data-theme="dark"] .sidebar-card { background: #09090F; border-color: rgba(255,255,255,0.06); }
+    .profile-name { font-weight: 800; }
+    .profile-stat-val { font-weight: 900; font-size: 13px; }
+
+    /* ── Welcome banner ── */
+    .welcome-text h2 { font-weight: 900; font-size: 22px; }
+    .streak-number {
+      font-family: 'Barlow Condensed', Inter, sans-serif;
+      font-size: 34px; font-weight: 900; letter-spacing: -0.5px;
+    }
+
+    /* ── Dropdowns dark mode ── */
+    [data-theme="dark"] .chat-drawer,
+    [data-theme="dark"] .notif-dropdown,
+    [data-theme="dark"] .me-dropdown { background: #09090F; border-color: rgba(255,255,255,0.06); }
+    [data-theme="dark"] .side-switcher { background: #0F0F18; border-color: rgba(255,255,255,0.08); }
+
+    /* ── Light mode card elevation ── */
+    [data-theme="light"] .profile-card,
+    [data-theme="light"] .post-card,
+    [data-theme="light"] .sidebar-card,
+    [data-theme="light"] .discover-card,
+    [data-theme="light"] .module-card,
+    [data-theme="light"] .stat-card,
+    [data-theme="light"] .path-card { box-shadow: var(--card-shadow); }
+
+    /* ── Progress bars — sharper ── */
+    .progress-bar-fill { border-radius: 2px; }
   </style>
 </head>
 <body>
@@ -2160,8 +2317,15 @@
   <div class="entry-logo">Pl<span>a</span>yr</div>
 
   <div class="entry-tagline fade-up">
-    <h1>Where do you want to start?</h1>
-    <p>Choose your path — you can always switch between both.</p>
+    <h1>BUILT FOR ATHLETES<br>WHO DON'T WAIT.</h1>
+    <p>Two tools. One platform. Train your mind or get discovered — your choice.</p>
+  </div>
+
+  <div class="entry-stats fade-up">
+    <div class="entry-stat"><div class="entry-stat-num">12K+</div><div class="entry-stat-label">Athletes</div></div>
+    <div class="entry-stat"><div class="entry-stat-num">580+</div><div class="entry-stat-label">Scouts</div></div>
+    <div class="entry-stat"><div class="entry-stat-num">95+</div><div class="entry-stat-label">Clubs</div></div>
+    <div class="entry-stat"><div class="entry-stat-num">Women's + Men's</div><div class="entry-stat-label">Football</div></div>
   </div>
 
   <div class="entry-paths">
@@ -2170,14 +2334,14 @@
     <div class="path-card eaf fade-up" onclick="showEAF()">
       <div class="path-icon">🧠</div>
       <div class="path-label">Elite Athlete Framework</div>
-      <h2>Build Your Game<br>From The Inside</h2>
+      <h2>TRAIN YOUR MIND.<br>WIN THE GAME.</h2>
       <p>The mental operating system used by elite footballers. Train your psychology, identity, resilience, and focus — the parts of the game no coach is teaching you.</p>
       <ul class="path-features">
         <li><span class="dot"></span>Identity &amp; self-concept as an athlete</li>
         <li><span class="dot"></span>Pre-match pressure &amp; anxiety protocols</li>
         <li><span class="dot"></span>Resilience after rejection or injury</li>
         <li><span class="dot"></span>Focus, flow states &amp; mental reps</li>
-        <li><span class="dot"></span>Guided reflections from elite players</li>
+        <li><span class="dot"></span>Used by women's &amp; men's elite players</li>
       </ul>
       <div class="path-cta">Enter the framework <span>→</span></div>
     </div>
@@ -2186,10 +2350,10 @@
     <div class="path-card network fade-up" onclick="showNetwork()">
       <div class="path-icon">⚡</div>
       <div class="path-label">Athlete Discovery Network</div>
-      <h2>Get On The Radar.<br>Get Found.</h2>
+      <h2>GET SEEN.<br>GET SIGNED.</h2>
       <p>The professional ecosystem for players, scouts, coaches and clubs. Build your profile, upload your highlights, and connect with the people who can change your career.</p>
       <ul class="path-features">
-        <li><span class="dot"></span>Professional athlete &amp; coach profiles</li>
+        <li><span class="dot"></span>Women's &amp; men's football — all levels</li>
         <li><span class="dot"></span>AI-powered scout discovery tools</li>
         <li><span class="dot"></span>Verified performance stats &amp; clips</li>
         <li><span class="dot"></span>Club pages &amp; trial announcements</li>
@@ -2307,8 +2471,8 @@
 
         <div class="welcome-banner">
           <div class="welcome-text">
-            <h2>Welcome back, Adham 👊</h2>
-            <p>You're on a 3-day streak. Don't break the chain — Module 2 is waiting.</p>
+            <h2>YOU'RE BACK. LET'S GO. 🔥</h2>
+            <p>Consistency builds champions. Your next module is ready — don't stop now.</p>
           </div>
           <div class="streak-widget">
             <div class="streak-item">
@@ -2635,7 +2799,7 @@ Huge thanks to my family, my coaches, and everyone who believed in me before I b
           </div>
           <div class="post-more">···</div>
         </div>
-        <div class="post-text">🔍 TALENT SEARCH | Currently scouting for our regional program.
+        <div class="post-text">🔍 TALENT SEARCH | Open to all genders — women's and men's football.
 
 Looking for:
 → Attacking midfielders &amp; wingers, aged 16–21
@@ -2643,9 +2807,9 @@ Looking for:
 → High work rate and coachability are non-negotiable
 → Based in or willing to relocate to the North West
 
-If you or someone you know fits this profile — drop your highlight reel in the comments or DM me directly. I watch everything.
+Women's football especially — we are actively expanding our female talent pipeline. DM your highlight reel. I watch everything.
 
-<span class="post-tag">#ScoutingNetwork #TalentID #FootballTrials</span></div>
+<span class="post-tag">#ScoutingNetwork #TalentID #WomensFootball #FootballTrials</span></div>
         <div class="post-stats">
           <span>👍 183 likes</span>
           <span>94 comments</span>
