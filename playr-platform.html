@@ -2686,6 +2686,56 @@
     letter-spacing: 0.5px;
   }
 
+  /* ── Network home search bar ── */
+  .network-search-wrap {
+    width: 100%; max-width: 680px; margin: 0 auto;
+    padding: 0 16px 4px; position: relative;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .network-search-icon {
+    position: absolute; left: 30px; top: 13px;
+    color: var(--muted); pointer-events: none;
+    display: flex; align-items: center;
+  }
+  .network-search-input {
+    width: 100%; padding: 12px 16px 12px 42px;
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text);
+    font-family: 'Inter', sans-serif; font-size: 14px;
+    outline: none; transition: border-color 0.15s;
+  }
+  .network-search-input:focus { border-color: var(--purple); }
+  .network-search-input::placeholder { color: var(--muted); }
+  .network-search-filters {
+    display: flex; gap: 6px; flex-wrap: wrap;
+  }
+  .network-search-filter {
+    padding: 5px 14px; border-radius: 20px;
+    border: 1px solid var(--border); background: transparent;
+    color: var(--muted); font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
+    text-transform: uppercase; cursor: pointer;
+    transition: border-color 0.15s, color 0.15s, background 0.15s;
+  }
+  .network-search-filter:hover { border-color: var(--purple); color: var(--purple); }
+  .network-search-filter.active {
+    background: var(--purple); border-color: var(--purple); color: #000;
+  }
+
+  /* ── EAF sidebar switch-to-network button ── */
+  .sidebar-switch-btn {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; padding: 10px 14px;
+    background: transparent; border: 1px solid var(--border);
+    border-radius: 6px; color: var(--muted);
+    font-family: 'Inter', sans-serif; font-size: 12px;
+    font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+    cursor: pointer; margin-bottom: 12px;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .sidebar-switch-btn:hover { border-color: var(--purple); color: var(--purple); }
+  .sidebar-switch-btn svg { flex-shrink: 0; }
+
   </style>
 </head>
 <body>
@@ -2696,7 +2746,7 @@
 <nav id="playr-nav" style="display:none" aria-label="Main navigation">
 
   <!-- Logo (desktop sidebar top) -->
-  <div class="pn-logo">Pl<span>a</span>yr</div>
+  <div class="pn-logo" onclick="goToEntry()" style="cursor:pointer" title="Back to home">Pl<span>a</span>yr</div>
 
   <!-- Nav items -->
   <div class="pn-items">
@@ -2870,39 +2920,55 @@
 
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="sidebar-logo">
+    <div class="sidebar-logo" onclick="goToEntry()" style="cursor:pointer" title="Back to home">
       <div class="logo-mark">P</div>
       <div class="logo-text">Pl<span>a</span>yr</div>
     </div>
 
     <div class="sidebar-section-label">Framework</div>
     <div class="nav-item active" onclick="showView('home', this)">
-      <span class="nav-icon">🏠</span> Home
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      </span> Home
     </div>
     <div class="nav-item" onclick="showView('modules', this)">
-      <span class="nav-icon">📚</span> Modules
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      </span> Modules
     </div>
     <div class="nav-item" onclick="showView('progress', this)">
-      <span class="nav-icon">📈</span> My Progress
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+      </span> My Progress
     </div>
     <div class="nav-item" onclick="showView('journal', this)">
-      <span class="nav-icon">✍️</span> Journal
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      </span> Journal
     </div>
 
     <div class="sidebar-section-label">Discover</div>
     <div class="nav-item" onclick="showView('elites', this)">
-      <span class="nav-icon">⭐</span> Elite Stories
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      </span> Elite Stories
     </div>
     <div class="nav-item" onclick="showView('community', this)">
-      <span class="nav-icon">👥</span> Community
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+      </span> Community
     </div>
 
     <div class="sidebar-bottom">
+      <button class="sidebar-switch-btn" onclick="switchToNetwork()" title="Switch to Athlete Discovery Network">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+        Discovery Network
+      </button>
       <div class="user-card">
         <div class="user-avatar">A</div>
         <div class="user-info">
           <div class="user-name">Adham</div>
-          <div class="user-tier">🔮 Pro Member</div>
+          <div class="user-tier">Pro Member</div>
         </div>
       </div>
     </div>
@@ -3148,6 +3214,21 @@
           <button class="btn btn-primary" onclick="openPostForm()" style="font-size:13px;padding:8px 18px">Post Update</button>
           <button class="btn btn-ghost" onclick="switchToFramework()" style="font-size:13px;padding:8px 18px">Framework</button>
         </div>
+      </div>
+    </div>
+
+    <!-- ── SEARCH BAR ── -->
+    <div class="network-search-wrap">
+      <span class="network-search-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <input class="network-search-input" id="network-search" type="text" placeholder="Search players, scouts, clubs, coaches…" onfocus="networkSearchFocus()" oninput="networkSearchInput(this.value)">
+      <div class="network-search-filters">
+        <button class="network-search-filter active" data-filter="all" onclick="setNetworkSearchFilter('all',this)">All</button>
+        <button class="network-search-filter" data-filter="player" onclick="setNetworkSearchFilter('player',this)">Players</button>
+        <button class="network-search-filter" data-filter="scout" onclick="setNetworkSearchFilter('scout',this)">Scouts</button>
+        <button class="network-search-filter" data-filter="coach" onclick="setNetworkSearchFilter('coach',this)">Coaches</button>
+        <button class="network-search-filter" data-filter="club" onclick="setNetworkSearchFilter('club',this)">Clubs</button>
       </div>
     </div>
 
@@ -5556,6 +5637,41 @@ Open to trials in England or Germany. CM, 22, full fitness. DMs open.
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-network').classList.add('active');
     setActiveNavItem('nav-home');
+  }
+
+  // ─── NETWORK HOME SEARCH ───
+  let _networkSearchFilter = 'all';
+
+  function networkSearchFocus() {
+    // On focus, if there's already text navigate straight to discover
+    const val = document.getElementById('network-search')?.value?.trim();
+    if (val) { _goToDiscoverWithSearch(val, _networkSearchFilter); }
+  }
+
+  function networkSearchInput(val) {
+    if (val.trim().length >= 1) {
+      _goToDiscoverWithSearch(val.trim(), _networkSearchFilter);
+    }
+  }
+
+  function setNetworkSearchFilter(filter, btn) {
+    _networkSearchFilter = filter;
+    document.querySelectorAll('.network-search-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    // Also sync the discover tab if already on discover screen
+    const discoverTab = document.querySelector(`.discover-tab[data-tab="${filter}"]`);
+    if (discoverTab) { setDiscoverTab(filter, discoverTab); }
+  }
+
+  function _goToDiscoverWithSearch(query, filter) {
+    showDiscover();
+    const input = document.getElementById('discover-search');
+    if (input) { input.value = query; discoverState.search = query; }
+    if (filter && filter !== 'all') {
+      const tab = document.querySelector(`.discover-tab[data-tab="${filter}"]`);
+      if (tab) setDiscoverTab(filter, tab);
+    }
+    filterDiscover();
   }
 
   // ─── DISCOVERY PAGE ───
