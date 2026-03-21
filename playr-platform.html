@@ -1127,45 +1127,127 @@
     }
     .network-topbar-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 
-    /* ─── FEED LAYOUT ─── */
-    .network-feed-layout {
-      max-width: 1180px;
+    /* ─── NETWORK HOME — full-width content-first layout ─── */
+    .network-home {
+      width: 100%; max-width: 680px;
       margin: 0 auto;
-      width: 100%;
-      padding: 24px 16px 48px;
-      display: grid;
-      grid-template-columns: 272px 1fr 300px;
-      gap: 20px;
-      align-items: start;
+      padding: 20px 16px 48px;
+      display: flex; flex-direction: column; gap: 12px;
     }
 
-    /* ─── LEFT SIDEBAR ─── */
-    .network-left { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 80px; }
-
-    .profile-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      overflow: hidden;
+    /* ── Athlete Status Card (Whoop-style) ── */
+    .status-card {
+      display: flex; align-items: center; gap: 20px;
+      background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 4px;
+      padding: 20px 24px;
     }
-    .profile-card-banner {
-      height: 60px;
-      background: linear-gradient(135deg, var(--purple) 0%, #00C9A7 100%);
+    .status-ring-wrap {
+      position: relative; flex-shrink: 0;
+      width: 100px; height: 100px;
     }
-    .profile-card-body { padding: 0 16px 16px; }
-    .profile-avatar-wrap { margin-top: -22px; margin-bottom: 10px; }
-    .profile-avatar {
-      width: 52px; height: 52px;
-      background: var(--purple);
-      border-radius: 50%;
-      border: 3px solid var(--bg-card);
+    .status-ring { width: 100%; height: 100%; }
+    .ring-track {
+      fill: none; stroke: #2a2a2a; stroke-width: 8;
+    }
+    .ring-fill {
+      fill: none; stroke: #00FF87; stroke-width: 8;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 1s ease;
+    }
+    .ring-center {
+      position: absolute; inset: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 20px; font-weight: 800; color: white;
     }
-    .profile-name { font-size: 15px; font-weight: 700; margin-bottom: 5px; }
-    .profile-meta { font-size: 12px; color: var(--muted); line-height: 1.7; margin-bottom: 14px; }
-    .profile-stats { border-top: 1px solid var(--border); padding-top: 12px; display: flex; flex-direction: column; gap: 7px; }
-    .profile-stat-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
+    .ring-av {
+      width: 64px; height: 64px; border-radius: 50%;
+      background: #00FF87; color: #0f0f0f;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
+    }
+    .status-info { flex: 1; min-width: 0; }
+    .status-name-row { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; flex-wrap: wrap; }
+    .status-name { font-size: 18px; font-weight: 900; color: #ffffff; letter-spacing: -0.3px; }
+    .status-meta { font-size: 12px; color: #888888; margin-bottom: 14px; }
+    .status-metrics {
+      display: flex; align-items: center; gap: 0;
+      margin-bottom: 16px;
+    }
+    .status-metric { text-align: center; flex: 1; }
+    .status-metric-val { display: block; font-family: 'Barlow Condensed', Inter, sans-serif; font-size: 22px; font-weight: 900; color: #00FF87; line-height: 1; }
+    .status-metric-label { display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 1.2px; color: #888888; margin-top: 3px; }
+    .status-metric-div { width: 1px; height: 32px; background: #2a2a2a; flex-shrink: 0; }
+    .status-actions { display: flex; gap: 8px; }
+
+    /* ── People strip — horizontal swipe ── */
+    .people-strip-wrap { background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 4px; padding: 16px; }
+    .people-strip-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+    .people-strip-title { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: #888888; }
+    .people-strip-see-all { font-size: 12px; font-weight: 700; color: #00FF87; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
+    .people-strip {
+      display: flex; gap: 10px;
+      overflow-x: auto; padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .people-strip::-webkit-scrollbar { display: none; }
+
+    /* Profile tile (swipe card) */
+    .profile-tile {
+      flex-shrink: 0; width: 120px;
+      background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 4px;
+      padding: 16px 12px; display: flex; flex-direction: column;
+      align-items: center; text-align: center; gap: 6px;
+      cursor: pointer; transition: border-color 0.15s, transform 0.15s;
+    }
+    .profile-tile:hover { border-color: #00FF87; transform: translateY(-2px); }
+    .profile-tile-av {
+      width: 48px; height: 48px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 15px; font-weight: 800; color: #0f0f0f; margin-bottom: 4px;
+    }
+    .profile-tile-name { font-size: 12px; font-weight: 700; color: #ffffff; line-height: 1.3; }
+    .profile-tile-sub { font-size: 10px; color: #888888; line-height: 1.4; }
+    .profile-tile-btn {
+      margin-top: 4px; padding: 5px 12px; border-radius: 3px;
+      font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      border: 1px solid #00FF87; color: #00FF87; background: transparent;
+      cursor: pointer; font-family: inherit; transition: all 0.15s; width: 100%;
+    }
+    .profile-tile-btn:hover { background: #00FF87; color: #0f0f0f; }
+    .profile-tile-btn.connected { border-color: #2a2a2a; color: #888888; cursor: default; }
+    .profile-tile-btn.connected:hover { background: transparent; color: #888888; }
+
+    /* ── Post composer bar ── */
+    .composer-bar {
+      display: flex; align-items: center; gap: 10px;
+      background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 4px;
+      padding: 10px 14px;
+    }
+    .composer-av {
+      width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+      background: #00FF87; color: #0f0f0f;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 12px; font-weight: 800;
+    }
+    .composer-input {
+      flex: 1; font-size: 14px; color: #888888; cursor: pointer;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .composer-btn {
+      width: 32px; height: 32px; border-radius: 50%; border: none; flex-shrink: 0;
+      background: #00FF87; color: #0f0f0f;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: transform 0.15s;
+    }
+    .composer-btn:hover { transform: scale(1.1); }
+
+    /* ── Feed ── */
+    .network-feed { display: flex; flex-direction: column; gap: 2px; }
+
+    /* ── Left/right sidebar CSS — keep stub so old refs don't crash ── */
+    .network-left, .network-right, .network-feed-layout { display: none; }
+    .profile-card, .profile-avatar-wrap, .profile-card-banner, .profile-card-body { display: none; }
+    .profile-name { font-size: 15px; font-weight: 700; }
+    .profile-meta { font-size: 12px; color: var(--muted); }
     .profile-stat-val { font-weight: 700; color: var(--purple-lt); }
 
     /* ─── ROLE BADGES ─── */
@@ -1266,15 +1348,20 @@
     .post-embed img { width: 100%; border-radius: 12px; display: block; max-height: 320px; object-fit: cover; }
 
     /* Feed filter bar */
-    .feed-filters { display: flex; gap: 8px; flex-wrap: wrap; }
-    .filter-btn {
-      padding: 7px 16px; border-radius: 999px;
-      border: 1px solid var(--border); background: var(--bg-card);
-      color: var(--muted); font-size: 13px; font-weight: 600;
-      cursor: pointer; transition: all 0.18s; white-space: nowrap;
+    .feed-filters {
+      display: flex; gap: 0; overflow-x: auto; scrollbar-width: none;
+      border-bottom: 1px solid #2a2a2a;
     }
-    .filter-btn:hover { border-color: var(--purple); color: var(--purple); }
-    .filter-btn.active { background: var(--purple); border-color: var(--purple); color: #fff; }
+    .feed-filters::-webkit-scrollbar { display: none; }
+    .filter-btn {
+      padding: 10px 16px; border-radius: 0; border: none; border-bottom: 2px solid transparent;
+      background: transparent; color: #888888;
+      font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      cursor: pointer; transition: all 0.15s; white-space: nowrap; flex-shrink: 0;
+      font-family: inherit;
+    }
+    .filter-btn:hover { color: #ffffff; }
+    .filter-btn.active { color: #00FF87; border-bottom-color: #00FF87; }
 
     /* User-created posts animation */
     @keyframes postSlideIn {
@@ -1294,28 +1381,29 @@
     .news-headline:hover { color: var(--purple-lt); }
     .news-source { font-size: 11px; color: var(--muted); }
 
-    /* Post card */
+    /* Post card — full-width, divider-style, no rounded box */
     .post-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 20px;
+      background: #1a1a1a;
+      border: none; border-bottom: 1px solid #2a2a2a;
+      border-radius: 0;
+      padding: 20px 0;
     }
-    .post-header { display: flex; gap: 12px; margin-bottom: 14px; align-items: flex-start; }
+    .post-card:first-child { border-top: 1px solid #2a2a2a; }
+    .post-header { display: flex; gap: 12px; margin-bottom: 12px; align-items: flex-start; }
     .post-avatar {
-      width: 44px; height: 44px;
+      width: 40px; height: 40px;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
-      font-size: 14px; font-weight: 800; color: white;
+      font-size: 13px; font-weight: 800; color: white;
       flex-shrink: 0;
     }
     .post-author-info { flex: 1; min-width: 0; }
-    .post-author-name { font-size: 14px; font-weight: 700; margin-bottom: 3px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-    .post-author-sub { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
-    .post-timestamp { font-size: 11px; color: var(--muted); }
+    .post-author-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .post-author-sub { font-size: 11px; color: #888888; margin-bottom: 1px; }
+    .post-timestamp { font-size: 11px; color: #888888; }
     .post-more {
       margin-left: auto;
-      font-size: 20px; color: var(--muted);
+      font-size: 18px; color: #888888;
       cursor: pointer; padding: 2px 8px; border-radius: 6px;
       line-height: 1; flex-shrink: 0;
     }
@@ -1326,74 +1414,39 @@
       margin-bottom: 14px;
       white-space: pre-line;
     }
-    .post-tag { color: var(--purple); font-weight: 600; }
+    .post-tag { color: #00FF87; font-weight: 600; }
     .post-stats {
-      font-size: 12px; color: var(--muted);
-      display: flex; gap: 14px;
-      margin-bottom: 10px;
+      font-size: 11px; color: #888888;
+      display: flex; gap: 12px; margin-bottom: 10px;
     }
     .post-stats span { cursor: pointer; }
-    .post-stats span:hover { text-decoration: underline; color: var(--text); }
-    .post-divider { height: 1px; background: var(--border); margin-bottom: 10px; }
-    .post-footer { display: flex; gap: 2px; }
+    .post-stats span:hover { color: #ffffff; }
+    .post-divider { height: 1px; background: #2a2a2a; margin-bottom: 8px; }
+    .post-footer { display: flex; gap: 0; }
     .post-react-btn {
-      flex: 1;
-      display: flex; align-items: center; justify-content: center;
-      gap: 5px;
-      padding: 8px 4px;
-      border-radius: 8px;
-      font-size: 13px; font-weight: 500;
-      color: var(--muted);
-      cursor: pointer;
-      transition: background 0.2s, color 0.2s;
-      user-select: none;
-      white-space: nowrap;
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 8px 4px; border-radius: 3px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px;
+      color: #888888; cursor: pointer;
+      transition: color 0.15s, background 0.15s;
+      user-select: none; white-space: nowrap; font-family: inherit;
     }
-    .post-react-btn:hover { background: var(--bg-card2); color: var(--purple); }
-    .post-react-btn.liked { color: var(--purple); font-weight: 700; }
+    .post-react-btn:hover { color: #00FF87; background: rgba(0,255,135,0.05); }
+    .post-react-btn.liked { color: #00FF87; font-weight: 800; }
 
-    /* ─── RIGHT SIDEBAR ─── */
-    .network-right { display: flex; flex-direction: column; gap: 14px; position: sticky; top: 80px; }
-
-    .people-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 16px;
-    }
-    .people-card-title { font-size: 14px; font-weight: 700; margin-bottom: 14px; }
-    .person-row {
-      display: flex; align-items: center; gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid var(--border);
-    }
-    .person-row:last-of-type { border-bottom: none; margin-bottom: 4px; }
-    .person-avatar {
-      width: 40px; height: 40px;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; font-weight: 700; color: white;
-      flex-shrink: 0;
-    }
-    .person-info { flex: 1; min-width: 0; }
-    .person-name { font-size: 13px; font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .person-sub { font-size: 11px; color: var(--muted); }
+    /* ─── PEOPLE / CONNECT ─── */
     .connect-btn {
-      padding: 5px 12px;
-      border-radius: 999px;
-      font-size: 12px; font-weight: 600;
-      border: 1.5px solid var(--purple);
-      color: var(--purple);
-      background: transparent;
-      cursor: pointer;
-      transition: all 0.2s;
-      flex-shrink: 0;
+      padding: 5px 12px; border-radius: 3px;
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px;
+      border: 1px solid #00FF87; color: #00FF87;
+      background: transparent; cursor: pointer;
+      transition: all 0.15s; font-family: inherit; flex-shrink: 0;
     }
-    .connect-btn:hover { background: var(--purple); color: white; }
-    .connect-btn.pending { border-color: var(--purple-lt); color: var(--purple-lt); }
-    .connect-btn.pending:hover { background: rgba(0,255,135,0.06); color: var(--purple-lt); }
-    .connect-btn.connected { border-color: #22c55e; color: #22c55e; cursor: default; }
-    .connect-btn.connected:hover { background: transparent; color: #22c55e; }
+    .connect-btn:hover { background: #00FF87; color: #0f0f0f; }
+    .connect-btn.pending { border-color: #888888; color: #888888; }
+    .connect-btn.pending:hover { background: transparent; }
+    .connect-btn.connected { border-color: #2a2a2a; color: #888888; cursor: default; }
+    .connect-btn.connected:hover { background: transparent; }
 
     /* Notification badge on nav item */
     .nav-badge-wrap { position: relative; display: inline-flex; align-items: center; gap: 5px; cursor: pointer; }
@@ -2346,22 +2399,15 @@
     .profile-stat-label { color: #888888; }
 
     /* ── Posts ── */
-    .post-card {
-      background: #1a1a1a !important; border-color: #2a2a2a !important;
-      border-radius: 4px;
-    }
     .post-author-name { font-weight: 800; font-size: 14px; color: #ffffff; }
     .post-author-sub, .post-timestamp { color: #888888; }
-    .post-text { color: #cccccc; line-height: 1.7; }
+    .post-text { color: #cccccc; line-height: 1.75; }
     .post-tag { color: #00FF87; }
-    .post-stats { color: #888888; border-color: #2a2a2a !important; }
-    .post-divider { background: #2a2a2a !important; }
-    .post-react-btn { color: #888888; }
-    .post-react-btn:hover { color: #ffffff; background: #2a2a2a; }
-    .role-badge { border-radius: 3px; font-weight: 700; font-size: 11px; }
-    .role-badge.role-scout { background: rgba(0,255,135,0.12); color: #00FF87; }
-    .role-badge.role-player { background: #2a2a2a; color: #cccccc; }
-    .role-badge.role-club  { background: rgba(255,184,0,0.12); color: #FFB800; }
+    .role-badge { border-radius: 3px; font-weight: 700; font-size: 10px; letter-spacing: 0.3px; }
+    .role-badge.role-scout { background: rgba(0,255,135,0.10); color: #00FF87; }
+    .role-badge.role-player { background: rgba(255,255,255,0.06); color: #888888; }
+    .role-badge.role-club  { background: rgba(255,184,0,0.10); color: #FFB800; }
+    .role-badge.role-coach { background: rgba(59,130,246,0.10); color: #60a5fa; }
 
     /* ── Discover cards ── */
     .discover-card {
@@ -2369,8 +2415,7 @@
       border-radius: 4px;
     }
     .discover-card:hover { border-color: rgba(0,255,135,0.2) !important; }
-    .connect-btn { border-color: #00FF87 !important; color: #00FF87 !important; border-radius: 4px; }
-    .connect-btn:hover { background: #00FF87 !important; color: #0f0f0f !important; }
+    /* connect-btn defined above in PEOPLE/CONNECT section */
 
     /* ── Messaging / Chat drawer ── */
     .chat-drawer { background: #141414 !important; border-color: #2a2a2a !important; }
@@ -2867,367 +2912,257 @@
      SCREEN 3: ATHLETE DISCOVERY NETWORK
 ══════════════════════════════════════════ -->
 <div id="screen-network" class="screen">
+  <div class="network-home">
 
-  <!-- 3-column feed layout -->
-  <div class="network-feed-layout">
-
-    <!-- ── LEFT: Profile sidebar ── -->
-    <aside class="network-left">
-
-      <div class="profile-card">
-        <div class="profile-card-banner"></div>
-        <div class="profile-card-body">
-          <div class="profile-avatar-wrap">
-            <div class="profile-avatar" id="network-profile-avatar">A</div>
-          </div>
-          <div class="profile-name" id="network-profile-name">You</div>
-          <div style="margin-bottom:8px" id="network-profile-badge">
-            <span class="role-badge role-player">⚽ Player</span>
-          </div>
-          <div class="profile-meta" id="network-profile-meta">
-            Open to opportunities
-          </div>
-          <div class="profile-stats">
-            <div class="profile-stat-row">
-              <span>Profile views</span>
-              <span class="profile-stat-val">142</span>
-            </div>
-            <div class="profile-stat-row">
-              <span>Connections</span>
-              <span class="profile-stat-val">87</span>
-            </div>
-            <div class="profile-stat-row">
-              <span>Post impressions</span>
-              <span class="profile-stat-val">1.2k</span>
-            </div>
-          </div>
+    <!-- ── ATHLETE STATUS CARD ── -->
+    <div class="status-card">
+      <div class="status-ring-wrap">
+        <svg class="status-ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring-track" cx="60" cy="60" r="50"/>
+          <circle class="ring-fill" id="status-ring-fill" cx="60" cy="60" r="50"
+            stroke-dasharray="314" stroke-dashoffset="94"
+            transform="rotate(-90 60 60)"/>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-av" id="network-profile-avatar">A</div>
         </div>
       </div>
 
-      <div class="sidebar-card" style="margin-bottom:0">
-        <h4 style="font-size:13px;margin-bottom:12px">Followed Hashtags</h4>
-        <div style="display:flex;flex-direction:column;gap:8px">
-          <div style="font-size:13px;color:var(--purple-lt);cursor:pointer">#FootballTrials</div>
-          <div style="font-size:13px;color:var(--purple-lt);cursor:pointer">#YoungPlayers</div>
-          <div style="font-size:13px;color:var(--purple-lt);cursor:pointer">#AcademyFootball</div>
-          <div style="font-size:13px;color:var(--purple-lt);cursor:pointer">#SportsPsychology</div>
+      <div class="status-info">
+        <div class="status-name-row">
+          <span class="status-name" id="network-profile-name">You</span>
+          <span id="network-profile-badge"><span class="role-badge role-player">Player</span></span>
         </div>
-      </div>
-
-    </aside>
-
-    <!-- ── CENTRE: Feed ── -->
-    <main class="network-feed">
-
-      <!-- Start a post -->
-      <div class="start-post-box">
-        <div class="start-post-row">
-          <div class="post-avatar" style="background:var(--purple);width:40px;height:40px;font-size:15px">A</div>
-          <div class="start-post-input" onclick="openPostForm()">Start a post, share an update...</div>
-        </div>
-        <div class="start-post-actions">
-          <div class="post-action-btn" onclick="openPostForm()">📷 Photo</div>
-          <div class="post-action-btn" onclick="openPostForm()">🎬 Video</div>
-          <div class="post-action-btn" onclick="openPostForm()">📝 Article</div>
-          <div class="post-action-btn" onclick="openPostForm()">⚽ Highlight</div>
-        </div>
-        <!-- Expanded post form -->
-        <div class="post-form" id="post-form">
-          <textarea class="post-textarea" id="post-textarea" placeholder="What's on your mind?"></textarea>
-          <input class="post-url-input" id="post-url-input" type="url" placeholder="YouTube link or image URL (optional)">
-          <div class="post-form-footer">
-            <select class="post-category-select" id="post-category-select">
-              <option value="all">All Posts</option>
-              <option value="transfer">Transfer News</option>
-              <option value="trial">Trial Announcements</option>
-              <option value="scout">Scout Alerts</option>
-              <option value="coaching">Coaching Tips</option>
-            </select>
-            <button class="post-cancel-btn" onclick="closePostForm()">Cancel</button>
-            <button class="post-submit-btn" onclick="submitPost()">Post</button>
+        <div class="status-meta" id="network-profile-meta">Open to opportunities · Manchester, UK</div>
+        <div class="status-metrics">
+          <div class="status-metric">
+            <span class="status-metric-val">142</span>
+            <span class="status-metric-label">Profile Views</span>
+          </div>
+          <div class="status-metric-div"></div>
+          <div class="status-metric">
+            <span class="status-metric-val">87</span>
+            <span class="status-metric-label">Connections</span>
+          </div>
+          <div class="status-metric-div"></div>
+          <div class="status-metric">
+            <span class="status-metric-val">70%</span>
+            <span class="status-metric-label">Profile Complete</span>
           </div>
         </div>
+        <div class="status-actions">
+          <button class="btn btn-primary" onclick="openPostForm()" style="font-size:13px;padding:8px 18px">Post Update</button>
+          <button class="btn btn-ghost" onclick="switchToFramework()" style="font-size:13px;padding:8px 18px">Framework</button>
+        </div>
       </div>
+    </div>
 
-      <!-- Category filter bar -->
-      <div class="feed-filters">
-        <button class="filter-btn active" onclick="applyFilter('all', this)">All Posts</button>
-        <button class="filter-btn" onclick="applyFilter('network', this)">🔗 My Network</button>
-        <button class="filter-btn" onclick="applyFilter('transfer', this)">Transfer News</button>
-        <button class="filter-btn" onclick="applyFilter('trial', this)">Trial Announcements</button>
-        <button class="filter-btn" onclick="applyFilter('scout', this)">Scout Alerts</button>
-        <button class="filter-btn" onclick="applyFilter('coaching', this)">Coaching Tips</button>
+    <!-- ── PEOPLE STRIP ── -->
+    <div class="people-strip-wrap">
+      <div class="people-strip-header">
+        <span class="people-strip-title" id="suggestions-title">Suggested for you</span>
+        <span class="people-strip-see-all" onclick="showMyNetwork()">See all</span>
       </div>
+      <div class="people-strip" id="suggestions-list"></div>
+    </div>
 
-      <!-- Feed posts container -->
-      <div id="network-feed-posts">
+    <!-- ── POST COMPOSER ── -->
+    <div class="composer-bar">
+      <div class="composer-av" id="composer-av">A</div>
+      <div class="composer-input" onclick="openPostForm()">What's your update?</div>
+      <button class="composer-btn" onclick="openPostForm()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </button>
+    </div>
+    <!-- Expanded post form -->
+    <div class="post-form" id="post-form" style="display:none;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:4px;padding:16px;margin:0 auto;max-width:680px;width:100%">
+      <textarea class="post-textarea" id="post-textarea" placeholder="What's on your mind?"></textarea>
+      <input class="post-url-input" id="post-url-input" type="url" placeholder="YouTube link or image URL (optional)">
+      <div class="post-form-footer">
+        <select class="post-category-select" id="post-category-select">
+          <option value="all">All Posts</option>
+          <option value="transfer">Transfer News</option>
+          <option value="trial">Trial Announcements</option>
+          <option value="scout">Scout Alerts</option>
+          <option value="coaching">Coaching Tips</option>
+        </select>
+        <button class="post-cancel-btn" onclick="closePostForm()">Cancel</button>
+        <button class="post-submit-btn" onclick="submitPost()">Post</button>
+      </div>
+    </div>
 
-      <!-- Post 1 — Signing announcement (Player) -->
+    <!-- ── FEED FILTERS ── -->
+    <div class="feed-filters">
+      <button class="filter-btn active" onclick="applyFilter('all', this)">All</button>
+      <button class="filter-btn" onclick="applyFilter('network', this)">My Network</button>
+      <button class="filter-btn" onclick="applyFilter('transfer', this)">Transfers</button>
+      <button class="filter-btn" onclick="applyFilter('trial', this)">Trials</button>
+      <button class="filter-btn" onclick="applyFilter('scout', this)">Scouts</button>
+      <button class="filter-btn" onclick="applyFilter('coaching', this)">Coaching</button>
+    </div>
+
+    <!-- ── FEED ── -->
+    <div class="network-feed" id="network-feed-posts">
+
       <div class="post-card" data-category="transfer" data-user-id="kai_mensah">
         <div class="post-header">
           <div class="post-avatar user-link" style="background:linear-gradient(135deg,#00FF87,#00C9A7)" onclick="showProfile('kai_mensah')">KM</div>
           <div class="post-author-info">
             <div class="post-author-name">
               <span class="user-link" onclick="showProfile('kai_mensah')">Kai Mensah</span>
-              <span class="role-badge role-player">⚽ Player</span>
+              <span class="role-badge role-player">Player</span>
             </div>
-            <div class="post-author-sub">Striker · FC Velocity Academy · 🇬🇭 Ghanaian</div>
-            <div class="post-timestamp">2h ago · 🌍</div>
+            <div class="post-author-sub">Striker · FC Velocity Academy · 🇬🇭</div>
+            <div class="post-timestamp">2h ago</div>
           </div>
           <div class="post-more">···</div>
         </div>
-        <div class="post-text">🚀 Incredibly excited to announce that I've signed my first professional contract!
+        <div class="post-text">Incredibly excited to announce I've signed my first professional contract.
 
 After two years in the academy system and a lot of hard work, I'm officially joining <span class="post-tag">FC Velocity's first team squad</span> for next season.
 
-This journey hasn't been easy — two injuries, one release, and countless setbacks. But every one of those moments taught me something. To every young player grinding right now: keep going. The breakthrough comes.
-
-Huge thanks to my family, my coaches, and everyone who believed in me before I believed in myself. 🙏
+Two injuries, one release, countless setbacks. Every one of those moments taught me something. To every young player grinding right now: keep going.
 
 <span class="post-tag">#ProContract #NeverGiveUp #FootballJourney</span></div>
-        <div class="post-stats">
-          <span>👍 247 likes</span>
-          <span>38 comments</span>
-          <span>12 reposts</span>
-        </div>
+        <div class="post-stats"><span>247 likes</span><span>38 comments</span><span>12 reposts</span></div>
         <div class="post-divider"></div>
         <div class="post-footer">
-          <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
-          <div class="post-react-btn">💬 Comment</div>
-          <div class="post-react-btn">🔁 Repost</div>
-          <div class="post-react-btn">📤 Share</div>
+          <div class="post-react-btn" onclick="toggleLike(this)">Like</div>
+          <div class="post-react-btn">Comment</div>
+          <div class="post-react-btn">Repost</div>
+          <div class="post-react-btn">Share</div>
         </div>
       </div>
 
-      <!-- Post 2 — Scout looking for talent -->
       <div class="post-card" data-category="scout" data-user-id="james_harrison">
         <div class="post-header">
           <div class="post-avatar user-link" style="background:linear-gradient(135deg,#d97706,#92400e)" onclick="showProfile('james_harrison')">JH</div>
           <div class="post-author-info">
             <div class="post-author-name">
               <span class="user-link" onclick="showProfile('james_harrison')">James Harrison</span>
-              <span class="role-badge role-scout">🔍 Scout</span>
+              <span class="role-badge role-scout">Scout</span>
             </div>
             <div class="post-author-sub">Senior Scout · Premier League Affiliated</div>
-            <div class="post-timestamp">4h ago · 🌍</div>
+            <div class="post-timestamp">4h ago</div>
           </div>
           <div class="post-more">···</div>
         </div>
-        <div class="post-text">🔍 TALENT SEARCH | Open to all genders — women's and men's football.
+        <div class="post-text">TALENT SEARCH — open to all genders, women's and men's football.
 
-Looking for:
-→ Attacking midfielders &amp; wingers, aged 16–21
-→ Technically strong on both feet
-→ High work rate and coachability are non-negotiable
-→ Based in or willing to relocate to the North West
+Looking for: attacking midfielders &amp; wingers, aged 16–21. Technically strong, high work rate, coachable. North West based or willing to relocate.
 
-Women's football especially — we are actively expanding our female talent pipeline. DM your highlight reel. I watch everything.
+Women's football especially — actively expanding our female talent pipeline. DM your highlight reel.
 
 <span class="post-tag">#ScoutingNetwork #TalentID #WomensFootball #FootballTrials</span></div>
-        <div class="post-stats">
-          <span>👍 183 likes</span>
-          <span>94 comments</span>
-          <span>67 reposts</span>
-        </div>
+        <div class="post-stats"><span>183 likes</span><span>94 comments</span><span>67 reposts</span></div>
         <div class="post-divider"></div>
         <div class="post-footer">
-          <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
-          <div class="post-react-btn">💬 Comment</div>
-          <div class="post-react-btn">🔁 Repost</div>
-          <div class="post-react-btn">📤 Share</div>
+          <div class="post-react-btn" onclick="toggleLike(this)">Like</div>
+          <div class="post-react-btn">Comment</div>
+          <div class="post-react-btn">Repost</div>
+          <div class="post-react-btn">Share</div>
         </div>
       </div>
 
-      <!-- Post 3 — Club trial announcement -->
       <div class="post-card" data-category="trial" data-user-id="fc_velocity">
         <div class="post-header">
           <div class="post-avatar user-link" style="background:linear-gradient(135deg,#16a34a,#14532d)" onclick="showProfile('fc_velocity')">FV</div>
           <div class="post-author-info">
             <div class="post-author-name">
               <span class="user-link" onclick="showProfile('fc_velocity')">FC Velocity Academy</span>
-              <span class="role-badge role-club">🏟️ Club</span>
+              <span class="role-badge role-club">Club</span>
             </div>
-            <div class="post-author-sub">Professional Academy · Verified Club</div>
-            <div class="post-timestamp">Yesterday · 🌍</div>
+            <div class="post-author-sub">Professional Academy · Verified</div>
+            <div class="post-timestamp">Yesterday</div>
           </div>
           <div class="post-more">···</div>
         </div>
-        <div class="post-text">📢 OPEN TRIALS ANNOUNCEMENT
+        <div class="post-text">OPEN TRIALS — U18 &amp; U21 squads, April 12–13 2026.
 
-We're holding open trials for our U18 and U21 squads this April.
+Velocity Training Ground, Manchester. Positions: GK · CB · CM · CAM · ST.
 
-📅 April 12–13, 2026
-📍 Velocity Training Ground, Manchester
-⚽ Positions: GK · CB · CM · CAM · ST
-
-What we're looking for:
-✅ Technical ability &amp; football IQ
-✅ Physical readiness &amp; athleticism
-✅ Mental toughness (this one matters more than most think)
-✅ Character and coachability
-
-Apply via the link in our bio. Spaces are strictly limited.
+Looking for: technical ability, athleticism, mental toughness, coachability. Spaces strictly limited — apply via bio link.
 
 <span class="post-tag">#OpenTrials #U18Football #U21Football #FCVelocity</span></div>
-        <div class="post-stats">
-          <span>👍 412 likes</span>
-          <span>156 comments</span>
-          <span>203 reposts</span>
-        </div>
+        <div class="post-stats"><span>412 likes</span><span>156 comments</span><span>203 reposts</span></div>
         <div class="post-divider"></div>
         <div class="post-footer">
-          <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
-          <div class="post-react-btn">💬 Comment</div>
-          <div class="post-react-btn">🔁 Repost</div>
-          <div class="post-react-btn">📤 Share</div>
+          <div class="post-react-btn" onclick="toggleLike(this)">Like</div>
+          <div class="post-react-btn">Comment</div>
+          <div class="post-react-btn">Repost</div>
+          <div class="post-react-btn">Share</div>
         </div>
       </div>
 
-      <!-- Post 4 — Coach sharing a tip -->
       <div class="post-card" data-category="coaching" data-user-id="sarah_okonkwo">
         <div class="post-header">
           <div class="post-avatar user-link" style="background:linear-gradient(135deg,#2563eb,#1e40af)" onclick="showProfile('sarah_okonkwo')">SO</div>
           <div class="post-author-info">
             <div class="post-author-name">
               <span class="user-link" onclick="showProfile('sarah_okonkwo')">Sarah Okonkwo</span>
-              <span class="role-badge role-coach">🎯 Coach</span>
+              <span class="role-badge role-coach">Coach</span>
             </div>
             <div class="post-author-sub">UEFA A Licensed · Sports Psychologist</div>
-            <div class="post-timestamp">2 days ago · 🌍</div>
+            <div class="post-timestamp">2 days ago</div>
           </div>
           <div class="post-more">···</div>
         </div>
-        <div class="post-text">💡 Something I tell every player I work with:
+        <div class="post-text">Pressure is not the problem. Your relationship with pressure is.
 
-Pressure is not the problem. Your relationship with pressure is the problem.
-
-Most young players try to eliminate nerves before a big game. That's the wrong goal. Elite performers learn to use that energy — to interpret it as excitement, not threat.
-
-The body doesn't actually know the difference between anxiety and excitement. Same physiological response. What changes is the story you tell about it.
+Most players try to eliminate nerves. That's the wrong goal. Elite performers learn to use that energy — interpret it as excitement, not threat.
 
 Three things that actually help:
-1. Name the feeling out loud — "I'm excited" not "I'm nervous"
-2. Focus on process, not outcome — what's the first action in this game?
-3. Use a physical anchor — a routine that tells your nervous system: I've done this before
+1. Name the feeling — "I'm excited" not "I'm nervous"
+2. Focus on process, not outcome
+3. Use a physical anchor — a routine that tells your body: I've done this before
 
-What's your pre-match routine? Share it below 👇
+What's your pre-match routine?
 
 <span class="post-tag">#SportsPsychology #MentalPerformance #FootballMindset</span></div>
-        <div class="post-stats">
-          <span>👍 891 likes</span>
-          <span>204 comments</span>
-          <span>145 reposts</span>
-        </div>
+        <div class="post-stats"><span>891 likes</span><span>204 comments</span><span>145 reposts</span></div>
         <div class="post-divider"></div>
         <div class="post-footer">
-          <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
-          <div class="post-react-btn">💬 Comment</div>
-          <div class="post-react-btn">🔁 Repost</div>
-          <div class="post-react-btn">📤 Share</div>
+          <div class="post-react-btn" onclick="toggleLike(this)">Like</div>
+          <div class="post-react-btn">Comment</div>
+          <div class="post-react-btn">Repost</div>
+          <div class="post-react-btn">Share</div>
         </div>
       </div>
 
-      <!-- Post 5 — Player update, free agent -->
       <div class="post-card" data-category="transfer" data-user-id="marcus_diallo">
         <div class="post-header">
           <div class="post-avatar user-link" style="background:linear-gradient(135deg,#00FF87,#1e40af)" onclick="showProfile('marcus_diallo')">MD</div>
           <div class="post-author-info">
             <div class="post-author-name">
               <span class="user-link" onclick="showProfile('marcus_diallo')">Marcus Diallo</span>
-              <span class="role-badge role-player">⚽ Player</span>
+              <span class="role-badge role-player">Player</span>
             </div>
-            <div class="post-author-sub">Central Midfielder · Free Agent · 🇫🇷 French</div>
-            <div class="post-timestamp">3 days ago · 🌍</div>
+            <div class="post-author-sub">Central Midfielder · Free Agent · 🇫🇷</div>
+            <div class="post-timestamp">3 days ago</div>
           </div>
           <div class="post-more">···</div>
         </div>
-        <div class="post-text">Back on the training pitch. 💪
+        <div class="post-text">Back on the training pitch.
 
-3 weeks out with a hamstring injury — the hardest part wasn't the physical rehab. It was the mental side. Watching your teammates train while you're in the gym on your own. Questioning if you're falling behind.
+3 weeks out with a hamstring injury — the hardest part wasn't the physical rehab. Watching teammates train while you're in the gym alone. Questioning if you're falling behind.
 
-Used the time to go deep on the mental game (shoutout to the Playr framework — genuinely helped). Came back with more clarity about my game than I had before the injury.
+Used the time to go deep on the mental game. Came back with more clarity than before the injury.
 
-Open to trial opportunities in England or Germany. Central midfielder, 22, full fitness as of this week. DMs open.
+Open to trials in England or Germany. CM, 22, full fitness. DMs open.
 
 <span class="post-tag">#FreeAgent #CentralMidfielder #BackFit #TrialOpportunity</span></div>
-        <div class="post-stats">
-          <span>👍 156 likes</span>
-          <span>43 comments</span>
-          <span>28 reposts</span>
-        </div>
+        <div class="post-stats"><span>156 likes</span><span>43 comments</span><span>28 reposts</span></div>
         <div class="post-divider"></div>
         <div class="post-footer">
-          <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
-          <div class="post-react-btn">💬 Comment</div>
-          <div class="post-react-btn">🔁 Repost</div>
-          <div class="post-react-btn">📤 Share</div>
+          <div class="post-react-btn" onclick="toggleLike(this)">Like</div>
+          <div class="post-react-btn">Comment</div>
+          <div class="post-react-btn">Repost</div>
+          <div class="post-react-btn">Share</div>
         </div>
       </div>
 
-      </div><!-- #network-feed-posts -->
-
-    </main>
-
-    <!-- ── RIGHT: People you may know ── -->
-    <aside class="network-right">
-
-      <div class="people-card" id="suggestions-card">
-        <div class="people-card-title" id="suggestions-title">People you may know</div>
-        <div id="suggestions-list"></div>
-        <div style="margin-top:14px;text-align:center;font-size:13px;color:var(--purple-lt);cursor:pointer">Show all recommendations →</div>
-      </div>
-
-      <div class="people-card">
-        <div class="people-card-title">⚽ Football News</div>
-        <div style="display:flex;flex-direction:column">
-          <div class="news-item">
-            <a class="news-headline" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener">England secure top spot with dominant Nations League display</a>
-            <span class="news-source">BBC Sport · 1h ago</span>
-          </div>
-          <div class="news-item">
-            <a class="news-headline" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener">Champions League quarter-final draw: who plays who?</a>
-            <span class="news-source">BBC Sport · 3h ago</span>
-          </div>
-          <div class="news-item">
-            <a class="news-headline" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener">Premier League title race heats up with five games to go</a>
-            <span class="news-source">BBC Sport · 5h ago</span>
-          </div>
-          <div class="news-item">
-            <a class="news-headline" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener">Young African stars shaking up European football this season</a>
-            <span class="news-source">BBC Sport · Yesterday</span>
-          </div>
-          <div class="news-item">
-            <a class="news-headline" href="https://www.bbc.com/sport/football" target="_blank" rel="noopener">Summer transfer window: clubs already eyeing free agents</a>
-            <span class="news-source">BBC Sport · Yesterday</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="people-card">
-        <div class="people-card-title">Trending in Football</div>
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <div style="cursor:pointer">
-            <div style="font-size:13px;font-weight:600">#OpenTrials</div>
-            <div style="font-size:11px;color:var(--muted)">2.4k posts this week</div>
-          </div>
-          <div style="cursor:pointer">
-            <div style="font-size:13px;font-weight:600">#FreeAgent</div>
-            <div style="font-size:11px;color:var(--muted)">1.8k posts this week</div>
-          </div>
-          <div style="cursor:pointer">
-            <div style="font-size:13px;font-weight:600">#SportsPsychology</div>
-            <div style="font-size:11px;color:var(--muted)">987 posts this week</div>
-          </div>
-          <div style="cursor:pointer">
-            <div style="font-size:13px;font-weight:600">#TalentID</div>
-            <div style="font-size:11px;color:var(--muted)">743 posts this week</div>
-          </div>
-        </div>
-      </div>
-
-    </aside>
-
-  </div>
+    </div><!-- .network-feed -->
+  </div><!-- .network-home -->
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -4057,9 +3992,13 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
 
   function renderNetworkProfile(role) {
     const meta = ROLE_META[role] || ROLE_META.player;
-    // Network feed sidebar
+    // Status card
     document.getElementById('network-profile-badge').innerHTML = meta.badge;
     document.getElementById('network-profile-meta').innerHTML = meta.meta;
+    // Sync composer avatar initials
+    const composerAv = document.getElementById('composer-av');
+    const av = document.getElementById('network-profile-avatar');
+    if (composerAv && av) composerAv.textContent = av.textContent;
     // Profile screen sidebar (same data)
     if (document.getElementById('ps-badge')) {
       document.getElementById('ps-badge').innerHTML = meta.badge;
@@ -4068,16 +4007,11 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     // Suggestions
     document.getElementById('suggestions-title').textContent = meta.suggestionsTitle;
     document.getElementById('suggestions-list').innerHTML = meta.suggestions.map(p => `
-      <div class="person-row">
-        <div class="person-avatar user-link" style="background:${p.grad}" onclick="showProfile('${p.id || ''}')">
-          ${p.initials}
-        </div>
-        <div class="person-info">
-          <div class="person-name user-link" onclick="showProfile('${p.id || ''}')">${p.name}</div>
-          <div class="person-sub">${p.badgeHtml} · ${p.sub}</div>
-          <div class="person-sub" style="margin-top:3px">${p.mutual}</div>
-        </div>
-        ${connBtnHtml(p.id || '')}
+      <div class="profile-tile" onclick="showProfile('${p.id || ''}')">
+        <div class="profile-tile-av" style="background:${p.grad}">${p.initials}</div>
+        <div class="profile-tile-name">${p.name}</div>
+        <div class="profile-tile-sub">${p.sub}</div>
+        ${connBtnHtml(p.id || '').replace(/connect-btn/g, 'profile-tile-btn')}
       </div>`).join('');
   }
 
