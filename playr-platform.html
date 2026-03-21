@@ -12,59 +12,58 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* ─── LIGHT MODE (default) ─── */
+    /* ─── BASE PALETTE ─── */
     :root {
-      --bg:              #F8F8FC;
-      --bg-card:         #FFFFFF;
-      --bg-card2:        #F0F0F8;
-      --border:          rgba(26,26,46,0.1);
-      --purple:          #7C3AED;
-      --purple-lt:       #6D28D9;
-      --purple-dim:      rgba(124,58,237,0.08);
-      --purple-glow:     rgba(124,58,237,0.2);
-      --text:            #1a1a2e;
-      --muted:           #6B6B8A;
+      --bg:              #0f0f0f;
+      --bg-card:         #1a1a1a;
+      --bg-card2:        #1a1a1a;
+      --border:          #2a2a2a;
+      --purple:          #00FF87;
+      --purple-lt:       #00FF87;
+      --purple-dim:      rgba(0,255,135,0.10);
+      --purple-glow:     rgba(0,255,135,0.25);
+      --text:            #ffffff;
+      --muted:           #888888;
       --white:           #ffffff;
-      --green:           #16a34a;
-      --amber:           #d97706;
-      --red:             #dc2626;
-      /* theme extras */
-      --bg-top-bar:      rgba(248,248,252,0.92);
-      --bg-hero:         linear-gradient(135deg, #f0ebff 0%, #eaebff 60%, #eaefff 100%);
-      --bg-video-ph:     linear-gradient(135deg, #eee8ff 0%, #e8e8ff 50%, #e8efff 100%);
-      --bg-lock:         rgba(240,240,248,0.8);
-      --hero-glow:       rgba(124,58,237,0.1);
-      --hover-border:    rgba(26,26,46,0.2);
-      --card-shadow:     0 1px 4px rgba(26,26,46,0.07), 0 1px 2px rgba(26,26,46,0.05);
-      --scrollbar-thumb: rgba(26,26,46,0.15);
-      --scrollbar-hover: rgba(26,26,46,0.25);
+      --green:           #00FF87;
+      --amber:           #FFB800;
+      --red:             #FF3B3B;
+      --bg-top-bar:      rgba(15,15,15,0.98);
+      --bg-hero:         linear-gradient(160deg, #0f0f0f 0%, #141414 100%);
+      --bg-video-ph:     linear-gradient(135deg, #1a1a1a 0%, #1a1a1a 100%);
+      --bg-lock:         rgba(15,15,15,0.7);
+      --hero-glow:       rgba(0,255,135,0.06);
+      --hover-border:    #3a3a3a;
+      --card-shadow:     none;
+      --scrollbar-thumb: #2a2a2a;
+      --scrollbar-hover: #3a3a3a;
     }
 
-    /* ─── DARK MODE ─── */
+    /* ─── DARK MODE (same palette — always dark) ─── */
     [data-theme="dark"] {
-      --bg:              #08080e;
-      --bg-card:         #111118;
-      --bg-card2:        #17171f;
-      --border:          rgba(255,255,255,0.07);
-      --purple:          #7C3AED;
-      --purple-lt:       #9D65FF;
-      --purple-dim:      rgba(124,58,237,0.18);
-      --purple-glow:     rgba(124,58,237,0.35);
-      --text:            #f0f0f5;
-      --muted:           #8888aa;
+      --bg:              #0f0f0f;
+      --bg-card:         #1a1a1a;
+      --bg-card2:        #1a1a1a;
+      --border:          #2a2a2a;
+      --purple:          #00FF87;
+      --purple-lt:       #00FF87;
+      --purple-dim:      rgba(0,255,135,0.10);
+      --purple-glow:     rgba(0,255,135,0.25);
+      --text:            #ffffff;
+      --muted:           #888888;
       --white:           #ffffff;
-      --green:           #22c55e;
-      --amber:           #f59e0b;
-      --red:             #ef4444;
-      --bg-top-bar:      rgba(8,8,14,0.9);
-      --bg-hero:         linear-gradient(135deg, #150a2e 0%, #0d1530 60%, #0a1520 100%);
-      --bg-video-ph:     linear-gradient(135deg, #1a0a3a 0%, #0d1a3a 50%, #0a1a20 100%);
-      --bg-lock:         rgba(8,8,14,0.65);
-      --hero-glow:       rgba(124,58,237,0.3);
-      --hover-border:    rgba(255,255,255,0.15);
+      --green:           #00FF87;
+      --amber:           #FFB800;
+      --red:             #FF3B3B;
+      --bg-top-bar:      rgba(15,15,15,0.98);
+      --bg-hero:         linear-gradient(160deg, #0f0f0f 0%, #141414 100%);
+      --bg-video-ph:     linear-gradient(135deg, #1a1a1a 0%, #1a1a1a 100%);
+      --bg-lock:         rgba(15,15,15,0.7);
+      --hero-glow:       rgba(0,255,135,0.06);
+      --hover-border:    #3a3a3a;
       --card-shadow:     none;
-      --scrollbar-thumb: rgba(255,255,255,0.1);
-      --scrollbar-hover: rgba(255,255,255,0.2);
+      --scrollbar-thumb: #2a2a2a;
+      --scrollbar-hover: #3a3a3a;
     }
 
     /* ─── SMOOTH THEME TRANSITION ─── */
@@ -78,17 +77,6 @@
         border-color     0.25s ease,
         color            0.15s ease,
         box-shadow       0.25s ease !important;
-    }
-
-    /* ─── LIGHT MODE CARD DEPTH ─── */
-    [data-theme="light"] .stat-card,
-    [data-theme="light"] .module-card,
-    [data-theme="light"] .featured-module,
-    [data-theme="light"] .sidebar-card,
-    [data-theme="light"] .lessons-list,
-    [data-theme="light"] .reflection-card,
-    [data-theme="light"] .path-card {
-      box-shadow: var(--card-shadow);
     }
 
     html { scroll-behavior: smooth; }
@@ -171,7 +159,7 @@
       transition: opacity 0.35s ease;
       border-radius: 20px;
     }
-    .path-card.eaf::before { background: radial-gradient(ellipse at 30% 40%, rgba(124,58,237,0.25) 0%, transparent 70%); }
+    .path-card.eaf::before { background: radial-gradient(ellipse at 30% 40%, rgba(0,255,135,0.08) 0%, transparent 70%); }
     .path-card.network::before { background: radial-gradient(ellipse at 70% 40%, rgba(34,197,94,0.18) 0%, transparent 70%); }
     .path-card:hover { transform: translateY(-6px); border-color: var(--hover-border); }
     .path-card:hover::before { opacity: 1; }
@@ -240,7 +228,7 @@
       filter: blur(120px);
       pointer-events: none;
     }
-    .orb1 { width: 600px; height: 600px; background: rgba(124,58,237,0.12); top: -200px; left: -200px; }
+    .orb1 { width: 600px; height: 600px; background: rgba(0,255,135,0.06); top: -200px; left: -200px; }
     .orb2 { width: 400px; height: 400px; background: rgba(34,197,94,0.07); bottom: -100px; right: -100px; }
 
     /* ══════════════════════════════════════════
@@ -393,8 +381,8 @@
 
     /* ─── HOME VIEW ─── */
     .welcome-banner {
-      background: linear-gradient(135deg, var(--purple-dim) 0%, rgba(124,58,237,0.05) 100%);
-      border: 1px solid rgba(124,58,237,0.3);
+      background: linear-gradient(135deg, var(--purple-dim) 0%, rgba(0,255,135,0.04) 100%);
+      border: 1px solid rgba(0,255,135,0.10);
       border-radius: 16px;
       padding: 32px 36px;
       margin-bottom: 36px;
@@ -454,12 +442,12 @@
       cursor: pointer;
       transition: border-color 0.2s;
     }
-    .featured-module:hover { border-color: rgba(124,58,237,0.5); }
+    .featured-module:hover { border-color: rgba(0,255,135,0.15); }
 
     .featured-thumb {
       width: 100%;
       height: 220px;
-      background: linear-gradient(135deg, #1a0a3a 0%, #0d1a3a 50%, #0a1a20 100%);
+      background: linear-gradient(135deg, #1a1a1a 0%, #141414 50%, #141414 100%);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -469,7 +457,7 @@
     .featured-thumb .thumb-bg {
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at 30% 50%, rgba(124,58,237,0.4) 0%, transparent 60%),
+      background: radial-gradient(ellipse at 30% 50%, rgba(0,255,135,0.12) 0%, transparent 60%),
                   radial-gradient(ellipse at 70% 30%, rgba(157,101,255,0.2) 0%, transparent 50%);
     }
     .play-btn {
@@ -532,7 +520,7 @@
       transition: all 0.25s;
       position: relative;
     }
-    .module-card:hover:not(.locked) { transform: translateY(-4px); border-color: rgba(124,58,237,0.45); }
+    .module-card:hover:not(.locked) { transform: translateY(-4px); border-color: rgba(0,255,135,0.15); }
     .module-card.locked { opacity: 0.6; cursor: default; }
 
     .module-thumb {
@@ -545,7 +533,7 @@
     .module-thumb .thumb-overlay {
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, rgba(124,58,237,0.25) 0%, rgba(8,8,14,0.4) 100%);
+      background: linear-gradient(135deg, rgba(0,255,135,0.08) 0%, rgba(8,8,14,0.4) 100%);
     }
     .lock-overlay {
       position: absolute;
@@ -599,7 +587,7 @@
       margin-bottom: 32px;
       position: relative;
       overflow: hidden;
-      border: 1px solid rgba(124,58,237,0.25);
+      border: 1px solid rgba(0,255,135,0.08);
     }
     .module-hero::before {
       content: '';
@@ -634,12 +622,12 @@
       position: relative;
       overflow: hidden;
     }
-    .video-placeholder:hover { border-color: rgba(124,58,237,0.5); }
+    .video-placeholder:hover { border-color: rgba(0,255,135,0.15); }
     .video-placeholder::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at center, rgba(124,58,237,0.2) 0%, transparent 70%);
+      background: radial-gradient(ellipse at center, rgba(0,255,135,0.06) 0%, transparent 70%);
     }
     .video-play {
       width: 80px; height: 80px;
@@ -712,7 +700,7 @@
     .reflection-card p { font-size: 13px; color: var(--muted); margin-bottom: 14px; line-height: 1.6; }
     .reflection-prompt {
       background: var(--purple-dim);
-      border: 1px solid rgba(124,58,237,0.3);
+      border: 1px solid rgba(0,255,135,0.10);
       border-radius: 10px;
       padding: 14px 16px;
       font-size: 13px;
@@ -1051,11 +1039,11 @@
     .role-card:hover {
       border-color: var(--purple);
       transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(124,58,237,0.18);
+      box-shadow: none;
     }
     .role-card.selected {
       border-color: var(--purple);
-      background: linear-gradient(135deg, rgba(124,58,237,0.08), var(--bg-card));
+      background: linear-gradient(135deg, rgba(0,255,135,0.06), var(--bg-card));
     }
     .role-card-icon { font-size: 44px; margin-bottom: 16px; }
     .role-card-title {
@@ -1162,7 +1150,7 @@
     }
     .profile-card-banner {
       height: 60px;
-      background: linear-gradient(135deg, var(--purple) 0%, #4c1d95 100%);
+      background: linear-gradient(135deg, var(--purple) 0%, #00C9A7 100%);
     }
     .profile-card-body { padding: 0 16px 16px; }
     .profile-avatar-wrap { margin-top: -22px; margin-bottom: 10px; }
@@ -1403,7 +1391,7 @@
     }
     .connect-btn:hover { background: var(--purple); color: white; }
     .connect-btn.pending { border-color: var(--purple-lt); color: var(--purple-lt); }
-    .connect-btn.pending:hover { background: rgba(124,58,237,0.08); color: var(--purple-lt); }
+    .connect-btn.pending:hover { background: rgba(0,255,135,0.06); color: var(--purple-lt); }
     .connect-btn.connected { border-color: #22c55e; color: #22c55e; cursor: default; }
     .connect-btn.connected:hover { background: transparent; color: #22c55e; }
 
@@ -1668,7 +1656,7 @@
     .discover-card:hover {
       border-color: var(--purple);
       transform: translateY(-3px);
-      box-shadow: 0 8px 30px rgba(124,58,237,0.14);
+      box-shadow: none;
     }
     .discover-card-avatar {
       width: 64px; height: 64px;
@@ -1865,7 +1853,7 @@
     .notif-dropdown {
       position: fixed; z-index: 3000;
       width: 360px; max-height: 480px;
-      background: #111111; border: 1px solid rgba(255,255,255,0.08);
+      background: #141414; border: 1px solid #2a2a2a;
       border-radius: 4px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
       display: flex; flex-direction: column;
       transform: translateX(-8px); opacity: 0; pointer-events: none;
@@ -1900,7 +1888,7 @@
     .notif-item:last-child { border-bottom: none; }
     .notif-item:hover { background: var(--bg-card2); }
     .notif-item.unread { background: var(--purple-dim); }
-    .notif-item.unread:hover { background: rgba(124,58,237,0.13); }
+    .notif-item.unread:hover { background: rgba(0,255,135,0.06); }
     .notif-item-icon { font-size: 22px; flex-shrink: 0; }
     .notif-item-body { flex: 1; min-width: 0; }
     .notif-item-text { font-size: 13px; color: var(--text); line-height: 1.45; }
@@ -1914,7 +1902,7 @@
     /* ── PLAYR NAV — desktop left sidebar + mobile bottom bar ── */
     #playr-nav {
       position: fixed; left: 0; top: 0; bottom: 0; width: 64px;
-      background: #111111; border-right: 1px solid rgba(255,255,255,0.06);
+      background: #141414; border-right: 1px solid #2a2a2a;
       z-index: 200; display: flex; flex-direction: column; align-items: center;
       padding: 20px 0 12px;
     }
@@ -1934,10 +1922,10 @@
       align-items: center; justify-content: center;
       width: 100%; padding: 13px 0; gap: 5px;
       background: none; border: none; cursor: pointer;
-      color: #555; font-family: inherit;
+      color: #888888; font-family: inherit;
       transition: color 0.15s, background 0.15s;
     }
-    .pn-item:hover { color: #f5f5f5; background: rgba(255,255,255,0.04); }
+    .pn-item:hover { color: #ffffff; background: rgba(255,255,255,0.04); }
     .pn-item.active { color: #00FF87; }
     .pn-item.active::before {
       content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
@@ -1954,7 +1942,7 @@
     }
     .pn-badge {
       position: absolute; top: -5px; right: -7px;
-      background: #00FF87; color: #0d0d0d;
+      background: #00FF87; color: #0f0f0f;
       font-size: 9px; font-weight: 800;
       min-width: 15px; height: 15px; border-radius: 8px;
       display: flex; align-items: center; justify-content: center; padding: 0 3px;
@@ -1966,11 +1954,11 @@
       .pn-item::after, .pn-sw::after {
         content: attr(data-tooltip);
         position: absolute; left: calc(100% + 14px); top: 50%; transform: translateY(-50%);
-        background: #1c1c1c; color: #f5f5f5;
+        background: #1a1a1a; color: #ffffff;
         font-size: 12px; font-weight: 600; font-family: 'Inter', sans-serif;
         padding: 6px 11px; border-radius: 4px; white-space: nowrap;
         opacity: 0; pointer-events: none; transition: opacity 0.15s;
-        border: 1px solid rgba(255,255,255,0.08);
+        border: 1px solid #2a2a2a;
         box-shadow: 0 4px 16px rgba(0,0,0,0.4);
         z-index: 9999;
       }
@@ -1981,18 +1969,18 @@
     }
     .pn-switcher {
       display: flex; flex-direction: column; align-items: center;
-      width: 100%; border-top: 1px solid rgba(255,255,255,0.06); padding: 8px 0;
+      width: 100%; border-top: 1px solid #2a2a2a; padding: 8px 0;
     }
     .pn-sw {
       position: relative; display: flex; align-items: center; justify-content: center;
       width: 100%; padding: 10px 0;
       background: none; border: none; cursor: pointer;
-      color: #444; transition: color 0.15s, background 0.15s;
+      color: #888888; transition: color 0.15s, background 0.15s;
     }
     .pn-sw svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
-    .pn-sw:hover { color: #f5f5f5; background: rgba(255,255,255,0.04); }
+    .pn-sw:hover { color: #ffffff; background: rgba(255,255,255,0.04); }
     .pn-sw.active { color: #00FF87; }
-    .pn-theme { border-top: 1px solid rgba(255,255,255,0.06); }
+    .pn-theme { border-top: 1px solid #2a2a2a; }
 
     /* ── Mobile: bottom bar ── */
     @media (max-width: 768px) {
@@ -2001,7 +1989,7 @@
         width: 100%; height: 62px;
         flex-direction: row; align-items: stretch;
         padding: 0; border-right: none;
-        border-top: 1px solid rgba(255,255,255,0.06);
+        border-top: 1px solid #2a2a2a;
       }
       .pn-logo, .pn-bottom { display: none; }
       .pn-items {
@@ -2024,7 +2012,7 @@
     /* ── Me Dropdown ── */
     .me-dropdown {
       position: fixed; z-index: 3000; width: 230px;
-      background: #111111; border: 1px solid rgba(255,255,255,0.08);
+      background: #141414; border: 1px solid #2a2a2a;
       border-radius: 4px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
       overflow: hidden;
       transform: translateX(-8px); opacity: 0; pointer-events: none;
@@ -2102,7 +2090,7 @@
       background: var(--bg-card2); color: var(--muted);
       transition: all 0.2s;
     }
-    .map-filter-btn.fp  { border-color: #7C3AED; background: rgba(124,58,237,0.1); color: #7C3AED; }
+    .map-filter-btn.fp  { border-color: #00FF87; background: rgba(0,255,135,0.08); color: #00FF87; }
     .map-filter-btn.fs  { border-color: #1d4ed8; background: rgba(29,78,216,0.1);  color: #1d4ed8; }
     .map-filter-btn.ftr { border-color: #16a34a; background: rgba(22,163,74,0.1);  color: #16a34a; }
     .map-filter-btn.fco { border-color: #d97706; background: rgba(217,119,6,0.1);  color: #d97706; }
@@ -2147,75 +2135,74 @@
     .map-popup-name { font-size: 14px; font-weight: 700; color: #1a1a2e; margin-bottom: 3px; line-height: 1.3; }
     .map-popup-sub  { font-size: 12px; color: #6B6B8A; line-height: 1.5; }
     .map-popup-btn  { margin-top: 8px; padding: 5px 13px; border-radius: 7px; border: none; font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit; color: #fff; }
-    [data-theme="dark"] .leaflet-popup-content-wrapper { background: #111118; color: #f0f0f5; border: 1px solid rgba(255,255,255,0.1); }
-    [data-theme="dark"] .leaflet-popup-tip { background: #111118; }
-    [data-theme="dark"] .map-popup-name { color: #f0f0f5; }
-    [data-theme="dark"] .map-popup-sub  { color: #8888aa; }
+    [data-theme="dark"] .leaflet-popup-content-wrapper { background: #1a1a1a; color: #ffffff; border: 1px solid rgba(255,255,255,0.08); }
+    [data-theme="dark"] .leaflet-popup-tip { background: #1a1a1a; }
+    [data-theme="dark"] .map-popup-name { color: #ffffff; }
+    [data-theme="dark"] .map-popup-sub  { color: #888888; }
     .map-player-icon div { cursor: pointer; }
 
     /* ═══════════════════════════════════════════════
        PLAYR DARK — Whoop/NTC Athletic Theme
-       #0d0d0d bg · #00FF87 accent · No light cards
+       #0f0f0f bg · #00FF87 accent · No light cards
     ═══════════════════════════════════════════════ */
 
     /* ── Force dark on everything — no light mode ── */
     :root,
     [data-theme="light"],
     [data-theme="dark"] {
-      --bg:              #0d0d0d;
-      --bg-card:         #161616;
-      --bg-card2:        #1c1c1c;
-      --border:          rgba(255,255,255,0.07);
+      --bg:              #0f0f0f;
+      --bg-card:         #1a1a1a;
+      --bg-card2:        #1a1a1a;
+      --border:          #2a2a2a;
       --accent:          #00FF87;
-      --accent-dim:      rgba(0,255,135,0.12);
-      --accent-glow:     rgba(0,255,135,0.28);
-      --accent-muted:    rgba(0,255,135,0.55);
-      /* keep --purple mapped to accent so existing refs work */
+      --accent-dim:      rgba(0,255,135,0.10);
+      --accent-glow:     rgba(0,255,135,0.25);
+      --accent-muted:    rgba(0,255,135,0.5);
       --purple:          #00FF87;
       --purple-lt:       #00FF87;
       --purple-dim:      rgba(0,255,135,0.10);
-      --purple-glow:     rgba(0,255,135,0.28);
-      --text:            #f5f5f5;
-      --muted:           #737373;
+      --purple-glow:     rgba(0,255,135,0.25);
+      --text:            #ffffff;
+      --muted:           #888888;
       --white:           #ffffff;
       --green:           #00FF87;
       --amber:           #FFB800;
       --red:             #FF3B3B;
-      --bg-top-bar:      rgba(13,13,13,0.98);
-      --bg-hero:         linear-gradient(160deg, #0d0d0d 0%, #111111 100%);
-      --bg-video-ph:     linear-gradient(135deg, #161616 0%, #1a1a1a 100%);
-      --bg-lock:         rgba(13,13,13,0.7);
-      --hero-glow:       rgba(0,255,135,0.08);
-      --hover-border:    rgba(255,255,255,0.14);
-      --card-shadow:     0 2px 12px rgba(0,0,0,0.5);
-      --scrollbar-thumb: rgba(255,255,255,0.08);
-      --scrollbar-hover: rgba(255,255,255,0.16);
+      --bg-top-bar:      rgba(15,15,15,0.98);
+      --bg-hero:         linear-gradient(160deg, #0f0f0f 0%, #141414 100%);
+      --bg-video-ph:     linear-gradient(135deg, #1a1a1a 0%, #1a1a1a 100%);
+      --bg-lock:         rgba(15,15,15,0.7);
+      --hero-glow:       rgba(0,255,135,0.06);
+      --hover-border:    #3a3a3a;
+      --card-shadow:     none;
+      --scrollbar-thumb: #2a2a2a;
+      --scrollbar-hover: #3a3a3a;
     }
 
     /* ── Base ── */
-    body { background: #0d0d0d; color: #f5f5f5; }
+    body { background: #0f0f0f; color: #ffffff; }
 
     /* ── Buttons — angular, athletic, green accent ── */
     .btn { border-radius: 4px; font-weight: 700; letter-spacing: 0.3px; font-family: inherit; }
     .btn-primary {
-      background: #00FF87; color: #0d0d0d;
+      background: #00FF87; color: #0f0f0f;
       border: none; border-radius: 4px;
       box-shadow: 0 0 0 0 rgba(0,255,135,0);
       transition: transform 0.15s, box-shadow 0.15s;
     }
     .btn-primary:hover {
-      background: #00FF87; color: #0d0d0d;
+      background: #00FF87; color: #0f0f0f;
       transform: translateY(-2px);
       box-shadow: 0 6px 24px rgba(0,255,135,0.35);
     }
     .btn-ghost {
-      border-radius: 4px; color: #f5f5f5;
+      border-radius: 4px; color: #ffffff;
       border-color: rgba(255,255,255,0.18);
     }
-    .btn-ghost:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.28); }
+    .btn-ghost:hover { background: #2a2a2a; border-color: rgba(255,255,255,0.28); }
 
     /* ── Entry screen ── */
-    #screen-entry { background: #0d0d0d; }
+    #screen-entry { background: #0f0f0f; }
     .entry-bg-orb { display: none; }
     .entry-logo {
       font-size: 24px; letter-spacing: -1px;
@@ -2230,19 +2217,19 @@
       font-size: clamp(52px, 8vw, 108px);
       font-weight: 900; letter-spacing: -1px;
       line-height: 0.9; text-transform: uppercase;
-      color: #f5f5f5; margin-bottom: 20px;
+      color: #ffffff; margin-bottom: 20px;
     }
     .entry-tagline h1 em { color: #00FF87; font-style: normal; }
-    .entry-tagline p { font-size: 15px; max-width: 480px; margin: 0 auto; line-height: 1.65; color: #737373; }
+    .entry-tagline p { font-size: 15px; max-width: 480px; margin: 0 auto; line-height: 1.65; color: #888888; }
 
     /* ── Entry stat bar ── */
     .entry-stats {
       display: flex; align-items: stretch; z-index: 10;
       margin-top: 32px; border-radius: 4px; overflow: hidden;
-      background: #161616; border: 1px solid rgba(255,255,255,0.07);
+      background: #1a1a1a; border: 1px solid #2a2a2a;
     }
     .entry-stat { padding: 16px 28px; text-align: center; flex: 1; }
-    .entry-stat + .entry-stat { border-left: 1px solid rgba(255,255,255,0.07); }
+    .entry-stat + .entry-stat { border-left: 1px solid #2a2a2a; }
     .entry-stat-num {
       display: block; font-family: 'Barlow Condensed', Inter, sans-serif;
       font-size: 20px; font-weight: 900; color: #00FF87;
@@ -2250,12 +2237,12 @@
     }
     .entry-stat-label {
       display: block; font-size: 9px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1.5px; color: #737373; margin-top: 5px;
+      text-transform: uppercase; letter-spacing: 1.5px; color: #888888; margin-top: 5px;
     }
 
     /* ── Path cards ── */
     .path-card {
-      background: #161616; border-color: rgba(255,255,255,0.07);
+      background: #1a1a1a; border-color: #2a2a2a;
       border-radius: 4px;
       box-shadow: none;
     }
@@ -2274,21 +2261,21 @@
       font-size: clamp(26px, 3.5vw, 40px);
       font-weight: 900; text-transform: uppercase;
       letter-spacing: 0.5px; line-height: 0.95;
-      color: #f5f5f5;
+      color: #ffffff;
     }
-    .path-card p { color: #737373; }
+    .path-card p { color: #888888; }
     .path-card .dot { background: #00FF87; }
-    .path-card li { color: #a3a3a3; }
+    .path-card li { color: #888888; }
     .path-cta { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #00FF87; }
     .path-card.eaf .path-cta  { color: #00FF87; }
     .path-card.network .path-cta { color: #00FF87; }
 
     /* ── Role screen ── */
-    #screen-role { background: #0d0d0d; }
-    .role-screen-heading h1 { color: #f5f5f5; }
-    .role-screen-heading p { color: #737373; }
+    #screen-role { background: #0f0f0f; }
+    .role-screen-heading h1 { color: #ffffff; }
+    .role-screen-heading p { color: #888888; }
     .role-card {
-      background: #161616; border-color: rgba(255,255,255,0.07);
+      background: #1a1a1a; border-color: #2a2a2a;
       border-radius: 4px;
     }
     .role-card:hover {
@@ -2300,152 +2287,152 @@
     .role-card-title {
       font-family: 'Barlow Condensed', Inter, sans-serif;
       font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
-      color: #f5f5f5;
+      color: #ffffff;
     }
-    .role-card-desc { color: #737373; }
+    .role-card-desc { color: #888888; }
 
     /* ── Global nav ── (styles in #playr-nav block above) ── */
 
     /* ── EAF layout ── */
-    #screen-eaf { background: #0d0d0d; }
+    #screen-eaf { background: #0f0f0f; }
     .sidebar {
-      background: #111111 !important; border-color: rgba(255,255,255,0.06) !important;
+      background: #141414 !important; border-color: #2a2a2a !important;
     }
     .sidebar-logo .logo-mark {
       border-radius: 4px; width: 36px; height: 36px; font-size: 16px;
-      background: #00FF87 !important; color: #0d0d0d !important;
+      background: #00FF87 !important; color: #0f0f0f !important;
     }
-    .sidebar-logo .logo-text { font-size: 20px; font-weight: 900; letter-spacing: -0.8px; color: #f5f5f5; }
-    .nav-item { color: #737373; border-radius: 4px; }
-    .nav-item:hover, .nav-item.active { color: #f5f5f5; background: rgba(255,255,255,0.05); }
+    .sidebar-logo .logo-text { font-size: 20px; font-weight: 900; letter-spacing: -0.8px; color: #ffffff; }
+    .nav-item { color: #888888; border-radius: 4px; }
+    .nav-item:hover, .nav-item.active { color: #ffffff; background: #2a2a2a; }
     .nav-item.active { border-left: 3px solid #00FF87; }
-    .top-bar { background: rgba(13,13,13,0.98) !important; border-color: rgba(255,255,255,0.06) !important; }
+    .top-bar { background: rgba(13,13,13,0.98) !important; border-color: #2a2a2a !important; }
 
     /* ── EAF cards ── */
     .featured-module, .module-card, .stat-card, .lessons-list, .reflection-card {
-      background: #161616 !important; border-color: rgba(255,255,255,0.07) !important;
+      background: #1a1a1a !important; border-color: #2a2a2a !important;
       border-radius: 4px;
     }
     .module-card { border-radius: 4px; }
     .module-thumb { height: 140px; }
     .module-category { font-size: 10px; letter-spacing: 2.5px; color: #00FF87 !important; }
-    .module-card h4 { font-size: 15px; font-weight: 800; color: #f5f5f5; }
-    .module-card p { color: #737373; }
-    .stat-card .stat-label { color: #737373; }
-    .progress-bar-wrap { background: rgba(255,255,255,0.06) !important; }
+    .module-card h4 { font-size: 15px; font-weight: 800; color: #ffffff; }
+    .module-card p { color: #888888; }
+    .stat-card .stat-label { color: #888888; }
+    .progress-bar-wrap { background: #2a2a2a !important; }
     .progress-bar-fill { border-radius: 2px; background: linear-gradient(90deg, #00FF87, #00C9A7) !important; }
 
     /* ── Welcome banner ── */
-    .welcome-banner { background: #161616 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
-    .welcome-text h2 { font-weight: 900; font-size: 20px; color: #f5f5f5; letter-spacing: -0.3px; }
-    .welcome-text p { color: #737373; }
+    .welcome-banner { background: #1a1a1a !important; border-color: #2a2a2a !important; border-radius: 4px; }
+    .welcome-text h2 { font-weight: 900; font-size: 20px; color: #ffffff; letter-spacing: -0.3px; }
+    .welcome-text p { color: #888888; }
     .streak-number {
       font-family: 'Barlow Condensed', Inter, sans-serif;
       font-size: 34px; font-weight: 900; letter-spacing: -0.5px;
       color: #00FF87;
     }
-    .streak-label { color: #737373; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
+    .streak-label { color: #888888; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
 
     /* ── Network home ── */
-    #screen-network { background: #0d0d0d; }
-    .network-layout { background: #0d0d0d; }
+    #screen-network { background: #0f0f0f; }
+    .network-layout { background: #0f0f0f; }
     .profile-card, .sidebar-card {
-      background: #161616 !important; border-color: rgba(255,255,255,0.07) !important;
+      background: #1a1a1a !important; border-color: #2a2a2a !important;
       border-radius: 4px;
     }
-    .profile-name { font-weight: 800; color: #f5f5f5; }
-    .profile-role { color: #737373; }
+    .profile-name { font-weight: 800; color: #ffffff; }
+    .profile-role { color: #888888; }
     .profile-stat-val { font-weight: 900; font-size: 13px; color: #00FF87; }
-    .profile-stat-label { color: #737373; }
+    .profile-stat-label { color: #888888; }
 
     /* ── Posts ── */
     .post-card {
-      background: #161616 !important; border-color: rgba(255,255,255,0.07) !important;
+      background: #1a1a1a !important; border-color: #2a2a2a !important;
       border-radius: 4px;
     }
-    .post-author-name { font-weight: 800; font-size: 14px; color: #f5f5f5; }
-    .post-author-sub, .post-timestamp { color: #737373; }
-    .post-text { color: #d4d4d4; line-height: 1.7; }
+    .post-author-name { font-weight: 800; font-size: 14px; color: #ffffff; }
+    .post-author-sub, .post-timestamp { color: #888888; }
+    .post-text { color: #cccccc; line-height: 1.7; }
     .post-tag { color: #00FF87; }
-    .post-stats { color: #737373; border-color: rgba(255,255,255,0.06) !important; }
-    .post-divider { background: rgba(255,255,255,0.06) !important; }
-    .post-react-btn { color: #737373; }
-    .post-react-btn:hover { color: #f5f5f5; background: rgba(255,255,255,0.05); }
+    .post-stats { color: #888888; border-color: #2a2a2a !important; }
+    .post-divider { background: #2a2a2a !important; }
+    .post-react-btn { color: #888888; }
+    .post-react-btn:hover { color: #ffffff; background: #2a2a2a; }
     .role-badge { border-radius: 3px; font-weight: 700; font-size: 11px; }
     .role-badge.role-scout { background: rgba(0,255,135,0.12); color: #00FF87; }
-    .role-badge.role-player { background: rgba(255,255,255,0.08); color: #d4d4d4; }
+    .role-badge.role-player { background: #2a2a2a; color: #cccccc; }
     .role-badge.role-club  { background: rgba(255,184,0,0.12); color: #FFB800; }
 
     /* ── Discover cards ── */
     .discover-card {
-      background: #161616 !important; border-color: rgba(255,255,255,0.07) !important;
+      background: #1a1a1a !important; border-color: #2a2a2a !important;
       border-radius: 4px;
     }
     .discover-card:hover { border-color: rgba(0,255,135,0.2) !important; }
     .connect-btn { border-color: #00FF87 !important; color: #00FF87 !important; border-radius: 4px; }
-    .connect-btn:hover { background: #00FF87 !important; color: #0d0d0d !important; }
+    .connect-btn:hover { background: #00FF87 !important; color: #0f0f0f !important; }
 
     /* ── Messaging / Chat drawer ── */
-    .chat-drawer { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; }
-    .chat-drawer-header { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; }
-    .chat-item { color: #d4d4d4; }
+    .chat-drawer { background: #141414 !important; border-color: #2a2a2a !important; }
+    .chat-drawer-header { background: #0f0f0f !important; border-color: #2a2a2a !important; }
+    .chat-item { color: #cccccc; }
     .chat-item:hover { background: rgba(255,255,255,0.04) !important; }
-    .chat-item-name { color: #f5f5f5; font-weight: 700; }
-    .chat-item-preview { color: #737373; }
-    .chat-window { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; }
-    .chat-window-header { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; }
-    .chat-bubble-out { background: #00FF87 !important; color: #0d0d0d !important; border-radius: 12px 12px 2px 12px; }
-    .chat-bubble-in { background: #1c1c1c !important; color: #f5f5f5 !important; border-radius: 12px 12px 12px 2px; }
-    .chat-input-bar { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; }
-    .chat-input { background: #1c1c1c !important; border-color: rgba(255,255,255,0.07) !important; color: #f5f5f5 !important; border-radius: 4px; }
-    .chat-send-btn { background: #00FF87 !important; color: #0d0d0d !important; border-radius: 4px; }
+    .chat-item-name { color: #ffffff; font-weight: 700; }
+    .chat-item-preview { color: #888888; }
+    .chat-window { background: #141414 !important; border-color: #2a2a2a !important; }
+    .chat-window-header { background: #0f0f0f !important; border-color: #2a2a2a !important; }
+    .chat-bubble-out { background: #00FF87 !important; color: #0f0f0f !important; border-radius: 12px 12px 2px 12px; }
+    .chat-bubble-in { background: #1a1a1a !important; color: #ffffff !important; border-radius: 12px 12px 12px 2px; }
+    .chat-input-bar { background: #0f0f0f !important; border-color: #2a2a2a !important; }
+    .chat-input { background: #1a1a1a !important; border-color: #2a2a2a !important; color: #ffffff !important; border-radius: 4px; }
+    .chat-send-btn { background: #00FF87 !important; color: #0f0f0f !important; border-radius: 4px; }
 
     /* ── Notifications dropdown ── */
-    .notif-dropdown { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; }
-    .notif-header { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; color: #f5f5f5; }
-    .notif-item { border-color: rgba(255,255,255,0.05) !important; }
+    .notif-dropdown { background: #141414 !important; border-color: #2a2a2a !important; }
+    .notif-header { background: #0f0f0f !important; border-color: #2a2a2a !important; color: #ffffff; }
+    .notif-item { border-color: #2a2a2a !important; }
     .notif-item:hover { background: rgba(255,255,255,0.04) !important; }
     .notif-item.unread { background: rgba(0,255,135,0.05) !important; border-left: 3px solid #00FF87; }
-    .notif-text { color: #d4d4d4; }
-    .notif-time { color: #737373; }
+    .notif-text { color: #cccccc; }
+    .notif-time { color: #888888; }
 
     /* ── Me dropdown ── */
-    .me-dropdown { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; }
-    .me-dropdown-header { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; }
-    .me-dropdown-link { color: #d4d4d4; }
-    .me-dropdown-link:hover { background: rgba(255,255,255,0.05) !important; color: #f5f5f5; }
+    .me-dropdown { background: #141414 !important; border-color: #2a2a2a !important; }
+    .me-dropdown-header { background: #0f0f0f !important; border-color: #2a2a2a !important; }
+    .me-dropdown-link { color: #cccccc; }
+    .me-dropdown-link:hover { background: #2a2a2a !important; color: #ffffff; }
 
     /* ── Map ── */
-    #screen-map { background: #0d0d0d; }
-    .map-filter-bar { background: rgba(13,13,13,0.95) !important; border-color: rgba(255,255,255,0.07) !important; }
-    .map-filter-btn { background: #161616 !important; border-color: rgba(255,255,255,0.07) !important; color: #737373; border-radius: 4px; }
+    #screen-map { background: #0f0f0f; }
+    .map-filter-bar { background: rgba(13,13,13,0.95) !important; border-color: #2a2a2a !important; }
+    .map-filter-btn { background: #1a1a1a !important; border-color: #2a2a2a !important; color: #888888; border-radius: 4px; }
     .map-filter-btn.active { border-color: #00FF87 !important; color: #00FF87 !important; }
-    .map-legend { background: rgba(13,13,13,0.9) !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; color: #d4d4d4; }
-    .leaflet-popup-content-wrapper { background: #161616 !important; color: #f5f5f5; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 4px !important; }
-    .leaflet-popup-tip { background: #161616 !important; }
-    .map-popup-name { color: #f5f5f5 !important; }
-    .map-popup-sub  { color: #737373 !important; }
-    .loc-dialog-card { background: #161616 !important; border-radius: 4px; }
-    .loc-dialog-card h3 { color: #f5f5f5 !important; }
-    .loc-dialog-card p  { color: #737373 !important; }
-    .loc-allow-btn { background: #00FF87 !important; color: #0d0d0d !important; border-radius: 4px; }
-    .loc-deny-btn  { background: #1c1c1c !important; color: #737373 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
+    .map-legend { background: rgba(13,13,13,0.9) !important; border-color: #2a2a2a !important; border-radius: 4px; color: #cccccc; }
+    .leaflet-popup-content-wrapper { background: #1a1a1a !important; color: #ffffff; border: 1px solid rgba(255,255,255,0.08) !important; border-radius: 4px !important; }
+    .leaflet-popup-tip { background: #1a1a1a !important; }
+    .map-popup-name { color: #ffffff !important; }
+    .map-popup-sub  { color: #888888 !important; }
+    .loc-dialog-card { background: #1a1a1a !important; border-radius: 4px; }
+    .loc-dialog-card h3 { color: #ffffff !important; }
+    .loc-dialog-card p  { color: #888888 !important; }
+    .loc-allow-btn { background: #00FF87 !important; color: #0f0f0f !important; border-radius: 4px; }
+    .loc-deny-btn  { background: #1a1a1a !important; color: #888888 !important; border-color: #2a2a2a !important; border-radius: 4px; }
 
     /* ── Modals / overlays ── */
     .modal-overlay { background: rgba(0,0,0,0.85) !important; }
-    .module-modal { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
-    .modal-header { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; }
-    .modal-header h2 { color: #f5f5f5; }
-    .lesson-item { background: #161616 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
+    .module-modal { background: #141414 !important; border-color: #2a2a2a !important; border-radius: 4px; }
+    .modal-header { background: #0f0f0f !important; border-color: #2a2a2a !important; }
+    .modal-header h2 { color: #ffffff; }
+    .lesson-item { background: #1a1a1a !important; border-color: #2a2a2a !important; border-radius: 4px; }
     .lesson-item:hover { border-color: rgba(0,255,135,0.2) !important; }
     .lesson-item.completed .lesson-check { color: #00FF87 !important; }
-    .reflection-card { background: #161616 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
-    .journal-textarea { background: #1c1c1c !important; border-color: rgba(255,255,255,0.07) !important; color: #f5f5f5 !important; border-radius: 4px; }
+    .reflection-card { background: #1a1a1a !important; border-color: #2a2a2a !important; border-radius: 4px; }
+    .journal-textarea { background: #1a1a1a !important; border-color: #2a2a2a !important; color: #ffffff !important; border-radius: 4px; }
     .journal-textarea::placeholder { color: #4a4a4a; }
 
     /* ── Profile modal ── */
-    .profile-modal { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
-    .profile-modal-header { background: linear-gradient(160deg, #161616, #0d0d0d) !important; }
+    .profile-modal { background: #141414 !important; border-color: #2a2a2a !important; border-radius: 4px; }
+    .profile-modal-header { background: linear-gradient(160deg, #1a1a1a, #0f0f0f) !important; }
 
     /* ── Progress ring / activity ── */
     .progress-ring-circle { stroke: #00FF87 !important; }
@@ -2978,7 +2965,7 @@
       <!-- Post 1 — Signing announcement (Player) -->
       <div class="post-card" data-category="transfer" data-user-id="kai_mensah">
         <div class="post-header">
-          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#7C3AED,#4c1d95)" onclick="showProfile('kai_mensah')">KM</div>
+          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#00FF87,#00C9A7)" onclick="showProfile('kai_mensah')">KM</div>
           <div class="post-author-info">
             <div class="post-author-name">
               <span class="user-link" onclick="showProfile('kai_mensah')">Kai Mensah</span>
@@ -3143,7 +3130,7 @@ What's your pre-match routine? Share it below 👇
       <!-- Post 5 — Player update, free agent -->
       <div class="post-card" data-category="transfer" data-user-id="marcus_diallo">
         <div class="post-header">
-          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#7C3AED,#1e40af)" onclick="showProfile('marcus_diallo')">MD</div>
+          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#00FF87,#1e40af)" onclick="showProfile('marcus_diallo')">MD</div>
           <div class="post-author-info">
             <div class="post-author-name">
               <span class="user-link" onclick="showProfile('marcus_diallo')">Marcus Diallo</span>
@@ -3398,7 +3385,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   <div class="map-filter-bar">
     <span class="map-filter-label">Show:</span>
     <button class="map-filter-btn fp"  id="mf-players"  onclick="toggleMapFilter('players',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#7C3AED"></span> Players
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#00FF87"></span> Players
     </button>
     <button class="map-filter-btn fs"  id="mf-scouts"   onclick="toggleMapFilter('scouts',this)">
       <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#1d4ed8"></span> Scouts
@@ -3421,12 +3408,12 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     <!-- Colour legend -->
     <div class="map-legend">
       <div class="map-legend-title">Legend</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#7C3AED"></div> Players</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#00FF87"></div> Players</div>
       <div class="map-legend-item"><div class="map-legend-dot" style="background:#1d4ed8"></div> Scouts</div>
       <div class="map-legend-item"><div class="map-legend-dot" style="background:#16a34a"></div> Trials</div>
       <div class="map-legend-item"><div class="map-legend-dot" style="background:#d97706"></div> Coaching</div>
       <div class="map-legend-item"><div class="map-legend-dot" style="background:#dc2626"></div> News</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#fff;border:2px solid #7C3AED"></div> You</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#fff;border:2px solid #00FF87"></div> You</div>
     </div>
 
     <!-- Location permission dialog -->
@@ -4027,7 +4014,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
         { id: 'james_harrison', initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison',    badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Senior Scout',               mutual: '14 mutual connections' },
         { id: 'fc_velocity',    initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy',badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',   sub: 'Verified Club',              mutual: '3 mutual connections' },
         { id: 'sarah_okonkwo', initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo',    badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'UEFA A Licensed',            mutual: '6 mutual connections' },
-        { id: 'ryan_morris',   initials: 'RM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Ryan Morris',      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Championship Scout',         mutual: '11 mutual connections' },
+        { id: 'ryan_morris',   initials: 'RM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Ryan Morris',      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Championship Scout',         mutual: '11 mutual connections' },
       ]
     },
     scout: {
@@ -4035,10 +4022,10 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       meta: 'Scouting for talent',
       suggestionsTitle: 'Players on your radar',
       suggestions: [
-        { id: 'kai_mensah',    initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah',    badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · FC Velocity',             mutual: '5 mutual connections' },
-        { id: 'marcus_diallo', initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)', name: 'Marcus Diallo', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Central Midfielder · Free Agent',   mutual: '9 mutual connections' },
+        { id: 'kai_mensah',    initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Kai Mensah',    badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · FC Velocity',             mutual: '5 mutual connections' },
+        { id: 'marcus_diallo', initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)', name: 'Marcus Diallo', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Central Midfielder · Free Agent',   mutual: '9 mutual connections' },
         { id: 'amara_toure',   initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré',   badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇸🇳 Senegalese',          mutual: '7 mutual connections' },
-        { id: 'jamie_asante',  initials: 'JA', grad: 'linear-gradient(135deg,#7C3AED,#6d28d9)', name: 'Jamie Asante',  badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Winger · U21',                      mutual: '12 mutual connections' },
+        { id: 'jamie_asante',  initials: 'JA', grad: 'linear-gradient(135deg,#00FF87,#6d28d9)', name: 'Jamie Asante',  badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Winger · U21',                      mutual: '12 mutual connections' },
         { id: 'rayan_bouzid',  initials: 'RB', grad: 'linear-gradient(135deg,#2563eb,#1d4ed8)', name: 'Rayan Bouzid',  badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · 🇫🇷 French',                   mutual: '4 mutual connections' },
       ]
     },
@@ -4049,9 +4036,9 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       suggestions: [
         { id: 'fc_velocity',   initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy', badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',   sub: 'Verified Academy Club',     mutual: '4 mutual connections' },
         { id: 'david_osei',    initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei',         badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'Academy Coach',             mutual: '7 mutual connections' },
-        { id: 'kai_mensah',    initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah',         badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Seeking coaching', mutual: '3 mutual connections' },
+        { id: 'kai_mensah',    initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Kai Mensah',         badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Seeking coaching', mutual: '3 mutual connections' },
         { id: 'lisa_chen',     initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen',          badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'PL Scout · Talent network', mutual: '6 mutual connections' },
-        { id: 'marcus_diallo', initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)', name: 'Marcus Diallo',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · Free Agent',           mutual: '2 mutual connections' },
+        { id: 'marcus_diallo', initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)', name: 'Marcus Diallo',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · Free Agent',           mutual: '2 mutual connections' },
       ]
     },
     club: {
@@ -4061,7 +4048,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       suggestions: [
         { id: 'james_harrison', initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Senior Scout · Available',        mutual: '10 mutual connections' },
         { id: 'sarah_okonkwo',  initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo',  badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'UEFA A · Sports Psychologist',    mutual: '8 mutual connections' },
-        { id: 'kai_mensah',     initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇬🇭 Ghanaian',          mutual: '5 mutual connections' },
+        { id: 'kai_mensah',     initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Kai Mensah',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇬🇭 Ghanaian',          mutual: '5 mutual connections' },
         { id: 'amara_toure',    initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré',    badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Free Agent',           mutual: '3 mutual connections' },
         { id: 'david_osei',     initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei',     badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'Academy Coach · 🇬🇭 Ghanaian',   mutual: '7 mutual connections' },
       ]
@@ -4450,8 +4437,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   // ─── PROFILE DATA ───
   const PROFILES = {
     kai_mensah: {
-      initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)',
-      cover: 'linear-gradient(135deg,#1a0a2e 0%,#4c1d95 60%,#7C3AED 100%)',
+      initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)',
+      cover: 'linear-gradient(135deg,#1a0a2e 0%,#00C9A7 60%,#00FF87 100%)',
       name: 'Kai Mensah', role: 'player',
       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
       location: '📍 Manchester, England', connections: '247', views: '1.4k', impressions: '8.3k',
@@ -4534,8 +4521,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       alsoViewed: ['david_osei', 'james_harrison', 'fc_velocity'],
     },
     marcus_diallo: {
-      initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)',
-      cover: 'linear-gradient(135deg,#0d0a2e 0%,#1e40af 50%,#7C3AED 100%)',
+      initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)',
+      cover: 'linear-gradient(135deg,#0d0a2e 0%,#1e40af 50%,#00FF87 100%)',
       name: 'Marcus Diallo', role: 'player',
       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
       location: '📍 London, England · 🇫🇷 French', connections: '156', views: '892', impressions: '4.1k',
@@ -4554,8 +4541,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       alsoViewed: ['kai_mensah', 'rayan_bouzid', 'jamie_asante'],
     },
     jamie_asante: {
-      initials: 'JA', grad: 'linear-gradient(135deg,#7C3AED,#6d28d9)',
-      cover: 'linear-gradient(135deg,#1a0a2e 0%,#6d28d9 60%,#9D65FF 100%)',
+      initials: 'JA', grad: 'linear-gradient(135deg,#00FF87,#6d28d9)',
+      cover: 'linear-gradient(135deg,#1a0a2e 0%,#6d28d9 60%,#00FF87 100%)',
       name: 'Jamie Asante', role: 'player',
       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
       location: '📍 Birmingham, England', connections: '94', views: '412', impressions: '2.8k',
@@ -4641,8 +4628,8 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
       alsoViewed: ['kai_mensah', 'marcus_diallo', 'jamie_asante'],
     },
     ryan_morris: {
-      initials: 'RM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)',
-      cover: 'linear-gradient(135deg,#0f0520 0%,#4c1d95 55%,#7C3AED 100%)',
+      initials: 'RM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)',
+      cover: 'linear-gradient(135deg,#0f0520 0%,#00C9A7 55%,#00FF87 100%)',
       name: 'Ryan Morris', role: 'scout',
       badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',
       location: '📍 Leeds, England', connections: '389', views: '1.7k', impressions: '11k',
@@ -5120,13 +5107,13 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
         const prof = PROFILES[p.id] || {};
         const icon = L.divIcon({
           className: 'map-player-icon',
-          html: `<div style="width:30px;height:30px;border-radius:50%;background:${prof.grad||'#7C3AED'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.35)">${prof.initials||'?'}</div>`,
+          html: `<div style="width:30px;height:30px;border-radius:50%;background:${prof.grad||'#00FF87'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.35)">${prof.initials||'?'}</div>`,
           iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15]
         });
         marker = L.marker([p.lat, p.lng], { icon });
         marker.bindPopup(_playerPopup(p, true), { maxWidth: 250 });
       } else {
-        marker = L.circleMarker([p.lat, p.lng], { radius: 9, fillColor: '#7C3AED', color: '#5b21b6', weight: 2, opacity: 1, fillOpacity: 0.85 });
+        marker = L.circleMarker([p.lat, p.lng], { radius: 9, fillColor: '#00FF87', color: '#5b21b6', weight: 2, opacity: 1, fillOpacity: 0.85 });
         marker.bindPopup(_playerPopup(p, false), { maxWidth: 250 });
       }
       if (mapFilterState.players) marker.addTo(leafletMap);
@@ -5201,11 +5188,11 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     const prof = PROFILES[p.id] || {};
     if (isConnected) {
       return `<div class="map-popup">
-        <div class="map-popup-av" style="background:${prof.grad||'#7C3AED'}">${prof.initials||'?'}</div>
+        <div class="map-popup-av" style="background:${prof.grad||'#00FF87'}">${prof.initials||'?'}</div>
         <div class="map-popup-body">
           <div class="map-popup-name">${p.name}</div>
           <div class="map-popup-sub">${p.position} · Age ${p.age}</div>
-          <button class="map-popup-btn" style="background:#7C3AED" onclick="showProfile('${p.id}')">View Profile</button>
+          <button class="map-popup-btn" style="background:#00FF87" onclick="showProfile('${p.id}')">View Profile</button>
         </div>
       </div>`;
     }
@@ -5267,7 +5254,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     const role = localStorage.getItem('playr_role') || 'player';
     const name = document.getElementById('network-profile-name')?.textContent || 'You';
     const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'ME';
-    const color = { scout: '#1d4ed8', coach: '#d97706', club: '#16a34a' }[role] || '#7C3AED';
+    const color = { scout: '#1d4ed8', coach: '#d97706', club: '#16a34a' }[role] || '#00FF87';
     const icon = L.divIcon({
       className: 'map-player-icon',
       html: `<div style="width:34px;height:34px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:12px;border:3px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,0.4)">${initials}</div>`,
@@ -5521,9 +5508,9 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   });
 
   const DISCOVER_USERS = [
-    { id: 'kai_mensah',    role: 'player', position: 'Striker',              nationality: 'Ghanaian',  age: 19, location: 'Manchester, England',   initials: 'KM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Kai Mensah',        badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 247 },
-    { id: 'marcus_diallo', role: 'player', position: 'Central Midfielder',   nationality: 'French',    age: 22, location: 'London, England',         initials: 'MD', grad: 'linear-gradient(135deg,#7C3AED,#1e40af)', name: 'Marcus Diallo',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 156 },
-    { id: 'jamie_asante',  role: 'player', position: 'Winger',               nationality: 'British',   age: 20, location: 'Birmingham, England',      initials: 'JA', grad: 'linear-gradient(135deg,#7C3AED,#6d28d9)', name: 'Jamie Asante',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 94  },
+    { id: 'kai_mensah',    role: 'player', position: 'Striker',              nationality: 'Ghanaian',  age: 19, location: 'Manchester, England',   initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Kai Mensah',        badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 247 },
+    { id: 'marcus_diallo', role: 'player', position: 'Central Midfielder',   nationality: 'French',    age: 22, location: 'London, England',         initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)', name: 'Marcus Diallo',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 156 },
+    { id: 'jamie_asante',  role: 'player', position: 'Winger',               nationality: 'British',   age: 20, location: 'Birmingham, England',      initials: 'JA', grad: 'linear-gradient(135deg,#00FF87,#6d28d9)', name: 'Jamie Asante',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 94  },
     { id: 'rayan_bouzid',  role: 'player', position: 'Central Midfielder',   nationality: 'French',    age: 20, location: 'Lyon, France',             initials: 'RB', grad: 'linear-gradient(135deg,#2563eb,#1d4ed8)', name: 'Rayan Bouzid',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 128 },
     { id: 'amara_toure',   role: 'player', position: 'Striker',              nationality: 'Senegalese',age: 21, location: 'Dakar, Senegal',           initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré',       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 83  },
     { id: 'ibrahima_kone', role: 'player', position: 'Defensive Midfielder', nationality: 'Ivorian',   age: 18, location: 'Abidjan, Ivory Coast',     initials: 'IK', grad: 'linear-gradient(135deg,#f97316,#c2410c)', name: 'Ibrahima Koné',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 41  },
@@ -5532,7 +5519,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
     { id: 'fatou_dieng',   role: 'player', position: 'Striker',              nationality: 'Senegalese',age: 20, location: 'Dakar, Senegal',           initials: 'FD', grad: 'linear-gradient(135deg,#a855f7,#6d28d9)', name: 'Fatou Dieng',       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 56  },
     { id: 'james_harrison',role: 'scout',  position: null,                   nationality: 'British',   age: 38, location: 'Manchester, England',      initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison',    badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 612 },
     { id: 'lisa_chen',     role: 'scout',  position: null,                   nationality: 'British',   age: 31, location: 'London, England',          initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen',         badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 744 },
-    { id: 'ryan_morris',   role: 'scout',  position: null,                   nationality: 'British',   age: 40, location: 'Leeds, England',           initials: 'RM', grad: 'linear-gradient(135deg,#7C3AED,#4c1d95)', name: 'Ryan Morris',       badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 389 },
+    { id: 'ryan_morris',   role: 'scout',  position: null,                   nationality: 'British',   age: 40, location: 'Leeds, England',           initials: 'RM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Ryan Morris',       badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 389 },
     { id: 'elena_marchetti',role:'scout',  position: null,                   nationality: 'Italian',   age: 29, location: 'Milan, Italy',             initials: 'EM', grad: 'linear-gradient(135deg,#0ea5e9,#0369a1)', name: 'Elena Marchetti',   badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 334 },
     { id: 'sarah_okonkwo', role: 'coach',  position: null,                   nationality: 'Nigerian',  age: 36, location: 'London, England',          initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo',     badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',    connections: 891 },
     { id: 'david_osei',    role: 'coach',  position: null,                   nationality: 'Ghanaian',  age: 33, location: 'Manchester, England',      initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei',        badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',    connections: 267 },
