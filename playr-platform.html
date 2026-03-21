@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <!-- Apply saved theme before paint to prevent flash -->
-  <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('playr_theme')||'light');})();</script>
+  <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('playr_theme')||'dark');})();</script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -2085,161 +2085,330 @@
     .map-player-icon div { cursor: pointer; }
 
     /* ═══════════════════════════════════════════════
-       SPORTIQUE REDESIGN — Bold · Athletic · Inclusive
+       PLAYR DARK — Whoop/NTC Athletic Theme
+       #0d0d0d bg · #00FF87 accent · No light cards
     ═══════════════════════════════════════════════ */
 
-    /* ── Color tokens: higher contrast, more electric ── */
-    :root {
-      --bg:              #F3F3F7;
-      --text:            #08080F;
-      --muted:           #56566E;
-      --purple:          #6D28D9;
-      --purple-lt:       #7C3AED;
-      --card-shadow:     0 2px 16px rgba(8,8,15,0.09), 0 1px 4px rgba(8,8,15,0.06);
-      --bg-top-bar:      rgba(243,243,247,0.96);
-    }
+    /* ── Force dark on everything — no light mode ── */
+    :root,
+    [data-theme="light"],
     [data-theme="dark"] {
-      --bg:              #030308;
-      --bg-card:         #09090F;
-      --bg-card2:        #0F0F18;
-      --border:          rgba(255,255,255,0.075);
-      --purple:          #9333EA;
-      --purple-lt:       #A855F7;
-      --purple-dim:      rgba(147,51,234,0.14);
-      --purple-glow:     rgba(147,51,234,0.30);
-      --bg-top-bar:      rgba(3,3,8,0.97);
-      --bg-hero:         linear-gradient(135deg,#0A0314 0%,#030820 60%,#030812 100%);
-      --text:            #F2F2FA;
-      --muted:           #6868A8;
-      --scrollbar-thumb: rgba(255,255,255,0.07);
-      --scrollbar-hover: rgba(255,255,255,0.14);
+      --bg:              #0d0d0d;
+      --bg-card:         #161616;
+      --bg-card2:        #1c1c1c;
+      --border:          rgba(255,255,255,0.07);
+      --accent:          #00FF87;
+      --accent-dim:      rgba(0,255,135,0.12);
+      --accent-glow:     rgba(0,255,135,0.28);
+      --accent-muted:    rgba(0,255,135,0.55);
+      /* keep --purple mapped to accent so existing refs work */
+      --purple:          #00FF87;
+      --purple-lt:       #00FF87;
+      --purple-dim:      rgba(0,255,135,0.10);
+      --purple-glow:     rgba(0,255,135,0.28);
+      --text:            #f5f5f5;
+      --muted:           #737373;
+      --white:           #ffffff;
+      --green:           #00FF87;
+      --amber:           #FFB800;
+      --red:             #FF3B3B;
+      --bg-top-bar:      rgba(13,13,13,0.98);
+      --bg-hero:         linear-gradient(160deg, #0d0d0d 0%, #111111 100%);
+      --bg-video-ph:     linear-gradient(135deg, #161616 0%, #1a1a1a 100%);
+      --bg-lock:         rgba(13,13,13,0.7);
+      --hero-glow:       rgba(0,255,135,0.08);
+      --hover-border:    rgba(255,255,255,0.14);
+      --card-shadow:     0 2px 12px rgba(0,0,0,0.5);
+      --scrollbar-thumb: rgba(255,255,255,0.08);
+      --scrollbar-hover: rgba(255,255,255,0.16);
     }
 
-    /* ── Buttons — angular, athletic ── */
-    .btn { border-radius: 6px; font-weight: 700; letter-spacing: 0.2px; font-family: inherit; }
-    .btn-primary { box-shadow: 0 1px 4px rgba(0,0,0,0.18); }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(109,40,217,0.36); background: var(--purple-lt); }
-    [data-theme="dark"] .btn-primary:hover { box-shadow: 0 8px 32px rgba(147,51,234,0.48); }
-    .btn-ghost { border-radius: 6px; }
+    /* ── Base ── */
+    body { background: #0d0d0d; color: #f5f5f5; }
 
-    /* ── Entry logo — left-aligned, Nike-style ── */
-    .entry-logo { font-size: 26px; letter-spacing: -1px; left: 44px; transform: none; }
+    /* ── Buttons — angular, athletic, green accent ── */
+    .btn { border-radius: 4px; font-weight: 700; letter-spacing: 0.3px; font-family: inherit; }
+    .btn-primary {
+      background: #00FF87; color: #0d0d0d;
+      border: none; border-radius: 4px;
+      box-shadow: 0 0 0 0 rgba(0,255,135,0);
+      transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .btn-primary:hover {
+      background: #00FF87; color: #0d0d0d;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(0,255,135,0.35);
+    }
+    .btn-ghost {
+      border-radius: 4px; color: #f5f5f5;
+      border-color: rgba(255,255,255,0.18);
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.28); }
 
-    /* ── Entry tagline — massive, uppercase, Barlow ── */
-    .entry-tagline { margin-bottom: 48px; }
+    /* ── Entry screen ── */
+    #screen-entry { background: #0d0d0d; }
+    .entry-bg-orb { display: none; }
+    .entry-logo {
+      font-size: 24px; letter-spacing: -1px;
+      left: 40px; transform: none;
+      color: #00FF87;
+    }
+
+    /* ── Entry tagline ── */
+    .entry-tagline { margin-bottom: 40px; }
     .entry-tagline h1 {
       font-family: 'Barlow Condensed', 'Inter', sans-serif;
-      font-size: clamp(46px, 7.5vw, 96px);
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      line-height: 0.93;
-      text-transform: uppercase;
-      margin-bottom: 18px;
+      font-size: clamp(52px, 8vw, 108px);
+      font-weight: 900; letter-spacing: -1px;
+      line-height: 0.9; text-transform: uppercase;
+      color: #f5f5f5; margin-bottom: 20px;
     }
-    .entry-tagline p { font-size: 15px; max-width: 500px; margin: 0 auto; line-height: 1.65; }
+    .entry-tagline h1 em { color: #00FF87; font-style: normal; }
+    .entry-tagline p { font-size: 15px; max-width: 480px; margin: 0 auto; line-height: 1.65; color: #737373; }
 
-    /* ── Path cards — more editorial ── */
-    .path-card { border-radius: 14px; }
-    .path-card h2 {
-      font-family: 'Barlow Condensed', 'Inter', sans-serif;
-      font-size: clamp(24px, 3.2vw, 38px);
-      font-weight: 900;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      line-height: 1.0;
-    }
-    .path-cta { font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.8px; }
-    [data-theme="dark"] .path-card { background: #0D0D16; border-color: rgba(255,255,255,0.06); }
-    [data-theme="dark"] .path-card:hover { border-color: rgba(255,255,255,0.13); box-shadow: 0 24px 64px rgba(0,0,0,0.55); }
-
-    /* ── Entry stats bar ── */
+    /* ── Entry stat bar ── */
     .entry-stats {
       display: flex; align-items: stretch; z-index: 10;
-      margin-top: 32px; border-radius: 12px; overflow: hidden;
-      background: var(--bg-card); border: 1px solid var(--border);
+      margin-top: 32px; border-radius: 4px; overflow: hidden;
+      background: #161616; border: 1px solid rgba(255,255,255,0.07);
     }
-    [data-theme="light"] .entry-stats { box-shadow: var(--card-shadow); }
-    .entry-stat { padding: 14px 28px; text-align: center; flex: 1; }
-    .entry-stat + .entry-stat { border-left: 1px solid var(--border); }
+    .entry-stat { padding: 16px 28px; text-align: center; flex: 1; }
+    .entry-stat + .entry-stat { border-left: 1px solid rgba(255,255,255,0.07); }
     .entry-stat-num {
       display: block; font-family: 'Barlow Condensed', Inter, sans-serif;
-      font-size: 21px; font-weight: 900; color: var(--purple-lt);
+      font-size: 20px; font-weight: 900; color: #00FF87;
       letter-spacing: -0.3px; line-height: 1;
     }
     .entry-stat-label {
-      display: block; font-size: 9.5px; font-weight: 700;
-      text-transform: uppercase; letter-spacing: 1.3px; color: var(--muted); margin-top: 4px;
+      display: block; font-size: 9px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1.5px; color: #737373; margin-top: 5px;
     }
 
-    /* ── Role cards — bold, angular ── */
-    .role-card { border-radius: 12px; }
-    .role-card:hover { transform: translateY(-5px); box-shadow: 0 16px 48px rgba(0,0,0,0.14); }
-    [data-theme="dark"] .role-card { background: #0D0D16; border-color: rgba(255,255,255,0.06); }
-    [data-theme="dark"] .role-card:hover { border-color: rgba(147,51,234,0.45); box-shadow: 0 16px 52px rgba(0,0,0,0.65); }
-    .role-card-icon { font-size: 40px; margin-bottom: 12px; }
+    /* ── Path cards ── */
+    .path-card {
+      background: #161616; border-color: rgba(255,255,255,0.07);
+      border-radius: 4px;
+      box-shadow: none;
+    }
+    .path-card::before { display: none; }
+    .path-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,255,135,0.3);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+    }
+    .path-card.eaf .path-icon { background: rgba(0,255,135,0.08); }
+    .path-card.network .path-icon { background: rgba(0,255,135,0.08); }
+    .path-card.eaf .path-label  { color: #00FF87; }
+    .path-card.network .path-label { color: #00FF87; }
+    .path-card h2 {
+      font-family: 'Barlow Condensed', 'Inter', sans-serif;
+      font-size: clamp(26px, 3.5vw, 40px);
+      font-weight: 900; text-transform: uppercase;
+      letter-spacing: 0.5px; line-height: 0.95;
+      color: #f5f5f5;
+    }
+    .path-card p { color: #737373; }
+    .path-card .dot { background: #00FF87; }
+    .path-card li { color: #a3a3a3; }
+    .path-cta { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; color: #00FF87; }
+    .path-card.eaf .path-cta  { color: #00FF87; }
+    .path-card.network .path-cta { color: #00FF87; }
+
+    /* ── Role screen ── */
+    #screen-role { background: #0d0d0d; }
+    .role-screen-heading h1 { color: #f5f5f5; }
+    .role-screen-heading p { color: #737373; }
+    .role-card {
+      background: #161616; border-color: rgba(255,255,255,0.07);
+      border-radius: 4px;
+    }
+    .role-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,255,135,0.35);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.65);
+    }
+    .role-card-icon { font-size: 36px; margin-bottom: 10px; }
     .role-card-title {
       font-family: 'Barlow Condensed', Inter, sans-serif;
-      font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
+      font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
+      color: #f5f5f5;
     }
+    .role-card-desc { color: #737373; }
 
-    /* ── Global topbar — sharper ── */
-    .playr-topbar { height: 54px; }
-    [data-theme="dark"] .playr-topbar { background: rgba(9,9,15,0.97); border-bottom-color: rgba(255,255,255,0.06); }
-    .playr-logo { font-size: 22px; letter-spacing: -1px; }
-    .playr-nav-label { font-weight: 700; font-size: 10.5px; letter-spacing: 0.3px; }
-    .playr-nav-item.active { border-bottom-width: 3px; }
+    /* ── Global topbar ── */
+    .playr-topbar {
+      height: 54px;
+      background: rgba(13,13,13,0.98) !important;
+      border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    }
+    .playr-logo { font-size: 22px; letter-spacing: -1px; color: #00FF87 !important; }
+    .playr-logo span { color: #00FF87 !important; }
+    .playr-nav-label { font-weight: 700; font-size: 10px; letter-spacing: 0.5px; color: #737373; }
+    .playr-nav-item { color: #737373; }
+    .playr-nav-item:hover { color: #f5f5f5; }
+    .playr-nav-item.active {
+      color: #f5f5f5;
+      border-bottom: 3px solid #00FF87;
+    }
+    .playr-nav-badge { background: #00FF87 !important; color: #0d0d0d !important; }
+    .side-sw-btn { color: #737373; font-size: 11px; }
+    .side-sw-btn.active { color: #00FF87; background: rgba(0,255,135,0.1); }
+    .side-switcher { background: #1c1c1c; border-color: rgba(255,255,255,0.07); }
 
-    /* ── Post cards — editorial ── */
-    .post-card { border-radius: 12px; }
-    [data-theme="dark"] .post-card { background: #09090F; border-color: rgba(255,255,255,0.06); }
-    .post-author-name { font-weight: 800; font-size: 14px; }
+    /* ── EAF layout ── */
+    #screen-eaf { background: #0d0d0d; }
+    .sidebar {
+      background: #111111 !important; border-color: rgba(255,255,255,0.06) !important;
+    }
+    .sidebar-logo .logo-mark {
+      border-radius: 4px; width: 36px; height: 36px; font-size: 16px;
+      background: #00FF87 !important; color: #0d0d0d !important;
+    }
+    .sidebar-logo .logo-text { font-size: 20px; font-weight: 900; letter-spacing: -0.8px; color: #f5f5f5; }
+    .nav-item { color: #737373; border-radius: 4px; }
+    .nav-item:hover, .nav-item.active { color: #f5f5f5; background: rgba(255,255,255,0.05); }
+    .nav-item.active { border-left: 3px solid #00FF87; }
+    .top-bar { background: rgba(13,13,13,0.98) !important; border-color: rgba(255,255,255,0.06) !important; }
 
-    /* ── Discover cards ── */
-    [data-theme="dark"] .discover-card { background: #09090F; border-color: rgba(255,255,255,0.06); }
-
-    /* ── Module cards ── */
-    .module-card { border-radius: 12px; }
-    .module-thumb { height: 150px; }
-    .module-category { font-size: 10.5px; letter-spacing: 2.5px; }
-    .module-card h4 { font-size: 15.5px; font-weight: 800; }
-    [data-theme="dark"] .module-card { background: #09090F; border-color: rgba(255,255,255,0.06); }
-
-    /* ── EAF sidebar ── */
-    .sidebar-logo .logo-mark { border-radius: 8px; width: 36px; height: 36px; font-size: 17px; }
-    .sidebar-logo .logo-text { font-size: 20px; font-weight: 900; letter-spacing: -0.8px; }
-    [data-theme="dark"] .sidebar { background: #09090F; border-color: rgba(255,255,255,0.06); }
-    [data-theme="dark"] .top-bar { background: rgba(9,9,15,0.97); border-color: rgba(255,255,255,0.06); }
-
-    /* ── Network profile card ── */
-    [data-theme="dark"] .profile-card,
-    [data-theme="dark"] .sidebar-card { background: #09090F; border-color: rgba(255,255,255,0.06); }
-    .profile-name { font-weight: 800; }
-    .profile-stat-val { font-weight: 900; font-size: 13px; }
+    /* ── EAF cards ── */
+    .featured-module, .module-card, .stat-card, .lessons-list, .reflection-card {
+      background: #161616 !important; border-color: rgba(255,255,255,0.07) !important;
+      border-radius: 4px;
+    }
+    .module-card { border-radius: 4px; }
+    .module-thumb { height: 140px; }
+    .module-category { font-size: 10px; letter-spacing: 2.5px; color: #00FF87 !important; }
+    .module-card h4 { font-size: 15px; font-weight: 800; color: #f5f5f5; }
+    .module-card p { color: #737373; }
+    .stat-card .stat-label { color: #737373; }
+    .progress-bar-wrap { background: rgba(255,255,255,0.06) !important; }
+    .progress-bar-fill { border-radius: 2px; background: linear-gradient(90deg, #00FF87, #00C9A7) !important; }
 
     /* ── Welcome banner ── */
-    .welcome-text h2 { font-weight: 900; font-size: 22px; }
+    .welcome-banner { background: #161616 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
+    .welcome-text h2 { font-weight: 900; font-size: 20px; color: #f5f5f5; letter-spacing: -0.3px; }
+    .welcome-text p { color: #737373; }
     .streak-number {
       font-family: 'Barlow Condensed', Inter, sans-serif;
       font-size: 34px; font-weight: 900; letter-spacing: -0.5px;
+      color: #00FF87;
     }
+    .streak-label { color: #737373; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; }
 
-    /* ── Dropdowns dark mode ── */
-    [data-theme="dark"] .chat-drawer,
-    [data-theme="dark"] .notif-dropdown,
-    [data-theme="dark"] .me-dropdown { background: #09090F; border-color: rgba(255,255,255,0.06); }
-    [data-theme="dark"] .side-switcher { background: #0F0F18; border-color: rgba(255,255,255,0.08); }
+    /* ── Network home ── */
+    #screen-network { background: #0d0d0d; }
+    .network-layout { background: #0d0d0d; }
+    .profile-card, .sidebar-card {
+      background: #161616 !important; border-color: rgba(255,255,255,0.07) !important;
+      border-radius: 4px;
+    }
+    .profile-name { font-weight: 800; color: #f5f5f5; }
+    .profile-role { color: #737373; }
+    .profile-stat-val { font-weight: 900; font-size: 13px; color: #00FF87; }
+    .profile-stat-label { color: #737373; }
 
-    /* ── Light mode card elevation ── */
+    /* ── Posts ── */
+    .post-card {
+      background: #161616 !important; border-color: rgba(255,255,255,0.07) !important;
+      border-radius: 4px;
+    }
+    .post-author-name { font-weight: 800; font-size: 14px; color: #f5f5f5; }
+    .post-author-sub, .post-timestamp { color: #737373; }
+    .post-text { color: #d4d4d4; line-height: 1.7; }
+    .post-tag { color: #00FF87; }
+    .post-stats { color: #737373; border-color: rgba(255,255,255,0.06) !important; }
+    .post-divider { background: rgba(255,255,255,0.06) !important; }
+    .post-react-btn { color: #737373; }
+    .post-react-btn:hover { color: #f5f5f5; background: rgba(255,255,255,0.05); }
+    .role-badge { border-radius: 3px; font-weight: 700; font-size: 11px; }
+    .role-badge.role-scout { background: rgba(0,255,135,0.12); color: #00FF87; }
+    .role-badge.role-player { background: rgba(255,255,255,0.08); color: #d4d4d4; }
+    .role-badge.role-club  { background: rgba(255,184,0,0.12); color: #FFB800; }
+
+    /* ── Discover cards ── */
+    .discover-card {
+      background: #161616 !important; border-color: rgba(255,255,255,0.07) !important;
+      border-radius: 4px;
+    }
+    .discover-card:hover { border-color: rgba(0,255,135,0.2) !important; }
+    .connect-btn { border-color: #00FF87 !important; color: #00FF87 !important; border-radius: 4px; }
+    .connect-btn:hover { background: #00FF87 !important; color: #0d0d0d !important; }
+
+    /* ── Messaging / Chat drawer ── */
+    .chat-drawer { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; }
+    .chat-drawer-header { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; }
+    .chat-item { color: #d4d4d4; }
+    .chat-item:hover { background: rgba(255,255,255,0.04) !important; }
+    .chat-item-name { color: #f5f5f5; font-weight: 700; }
+    .chat-item-preview { color: #737373; }
+    .chat-window { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; }
+    .chat-window-header { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; }
+    .chat-bubble-out { background: #00FF87 !important; color: #0d0d0d !important; border-radius: 12px 12px 2px 12px; }
+    .chat-bubble-in { background: #1c1c1c !important; color: #f5f5f5 !important; border-radius: 12px 12px 12px 2px; }
+    .chat-input-bar { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; }
+    .chat-input { background: #1c1c1c !important; border-color: rgba(255,255,255,0.07) !important; color: #f5f5f5 !important; border-radius: 4px; }
+    .chat-send-btn { background: #00FF87 !important; color: #0d0d0d !important; border-radius: 4px; }
+
+    /* ── Notifications dropdown ── */
+    .notif-dropdown { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; }
+    .notif-header { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; color: #f5f5f5; }
+    .notif-item { border-color: rgba(255,255,255,0.05) !important; }
+    .notif-item:hover { background: rgba(255,255,255,0.04) !important; }
+    .notif-item.unread { background: rgba(0,255,135,0.05) !important; border-left: 3px solid #00FF87; }
+    .notif-text { color: #d4d4d4; }
+    .notif-time { color: #737373; }
+
+    /* ── Me dropdown ── */
+    .me-dropdown { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; }
+    .me-dropdown-header { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; }
+    .me-dropdown-link { color: #d4d4d4; }
+    .me-dropdown-link:hover { background: rgba(255,255,255,0.05) !important; color: #f5f5f5; }
+
+    /* ── Map ── */
+    #screen-map { background: #0d0d0d; }
+    .map-filter-bar { background: rgba(13,13,13,0.95) !important; border-color: rgba(255,255,255,0.07) !important; }
+    .map-filter-btn { background: #161616 !important; border-color: rgba(255,255,255,0.07) !important; color: #737373; border-radius: 4px; }
+    .map-filter-btn.active { border-color: #00FF87 !important; color: #00FF87 !important; }
+    .map-legend { background: rgba(13,13,13,0.9) !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; color: #d4d4d4; }
+    .leaflet-popup-content-wrapper { background: #161616 !important; color: #f5f5f5; border: 1px solid rgba(255,255,255,0.1) !important; border-radius: 4px !important; }
+    .leaflet-popup-tip { background: #161616 !important; }
+    .map-popup-name { color: #f5f5f5 !important; }
+    .map-popup-sub  { color: #737373 !important; }
+    .loc-dialog-card { background: #161616 !important; border-radius: 4px; }
+    .loc-dialog-card h3 { color: #f5f5f5 !important; }
+    .loc-dialog-card p  { color: #737373 !important; }
+    .loc-allow-btn { background: #00FF87 !important; color: #0d0d0d !important; border-radius: 4px; }
+    .loc-deny-btn  { background: #1c1c1c !important; color: #737373 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
+
+    /* ── Modals / overlays ── */
+    .modal-overlay { background: rgba(0,0,0,0.85) !important; }
+    .module-modal { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
+    .modal-header { background: #0d0d0d !important; border-color: rgba(255,255,255,0.07) !important; }
+    .modal-header h2 { color: #f5f5f5; }
+    .lesson-item { background: #161616 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
+    .lesson-item:hover { border-color: rgba(0,255,135,0.2) !important; }
+    .lesson-item.completed .lesson-check { color: #00FF87 !important; }
+    .reflection-card { background: #161616 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
+    .journal-textarea { background: #1c1c1c !important; border-color: rgba(255,255,255,0.07) !important; color: #f5f5f5 !important; border-radius: 4px; }
+    .journal-textarea::placeholder { color: #4a4a4a; }
+
+    /* ── Profile modal ── */
+    .profile-modal { background: #111111 !important; border-color: rgba(255,255,255,0.07) !important; border-radius: 4px; }
+    .profile-modal-header { background: linear-gradient(160deg, #161616, #0d0d0d) !important; }
+
+    /* ── Progress ring / activity ── */
+    .progress-ring-circle { stroke: #00FF87 !important; }
+    .activity-dot.active { background: #00FF87 !important; }
+
+    /* ── Suppress light-mode card elevation (it breaks dark) ── */
     [data-theme="light"] .profile-card,
     [data-theme="light"] .post-card,
     [data-theme="light"] .sidebar-card,
     [data-theme="light"] .discover-card,
     [data-theme="light"] .module-card,
     [data-theme="light"] .stat-card,
-    [data-theme="light"] .path-card { box-shadow: var(--card-shadow); }
-
-    /* ── Progress bars — sharper ── */
-    .progress-bar-fill { border-radius: 2px; }
+    [data-theme="light"] .path-card,
+    [data-theme="light"] .entry-stats { box-shadow: none; }
   </style>
 </head>
 <body>
@@ -5400,7 +5569,7 @@ Open to trial opportunities in England or Germany. Central midfielder, 22, full 
   }
 
   // Sync toggle button icon with the theme applied by the head script
-  applyTheme(document.documentElement.getAttribute('data-theme') || 'light');
+  applyTheme(document.documentElement.getAttribute('data-theme') || 'dark');
 
   // Init connections (seeds simulated requests on first visit) + update badges
   loadConnections();
