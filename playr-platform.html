@@ -2736,6 +2736,148 @@
   .sidebar-switch-btn:hover { border-color: var(--purple); color: var(--purple); }
   .sidebar-switch-btn svg { flex-shrink: 0; }
 
+  /* ══ FLOATING ACTION BUTTON ══ */
+  #playr-fab {
+    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
+    z-index: 500; width: 56px; height: 56px; border-radius: 50%;
+    background: #00FF87; border: none; cursor: pointer;
+    display: none; align-items: center; justify-content: center;
+    box-shadow: 0 4px 24px rgba(0,255,135,0.45), 0 2px 10px rgba(0,0,0,0.5);
+    transition: transform 0.22s cubic-bezier(.34,1.56,.64,1), box-shadow 0.2s;
+  }
+  #playr-fab:hover { box-shadow: 0 6px 32px rgba(0,255,135,0.6); }
+  #playr-fab.fab-open { transform: translateX(-50%) rotate(45deg); }
+  #playr-fab svg { pointer-events: none; }
+  @media (min-width: 769px) { #playr-fab { bottom: 28px; } }
+
+  /* Action sheet */
+  #fab-sheet {
+    position: fixed; inset: 0; z-index: 1500;
+    background: rgba(0,0,0,0.72);
+    display: none; align-items: flex-end; justify-content: center;
+  }
+  #fab-sheet.open { display: flex; }
+  .fab-sheet-inner {
+    background: #1c1c1c; border-top: 1px solid #2a2a2a;
+    border-radius: 20px 20px 0 0; width: 100%; max-width: 500px;
+    padding: 10px 0 max(28px, env(safe-area-inset-bottom));
+    animation: fabSheetUp 0.26s cubic-bezier(.22,1,.36,1);
+  }
+  @keyframes fabSheetUp { from { transform: translateY(100%); opacity:0; } to { transform: translateY(0); opacity:1; } }
+  .fab-sheet-handle { width: 36px; height: 4px; border-radius: 2px; background: #333; margin: 0 auto 14px; }
+  .fab-sheet-heading {
+    font-family: 'Barlow Condensed', sans-serif; font-size: 13px; font-weight: 900;
+    text-transform: uppercase; letter-spacing: 2px; color: #555;
+    text-align: center; margin-bottom: 6px; padding: 0 24px;
+  }
+  .fab-option {
+    display: flex; gap: 16px; align-items: center;
+    width: 100%; padding: 14px 24px; background: transparent; border: none;
+    cursor: pointer; text-align: left; transition: background 0.12s;
+  }
+  .fab-option:active { background: rgba(255,255,255,0.05); }
+  .fab-option-icon {
+    width: 50px; height: 50px; border-radius: 14px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-size: 24px;
+  }
+  .foi-training  { background: rgba(0,255,135,0.12); }
+  .foi-photo     { background: rgba(168,85,247,0.12); }
+  .foi-highlight { background: rgba(59,130,246,0.12); }
+  .foi-text      { background: rgba(255,255,255,0.06); }
+  .fab-option-label { font-family:'Inter',sans-serif; font-size:15px; font-weight:700; color:#fff; margin-bottom:2px; }
+  .fab-option-sub   { font-family:'Inter',sans-serif; font-size:12px; color:#555; }
+
+  /* Full-screen composer */
+  #post-composer {
+    position: fixed; inset: 0; z-index: 2500;
+    background: #0f0f0f; display: none; flex-direction: column;
+  }
+  .cmp-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 18px; border-bottom: 1px solid #222; flex-shrink: 0;
+  }
+  .cmp-title {
+    font-family:'Barlow Condensed',sans-serif; font-size:20px;
+    font-weight:900; text-transform:uppercase; letter-spacing:0.5px; color:#fff;
+  }
+  .cmp-close {
+    width:32px; height:32px; border-radius:50%; background:#242424;
+    border:none; color:#888; font-size:16px; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+    transition: background 0.15s, color 0.15s;
+  }
+  .cmp-close:hover { background:#2a2a2a; color:#fff; }
+  .cmp-tags {
+    display:flex; gap:7px; padding:12px 18px 8px; flex-shrink:0; flex-wrap:wrap;
+  }
+  .cmp-tag {
+    display:inline-flex; align-items:center; gap:5px;
+    background:rgba(0,255,135,0.07); border:1px solid rgba(0,255,135,0.18);
+    border-radius:20px; padding:3px 11px;
+    font-family:'Inter',sans-serif; font-size:10px; font-weight:800;
+    letter-spacing:0.4px; color:#00FF87; text-transform:uppercase;
+  }
+  .cmp-body {
+    flex:1; overflow-y:auto; padding:8px 18px 16px;
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .cmp-textarea {
+    width:100%; background:transparent; border:none; color:#ddd;
+    font-family:'Inter',sans-serif; font-size:16px; line-height:1.75;
+    resize:none; outline:none; min-height:110px;
+  }
+  .cmp-textarea::placeholder { color:#383838; }
+  .cmp-divider { height:1px; background:#1e1e1e; flex-shrink:0; }
+  .cmp-field-label {
+    font-family:'Inter',sans-serif; font-size:10px; font-weight:800;
+    text-transform:uppercase; letter-spacing:0.8px; color:#444; margin-bottom:4px;
+  }
+  .cmp-input {
+    width:100%; padding:11px 14px;
+    background:#1a1a1a; border:1px solid #252525; border-radius:8px;
+    color:#fff; font-family:'Inter',sans-serif; font-size:14px; outline:none;
+    transition:border-color 0.15s;
+  }
+  .cmp-input:focus { border-color:#00FF87; }
+  .cmp-input::placeholder { color:#383838; }
+  .cmp-file-btn {
+    display:flex; align-items:center; gap:10px; padding:12px 16px;
+    background:#1a1a1a; border:1.5px dashed #2a2a2a; border-radius:8px;
+    color:#555; font-family:'Inter',sans-serif; font-size:13px; font-weight:600;
+    cursor:pointer; transition:border-color 0.15s, color 0.15s; width:100%;
+  }
+  .cmp-file-btn:hover { border-color:#00FF87; color:#00FF87; }
+  .cmp-photo-preview { display:flex; gap:8px; flex-wrap:wrap; margin-top:4px; }
+  .cmp-photo-thumb {
+    width:76px; height:76px; border-radius:8px; overflow:hidden;
+    background:#1a1a1a; border:1px solid #2a2a2a; flex-shrink:0;
+  }
+  .cmp-photo-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+  .cmp-footer {
+    padding:12px 18px max(16px,env(safe-area-inset-bottom));
+    border-top:1px solid #1e1e1e; flex-shrink:0;
+  }
+  .cmp-post-btn {
+    width:100%; padding:15px; border-radius:10px; border:none;
+    background:#00FF87; color:#000; font-family:'Inter',sans-serif;
+    font-size:14px; font-weight:900; text-transform:uppercase; letter-spacing:1px;
+    cursor:pointer; transition:opacity 0.15s;
+  }
+  .cmp-post-btn:hover { opacity:0.88; }
+
+  /* My Profile — posts grid */
+  .mp-posts-grid {
+    display:grid; grid-template-columns:repeat(3,1fr); gap:2px;
+    margin:0 -24px -22px;
+  }
+  .mp-pgrid-item {
+    aspect-ratio:1; background:#111; display:flex;
+    align-items:center; justify-content:center;
+    position:relative; overflow:hidden; cursor:pointer; font-size:36px;
+  }
+  .mp-pgrid-item .pgrid-overlay { opacity:0; transition:opacity 0.18s; }
+  .mp-pgrid-item:hover .pgrid-overlay { opacity:1; }
+
   /* ══════════════════════════════════════════
      SPORT SOCIAL FEED — Instagram-style, media-first
   ══════════════════════════════════════════ */
@@ -4263,6 +4405,16 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       </div>
     </div>
 
+    <!-- Posts Grid -->
+    <div class="mp-section" id="mp-posts-section">
+      <div class="mp-section-head">
+        <span class="mp-section-title">Posts</span>
+      </div>
+      <div class="mp-posts-grid" id="mp-posts-grid">
+        <div class="mp-empty" style="grid-column:1/-1;padding:28px 0;text-align:center">No posts yet. Tap + to create your first post.</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -4949,6 +5101,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-eaf').classList.add('active');
     setTopbarSide('framework');
+    updateFabVisibility();
     await loadUserProgress();
     renderModulesGrid();
     renderProgressList();
@@ -5083,6 +5236,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       setTopbarSide('network');
       setActiveNavItem('nav-home');
     }
+    updateFabVisibility();
   }
 
   function selectRole(role) {
@@ -6565,6 +6719,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-network').classList.add('active');
     setActiveNavItem('nav-home');
+    updateFabVisibility();
   }
 
   // ─── MY PROFILE ───
@@ -6588,6 +6743,8 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     setTopbarSide('network');
     setActiveNavItem('nav-profile');
     renderMyProfile();
+    renderMpPostsGrid();
+    updateFabVisibility();
   }
 
   function renderMyProfile() {
@@ -6797,6 +6954,246 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     d.clips.splice(i, 1);
     _mpSave(d);
     renderMpClips();
+  }
+
+  // ─── FAB (FLOATING ACTION BUTTON) ───
+
+  let _fabType = 'training';
+  let _fabPhotoFiles = [];
+
+  function updateFabVisibility() {
+    const fab = document.getElementById('playr-fab');
+    if (!fab) return;
+    const show = ['screen-network','screen-my-profile'].some(id =>
+      document.getElementById(id)?.classList.contains('active')
+    );
+    fab.style.display = show ? 'flex' : 'none';
+  }
+
+  function openFabSheet() {
+    document.getElementById('playr-fab').classList.add('fab-open');
+    document.getElementById('fab-sheet').classList.add('open');
+  }
+
+  function closeFabSheet() {
+    document.getElementById('playr-fab').classList.remove('fab-open');
+    document.getElementById('fab-sheet').classList.remove('open');
+  }
+
+  function closeFabSheetOutside(e) {
+    if (e.target === document.getElementById('fab-sheet')) closeFabSheet();
+  }
+
+  function openComposer(type) {
+    closeFabSheet();
+    _fabType = type;
+    _fabPhotoFiles = [];
+
+    const cfg = {
+      training:   { label: 'Training Clip' },
+      photo:      { label: 'Photo Dump' },
+      highlights: { label: 'Match Highlight' },
+      text:       { label: 'Update' },
+    }[type] || { label: 'Post' };
+
+    document.getElementById('cmp-title').textContent = cfg.label;
+
+    // Auto-tags
+    const d = typeof _mpData === 'function' ? _mpData() : {};
+    const role = localStorage.getItem('playr_role') || 'player';
+    const posLabel = d.position || { player:'Player', scout:'Scout', coach:'Coach', club:'Club' }[role] || 'Athlete';
+    document.getElementById('cmp-tags').innerHTML =
+      `<span class="cmp-tag">⚽ Football</span>` +
+      `<span class="cmp-tag">${posLabel}</span>` +
+      `<span class="cmp-tag post-type-pill ${type}" style="border-radius:20px;padding:3px 11px">${cfg.label}</span>`;
+
+    // Dynamic form
+    const body = document.getElementById('cmp-body');
+    if (type === 'training') {
+      body.innerHTML = `
+        <textarea class="cmp-textarea" id="cmp-text" placeholder="What did you work on today?…" rows="4"></textarea>
+        <div class="cmp-divider"></div>
+        <div class="cmp-field-label">YouTube / Video URL</div>
+        <input class="cmp-input" id="cmp-url" type="url" placeholder="Paste your training clip link…">`;
+    } else if (type === 'photo') {
+      body.innerHTML = `
+        <textarea class="cmp-textarea" id="cmp-text" placeholder="Caption your photos…" rows="3"></textarea>
+        <div class="cmp-divider"></div>
+        <div class="cmp-field-label">Photos</div>
+        <label class="cmp-file-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Add photos from your camera roll
+          <input type="file" id="cmp-files" accept="image/*" multiple style="display:none" onchange="previewCmpPhotos(this)">
+        </label>
+        <div class="cmp-photo-preview" id="cmp-photo-preview"></div>`;
+    } else if (type === 'highlights') {
+      body.innerHTML = `
+        <textarea class="cmp-textarea" id="cmp-text" placeholder="Describe your performance — goals, assists, key moments…" rows="4"></textarea>
+        <div class="cmp-divider"></div>
+        <div class="cmp-field-label">Match Highlight URL (YouTube)</div>
+        <input class="cmp-input" id="cmp-url" type="url" placeholder="Paste your highlight reel link…">
+        <div class="cmp-field-label" style="margin-top:10px">Match Result (optional)</div>
+        <input class="cmp-input" id="cmp-match" type="text" placeholder="e.g. City FC 2 – 1 United">`;
+    } else {
+      body.innerHTML = `
+        <textarea class="cmp-textarea" id="cmp-text" placeholder="What's on your mind? Share a thought, milestone, or moment…" rows="6"></textarea>`;
+    }
+
+    document.getElementById('post-composer').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('cmp-text')?.focus(), 80);
+  }
+
+  function closeComposer() {
+    document.getElementById('post-composer').style.display = 'none';
+    document.getElementById('playr-fab').classList.remove('fab-open');
+    document.body.style.overflow = '';
+  }
+
+  function previewCmpPhotos(input) {
+    const preview = document.getElementById('cmp-photo-preview');
+    preview.innerHTML = '';
+    _fabPhotoFiles = Array.from(input.files);
+    _fabPhotoFiles.slice(0, 9).forEach(file => {
+      const url = URL.createObjectURL(file);
+      const el = document.createElement('div');
+      el.className = 'cmp-photo-thumb';
+      el.innerHTML = `<img src="${url}" alt="">`;
+      preview.appendChild(el);
+    });
+  }
+
+  function submitFabPost() {
+    const text    = document.getElementById('cmp-text')?.value?.trim() || '';
+    const url     = document.getElementById('cmp-url')?.value?.trim() || '';
+    const matchR  = document.getElementById('cmp-match')?.value?.trim() || '';
+    const type    = _fabType;
+    if (!text && !url && !_fabPhotoFiles.length) { document.getElementById('cmp-text')?.focus(); return; }
+
+    // Auto-tags
+    const d = typeof _mpData === 'function' ? _mpData() : {};
+    const role = localStorage.getItem('playr_role') || 'player';
+    const posLabel = d.position || { player:'Player', scout:'Scout', coach:'Coach', club:'Club' }[role] || 'Athlete';
+    const autoTag = `#Football #${posLabel.replace(/\s+/g,'')}`;
+    const fullText = [text, matchR ? `📊 ${matchR}` : '', autoTag].filter(Boolean).join('\n\n');
+
+    // SVGs
+    const H = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`;
+    const C = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`;
+    const R = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>`;
+
+    const myName = document.getElementById('network-profile-name')?.textContent || 'You';
+    const myAv   = document.getElementById('network-profile-avatar')?.textContent || 'A';
+
+    // Media
+    let mediaHtml = '';
+    const ytId = url ? (typeof extractYouTubeId === 'function' ? extractYouTubeId(url) : null) : null;
+    if (ytId) {
+      mediaHtml = `<div class="post-media"><iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen loading="lazy"></iframe></div>`;
+    } else if (url) {
+      mediaHtml = `<div class="post-media"><img src="${url.replace(/"/g,'')}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"></div>`;
+    } else if (type === 'photo' && _fabPhotoFiles.length) {
+      const cells = _fabPhotoFiles.slice(0,4).map(f =>
+        `<div class="post-photo-cell"><img src="${URL.createObjectURL(f)}" style="width:100%;height:100%;object-fit:cover"></div>`).join('');
+      mediaHtml = `<div class="post-media-photo"><div class="post-photo-grid">${cells}</div></div>`;
+    } else if (type === 'photo') {
+      mediaHtml = `<div class="post-media-photo" style="background:#1a1a1a"><div class="post-photo-grid"><div class="post-photo-cell">📸</div><div class="post-photo-cell">🎞️</div><div class="post-photo-cell">🏃</div><div class="post-photo-cell">⚽</div></div></div>`;
+    }
+
+    // Build card
+    const card = document.createElement('div');
+    card.className = 'post-card post-new';
+    card.dataset.category = type;
+    const typeLabel = {training:'Training',photo:'Photo',highlights:'Highlights',text:'Update'}[type]||'Post';
+    card.innerHTML = `
+      ${mediaHtml}
+      <div class="post-body">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,#00FF87,#00C9A7);font-size:14px">${myAv}</div>
+          <div class="post-author-info">
+            <div class="post-author-name">${myName} <span class="post-type-pill ${type}">${typeLabel}</span></div>
+            <div class="post-author-sub">${posLabel} · Football</div>
+            <div class="post-timestamp">Just now</div>
+          </div>
+          <div class="post-more">···</div>
+        </div>
+        <div class="post-text">${fullText.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}</div>
+        <div class="post-reactions">
+          <button class="post-react-btn" onclick="feedLike(this)">${H} <span>0</span></button>
+          <button class="post-react-btn" onclick="feedComment(this)">${C} <span>0</span></button>
+          <button class="post-react-btn" onclick="feedRepost(this)">${R} <span>0</span></button>
+        </div>
+        <div class="post-comments-wrap" style="display:none">
+          <div class="comment-input-row">
+            <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">${myAv}</div>
+            <input class="comment-input" placeholder="Add a comment…">
+            <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
+          </div>
+          <div class="comments-list"></div>
+        </div>
+      </div>`;
+
+    // Prepend to feed
+    const feed = document.getElementById('network-feed-posts');
+    feed.insertBefore(card, feed.firstChild);
+    const af = document.querySelector('.filter-btn.active');
+    if (af && af.dataset.filter !== 'all' && af.dataset.filter !== type) card.style.display = 'none';
+
+    // Persist
+    const stored = JSON.parse(localStorage.getItem('playr_feed_posts') || '[]');
+    const grad = 'linear-gradient(135deg,#00FF87,#00C9A7)';
+    stored.unshift({ type, text: fullText, url, ytId: ytId||null, ts:'Just now', grad });
+    localStorage.setItem('playr_feed_posts', JSON.stringify(stored.slice(0, 50)));
+
+    // Refresh My Profile grid if visible
+    if (document.getElementById('screen-my-profile')?.classList.contains('active')) {
+      renderMpPostsGrid();
+    }
+
+    closeComposer();
+  }
+
+  function renderMpPostsGrid() {
+    const grid = document.getElementById('mp-posts-grid');
+    if (!grid) return;
+    const posts = JSON.parse(localStorage.getItem('playr_feed_posts') || '[]');
+    if (!posts.length) {
+      grid.innerHTML = '<div class="mp-empty" style="grid-column:1/-1;padding:28px 0;text-align:center">No posts yet. Tap + to create your first post.</div>';
+      return;
+    }
+    const svgPlay = `<svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><polygon points="5 3 19 12 5 21 5 3"/></svg>`;
+    grid.innerHTML = posts.map((p, i) => {
+      const isVideo = !!p.ytId;
+      const preview = (p.text || '').replace(/\n/g,' ').slice(0,60);
+      const bg = p.grad || '#1a1a1a';
+      return `<div class="mp-pgrid-item" onclick="openMpPost(${i})" style="background:${bg}">
+        ${isVideo
+          ? `<div style="color:rgba(255,255,255,0.7)">${svgPlay}</div><div class="pgrid-play">▶ Clip</div>`
+          : `<div style="position:absolute;inset:0;background:${bg};opacity:0.6"></div><div style="position:absolute;inset:0;padding:8px;font-size:10px;color:#fff;line-height:1.4;overflow:hidden;font-family:Inter,sans-serif">${preview}</div>`
+        }
+        <div class="pgrid-overlay"><span>♥ 0</span><span style="margin-left:10px">💬 0</span></div>
+      </div>`;
+    }).join('');
+  }
+
+  function openMpPost(i) {
+    const posts = JSON.parse(localStorage.getItem('playr_feed_posts') || '[]');
+    const p = posts[i];
+    if (!p) return;
+    _profPosts = posts;
+    _profId = '__me__';
+    // Temporarily set PROFILES.__me__ for the lightbox
+    PROFILES['__me__'] = {
+      initials: document.getElementById('network-profile-avatar')?.textContent || 'A',
+      grad: 'linear-gradient(135deg,#00FF87,#00C9A7)',
+      name: document.getElementById('network-profile-name')?.textContent || 'You',
+    };
+    // Build _profPosts in video/text format
+    _profPosts = posts.map(post => post.ytId
+      ? { type:'video', ytId: post.ytId, title: post.text?.split('\n')[0]||'Clip', grad: post.grad, ts: post.ts }
+      : { type:'text',  text: post.text, ts: post.ts, grad: post.grad }
+    );
+    openPostLightbox(i);
   }
 
   // ─── NETWORK HOME SEARCH ───
@@ -7082,5 +7479,62 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   </div>
   <div class="chat-body" id="chat-body"></div>
 </div>
+
+<!-- ══ FLOATING ACTION BUTTON ══ -->
+<button id="playr-fab" aria-label="Create post" onclick="openFabSheet()">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="24" height="24">
+    <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+  </svg>
+</button>
+
+<!-- Action Sheet -->
+<div id="fab-sheet" onclick="closeFabSheetOutside(event)">
+  <div class="fab-sheet-inner">
+    <div class="fab-sheet-handle"></div>
+    <div class="fab-sheet-heading">Create Post</div>
+    <button class="fab-option" onclick="openComposer('training')">
+      <div class="fab-option-icon foi-training">🎬</div>
+      <div>
+        <div class="fab-option-label">Training Clip</div>
+        <div class="fab-option-sub">Paste a YouTube link from your session</div>
+      </div>
+    </button>
+    <button class="fab-option" onclick="openComposer('photo')">
+      <div class="fab-option-icon foi-photo">📸</div>
+      <div>
+        <div class="fab-option-label">Photo Dump</div>
+        <div class="fab-option-sub">Upload images from training or match day</div>
+      </div>
+    </button>
+    <button class="fab-option" onclick="openComposer('highlights')">
+      <div class="fab-option-icon foi-highlight">⚡</div>
+      <div>
+        <div class="fab-option-label">Match Highlight</div>
+        <div class="fab-option-sub">Link your match performance + result</div>
+      </div>
+    </button>
+    <button class="fab-option" onclick="openComposer('text')">
+      <div class="fab-option-icon foi-text">✍️</div>
+      <div>
+        <div class="fab-option-label">Update</div>
+        <div class="fab-option-sub">Share a thought, milestone, or moment</div>
+      </div>
+    </button>
+  </div>
+</div>
+
+<!-- Full-screen Post Composer -->
+<div id="post-composer">
+  <div class="cmp-header">
+    <span class="cmp-title" id="cmp-title">Training Clip</span>
+    <button class="cmp-close" onclick="closeComposer()">✕</button>
+  </div>
+  <div class="cmp-tags" id="cmp-tags"></div>
+  <div class="cmp-body" id="cmp-body"></div>
+  <div class="cmp-footer">
+    <button class="cmp-post-btn" onclick="submitFabPost()">Post</button>
+  </div>
+</div>
+
 </body>
 </html>
