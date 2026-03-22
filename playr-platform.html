@@ -2737,6 +2737,176 @@
   .sidebar-switch-btn svg { flex-shrink: 0; }
 
   /* ══════════════════════════════════════════
+     SPORT SOCIAL FEED — Instagram-style, media-first
+  ══════════════════════════════════════════ */
+
+  /* Override old divider cards with full rounded cards */
+  .post-card {
+    background: #1a1a1a !important;
+    border: 1px solid #2a2a2a !important;
+    border-bottom: 1px solid #2a2a2a !important;
+    border-radius: 12px !important;
+    padding: 0 !important;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .post-card:first-child { border-top: 1px solid #2a2a2a !important; }
+  #network-feed-posts.network-feed { gap: 0 !important; }
+
+  /* Media container — full bleed, 16:9 */
+  .post-media {
+    width: 100%; aspect-ratio: 16/9;
+    background: #111; display: block; overflow: hidden;
+  }
+  .post-media iframe { width: 100%; height: 100%; border: none; display: block; }
+  /* Photo post — 4:3 */
+  .post-media-photo {
+    width: 100%; aspect-ratio: 4/3;
+    background: #111; display: flex; align-items: center; justify-content: center;
+    font-size: 72px; overflow: hidden; position: relative;
+  }
+  .post-photo-grid {
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+    width: 100%; height: 100%;
+  }
+  .post-photo-cell {
+    display: flex; align-items: center; justify-content: center;
+    font-size: 44px; border: 1px solid #111;
+  }
+
+  /* Card body — padded */
+  .post-body { padding: 14px 16px 4px; }
+
+  /* Header — avatar bigger, name + position below */
+  .post-header {
+    display: flex; gap: 12px; margin-bottom: 10px; align-items: center;
+  }
+  .post-header .post-avatar {
+    width: 44px; height: 44px; font-size: 14px; flex-shrink: 0;
+  }
+  .post-author-info { flex: 1; min-width: 0; }
+  .post-author-name {
+    display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    font-size: 15px !important; font-weight: 700; margin-bottom: 1px;
+  }
+  .post-author-sub { font-size: 12px; color: #888; }
+  .post-timestamp { font-size: 11px; color: #555; margin-top: 1px; }
+
+  /* Post type pill */
+  .post-type-pill {
+    font-family: 'Inter', sans-serif;
+    font-size: 9px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;
+    padding: 2px 8px; border-radius: 20px;
+  }
+  .post-type-pill.training  { background: rgba(0,255,135,0.12); color: #00FF87; }
+  .post-type-pill.highlights{ background: rgba(59,130,246,0.12); color: #60a5fa; }
+  .post-type-pill.matchday  { background: rgba(239,68,68,0.12);  color: #f87171; }
+  .post-type-pill.photo     { background: rgba(168,85,247,0.12); color: #c084fc; }
+  .post-type-pill.text      { background: rgba(255,255,255,0.06); color: #888; }
+
+  /* Post text */
+  .post-text {
+    font-size: 14px; line-height: 1.8; color: var(--text);
+    margin-bottom: 12px; white-space: pre-line;
+  }
+
+  /* Reaction bar */
+  .post-reactions {
+    display: flex; align-items: center;
+    border-top: 1px solid #242424;
+    margin: 0 -16px; padding: 2px 6px;
+  }
+  .post-react-btn {
+    flex: 1; display: flex !important; align-items: center !important;
+    justify-content: center; gap: 7px !important;
+    padding: 10px 6px !important; border-radius: 6px;
+    border: none; background: transparent; cursor: pointer;
+    color: #666 !important;
+    font-size: 13px !important; font-weight: 600 !important;
+    text-transform: none !important; letter-spacing: 0 !important;
+    transition: background 0.12s, color 0.12s;
+    font-family: 'Inter', sans-serif;
+  }
+  .post-react-btn:hover { background: rgba(255,255,255,0.04); color: #ccc !important; }
+  .post-react-btn svg { flex-shrink: 0; }
+  .post-react-btn.liked { color: #ef4444 !important; }
+  .post-react-btn.liked svg { stroke: #ef4444; }
+  .post-react-btn.reposted { color: #00FF87 !important; }
+  .post-react-btn.reposted svg { stroke: #00FF87; }
+
+  /* Comments section */
+  .post-comments-wrap {
+    padding: 12px 0 4px;
+    border-top: 1px solid #242424;
+    margin-top: 4px;
+  }
+  .comment-input-row {
+    display: flex; align-items: center; gap: 8px; margin-bottom: 12px;
+  }
+  .comment-av-sm {
+    width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #00FF87, #00C9A7);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 800; color: #000;
+  }
+  .comment-input {
+    flex: 1; padding: 8px 14px;
+    background: #0f0f0f; border: 1px solid #2a2a2a; border-radius: 20px;
+    color: #fff; font-size: 13px; font-family: 'Inter', sans-serif;
+    outline: none; transition: border-color 0.15s;
+  }
+  .comment-input:focus { border-color: #00FF87; }
+  .comment-input::placeholder { color: #555; }
+  .comment-send-btn {
+    background: #00FF87; border: none; border-radius: 20px;
+    padding: 7px 14px; color: #000; font-size: 11px; font-weight: 800;
+    cursor: pointer; white-space: nowrap; letter-spacing: 0.3px;
+    text-transform: uppercase;
+  }
+  .comment-item { display: flex; gap: 8px; margin-bottom: 10px; }
+  .comment-bubble {
+    background: #0f0f0f; border: 1px solid #222; border-radius: 12px;
+    padding: 8px 12px; font-size: 13px; line-height: 1.5; flex: 1;
+  }
+  .comment-name { font-weight: 700; font-size: 11px; margin-bottom: 2px; color: #ccc; }
+  .comment-text { color: #aaa; }
+
+  /* Composer redesign */
+  .composer-bar {
+    background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 12px;
+    max-width: 680px; margin: 0 auto; width: 100%;
+  }
+  .composer-bar-top {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 16px;
+  }
+  .composer-type-tabs {
+    display: flex; gap: 6px; padding: 0 16px 12px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .composer-type-tabs::-webkit-scrollbar { display: none; }
+  .composer-tab {
+    padding: 5px 14px; border-radius: 20px;
+    border: 1px solid #2a2a2a; background: transparent;
+    color: #666; font-size: 10px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.6px;
+    cursor: pointer; transition: all 0.15s;
+    font-family: 'Inter', sans-serif; white-space: nowrap; flex-shrink: 0;
+  }
+  .composer-tab:hover { border-color: #00FF87; color: #00FF87; }
+  .composer-tab.active { background: #00FF87; border-color: #00FF87; color: #000; }
+  .post-form {
+    display: none; padding: 0 16px 16px;
+    border-top: 1px solid #2a2a2a; margin-top: 0;
+  }
+  .post-form.open { display: block; }
+  .post-media-label {
+    font-size: 10px; color: #555; font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.6px; margin: 10px 0 4px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ══════════════════════════════════════════
      MY PROFILE SCREEN
   ══════════════════════════════════════════ */
   #screen-my-profile {
@@ -3386,201 +3556,328 @@
     </div>
 
     <!-- ── POST COMPOSER ── -->
-    <div class="composer-bar">
-      <div class="composer-av" id="composer-av">A</div>
-      <div class="composer-input" onclick="openPostForm()">What's your update?</div>
-      <button class="composer-btn" onclick="openPostForm()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      </button>
-    </div>
-    <!-- Expanded post form -->
-    <div class="post-form" id="post-form" style="display:none;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:4px;padding:16px;margin:0 auto;max-width:680px;width:100%">
-      <textarea class="post-textarea" id="post-textarea" placeholder="What's on your mind?"></textarea>
-      <input class="post-url-input" id="post-url-input" type="url" placeholder="YouTube link or image URL (optional)">
-      <div class="post-form-footer">
-        <select class="post-category-select" id="post-category-select">
-          <option value="all">All Posts</option>
-          <option value="transfer">Transfer News</option>
-          <option value="trial">Trial Announcements</option>
-          <option value="scout">Scout Alerts</option>
-          <option value="coaching">Coaching Tips</option>
-        </select>
-        <button class="post-cancel-btn" onclick="closePostForm()">Cancel</button>
-        <button class="post-submit-btn" onclick="submitPost()">Post</button>
+    <div class="composer-bar" style="max-width:680px;margin:0 auto;width:100%">
+      <div class="composer-bar-top">
+        <div class="composer-av" id="composer-av">A</div>
+        <div class="composer-input" onclick="openPostForm()" style="flex:1;cursor:pointer">Drop a clip, photo, or update…</div>
+        <button class="composer-btn" onclick="openPostForm()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </button>
+      </div>
+      <div class="composer-type-tabs" id="composer-type-tabs">
+        <button class="composer-tab active" data-type="training"   onclick="setPostType('training',this)">Training</button>
+        <button class="composer-tab"        data-type="highlights" onclick="setPostType('highlights',this)">Highlights</button>
+        <button class="composer-tab"        data-type="matchday"   onclick="setPostType('matchday',this)">Match Day</button>
+        <button class="composer-tab"        data-type="photo"      onclick="setPostType('photo',this)">Photo</button>
+        <button class="composer-tab"        data-type="text"       onclick="setPostType('text',this)">Text</button>
+      </div>
+      <!-- Expanded form -->
+      <div class="post-form" id="post-form">
+        <textarea class="post-textarea" id="post-textarea" placeholder="What happened in training today?…" rows="3"></textarea>
+        <div class="post-media-label" id="post-media-label">Video / Image URL</div>
+        <input class="post-url-input" id="post-url-input" type="url" placeholder="Paste a YouTube or image link…">
+        <div class="post-form-footer" style="margin-top:12px">
+          <button class="post-cancel-btn" onclick="closePostForm()">Cancel</button>
+          <button class="post-submit-btn" onclick="submitPost()">Post</button>
+        </div>
       </div>
     </div>
 
     <!-- ── FEED FILTERS ── -->
-    <div class="feed-filters">
-      <button class="filter-btn active" onclick="applyFilter('all', this)">All</button>
-      <button class="filter-btn" onclick="applyFilter('network', this)">My Network</button>
-      <button class="filter-btn" onclick="applyFilter('transfer', this)">Transfers</button>
-      <button class="filter-btn" onclick="applyFilter('trial', this)">Trials</button>
-      <button class="filter-btn" onclick="applyFilter('scout', this)">Scouts</button>
-      <button class="filter-btn" onclick="applyFilter('coaching', this)">Coaching</button>
+    <div class="feed-filters" style="max-width:680px;margin:0 auto;width:100%">
+      <button class="filter-btn active" data-filter="all"        onclick="applyFilter('all',this)">All</button>
+      <button class="filter-btn"        data-filter="training"   onclick="applyFilter('training',this)">Training</button>
+      <button class="filter-btn"        data-filter="highlights" onclick="applyFilter('highlights',this)">Highlights</button>
+      <button class="filter-btn"        data-filter="matchday"   onclick="applyFilter('matchday',this)">Match Day</button>
+      <button class="filter-btn"        data-filter="photo"      onclick="applyFilter('photo',this)">Photos</button>
     </div>
 
     <!-- ── FEED ── -->
     <div class="network-feed" id="network-feed-posts">
 
-      <div class="post-card" data-category="transfer" data-user-id="kai_mensah">
-        <div class="post-header">
-          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#00FF87,#00C9A7)" onclick="showProfile('kai_mensah')">KM</div>
-          <div class="post-author-info">
-            <div class="post-author-name">
-              <span class="user-link" onclick="showProfile('kai_mensah')">Kai Mensah</span>
-              <span class="role-badge role-player">Player</span>
-            </div>
-            <div class="post-author-sub">Striker · FC Velocity Academy · 🇬🇭</div>
-            <div class="post-timestamp">2h ago</div>
-          </div>
-          <div class="post-more">···</div>
+      <!-- POST 1: Kai Mensah — Training Clip -->
+      <div class="post-card" data-category="training" data-user-id="kai_mensah">
+        <div class="post-media">
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen loading="lazy"></iframe>
         </div>
-        <div class="post-text">Incredibly excited to announce I've signed my first professional contract.
+        <div class="post-body">
+          <div class="post-header">
+            <div class="post-avatar user-link" style="background:linear-gradient(135deg,#00FF87,#00C9A7)" onclick="showProfile('kai_mensah')">KM</div>
+            <div class="post-author-info">
+              <div class="post-author-name">
+                <span class="user-link" onclick="showProfile('kai_mensah')">Kai Mensah</span>
+                <span class="post-type-pill training">Training</span>
+              </div>
+              <div class="post-author-sub">Striker · FC Velocity Academy · 🇬🇭</div>
+              <div class="post-timestamp">2h ago</div>
+            </div>
+            <div class="post-more">···</div>
+          </div>
+          <div class="post-text">Pre-season day 27. No days off. 🔥
 
-After two years in the academy system and a lot of hard work, I'm officially joining <span class="post-tag">FC Velocity's first team squad</span> for next season.
+Strikers train in the dark. The lights come on match day. Every rep, every sprint, every touch — it compounds.
 
-Two injuries, one release, countless setbacks. Every one of those moments taught me something. To every young player grinding right now: keep going.
-
-<span class="post-tag">#ProContract #NeverGiveUp #FootballJourney</span></div>
-        <div class="post-stats"><span>247 likes</span><span>38 comments</span><span>12 reposts</span></div>
-        <div class="post-divider"></div>
-        <div class="post-footer">
-          <div class="post-react-btn" onclick="toggleLike(this)">Like</div>
-          <div class="post-react-btn">Comment</div>
-          <div class="post-react-btn">Repost</div>
-          <div class="post-react-btn">Share</div>
+<span class="post-tag">#PreSeason #StrikerLife #Grind #FCVelocity</span></div>
+          <div class="post-reactions">
+            <button class="post-react-btn" onclick="feedLike(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              <span>247</span>
+            </button>
+            <button class="post-react-btn" onclick="feedComment(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>38</span>
+            </button>
+            <button class="post-react-btn" onclick="feedRepost(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+              <span>12</span>
+            </button>
+          </div>
+          <div class="post-comments-wrap" style="display:none">
+            <div class="comment-input-row">
+              <div class="comment-av-sm" id="comment-av-1">A</div>
+              <input class="comment-input" placeholder="Add a comment…">
+              <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
+            </div>
+            <div class="comments-list">
+              <div class="comment-item">
+                <div class="comment-av-sm" style="background:linear-gradient(135deg,#d97706,#92400e)">JH</div>
+                <div class="comment-bubble"><div class="comment-name">James Harrison</div><div class="comment-text">This mentality is exactly what we look for. DM me your highlights.</div></div>
+              </div>
+              <div class="comment-item">
+                <div class="comment-av-sm" style="background:linear-gradient(135deg,#2563eb,#1e40af)">SO</div>
+                <div class="comment-bubble"><div class="comment-name">Sarah Okonkwo</div><div class="comment-text">The consistency is everything. Keep going 🔥</div></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="post-card" data-category="scout" data-user-id="james_harrison">
-        <div class="post-header">
-          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#d97706,#92400e)" onclick="showProfile('james_harrison')">JH</div>
-          <div class="post-author-info">
-            <div class="post-author-name">
-              <span class="user-link" onclick="showProfile('james_harrison')">James Harrison</span>
-              <span class="role-badge role-scout">Scout</span>
-            </div>
-            <div class="post-author-sub">Senior Scout · Premier League Affiliated</div>
-            <div class="post-timestamp">4h ago</div>
+      <!-- POST 2: Amara Touré — Match Day Photos -->
+      <div class="post-card" data-category="matchday" data-user-id="amara_toure">
+        <div class="post-media-photo" style="background:linear-gradient(135deg,#0a1628 0%,#1a3a6b 50%,#0f2a4d 100%)">
+          <div class="post-photo-grid">
+            <div class="post-photo-cell" style="background:linear-gradient(135deg,#0d1f3c,#1a3a6b)">⚽</div>
+            <div class="post-photo-cell" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">🏟️</div>
+            <div class="post-photo-cell" style="background:linear-gradient(135deg,#0f3460,#533483)">🎯</div>
+            <div class="post-photo-cell" style="background:linear-gradient(135deg,#e94560,#0f3460)">🏆</div>
           </div>
-          <div class="post-more">···</div>
         </div>
-        <div class="post-text">TALENT SEARCH — open to all genders, women's and men's football.
+        <div class="post-body">
+          <div class="post-header">
+            <div class="post-avatar user-link" style="background:linear-gradient(135deg,#f97316,#c2410c)" onclick="showProfile('amara_toure')">AT</div>
+            <div class="post-author-info">
+              <div class="post-author-name">
+                <span class="user-link" onclick="showProfile('amara_toure')">Amara Touré</span>
+                <span class="post-type-pill matchday">Match Day</span>
+              </div>
+              <div class="post-author-sub">Striker · RC Lens B · 🇸🇳</div>
+              <div class="post-timestamp">5h ago</div>
+            </div>
+            <div class="post-more">···</div>
+          </div>
+          <div class="post-text">Scored the winner. 89th minute. Pure feeling. 🎯
 
-Looking for: attacking midfielders &amp; wingers, aged 16–21. Technically strong, high work rate, coachable. North West based or willing to relocate.
+To everyone who told me to be realistic — this is me being realistic. Every match, every goal, every moment I'm building towards something bigger.
 
-Women's football especially — actively expanding our female talent pipeline. DM your highlight reel.
-
-<span class="post-tag">#ScoutingNetwork #TalentID #WomensFootball #FootballTrials</span></div>
-        <div class="post-stats"><span>183 likes</span><span>94 comments</span><span>67 reposts</span></div>
-        <div class="post-divider"></div>
-        <div class="post-footer">
-          <div class="post-react-btn" onclick="toggleLike(this)">Like</div>
-          <div class="post-react-btn">Comment</div>
-          <div class="post-react-btn">Repost</div>
-          <div class="post-react-btn">Share</div>
+<span class="post-tag">#MatchDay #Striker #Senegal #Goals</span></div>
+          <div class="post-reactions">
+            <button class="post-react-btn" onclick="feedLike(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              <span>634</span>
+            </button>
+            <button class="post-react-btn" onclick="feedComment(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>91</span>
+            </button>
+            <button class="post-react-btn" onclick="feedRepost(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+              <span>47</span>
+            </button>
+          </div>
+          <div class="post-comments-wrap" style="display:none">
+            <div class="comment-input-row">
+              <div class="comment-av-sm" id="comment-av-2">A</div>
+              <input class="comment-input" placeholder="Add a comment…">
+              <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
+            </div>
+            <div class="comments-list">
+              <div class="comment-item">
+                <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">KM</div>
+                <div class="comment-bubble"><div class="comment-name">Kai Mensah</div><div class="comment-text">BROTHER!! That 89th minute 😤🔥</div></div>
+              </div>
+              <div class="comment-item">
+                <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#1e40af)">MD</div>
+                <div class="comment-bubble"><div class="comment-name">Marcus Diallo</div><div class="comment-text">Let's go!! Different level mentality 💪</div></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="post-card" data-category="trial" data-user-id="fc_velocity">
-        <div class="post-header">
-          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#16a34a,#14532d)" onclick="showProfile('fc_velocity')">FV</div>
-          <div class="post-author-info">
-            <div class="post-author-name">
-              <span class="user-link" onclick="showProfile('fc_velocity')">FC Velocity Academy</span>
-              <span class="role-badge role-club">Club</span>
-            </div>
-            <div class="post-author-sub">Professional Academy · Verified</div>
-            <div class="post-timestamp">Yesterday</div>
-          </div>
-          <div class="post-more">···</div>
+      <!-- POST 3: Marcus Diallo — Highlight Reel -->
+      <div class="post-card" data-category="highlights" data-user-id="marcus_diallo">
+        <div class="post-media">
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen loading="lazy"></iframe>
         </div>
-        <div class="post-text">OPEN TRIALS — U18 &amp; U21 squads, April 12–13 2026.
+        <div class="post-body">
+          <div class="post-header">
+            <div class="post-avatar user-link" style="background:linear-gradient(135deg,#00FF87,#1e40af)" onclick="showProfile('marcus_diallo')">MD</div>
+            <div class="post-author-info">
+              <div class="post-author-name">
+                <span class="user-link" onclick="showProfile('marcus_diallo')">Marcus Diallo</span>
+                <span class="post-type-pill highlights">Highlights</span>
+              </div>
+              <div class="post-author-sub">Central Midfielder · Free Agent · 🇫🇷</div>
+              <div class="post-timestamp">Yesterday</div>
+            </div>
+            <div class="post-more">···</div>
+          </div>
+          <div class="post-text">Season highlights — back to full fitness. 💫
 
-Velocity Training Ground, Manchester. Positions: GK · CB · CM · CAM · ST.
+3 weeks out with hamstring. Used that time to work on the mental side. Came back sharper than before.
 
-Looking for: technical ability, athleticism, mental toughness, coachability. Spaces strictly limited — apply via bio link.
+CM, 22, open to trials in England or Germany. Everything in the reel. DMs open.
 
-<span class="post-tag">#OpenTrials #U18Football #U21Football #FCVelocity</span></div>
-        <div class="post-stats"><span>412 likes</span><span>156 comments</span><span>203 reposts</span></div>
-        <div class="post-divider"></div>
-        <div class="post-footer">
-          <div class="post-react-btn" onclick="toggleLike(this)">Like</div>
-          <div class="post-react-btn">Comment</div>
-          <div class="post-react-btn">Repost</div>
-          <div class="post-react-btn">Share</div>
+<span class="post-tag">#Highlights #CentralMidfielder #FreeAgent #Football</span></div>
+          <div class="post-reactions">
+            <button class="post-react-btn" onclick="feedLike(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              <span>156</span>
+            </button>
+            <button class="post-react-btn" onclick="feedComment(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>43</span>
+            </button>
+            <button class="post-react-btn" onclick="feedRepost(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+              <span>28</span>
+            </button>
+          </div>
+          <div class="post-comments-wrap" style="display:none">
+            <div class="comment-input-row">
+              <div class="comment-av-sm" id="comment-av-3">A</div>
+              <input class="comment-input" placeholder="Add a comment…">
+              <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
+            </div>
+            <div class="comments-list">
+              <div class="comment-item">
+                <div class="comment-av-sm" style="background:linear-gradient(135deg,#d97706,#92400e)">JH</div>
+                <div class="comment-bubble"><div class="comment-name">James Harrison</div><div class="comment-text">Quality on the ball. Added you to my shortlist.</div></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="post-card" data-category="coaching" data-user-id="sarah_okonkwo">
-        <div class="post-header">
-          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#2563eb,#1e40af)" onclick="showProfile('sarah_okonkwo')">SO</div>
-          <div class="post-author-info">
-            <div class="post-author-name">
-              <span class="user-link" onclick="showProfile('sarah_okonkwo')">Sarah Okonkwo</span>
-              <span class="role-badge role-coach">Coach</span>
-            </div>
-            <div class="post-author-sub">UEFA A Licensed · Sports Psychologist</div>
-            <div class="post-timestamp">2 days ago</div>
-          </div>
-          <div class="post-more">···</div>
+      <!-- POST 4: Sarah Okonkwo — Mental Performance Clip -->
+      <div class="post-card" data-category="training" data-user-id="sarah_okonkwo">
+        <div class="post-media">
+          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen loading="lazy"></iframe>
         </div>
-        <div class="post-text">Pressure is not the problem. Your relationship with pressure is.
+        <div class="post-body">
+          <div class="post-header">
+            <div class="post-avatar user-link" style="background:linear-gradient(135deg,#2563eb,#1e40af)" onclick="showProfile('sarah_okonkwo')">SO</div>
+            <div class="post-author-info">
+              <div class="post-author-name">
+                <span class="user-link" onclick="showProfile('sarah_okonkwo')">Sarah Okonkwo</span>
+                <span class="post-type-pill training">Training</span>
+              </div>
+              <div class="post-author-sub">UEFA A Licensed · Sports Psychologist</div>
+              <div class="post-timestamp">2 days ago</div>
+            </div>
+            <div class="post-more">···</div>
+          </div>
+          <div class="post-text">Mental reps are physical reps. 🧠
 
-Most players try to eliminate nerves. That's the wrong goal. Elite performers learn to use that energy — interpret it as excitement, not threat.
+Before you can perform under pressure, you have to perform in training. 5 minutes of visualisation before every session — I walked a group of U21 players through this last week.
 
-Three things that actually help:
-1. Name the feeling — "I'm excited" not "I'm nervous"
-2. Focus on process, not outcome
-3. Use a physical anchor — a routine that tells your body: I've done this before
+The shift in focus quality was immediate. Try it.
 
-What's your pre-match routine?
-
-<span class="post-tag">#SportsPsychology #MentalPerformance #FootballMindset</span></div>
-        <div class="post-stats"><span>891 likes</span><span>204 comments</span><span>145 reposts</span></div>
-        <div class="post-divider"></div>
-        <div class="post-footer">
-          <div class="post-react-btn" onclick="toggleLike(this)">Like</div>
-          <div class="post-react-btn">Comment</div>
-          <div class="post-react-btn">Repost</div>
-          <div class="post-react-btn">Share</div>
+<span class="post-tag">#SportsPsychology #MentalPerformance #EliteAthlete #Coaching</span></div>
+          <div class="post-reactions">
+            <button class="post-react-btn" onclick="feedLike(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              <span>891</span>
+            </button>
+            <button class="post-react-btn" onclick="feedComment(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>204</span>
+            </button>
+            <button class="post-react-btn" onclick="feedRepost(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+              <span>145</span>
+            </button>
+          </div>
+          <div class="post-comments-wrap" style="display:none">
+            <div class="comment-input-row">
+              <div class="comment-av-sm" id="comment-av-4">A</div>
+              <input class="comment-input" placeholder="Add a comment…">
+              <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
+            </div>
+            <div class="comments-list">
+              <div class="comment-item">
+                <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">KM</div>
+                <div class="comment-bubble"><div class="comment-name">Kai Mensah</div><div class="comment-text">Started doing this two weeks ago — massive difference in how I handle pre-match nerves.</div></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="post-card" data-category="transfer" data-user-id="marcus_diallo">
-        <div class="post-header">
-          <div class="post-avatar user-link" style="background:linear-gradient(135deg,#00FF87,#1e40af)" onclick="showProfile('marcus_diallo')">MD</div>
-          <div class="post-author-info">
-            <div class="post-author-name">
-              <span class="user-link" onclick="showProfile('marcus_diallo')">Marcus Diallo</span>
-              <span class="role-badge role-player">Player</span>
-            </div>
-            <div class="post-author-sub">Central Midfielder · Free Agent · 🇫🇷</div>
-            <div class="post-timestamp">3 days ago</div>
+      <!-- POST 5: Rayan Bouzid — Photo Dump -->
+      <div class="post-card" data-category="photo" data-user-id="rayan_bouzid">
+        <div class="post-media-photo" style="background:#111">
+          <div class="post-photo-grid">
+            <div class="post-photo-cell" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">🏃</div>
+            <div class="post-photo-cell" style="background:linear-gradient(135deg,#0f3460,#e94560)">💪</div>
+            <div class="post-photo-cell" style="background:linear-gradient(135deg,#533483,#1a1a2e)">🧘</div>
+            <div class="post-photo-cell" style="background:linear-gradient(135deg,#e94560,#533483)">⚽</div>
           </div>
-          <div class="post-more">···</div>
         </div>
-        <div class="post-text">Back on the training pitch.
+        <div class="post-body">
+          <div class="post-header">
+            <div class="post-avatar user-link" style="background:linear-gradient(135deg,#7c3aed,#4c1d95)" onclick="showProfile('rayan_bouzid')">RB</div>
+            <div class="post-author-info">
+              <div class="post-author-name">
+                <span class="user-link" onclick="showProfile('rayan_bouzid')">Rayan Bouzid</span>
+                <span class="post-type-pill photo">Photo</span>
+              </div>
+              <div class="post-author-sub">Winger · AS Nancy B · 🇩🇿</div>
+              <div class="post-timestamp">3 days ago</div>
+            </div>
+            <div class="post-more">···</div>
+          </div>
+          <div class="post-text">Week in pictures. 📸
 
-3 weeks out with a hamstring injury — the hardest part wasn't the physical rehab. Watching teammates train while you're in the gym alone. Questioning if you're falling behind.
+Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highlights. Happy to finally feel 100% going into the second half of the season.
 
-Used the time to go deep on the mental game. Came back with more clarity than before the injury.
-
-Open to trials in England or Germany. CM, 22, full fitness. DMs open.
-
-<span class="post-tag">#FreeAgent #CentralMidfielder #BackFit #TrialOpportunity</span></div>
-        <div class="post-stats"><span>156 likes</span><span>43 comments</span><span>28 reposts</span></div>
-        <div class="post-divider"></div>
-        <div class="post-footer">
-          <div class="post-react-btn" onclick="toggleLike(this)">Like</div>
-          <div class="post-react-btn">Comment</div>
-          <div class="post-react-btn">Repost</div>
-          <div class="post-react-btn">Share</div>
+<span class="post-tag">#WeekInPictures #PhotoDump #Winger #AlgerianFootball</span></div>
+          <div class="post-reactions">
+            <button class="post-react-btn" onclick="feedLike(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+              <span>318</span>
+            </button>
+            <button class="post-react-btn" onclick="feedComment(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+              <span>57</span>
+            </button>
+            <button class="post-react-btn" onclick="feedRepost(this)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+              <span>22</span>
+            </button>
+          </div>
+          <div class="post-comments-wrap" style="display:none">
+            <div class="comment-input-row">
+              <div class="comment-av-sm" id="comment-av-5">A</div>
+              <input class="comment-input" placeholder="Add a comment…">
+              <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
+            </div>
+            <div class="comments-list"></div>
+          </div>
         </div>
       </div>
 
-    </div><!-- .network-feed -->
+    </div>
   </div><!-- .network-home -->
 </div>
 
@@ -4580,9 +4877,59 @@ Open to trials in England or Germany. CM, 22, full fitness. DMs open.
   }
 
   // ─── NETWORK INTERACTIONS ───
-  function toggleLike(btn) {
+  function feedLike(btn) {
     const isLiked = btn.classList.toggle('liked');
-    btn.textContent = isLiked ? '💜 Liked' : '👍 Like';
+    const countEl = btn.querySelector('span');
+    const count = parseInt(countEl.textContent) || 0;
+    countEl.textContent = isLiked ? count + 1 : Math.max(0, count - 1);
+  }
+  // keep old name as alias for any leftover calls
+  function toggleLike(btn) { feedLike(btn); }
+
+  function feedComment(btn) {
+    const card = btn.closest('.post-card');
+    const wrap = card.querySelector('.post-comments-wrap');
+    const open = wrap.style.display === 'none' || wrap.style.display === '';
+    wrap.style.display = open ? '' : 'none';
+    if (open) {
+      const input = wrap.querySelector('.comment-input');
+      if (input) input.focus();
+      // Sync user avatar initials
+      const avEl = wrap.querySelector('.comment-av-sm');
+      const myAv = document.getElementById('network-profile-avatar');
+      if (avEl && myAv) avEl.textContent = myAv.textContent;
+    }
+  }
+
+  function feedRepost(btn) {
+    const isReposted = btn.classList.toggle('reposted');
+    const countEl = btn.querySelector('span');
+    const count = parseInt(countEl.textContent) || 0;
+    countEl.textContent = isReposted ? count + 1 : Math.max(0, count - 1);
+  }
+
+  function sendComment(sendBtn) {
+    const row = sendBtn.closest('.comment-input-row');
+    const input = row.querySelector('.comment-input');
+    const text = input.value.trim();
+    if (!text) return;
+    const list = sendBtn.closest('.post-comments-wrap').querySelector('.comments-list');
+    const myAv = document.getElementById('network-profile-avatar');
+    const initials = myAv ? myAv.textContent : 'A';
+    const d = document.createElement('div');
+    d.className = 'comment-item';
+    d.innerHTML = `
+      <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">${initials}</div>
+      <div class="comment-bubble">
+        <div class="comment-name">You</div>
+        <div class="comment-text">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      </div>`;
+    list.appendChild(d);
+    input.value = '';
+    // bump comment count
+    const card = sendBtn.closest('.post-card');
+    const commentBtn = card.querySelector('.post-react-btn:nth-child(2) span');
+    if (commentBtn) commentBtn.textContent = parseInt(commentBtn.textContent || 0) + 1;
   }
 
   // ─── CONNECTIONS SYSTEM ───
@@ -4786,6 +5133,33 @@ Open to trials in England or Germany. CM, 22, full fitness. DMs open.
   }
 
   // ─── POST FORM ───
+  let _currentPostType = 'training';
+
+  function setPostType(type, btn) {
+    _currentPostType = type;
+    document.querySelectorAll('.composer-tab').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+    const placeholders = {
+      training:   'What happened in training today?…',
+      highlights: 'Drop your highlight reel with a YouTube link…',
+      matchday:   'How did the match go?…',
+      photo:      'Caption your photos…',
+      text:       'What\'s on your mind?…',
+    };
+    const mediaLabels = {
+      training:   'Training clip URL (YouTube)',
+      highlights: 'Highlight reel URL (YouTube)',
+      matchday:   'Match clip or photo URL',
+      photo:      'Image or YouTube URL',
+      text:       'Video / Image URL (optional)',
+    };
+    const ta = document.getElementById('post-textarea');
+    if (ta) ta.placeholder = placeholders[type] || placeholders.text;
+    const lbl = document.getElementById('post-media-label');
+    if (lbl) lbl.textContent = mediaLabels[type] || mediaLabels.text;
+    openPostForm();
+  }
+
   function openPostForm() {
     document.getElementById('post-form').classList.add('open');
     document.getElementById('post-textarea').focus();
@@ -4795,61 +5169,77 @@ Open to trials in England or Germany. CM, 22, full fitness. DMs open.
     document.getElementById('post-form').classList.remove('open');
     document.getElementById('post-textarea').value = '';
     document.getElementById('post-url-input').value = '';
-    document.getElementById('post-category-select').value = 'all';
   }
 
   function submitPost() {
     const text = document.getElementById('post-textarea').value.trim();
     if (!text) return;
     const url = document.getElementById('post-url-input').value.trim();
-    const category = document.getElementById('post-category-select').value;
-    const categoryLabels = {
-      all: 'All Posts', transfer: 'Transfer News',
-      trial: 'Trial Announcements', scout: 'Scout Alerts', coaching: 'Coaching Tips'
+    const type = _currentPostType;
+    const reactionSVG = (icon) => {
+      const icons = {
+        heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>',
+        comment: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',
+        repost: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>',
+      };
+      return icons[icon] || '';
     };
 
-    let embedHtml = '';
+    let mediaHtml = '';
     if (url) {
       const ytId = extractYouTubeId(url);
       if (ytId) {
-        embedHtml = `<div class="post-embed"><iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen></iframe></div>`;
+        mediaHtml = `<div class="post-media"><iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen loading="lazy"></iframe></div>`;
       } else {
-        embedHtml = `<div class="post-embed"><img src="${url.replace(/"/g, '')}" alt="Post image" onerror="this.style.display='none'"></div>`;
+        mediaHtml = `<div class="post-media"><img src="${url.replace(/"/g,'')}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"></div>`;
       }
+    } else if (type === 'photo') {
+      mediaHtml = `<div class="post-media-photo" style="background:#1a1a1a"><div class="post-photo-grid"><div class="post-photo-cell" style="background:#1a1a1a">📸</div><div class="post-photo-cell" style="background:#141414">🎞️</div><div class="post-photo-cell" style="background:#141414">🏃</div><div class="post-photo-cell" style="background:#1a1a1a">⚽</div></div></div>`;
     }
+
+    const myName = document.getElementById('network-profile-name')?.textContent || 'You';
+    const myAv = document.getElementById('network-profile-avatar')?.textContent || 'A';
+    const myRole = localStorage.getItem('playr_role') || 'player';
+    const d = _mpData ? _mpData() : {};
+    const sub = [d.position || '', d.location || ''].filter(Boolean).join(' · ') || 'Athlete';
 
     const card = document.createElement('div');
     card.className = 'post-card post-new';
-    card.dataset.category = category;
+    card.dataset.category = type;
     card.innerHTML = `
-      <div class="post-header">
-        <div class="post-avatar" style="background:var(--purple);font-size:15px">A</div>
-        <div class="post-author-info">
-          <div class="post-author-name">You <span class="role-badge role-player">⚽ Player</span></div>
-          <div class="post-author-sub">${categoryLabels[category]}</div>
-          <div class="post-timestamp">Just now · 🌍</div>
+      ${mediaHtml}
+      <div class="post-body">
+        <div class="post-header">
+          <div class="post-avatar" style="background:linear-gradient(135deg,#00FF87,#00C9A7);font-size:14px">${myAv}</div>
+          <div class="post-author-info">
+            <div class="post-author-name">${myName} <span class="post-type-pill ${type}">${type.charAt(0).toUpperCase()+type.slice(1)}</span></div>
+            <div class="post-author-sub">${sub}</div>
+            <div class="post-timestamp">Just now</div>
+          </div>
+          <div class="post-more">···</div>
         </div>
-        <div class="post-more">···</div>
-      </div>
-      <div class="post-text">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}</div>
-      ${embedHtml}
-      <div class="post-stats"><span>👍 0 likes</span><span>0 comments</span></div>
-      <div class="post-divider"></div>
-      <div class="post-footer">
-        <div class="post-react-btn" onclick="toggleLike(this)">👍 Like</div>
-        <div class="post-react-btn">💬 Comment</div>
-        <div class="post-react-btn">🔁 Repost</div>
-        <div class="post-react-btn">📤 Share</div>
+        <div class="post-text">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}</div>
+        <div class="post-reactions">
+          <button class="post-react-btn" onclick="feedLike(this)">${reactionSVG('heart')} <span>0</span></button>
+          <button class="post-react-btn" onclick="feedComment(this)">${reactionSVG('comment')} <span>0</span></button>
+          <button class="post-react-btn" onclick="feedRepost(this)">${reactionSVG('repost')} <span>0</span></button>
+        </div>
+        <div class="post-comments-wrap" style="display:none">
+          <div class="comment-input-row">
+            <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">${myAv}</div>
+            <input class="comment-input" placeholder="Add a comment…">
+            <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
+          </div>
+          <div class="comments-list"></div>
+        </div>
       </div>`;
 
     const container = document.getElementById('network-feed-posts');
     container.insertBefore(card, container.firstChild);
 
-    // Apply current filter to new post
     const activeFilter = document.querySelector('.filter-btn.active');
-    if (activeFilter) {
-      const current = activeFilter.dataset.filter || 'all';
-      if (current !== 'all' && category !== current) card.style.display = 'none';
+    if (activeFilter && activeFilter.dataset.filter !== 'all' && activeFilter.dataset.filter !== type) {
+      card.style.display = 'none';
     }
 
     closePostForm();
@@ -4875,37 +5265,10 @@ Open to trials in England or Germany. CM, 22, full fitness. DMs open.
   // ─── FEED FILTER ───
   function applyFilter(category, btn) {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    if (btn) { btn.classList.add('active'); btn.dataset.filter = category; }
-    const connected = loadConnections().connected;
+    if (btn) btn.classList.add('active');
     document.querySelectorAll('#network-feed-posts .post-card').forEach(card => {
-      let show;
-      if (category === 'all') {
-        show = true;
-      } else if (category === 'network') {
-        const uid = card.dataset.userId;
-        show = !uid || connected.includes(uid); // show your own posts + connected users
-      } else {
-        show = card.dataset.category === category;
-      }
-      card.style.display = show ? '' : 'none';
+      card.style.display = (category === 'all' || card.dataset.category === category) ? '' : 'none';
     });
-    // If network filter shows nothing, show a helpful empty state
-    if (category === 'network') {
-      const visible = [...document.querySelectorAll('#network-feed-posts .post-card')].filter(c => c.style.display !== 'none');
-      const container = document.getElementById('network-feed-posts');
-      const existing = document.getElementById('network-empty-state');
-      if (existing) existing.remove();
-      if (!visible.length) {
-        const empty = document.createElement('div');
-        empty.id = 'network-empty-state';
-        empty.style.cssText = 'text-align:center;padding:40px 20px;color:var(--muted);font-size:14px';
-        empty.innerHTML = '<div style="font-size:32px;margin-bottom:12px">🔗</div>Connect with people on the platform to see their posts here.';
-        container.appendChild(empty);
-      }
-    } else {
-      const existing = document.getElementById('network-empty-state');
-      if (existing) existing.remove();
-    }
   }
 
   // ─── PROFILE DATA ───
