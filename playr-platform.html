@@ -2736,6 +2736,150 @@
   .sidebar-switch-btn:hover { border-color: var(--purple); color: var(--purple); }
   .sidebar-switch-btn svg { flex-shrink: 0; }
 
+  /* ══════════════════════════════════════════
+     MY PROFILE SCREEN
+  ══════════════════════════════════════════ */
+  #screen-my-profile {
+    justify-content: flex-start; align-items: center;
+    overflow-y: auto; flex-direction: column;
+    padding: 32px 16px 48px;
+  }
+  .mp-wrap {
+    width: 100%; max-width: 680px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+
+  /* Header card */
+  .mp-header-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; overflow: hidden; position: relative;
+  }
+  .mp-cover {
+    height: 160px;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 40%, #00FF87 120%);
+  }
+  .mp-photo-wrap {
+    position: absolute; top: 104px; left: 24px;
+  }
+  .mp-photo {
+    width: 88px; height: 88px; border-radius: 50%;
+    border: 4px solid var(--bg-card);
+    background: linear-gradient(135deg, #00FF87, #00C9A7);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 30px; font-weight: 900; color: #000;
+  }
+  .mp-header-body { padding: 56px 24px 24px; }
+  .mp-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px; font-weight: 900; text-transform: uppercase;
+    letter-spacing: -0.5px; margin-bottom: 4px;
+  }
+  .mp-location { font-size: 13px; color: var(--muted); margin: 6px 0 16px; }
+  .mp-header-stats {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 18px; flex-wrap: wrap;
+  }
+  .mp-hstat { display: flex; flex-direction: column; gap: 2px; }
+  .mp-hstat-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 900; color: var(--purple-lt); line-height: 1;
+  }
+  .mp-hstat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  .mp-hstat-div { width: 1px; height: 28px; background: var(--border); }
+  .mp-header-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+
+  /* Section cards */
+  .mp-section {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 12px; padding: 22px 24px;
+  }
+  .mp-section-head {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .mp-section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .mp-edit-btn {
+    background: transparent; border: 1px solid var(--border);
+    color: var(--muted); border-radius: 4px;
+    padding: 5px 12px; font-size: 11px; font-weight: 700;
+    font-family: 'Inter', sans-serif; text-transform: uppercase;
+    letter-spacing: 0.5px; cursor: pointer;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .mp-edit-btn:hover { border-color: var(--purple); color: var(--purple); }
+
+  /* Empty state */
+  .mp-empty { color: var(--muted); font-size: 13px; font-style: italic; }
+
+  /* Bio text */
+  .mp-bio-text { font-size: 14px; line-height: 1.8; color: var(--text); white-space: pre-wrap; }
+
+  /* Inline forms */
+  .mp-inline-form {
+    border-top: 1px solid var(--border);
+    padding-top: 16px; margin-top: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .mp-edit-input {
+    width: 100%; padding: 10px 14px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text);
+    font-family: 'Inter', sans-serif; font-size: 14px;
+    outline: none; transition: border-color 0.15s;
+  }
+  .mp-edit-input:focus { border-color: var(--purple); }
+  .mp-edit-input::placeholder { color: var(--muted); }
+  .mp-textarea {
+    width: 100%; padding: 12px 14px;
+    background: var(--bg); border: 1px solid var(--border);
+    border-radius: 6px; color: var(--text);
+    font-family: 'Inter', sans-serif; font-size: 14px; line-height: 1.6;
+    outline: none; resize: vertical; transition: border-color 0.15s;
+  }
+  .mp-textarea:focus { border-color: var(--purple); }
+  .mp-editor-actions { display: flex; gap: 8px; margin-top: 4px; }
+  .mp-checkbox-label {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 13px; color: var(--muted); cursor: pointer;
+  }
+
+  /* Clip item */
+  .mp-clip-item { margin-bottom: 14px; }
+  .mp-clip-item:last-child { margin-bottom: 0; }
+  .mp-clip-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 6px;
+  }
+  .mp-clip-title-text { font-size: 13px; font-weight: 700; color: var(--text); }
+  .mp-clip-remove {
+    background: transparent; border: none; color: var(--muted);
+    font-size: 12px; cursor: pointer; padding: 2px 6px;
+    transition: color 0.15s;
+  }
+  .mp-clip-remove:hover { color: #ef4444; }
+  .mp-clip-frame { border-radius: 8px; overflow: hidden; }
+  .mp-clip-frame iframe { width: 100%; height: 215px; border: none; display: block; }
+
+  /* Experience remove btn */
+  .mp-exp-remove {
+    background: transparent; border: none; color: var(--muted);
+    font-size: 11px; cursor: pointer; margin-left: auto; padding: 2px 6px;
+    transition: color 0.15s; align-self: flex-start;
+  }
+  .mp-exp-remove:hover { color: #ef4444; }
+  .mp-stat-remove {
+    position: absolute; top: 8px; right: 8px;
+    background: transparent; border: none; color: var(--muted);
+    font-size: 11px; cursor: pointer; padding: 2px;
+    transition: color 0.15s; line-height: 1;
+  }
+  .mp-stat-remove:hover { color: #ef4444; }
+  .stat-box { position: relative; }
+
   </style>
 </head>
 <body>
@@ -2781,7 +2925,7 @@
       <span class="pn-label">Messages</span>
     </button>
 
-    <button class="pn-item" id="nav-profile" onclick="toggleMeDropdown()" data-tooltip="Profile">
+    <button class="pn-item" id="nav-profile" onclick="showMyProfile()" data-tooltip="Profile">
       <span class="pn-icon-wrap">
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span class="pn-badge" id="nav-badge-notifs" style="display:none">0</span>
@@ -3482,6 +3626,127 @@ Open to trials in England or Germany. CM, 22, full fitness. DMs open.
         <div id="profile-also-viewed-list"></div>
       </div>
     </aside>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: MY PROFILE
+══════════════════════════════════════════ -->
+<div id="screen-my-profile" class="screen">
+  <div class="mp-wrap">
+
+    <!-- Header card -->
+    <div class="mp-header-card">
+      <div class="mp-cover" id="mp-cover"></div>
+      <div class="mp-photo-wrap">
+        <div class="mp-photo" id="mp-photo">A</div>
+      </div>
+      <div class="mp-header-body">
+        <div id="mp-view-mode">
+          <div class="mp-name" id="mp-name-display">You</div>
+          <div id="mp-badge-display" style="margin-bottom:6px"></div>
+          <div class="mp-location" id="mp-location-display">Add your location</div>
+          <div class="mp-header-stats">
+            <div class="mp-hstat"><span class="mp-hstat-val">87</span><span class="mp-hstat-label">Connections</span></div>
+            <div class="mp-hstat-div"></div>
+            <div class="mp-hstat"><span class="mp-hstat-val">142</span><span class="mp-hstat-label">Profile Views</span></div>
+            <div class="mp-hstat-div"></div>
+            <div class="mp-hstat"><span class="mp-hstat-val" id="mp-complete-pct">0%</span><span class="mp-hstat-label">Complete</span></div>
+          </div>
+          <div class="mp-header-actions">
+            <button class="btn btn-primary" onclick="toggleMpEdit(true)">Edit Profile</button>
+            <button class="btn btn-ghost" onclick="goBackToNetwork()">Network</button>
+            <button class="btn btn-ghost" onclick="switchToFramework()">Framework</button>
+          </div>
+        </div>
+        <div id="mp-edit-mode" style="display:none">
+          <input class="mp-edit-input" id="mp-name-input" type="text" placeholder="Your name">
+          <input class="mp-edit-input" id="mp-location-input" type="text" placeholder="City, Country">
+          <div class="mp-editor-actions">
+            <button class="btn btn-primary" onclick="saveMpHeader()">Save</button>
+            <button class="btn btn-ghost" onclick="toggleMpEdit(false)">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About / Bio -->
+    <div class="mp-section">
+      <div class="mp-section-head">
+        <span class="mp-section-title">About</span>
+        <button class="mp-edit-btn" onclick="toggleMpBioEdit()" id="mp-bio-edit-btn">Edit</button>
+      </div>
+      <div id="mp-bio-display" class="mp-bio-text mp-empty">Add your bio — who you are, your position, playing style, and goals.</div>
+      <div id="mp-bio-editor" style="display:none">
+        <textarea class="mp-textarea" id="mp-bio-input" placeholder="Write your bio…" rows="5"></textarea>
+        <div class="mp-editor-actions">
+          <button class="btn btn-primary" onclick="saveMpBio()">Save</button>
+          <button class="btn btn-ghost" onclick="toggleMpBioEdit()">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Experience -->
+    <div class="mp-section">
+      <div class="mp-section-head">
+        <span class="mp-section-title">Experience</span>
+        <button class="mp-edit-btn" onclick="openMpForm('mp-exp-form')">+ Add</button>
+      </div>
+      <div class="timeline" id="mp-experience-list">
+        <div class="mp-empty">No experience added yet.</div>
+      </div>
+      <div id="mp-exp-form" class="mp-inline-form" style="display:none">
+        <input class="mp-edit-input" id="mp-exp-club" type="text" placeholder="Club / Organisation">
+        <input class="mp-edit-input" id="mp-exp-role" type="text" placeholder="Role / Position">
+        <input class="mp-edit-input" id="mp-exp-dates" type="text" placeholder="e.g. 2022 — Present">
+        <label class="mp-checkbox-label"><input type="checkbox" id="mp-exp-current"> Current role</label>
+        <div class="mp-editor-actions">
+          <button class="btn btn-primary" onclick="saveMpExperience()">Add</button>
+          <button class="btn btn-ghost" onclick="closeMpForm('mp-exp-form')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="mp-section">
+      <div class="mp-section-head">
+        <span class="mp-section-title">Stats &amp; Achievements</span>
+        <button class="mp-edit-btn" onclick="openMpForm('mp-stat-form')">+ Add</button>
+      </div>
+      <div class="stats-grid" id="mp-stats-grid">
+        <div class="mp-empty" style="grid-column:1/-1">No stats added yet.</div>
+      </div>
+      <div id="mp-stat-form" class="mp-inline-form" style="display:none">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+          <input class="mp-edit-input" id="mp-stat-label" type="text" placeholder="Label (e.g. Goals / 90)">
+          <input class="mp-edit-input" id="mp-stat-value" type="text" placeholder="Value (e.g. 0.7)">
+        </div>
+        <div class="mp-editor-actions">
+          <button class="btn btn-primary" onclick="saveMpStat()">Add</button>
+          <button class="btn btn-ghost" onclick="closeMpForm('mp-stat-form')">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Highlight Clips -->
+    <div class="mp-section">
+      <div class="mp-section-head">
+        <span class="mp-section-title">Highlight Clips</span>
+        <button class="mp-edit-btn" onclick="openMpForm('mp-clip-form')">+ Add</button>
+      </div>
+      <div id="mp-clips-list">
+        <div class="mp-empty">No clips added yet. Paste a YouTube link to showcase your highlights.</div>
+      </div>
+      <div id="mp-clip-form" class="mp-inline-form" style="display:none">
+        <input class="mp-edit-input" id="mp-clip-url" type="url" placeholder="YouTube video URL">
+        <input class="mp-edit-input" id="mp-clip-title" type="text" placeholder="Clip title (optional)">
+        <div class="mp-editor-actions">
+          <button class="btn btn-primary" onclick="saveMpClip()">Add Clip</button>
+          <button class="btn btn-ghost" onclick="closeMpForm('mp-clip-form')">Cancel</button>
+        </div>
+      </div>
+    </div>
 
   </div>
 </div>
@@ -5637,6 +5902,238 @@ Open to trials in England or Germany. CM, 22, full fitness. DMs open.
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-network').classList.add('active');
     setActiveNavItem('nav-home');
+  }
+
+  // ─── MY PROFILE ───
+
+  function _mpData() {
+    try { return JSON.parse(localStorage.getItem('playr_my_profile') || '{}'); } catch { return {}; }
+  }
+  function _mpSave(data) {
+    localStorage.setItem('playr_my_profile', JSON.stringify(data));
+  }
+
+  function ytIdFromUrl(url) {
+    const m = url.match(/(?:youtu\.be\/|v=|embed\/)([A-Za-z0-9_-]{11})/);
+    return m ? m[1] : null;
+  }
+
+  function showMyProfile() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-my-profile').classList.add('active');
+    document.getElementById('screen-my-profile').scrollTop = 0;
+    setTopbarSide('network');
+    setActiveNavItem('nav-profile');
+    renderMyProfile();
+  }
+
+  function renderMyProfile() {
+    const d = _mpData();
+    const role = localStorage.getItem('playr_role') || 'player';
+    const ROLE_BADGES = {
+      player: '<span class="role-badge role-player">⚽ Player</span>',
+      scout:  '<span class="role-badge role-scout">🔍 Scout</span>',
+      coach:  '<span class="role-badge role-coach">🎯 Coach</span>',
+      club:   '<span class="role-badge role-club">🏟️ Club</span>',
+    };
+    // Header
+    const name = d.name || localStorage.getItem('playr_user_id') || 'You';
+    document.getElementById('mp-name-display').textContent = name;
+    document.getElementById('mp-photo').textContent = name.slice(0,2).toUpperCase();
+    document.getElementById('mp-badge-display').innerHTML = ROLE_BADGES[role] || ROLE_BADGES.player;
+    document.getElementById('mp-location-display').textContent = d.location || 'Add your location';
+    // Completeness
+    let score = 0;
+    if (d.name) score += 20;
+    if (d.location) score += 10;
+    if (d.bio) score += 20;
+    if (d.experience && d.experience.length) score += 20;
+    if (d.stats && d.stats.length) score += 15;
+    if (d.clips && d.clips.length) score += 15;
+    document.getElementById('mp-complete-pct').textContent = score + '%';
+    // Bio
+    const bioEl = document.getElementById('mp-bio-display');
+    if (d.bio) { bioEl.textContent = d.bio; bioEl.classList.remove('mp-empty'); }
+    else { bioEl.textContent = 'Add your bio — who you are, your position, playing style, and goals.'; bioEl.classList.add('mp-empty'); }
+    // Experience
+    renderMpExperience();
+    // Stats
+    renderMpStats();
+    // Clips
+    renderMpClips();
+  }
+
+  function toggleMpEdit(open) {
+    document.getElementById('mp-view-mode').style.display = open ? 'none' : '';
+    document.getElementById('mp-edit-mode').style.display = open ? '' : 'none';
+    if (open) {
+      const d = _mpData();
+      document.getElementById('mp-name-input').value = d.name || '';
+      document.getElementById('mp-location-input').value = d.location || '';
+    }
+  }
+
+  function saveMpHeader() {
+    const d = _mpData();
+    d.name = document.getElementById('mp-name-input').value.trim();
+    d.location = document.getElementById('mp-location-input').value.trim();
+    _mpSave(d);
+    toggleMpEdit(false);
+    renderMyProfile();
+  }
+
+  function toggleMpBioEdit() {
+    const editor = document.getElementById('mp-bio-editor');
+    const display = document.getElementById('mp-bio-display');
+    const open = editor.style.display === 'none';
+    editor.style.display = open ? '' : 'none';
+    display.style.display = open ? 'none' : '';
+    document.getElementById('mp-bio-edit-btn').textContent = open ? 'Cancel' : 'Edit';
+    if (open) {
+      const d = _mpData();
+      document.getElementById('mp-bio-input').value = d.bio || '';
+    }
+  }
+
+  function saveMpBio() {
+    const d = _mpData();
+    d.bio = document.getElementById('mp-bio-input').value.trim();
+    _mpSave(d);
+    toggleMpBioEdit();
+    renderMyProfile();
+  }
+
+  function openMpForm(id) {
+    document.getElementById(id).style.display = '';
+  }
+  function closeMpForm(id) {
+    document.getElementById(id).style.display = 'none';
+  }
+
+  function renderMpExperience() {
+    const d = _mpData();
+    const list = d.experience || [];
+    const el = document.getElementById('mp-experience-list');
+    if (!list.length) { el.innerHTML = '<div class="mp-empty">No experience added yet.</div>'; return; }
+    el.innerHTML = list.map((e, i) => `
+      <div class="timeline-item">
+        <div class="timeline-left">
+          <div class="timeline-dot${e.current ? ' current' : ''}"></div>
+          ${i < list.length - 1 ? '<div class="timeline-line"></div>' : ''}
+        </div>
+        <div style="flex:1">
+          <div class="timeline-club">${e.club}</div>
+          <div class="timeline-role-text">${e.role}</div>
+          <div class="timeline-dates">${e.dates}${e.current ? ' · <span style="color:#22c55e">Current</span>' : ''}</div>
+        </div>
+        <button class="mp-exp-remove" onclick="removeMpExperience(${i})">✕</button>
+      </div>`).join('');
+  }
+
+  function saveMpExperience() {
+    const club = document.getElementById('mp-exp-club').value.trim();
+    const role = document.getElementById('mp-exp-role').value.trim();
+    const dates = document.getElementById('mp-exp-dates').value.trim();
+    const current = document.getElementById('mp-exp-current').checked;
+    if (!club || !role) return;
+    const d = _mpData();
+    if (!d.experience) d.experience = [];
+    d.experience.unshift({ club, role, dates: dates || 'Present', current });
+    _mpSave(d);
+    document.getElementById('mp-exp-club').value = '';
+    document.getElementById('mp-exp-role').value = '';
+    document.getElementById('mp-exp-dates').value = '';
+    document.getElementById('mp-exp-current').checked = false;
+    closeMpForm('mp-exp-form');
+    renderMpExperience();
+    renderMyProfile();
+  }
+
+  function removeMpExperience(i) {
+    const d = _mpData();
+    d.experience.splice(i, 1);
+    _mpSave(d);
+    renderMpExperience();
+    renderMyProfile();
+  }
+
+  function renderMpStats() {
+    const d = _mpData();
+    const stats = d.stats || [];
+    const el = document.getElementById('mp-stats-grid');
+    if (!stats.length) { el.innerHTML = '<div class="mp-empty" style="grid-column:1/-1">No stats added yet.</div>'; return; }
+    el.innerHTML = stats.map((s, i) => `
+      <div class="stat-box">
+        <button class="mp-stat-remove" onclick="removeMpStat(${i})">✕</button>
+        <div class="stat-box-value">${s.value}</div>
+        <div class="stat-box-label">${s.label}</div>
+      </div>`).join('');
+  }
+
+  function saveMpStat() {
+    const label = document.getElementById('mp-stat-label').value.trim();
+    const value = document.getElementById('mp-stat-value').value.trim();
+    if (!label || !value) return;
+    const d = _mpData();
+    if (!d.stats) d.stats = [];
+    d.stats.push({ label, value });
+    _mpSave(d);
+    document.getElementById('mp-stat-label').value = '';
+    document.getElementById('mp-stat-value').value = '';
+    closeMpForm('mp-stat-form');
+    renderMpStats();
+    renderMyProfile();
+  }
+
+  function removeMpStat(i) {
+    const d = _mpData();
+    d.stats.splice(i, 1);
+    _mpSave(d);
+    renderMpStats();
+    renderMyProfile();
+  }
+
+  function renderMpClips() {
+    const d = _mpData();
+    const clips = d.clips || [];
+    const el = document.getElementById('mp-clips-list');
+    if (!clips.length) { el.innerHTML = '<div class="mp-empty">No clips added yet. Paste a YouTube link to showcase your highlights.</div>'; return; }
+    el.innerHTML = clips.map((c, i) => `
+      <div class="mp-clip-item">
+        <div class="mp-clip-header">
+          <span class="mp-clip-title-text">${c.title || 'Highlight Reel'}</span>
+          <button class="mp-clip-remove" onclick="removeMpClip(${i})">✕ Remove</button>
+        </div>
+        <div class="mp-clip-frame">
+          <iframe src="https://www.youtube.com/embed/${c.ytId}" allowfullscreen loading="lazy"></iframe>
+        </div>
+      </div>`).join('');
+  }
+
+  function saveMpClip() {
+    const url = document.getElementById('mp-clip-url').value.trim();
+    const title = document.getElementById('mp-clip-title').value.trim();
+    const ytId = ytIdFromUrl(url);
+    if (!ytId) {
+      document.getElementById('mp-clip-url').style.borderColor = '#ef4444';
+      setTimeout(() => document.getElementById('mp-clip-url').style.borderColor = '', 1500);
+      return;
+    }
+    const d = _mpData();
+    if (!d.clips) d.clips = [];
+    d.clips.push({ url, title, ytId });
+    _mpSave(d);
+    document.getElementById('mp-clip-url').value = '';
+    document.getElementById('mp-clip-title').value = '';
+    closeMpForm('mp-clip-form');
+    renderMpClips();
+  }
+
+  function removeMpClip(i) {
+    const d = _mpData();
+    d.clips.splice(i, 1);
+    _mpSave(d);
+    renderMpClips();
   }
 
   // ─── NETWORK HOME SEARCH ───
