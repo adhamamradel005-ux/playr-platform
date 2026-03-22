@@ -2907,6 +2907,191 @@
   }
 
   /* ══════════════════════════════════════════
+     ATHLETE PROFILE — Section 1 + Section 2 grid
+  ══════════════════════════════════════════ */
+
+  #screen-profile {
+    justify-content: flex-start; align-items: center;
+    overflow-y: auto; flex-direction: column;
+    padding: 0 0 80px; background: #0f0f0f;
+  }
+  .prof-wrap {
+    width: 100%; max-width: 760px;
+    display: flex; flex-direction: column; position: relative;
+  }
+  .prof-back-btn {
+    position: absolute; top: 12px; left: 12px; z-index: 10;
+    background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px; color: #fff; padding: 6px 14px;
+    font-size: 12px; font-weight: 700; font-family: 'Inter', sans-serif;
+    text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: background 0.15s;
+  }
+  .prof-back-btn:hover { background: rgba(0,0,0,0.8); }
+
+  /* ── Cover + Avatar ── */
+  .prof-cover {
+    height: 220px; width: 100%; flex-shrink: 0;
+  }
+  .prof-hero {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    padding: 0 20px; margin-top: -44px; position: relative; z-index: 1;
+  }
+  .prof-photo {
+    width: 88px; height: 88px; border-radius: 50%;
+    border: 4px solid #1a1a1a;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px; font-weight: 900; color: #000;
+    flex-shrink: 0;
+  }
+  .prof-hero-actions {
+    display: flex; gap: 8px; align-items: center;
+    padding-bottom: 6px;
+  }
+
+  /* ── Identity block ── */
+  .prof-identity { padding: 12px 20px 0; }
+  .prof-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 30px; font-weight: 900; text-transform: uppercase;
+    letter-spacing: -0.5px; margin-bottom: 4px; line-height: 1;
+  }
+  .prof-location { font-size: 13px; color: #888; margin: 4px 0 10px; }
+  .prof-opportunity {
+    display: inline-flex; align-items: center; gap: 7px;
+    background: rgba(0,255,135,0.07); border: 1px solid rgba(0,255,135,0.22);
+    border-radius: 20px; padding: 4px 13px;
+    font-size: 10px; font-weight: 800; color: #00FF87;
+    text-transform: uppercase; letter-spacing: 0.6px;
+    margin-bottom: 12px; font-family: 'Inter', sans-serif;
+  }
+  .opp-dot {
+    width: 6px; height: 6px; border-radius: 50%; background: #00FF87;
+    animation: oppPulse 2s ease-in-out infinite; flex-shrink: 0;
+  }
+  @keyframes oppPulse { 0%,100% { opacity:1; } 50% { opacity:0.35; } }
+  .prof-bio {
+    font-size: 14px; line-height: 1.8; color: #ccc; margin-bottom: 20px;
+  }
+
+  /* ── Stats bar ── */
+  .prof-stats-bar {
+    display: flex; gap: 28px; flex-wrap: wrap;
+    border-top: 1px solid #2a2a2a; padding: 14px 20px;
+    background: #1a1a1a;
+  }
+  .prof-stat-item { display: flex; flex-direction: column; gap: 2px; }
+  .prof-stat-val {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px; font-weight: 900; color: #00FF87; line-height: 1;
+  }
+  .prof-stat-label {
+    font-size: 10px; color: #555; text-transform: uppercase; letter-spacing: 0.5px;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* ── Section cards ── */
+  .prof-section {
+    background: #1a1a1a; border-top: 1px solid #2a2a2a;
+    padding: 20px 20px;
+  }
+  .prof-section-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 900; text-transform: uppercase;
+    letter-spacing: 2px; color: #555; margin-bottom: 16px;
+  }
+
+  /* ── 3-col posts grid ── */
+  .posts-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+    margin: 0 -20px -20px;
+  }
+  .pgrid-item {
+    aspect-ratio: 1; background: #111;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden; cursor: pointer;
+  }
+  .pgrid-item-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 38px;
+  }
+  .pgrid-item-text {
+    position: absolute; inset: 0; padding: 8px;
+    display: flex; align-items: center;
+    font-size: 10px; line-height: 1.35; color: #fff;
+    font-family: 'Inter', sans-serif; font-weight: 500;
+    overflow: hidden;
+  }
+  .pgrid-play {
+    position: absolute; top: 6px; right: 6px;
+    background: rgba(0,0,0,0.65); border-radius: 4px;
+    padding: 2px 7px; font-size: 9px; font-weight: 800;
+    color: #fff; letter-spacing: 0.3px; font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+  }
+  .pgrid-overlay {
+    position: absolute; inset: 0; background: rgba(0,0,0,0.55);
+    display: flex; align-items: center; justify-content: center;
+    gap: 14px; opacity: 0; transition: opacity 0.18s;
+    font-size: 12px; font-weight: 700; color: #fff;
+    font-family: 'Inter', sans-serif;
+  }
+  .pgrid-item:hover .pgrid-overlay { opacity: 1; }
+
+  /* ── Post lightbox ── */
+  #post-lightbox {
+    position: fixed; inset: 0; z-index: 9000;
+    background: rgba(0,0,0,0.92);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+  }
+  .lightbox-inner {
+    background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 14px;
+    max-width: 540px; width: 100%; max-height: 88vh;
+    overflow-y: auto; position: relative;
+  }
+  .lightbox-close {
+    position: sticky; top: 12px; float: right; margin: 12px 12px 0 0;
+    background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%; width: 32px; height: 32px; color: #fff;
+    font-size: 16px; cursor: pointer; display: flex;
+    align-items: center; justify-content: center; z-index: 1; flex-shrink: 0;
+    line-height: 1;
+  }
+  .lightbox-close:hover { background: rgba(255,255,255,0.15); }
+  .lightbox-media {
+    width: 100%; aspect-ratio: 16/9; background: #111; overflow: hidden;
+    border-radius: 14px 14px 0 0;
+  }
+  .lightbox-media iframe { width: 100%; height: 100%; border: none; display: block; }
+  .lightbox-photo {
+    width: 100%; aspect-ratio: 4/3; display: flex;
+    align-items: center; justify-content: center; font-size: 72px;
+    border-radius: 14px 14px 0 0; overflow: hidden;
+  }
+  .lightbox-body { padding: 16px 18px 4px; clear: both; }
+  .lightbox-author {
+    display: flex; gap: 12px; align-items: center; margin-bottom: 12px;
+  }
+  .lightbox-av {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; color: #000; flex-shrink: 0;
+  }
+  .lightbox-text {
+    font-size: 14px; line-height: 1.8; color: #ddd; white-space: pre-line;
+    margin-bottom: 14px;
+  }
+  .lightbox-reactions {
+    display: flex; border-top: 1px solid #242424;
+    margin: 0 -18px; padding: 2px 6px;
+  }
+  .lightbox-comments { padding: 12px 18px 16px; border-top: 1px solid #242424; }
+
+  /* ══════════════════════════════════════════
      MY PROFILE SCREEN
   ══════════════════════════════════════════ */
   #screen-my-profile {
@@ -3885,45 +4070,78 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
      SCREEN: PROFILE PAGE
 ══════════════════════════════════════════ -->
 <div id="screen-profile" class="screen">
+  <div class="prof-wrap">
 
-  <!-- 3-column layout -->
-  <div class="network-feed-layout">
+    <button class="prof-back-btn" onclick="goBackToNetwork()">← Back</button>
 
-    <!-- LEFT: logged-in user mini card -->
-    <aside class="network-left">
-      <div class="profile-card">
-        <div class="profile-card-banner"></div>
-        <div class="profile-card-body">
-          <div class="profile-avatar-wrap">
-            <div class="profile-avatar" id="ps-avatar">A</div>
-          </div>
-          <div class="profile-name" id="ps-name">You</div>
-          <div style="margin-bottom:8px" id="ps-badge">
-            <span class="role-badge role-player">⚽ Player</span>
-          </div>
-          <div class="profile-meta" id="ps-meta">Open to opportunities</div>
-          <div class="profile-stats">
-            <div class="profile-stat-row"><span>Profile views</span><span class="profile-stat-val">142</span></div>
-            <div class="profile-stat-row"><span>Connections</span><span class="profile-stat-val">87</span></div>
-            <div class="profile-stat-row"><span>Post impressions</span><span class="profile-stat-val">1.2k</span></div>
-          </div>
+    <!-- ─── SECTION 1: PROFESSIONAL CARD ─── -->
+    <div class="prof-cover" id="prof-cover"></div>
+
+    <div class="prof-hero">
+      <div class="prof-photo" id="prof-photo">KM</div>
+      <div class="prof-hero-actions" id="prof-hero-actions"></div>
+    </div>
+
+    <div style="background:#1a1a1a">
+      <div class="prof-identity">
+        <div class="prof-name" id="prof-name">Athlete</div>
+        <div id="prof-badge" style="margin-bottom:6px"></div>
+        <div class="prof-location" id="prof-location"></div>
+        <div class="prof-opportunity" id="prof-opportunity" style="display:none">
+          <span class="opp-dot"></span>
+          <span id="prof-opp-label">Open to Opportunities</span>
         </div>
+        <div class="prof-bio" id="prof-bio"></div>
       </div>
-    </aside>
+      <div class="prof-stats-bar" id="prof-stats-bar"></div>
+    </div>
 
-    <!-- CENTER: dynamic profile content -->
-    <main class="network-feed">
-      <div id="profile-page-content"></div>
-    </main>
+    <!-- Performance Stats -->
+    <div class="prof-section" id="prof-perf-section">
+      <div class="prof-section-label">Stats &amp; Performance</div>
+      <div class="stats-grid" id="prof-stats-grid"></div>
+    </div>
 
-    <!-- RIGHT: people also viewed -->
-    <aside class="network-right">
-      <div class="people-card" id="profile-also-viewed">
-        <div class="people-card-title">People also viewed</div>
-        <div id="profile-also-viewed-list"></div>
+    <!-- Experience -->
+    <div class="prof-section">
+      <div class="prof-section-label">Experience</div>
+      <div class="timeline" id="prof-career"></div>
+    </div>
+
+    <!-- Highlight Clips -->
+    <div class="prof-section" id="prof-highlights-section">
+      <div class="prof-section-label">Highlight Clips</div>
+      <div class="highlight-list" id="prof-highlights"></div>
+    </div>
+
+    <!-- Licences & Certs -->
+    <div class="prof-section" id="prof-certs-section">
+      <div class="prof-section-label">Licences &amp; Certifications</div>
+      <div class="cert-list" id="prof-certs"></div>
+    </div>
+
+    <!-- ─── SECTION 2: POSTS GRID ─── -->
+    <div class="prof-section">
+      <div class="prof-section-label">Posts</div>
+      <div class="posts-grid" id="prof-posts-grid">
+        <div class="mp-empty" style="grid-column:1/-1;padding:32px;text-align:center">No posts yet.</div>
       </div>
-    </aside>
+    </div>
 
+  </div>
+</div>
+
+<!-- POST LIGHTBOX -->
+<div id="post-lightbox" style="display:none" onclick="closeLightboxOutside(event)">
+  <div class="lightbox-inner" id="lightbox-inner">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div id="lightbox-media-wrap"></div>
+    <div class="lightbox-body">
+      <div class="lightbox-author" id="lightbox-author"></div>
+      <div class="lightbox-text" id="lightbox-text"></div>
+    </div>
+    <div class="lightbox-reactions" id="lightbox-reactions"></div>
+    <div class="lightbox-comments" id="lightbox-comments"></div>
   </div>
 </div>
 
@@ -5484,134 +5702,216 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     },
   };
 
+  // ─── PROFILE VARIABLES ───
+  let _profId = '';
+  let _profPosts = []; // combined posts+highlights for grid
+
   function showProfile(id) {
     if (!id || !PROFILES[id]) return;
     const p = PROFILES[id];
+    _profId = id;
 
-    // Build sections
-    const careerHtml = p.career.map((c, i) => `
+    // ── Cover & photo ──
+    document.getElementById('prof-cover').style.background = p.cover;
+    const photoEl = document.getElementById('prof-photo');
+    photoEl.textContent = p.initials;
+    photoEl.style.background = p.grad;
+
+    // ── Actions (connect/message) ──
+    document.getElementById('prof-hero-actions').innerHTML =
+      profileConnectBtn(id) +
+      `<button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="openMessageTo('${id}')">Message</button>`;
+
+    // ── Identity ──
+    document.getElementById('prof-name').textContent = p.name;
+    document.getElementById('prof-badge').innerHTML = p.badgeHtml;
+    document.getElementById('prof-location').textContent = p.location;
+
+    // Opportunity badge
+    const oppEl = document.getElementById('prof-opportunity');
+    const oppLabels = { player:'Open to Opportunities', scout:'Actively Scouting', coach:'Available for Consulting', club:'Accepting Applications' };
+    const oppLabel = oppLabels[p.role];
+    if (oppLabel) {
+      oppEl.style.display = 'inline-flex';
+      document.getElementById('prof-opp-label').textContent = oppLabel;
+    } else {
+      oppEl.style.display = 'none';
+    }
+
+    document.getElementById('prof-bio').textContent = p.bio;
+
+    // ── Stats bar ──
+    document.getElementById('prof-stats-bar').innerHTML = `
+      <div class="prof-stat-item"><span class="prof-stat-val">${p.connections}</span><span class="prof-stat-label">Connections</span></div>
+      <div class="prof-stat-item"><span class="prof-stat-val">${p.views}</span><span class="prof-stat-label">Profile Views</span></div>
+      <div class="prof-stat-item"><span class="prof-stat-val">${p.impressions}</span><span class="prof-stat-label">Post Impressions</span></div>`;
+
+    // ── Performance stats ──
+    const perfSec = document.getElementById('prof-perf-section');
+    if (p.stats && p.stats.length) {
+      perfSec.style.display = '';
+      document.getElementById('prof-stats-grid').innerHTML = p.stats.map(s => `
+        <div class="stat-box">
+          <div class="stat-box-value">${s.value}</div>
+          <div class="stat-box-label">${s.label}</div>
+        </div>`).join('');
+    } else { perfSec.style.display = 'none'; }
+
+    // ── Career timeline ──
+    document.getElementById('prof-career').innerHTML = p.career.map((c, i) => `
       <div class="timeline-item">
         <div class="timeline-left">
           <div class="timeline-dot${c.current ? ' current' : ''}"></div>
           ${i < p.career.length - 1 ? '<div class="timeline-line"></div>' : ''}
         </div>
-        <div>
+        <div style="flex:1">
           <div class="timeline-club">${c.club}</div>
           <div class="timeline-role-text">${c.role}</div>
           <div class="timeline-dates">${c.dates}${c.current ? ' · <span style="color:#22c55e">Current</span>' : ''}</div>
         </div>
       </div>`).join('');
 
-    const statsHtml = p.stats.length ? `
-      <div class="profile-section">
-        <div class="profile-section-title">📊 Stats & Achievements</div>
-        <div class="stats-grid">
-          ${p.stats.map(s => `
-            <div class="stat-box">
-              <div class="stat-box-value">${s.value}</div>
-              <div class="stat-box-label">${s.label}</div>
-            </div>`).join('')}
-        </div>
-      </div>` : '';
-
-    const highlightsHtml = p.highlights.length ? `
-      <div class="profile-section">
-        <div class="profile-section-title">🎬 Highlight Reel</div>
-        <div class="highlight-list">
-          ${p.highlights.map(h => `
-            <div>
-              <div class="highlight-frame"><iframe src="https://www.youtube.com/embed/${h.ytId}" allowfullscreen></iframe></div>
-              <div class="highlight-label">${h.title}</div>
-            </div>`).join('')}
-        </div>
-      </div>` : '';
-
-    const certsHtml = p.certs.length ? `
-      <div class="profile-section">
-        <div class="profile-section-title">🏅 Certifications & Licences</div>
-        <div class="cert-list">
-          ${p.certs.map(c => `
-            <div class="cert-item">
-              <div class="cert-icon">${c.icon}</div>
-              <div>
-                <div class="cert-name">${c.name}</div>
-                <div class="cert-org">${c.org}</div>
-              </div>
-            </div>`).join('')}
-        </div>
-      </div>` : '';
-
-    const postsHtml = p.posts.length ? `
-      <div class="profile-section">
-        <div class="profile-section-title">📝 Recent Posts</div>
-        ${p.posts.map(post => `
-          <div class="profile-mini-post">
-            <div class="profile-mini-post-ts">${post.ts}</div>
-            <div class="profile-mini-post-text">${post.text.replace(/\n/g,'<br>')}</div>
-          </div>`).join('')}
-      </div>` : '';
-
-    document.getElementById('profile-page-content').innerHTML = `
-      <div class="profile-page-card">
-        <div class="profile-cover" style="background:${p.cover}">
-          <div class="profile-photo-wrap">
-            <div class="profile-photo" style="background:${p.grad}">${p.initials}</div>
-          </div>
-        </div>
-        <div class="profile-page-body">
-          <div class="profile-page-name">${p.name}</div>
-          <div style="margin-bottom:6px">${p.badgeHtml}</div>
-          <div class="profile-page-location">${p.location}</div>
-          <div class="profile-page-bio">${p.bio}</div>
-          <div class="profile-page-actions" id="profile-connect-actions-${id}">
-            ${profileConnectBtn(id)}
-            <button class="btn btn-ghost" style="padding:9px 22px" onclick="openMessageTo('${id}')">✉️ Message</button>
-          </div>
-        </div>
-        <div class="profile-page-stats">
-          <div class="profile-page-stat">
-            <span class="profile-page-stat-label">Connections</span>
-            <span class="profile-page-stat-value">${Number(p.connections) + (connStatus(id) === 'connected' ? 1 : 0)}</span>
-          </div>
-          <div class="profile-page-stat">
-            <span class="profile-page-stat-label">Profile views</span>
-            <span class="profile-page-stat-value">${p.views}</span>
-          </div>
-          <div class="profile-page-stat">
-            <span class="profile-page-stat-label">Post impressions</span>
-            <span class="profile-page-stat-value">${p.impressions}</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="profile-section">
-        <div class="profile-section-title">💼 Career Timeline</div>
-        <div class="timeline">${careerHtml}</div>
-      </div>
-
-      ${statsHtml}
-      ${highlightsHtml}
-      ${certsHtml}
-      ${postsHtml}`;
-
-    // "People also viewed" sidebar
-    const alsoHtml = (p.alsoViewed || []).map(aid => {
-      const a = PROFILES[aid];
-      if (!a) return '';
-      return `<div class="also-viewed-item" onclick="showProfile('${aid}')">
-        <div class="also-viewed-av" style="background:${a.grad}">${a.initials}</div>
+    // ── Highlight clips ──
+    const hlSec = document.getElementById('prof-highlights-section');
+    if (p.highlights && p.highlights.length) {
+      hlSec.style.display = '';
+      document.getElementById('prof-highlights').innerHTML = p.highlights.map(h => `
         <div>
-          <div class="also-viewed-name">${a.name}</div>
-          <div class="also-viewed-sub">${a.badgeHtml}</div>
-        </div>
-      </div>`;
-    }).join('');
-    document.getElementById('profile-also-viewed-list').innerHTML = alsoHtml;
+          <div class="highlight-frame"><iframe src="https://www.youtube.com/embed/${h.ytId}" allowfullscreen loading="lazy"></iframe></div>
+          <div class="highlight-label">${h.title}</div>
+        </div>`).join('');
+    } else { hlSec.style.display = 'none'; }
+
+    // ── Certs ──
+    const certSec = document.getElementById('prof-certs-section');
+    if (p.certs && p.certs.length) {
+      certSec.style.display = '';
+      document.getElementById('prof-certs').innerHTML = p.certs.map(c => `
+        <div class="cert-item">
+          <div class="cert-icon">${c.icon}</div>
+          <div><div class="cert-name">${c.name}</div><div class="cert-org">${c.org}</div></div>
+        </div>`).join('');
+    } else { certSec.style.display = 'none'; }
+
+    // ── Posts grid (Section 2) ──
+    const gridPosts = [
+      ...(p.highlights || []).map(h => ({ type: 'video', title: h.title, ytId: h.ytId, grad: p.cover })),
+      ...(p.posts || []).map(post => ({ type: 'text', text: post.text, ts: post.ts, grad: p.grad })),
+    ];
+    _profPosts = gridPosts;
+    const gridEl = document.getElementById('prof-posts-grid');
+    if (gridPosts.length) {
+      gridEl.innerHTML = gridPosts.map((post, i) => {
+        if (post.type === 'video') {
+          return `<div class="pgrid-item" onclick="openPostLightbox(${i})" style="background:#111">
+            <div class="pgrid-item-bg" style="background:${post.grad}">▶</div>
+            <div class="pgrid-play">▶ Clip</div>
+            <div class="pgrid-overlay">
+              <span>♥ 0</span><span>💬 0</span>
+            </div>
+          </div>`;
+        } else {
+          const preview = post.text.replace(/\n/g, ' ').slice(0, 72) + (post.text.length > 72 ? '…' : '');
+          const emoji = post.text.match(/[\u{1F300}-\u{1FFFF}]|[\u2600-\u27BF]/u);
+          return `<div class="pgrid-item" onclick="openPostLightbox(${i})" style="background:${post.grad}">
+            <div class="pgrid-item-bg" style="opacity:0.35;background:${post.grad}"></div>
+            ${emoji ? `<div style="position:absolute;font-size:44px;opacity:0.5">${emoji[0]}</div>` : ''}
+            <div class="pgrid-item-text">${preview}</div>
+            <div class="pgrid-overlay">
+              <span>♥ 0</span><span>💬 0</span>
+            </div>
+          </div>`;
+        }
+      }).join('');
+    } else {
+      gridEl.innerHTML = '<div class="mp-empty" style="grid-column:1/-1;padding:40px;text-align:center;color:#555">No posts yet.</div>';
+    }
 
     // Show screen
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-profile').classList.add('active');
     document.getElementById('screen-profile').scrollTop = 0;
+    setTopbarSide('network');
+    setActiveNavItem('nav-discover');
+  }
+
+  function openPostLightbox(i) {
+    const post = _profPosts[i];
+    const p = PROFILES[_profId];
+    if (!post || !p) return;
+
+    // Media
+    const mediaWrap = document.getElementById('lightbox-media-wrap');
+    if (post.type === 'video') {
+      mediaWrap.innerHTML = `<div class="lightbox-media"><iframe src="https://www.youtube.com/embed/${post.ytId}" allowfullscreen></iframe></div>`;
+    } else {
+      mediaWrap.innerHTML = `<div class="lightbox-photo" style="background:${post.grad}"><span style="font-size:72px;opacity:0.4">⚽</span></div>`;
+    }
+
+    // Author
+    document.getElementById('lightbox-author').innerHTML = `
+      <div class="lightbox-av" style="background:${p.grad}">${p.initials}</div>
+      <div>
+        <div style="font-weight:700;font-size:14px">${p.name}</div>
+        <div style="font-size:12px;color:#888">${post.ts || 'Recent'}</div>
+      </div>`;
+
+    // Text
+    document.getElementById('lightbox-text').textContent = post.type === 'text' ? post.text : (post.title || '');
+
+    // Reactions
+    const svgHeart = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`;
+    const svgChat  = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`;
+    const svgRepeat= `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>`;
+    document.getElementById('lightbox-reactions').innerHTML = `
+      <button class="post-react-btn" onclick="feedLike(this)">${svgHeart} <span>0</span></button>
+      <button class="post-react-btn" onclick="feedComment(this)">${svgChat} <span>0</span></button>
+      <button class="post-react-btn" onclick="feedRepost(this)">${svgRepeat} <span>0</span></button>`;
+
+    // Comments
+    const myAv = document.getElementById('network-profile-avatar')?.textContent || 'A';
+    document.getElementById('lightbox-comments').innerHTML = `
+      <div class="comment-input-row">
+        <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">${myAv}</div>
+        <input class="comment-input" placeholder="Add a comment…">
+        <button class="comment-send-btn" onclick="sendLightboxComment(this)">Post</button>
+      </div>
+      <div class="comments-list" id="lightbox-comments-list"></div>`;
+
+    document.getElementById('post-lightbox').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox() {
+    document.getElementById('post-lightbox').style.display = 'none';
+    document.body.style.overflow = '';
+    // Clear iframe to stop video
+    document.getElementById('lightbox-media-wrap').innerHTML = '';
+  }
+
+  function closeLightboxOutside(e) {
+    if (e.target === document.getElementById('post-lightbox')) closeLightbox();
+  }
+
+  function sendLightboxComment(btn) {
+    const row = btn.closest('.comment-input-row');
+    const input = row.querySelector('.comment-input');
+    const text = input.value.trim();
+    if (!text) return;
+    const myAv = document.getElementById('network-profile-avatar')?.textContent || 'A';
+    const list = document.getElementById('lightbox-comments-list');
+    const d = document.createElement('div');
+    d.className = 'comment-item';
+    d.innerHTML = `
+      <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">${myAv}</div>
+      <div class="comment-bubble">
+        <div class="comment-name">You</div>
+        <div class="comment-text">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>
+      </div>`;
+    list.appendChild(d);
+    input.value = '';
+    const commentBtn = document.querySelector('#lightbox-reactions .post-react-btn:nth-child(2) span');
+    if (commentBtn) commentBtn.textContent = parseInt(commentBtn.textContent||0) + 1;
   }
 
   // ─── MESSAGING SYSTEM ───
