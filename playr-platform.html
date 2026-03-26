@@ -523,7 +523,42 @@
       position: relative;
     }
     .module-card:hover:not(.locked) { transform: translateY(-4px); border-color: rgba(0,255,135,0.15); }
-    .module-card.locked { opacity: 0.6; cursor: default; }
+    .module-card.locked { opacity: 0.55; cursor: pointer; }
+    .module-card.locked:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.14); opacity: 0.65; }
+
+    /* ── Unlock animation ── */
+    @keyframes unlock-glow {
+      0%   { box-shadow: none; border-color: var(--border); }
+      15%  { box-shadow: 0 0 0 6px rgba(0,255,135,0.2), 0 0 28px rgba(0,255,135,0.18); border-color: #00FF87; }
+      55%  { box-shadow: 0 0 0 14px rgba(0,255,135,0.08), 0 0 52px rgba(0,255,135,0.22); border-color: #00FF87; }
+      100% { box-shadow: none; border-color: rgba(0,255,135,0.18); }
+    }
+    @keyframes unlock-scale {
+      0%   { transform: scale(0.97); opacity: 0.55; }
+      40%  { transform: scale(1.04); opacity: 1; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    @keyframes lock-break {
+      0%   { transform: scale(1) rotate(0deg); opacity: 1; }
+      25%  { transform: scale(1.35) rotate(-18deg); }
+      55%  { transform: scale(1.7) rotate(12deg); opacity: 0.6; }
+      100% { transform: scale(2.2); opacity: 0; }
+    }
+    .module-card.unlocking {
+      animation: unlock-glow 1.5s ease forwards, unlock-scale 0.7s ease forwards;
+    }
+    .lock-overlay.breaking { animation: lock-break 0.6s ease forwards; pointer-events: none; }
+
+    /* ── Toast / Snackbar ── */
+    #playr-toast {
+      position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: #1e2d3d; border: 1px solid rgba(255,255,255,0.12); color: #fff;
+      padding: 12px 22px; border-radius: 12px; font-size: 13px; font-weight: 600;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.35); z-index: 9500;
+      opacity: 0; transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none; max-width: 340px; text-align: center;
+    }
+    #playr-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     .module-thumb {
       width: 100%;
@@ -5778,6 +5813,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
       const card = document.createElement('div');
       card.className = `module-card ${m.status === 'locked' ? 'locked' : ''}`;
+      card.dataset.moduleId = i;
       card.innerHTML = `
         <div class="module-thumb" style="background:linear-gradient(135deg,${m.color},#0a0a0e)">
           <div class="thumb-overlay"></div>
@@ -5794,7 +5830,12 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
           </div>
         </div>
       `;
-      if (m.status !== 'locked') {
+      if (m.status === 'locked') {
+        card.onclick = () => {
+          const prevName = i > 0 ? modules[i - 1].title : 'the previous module';
+          showToast(`🔒 Complete "${prevName}" to unlock this`);
+        };
+      } else {
         card.onclick = () => openModule(i);
       }
       grid.appendChild(card);
@@ -5822,6 +5863,11 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   // ─── OPEN MODULE DETAIL ───
   function openModule(id) {
     const m = modules[id];
+    if (m.status === 'locked') {
+      const prevName = id > 0 ? modules[id - 1].title : 'the previous module';
+      showToast(`🔒 Complete "${prevName}" to unlock this`);
+      return;
+    }
     const isDone = m.status === 'done';
 
     const lessonsHTML = m.lessons_list.length > 0 ? `
@@ -6235,29 +6281,65 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
   // ─── MARK MODULE COMPLETE ───
   async function markModuleComplete(moduleId) {
+    const btn = document.getElementById('mark-complete-btn');
+    if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+
     try {
       await apiPost('/api/progress', { user_id: userId, module_id: moduleId });
 
-      // Update local state
       modules[moduleId].status = 'done';
-      if (moduleId + 1 < modules.length && modules[moduleId + 1].status === 'locked') {
-        modules[moduleId + 1].status = 'progress';
+      const nextId = moduleId + 1;
+      const willUnlock = nextId < modules.length && modules[nextId].status === 'locked';
+      if (willUnlock) modules[nextId].status = 'progress';
+
+      // If a next card exists in the DOM, play lock-break before re-rendering
+      if (willUnlock) {
+        const nextCard = document.querySelector(`[data-module-id="${nextId}"]`);
+        if (nextCard) {
+          const lockEl = nextCard.querySelector('.lock-overlay');
+          if (lockEl) lockEl.classList.add('breaking');
+        }
       }
 
-      renderModulesGrid();
-      renderProgressList();
-      await loadStats();
+      // Wait for lock-break animation, then re-render and glow the new card
+      const delay = willUnlock ? 580 : 0;
+      setTimeout(() => {
+        renderModulesGrid();
+        renderProgressList();
+        loadStats();
 
-      // Update button in the current detail view
-      const btn = document.getElementById('mark-complete-btn');
+        if (willUnlock) {
+          const newCard = document.querySelector(`[data-module-id="${nextId}"]`);
+          if (newCard) {
+            newCard.classList.add('unlocking');
+            setTimeout(() => newCard.classList.remove('unlocking'), 1600);
+          }
+          showToast(`🔓 ${modules[nextId].title} unlocked!`);
+        }
+      }, delay);
+
+      // Update the complete button immediately
       if (btn) {
         btn.textContent = '✓ Completed';
         btn.style.background = 'var(--green)';
+        btn.style.color = '#000';
         btn.disabled = true;
       }
     } catch (e) {
       console.error('Failed to mark complete:', e);
+      if (btn) { btn.disabled = false; btn.textContent = 'Mark Module Complete ✓'; }
     }
+  }
+
+  // ─── TOAST ───
+  let _toastTimer = null;
+  function showToast(msg) {
+    const el = document.getElementById('playr-toast');
+    if (!el) return;
+    el.textContent = msg;
+    el.classList.add('show');
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(() => el.classList.remove('show'), 3200);
   }
 
   // ─── NAVIGATION ───
@@ -9172,6 +9254,9 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     </button>
   </div>
 </div>
+
+<!-- Toast -->
+<div id="playr-toast"></div>
 
 <!-- ── Daily Check-in Overlay ── -->
 <div id="checkin-overlay" style="display:none">
