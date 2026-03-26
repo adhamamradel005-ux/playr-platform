@@ -6,6 +6,7 @@
   <title>Playr — Built for Athletes</title>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/globe.gl@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   <!-- Apply saved theme before paint to prevent flash -->
   <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('playr_theme')||'dark');})();</script>
   <style>
@@ -2229,6 +2230,85 @@
     .loc-dialog-btns { display: flex; gap: 10px; justify-content: center; }
     .loc-allow-btn { padding: 10px 24px; background: var(--purple); color: #fff; border: none; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit; }
     .loc-deny-btn  { padding: 10px 22px; background: var(--bg-card2); color: var(--muted); border: 1px solid var(--border); border-radius: 10px; font-size: 14px; font-weight: 600; cursor: pointer; font-family: inherit; }
+
+    /* ── Daily Check-in Overlay ── */
+    #checkin-overlay {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(0,0,0,0.75); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .checkin-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 24px; width: 100%; max-width: 480px;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.5);
+      overflow: hidden; animation: ci-in 0.35s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes ci-in { from { opacity:0; transform: scale(0.92) translateY(20px); } to { opacity:1; transform: none; } }
+    .checkin-header {
+      padding: 28px 28px 20px; text-align: center;
+      background: linear-gradient(160deg, rgba(0,255,135,0.06) 0%, transparent 60%);
+      border-bottom: 1px solid var(--border);
+    }
+    .checkin-date  { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--green); margin-bottom: 6px; }
+    .checkin-title { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+    .checkin-sub   { font-size: 13px; color: var(--muted); }
+    .checkin-step  { display: none; padding: 28px 28px 0; }
+    .checkin-step.active { display: block; animation: step-in 0.3s ease; }
+    @keyframes step-in { from { opacity:0; transform: translateX(16px); } to { opacity:1; transform: none; } }
+    .cq-question   { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 18px; line-height: 1.4; }
+    .cq-scale-labels { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 10px; }
+    .cq-num-grid {
+      display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; margin-bottom: 14px;
+    }
+    .cq-num {
+      aspect-ratio: 1; display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer;
+      background: var(--bg-card2); border: 2px solid var(--border);
+      color: var(--muted); transition: all 0.15s;
+    }
+    .cq-num:hover  { border-color: var(--green); color: var(--green); }
+    .cq-num.active { background: var(--green); border-color: var(--green); color: #000; }
+    .cq-slider-wrap { padding: 4px 0 0; }
+    .cq-slider {
+      -webkit-appearance: none; appearance: none;
+      width: 100%; height: 6px; border-radius: 3px; outline: none;
+      background: linear-gradient(to right, var(--green) var(--pct, 44.4%), var(--border) var(--pct, 44.4%));
+      cursor: pointer;
+    }
+    .cq-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
+      background: var(--green); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .cq-slider::-moz-range-thumb {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--green); border: 3px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .cq-selected-val {
+      text-align: center; font-size: 38px; font-weight: 900; color: var(--green);
+      margin: 10px 0 4px; line-height: 1;
+    }
+    .checkin-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 28px 24px;
+    }
+    .cq-dots { display: flex; gap: 7px; }
+    .cq-dot  { width: 8px; height: 8px; border-radius: 50%; background: var(--border); transition: background 0.2s; }
+    .cq-dot.active { background: var(--green); }
+    .cq-btn {
+      padding: 12px 28px; background: var(--green); color: #000;
+      border: none; border-radius: 12px; font-size: 15px; font-weight: 800;
+      cursor: pointer; font-family: inherit; transition: opacity 0.15s;
+    }
+    .cq-btn:hover { opacity: 0.88; }
+    .cq-btn.cq-submit { background: var(--purple); color: #fff; }
+    .checkin-skip {
+      display: block; width: 100%; text-align: center; padding: 12px;
+      background: none; border: none; border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 12px; cursor: pointer; font-family: inherit;
+      transition: color 0.15s;
+    }
+    .checkin-skip:hover { color: var(--text); }
+
     /* Leaflet popup theming */
     .map-popup { display: flex; gap: 10px; align-items: flex-start; min-width: 190px; font-family: 'Inter', sans-serif; }
     .map-popup-av { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; color: #fff; flex-shrink: 0; }
@@ -4469,6 +4549,24 @@
           <h4>Module Progress</h4>
           <div id="progress-list"></div>
         </div>
+
+        <!-- Performance Graph -->
+        <div class="sidebar-card" style="margin-top:8px" id="perf-graph-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
+            <h4 style="margin:0">Performance Graph</h4>
+            <div style="display:flex;align-items:center;gap:14px;font-size:12px">
+              <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#00FF87"></span>Energy</span>
+              <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#3b82f6"></span>Mood</span>
+              <span style="display:flex;align-items:center;gap:5px"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#a855f7"></span>Focus</span>
+            </div>
+          </div>
+          <div id="perf-graph-empty" style="display:none;text-align:center;padding:32px 0;color:var(--muted);font-size:13px">
+            No check-in data yet. Complete your first daily check-in to see your performance trends.
+          </div>
+          <div style="position:relative;height:220px" id="perf-graph-wrap">
+            <canvas id="checkin-chart"></canvas>
+          </div>
+        </div>
       </div>
 
       <!-- ── JOURNAL VIEW ── -->
@@ -5808,6 +5906,222 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     window.scrollTo(0, 0);
   }
 
+  // ─── DAILY CHECK-IN ───
+
+  const CHECKIN_KEY = 'playr_checkin_date';
+  const checkinVals = [5, 5, 5]; // [energy, mood, focus]
+  let checkinStep   = 0;
+
+  function _todayStr() { return new Date().toISOString().split('T')[0]; }
+
+  function _buildCheckinNums(stepIdx) {
+    const grid = document.getElementById(`cq-nums-${stepIdx}`);
+    if (!grid) return;
+    grid.innerHTML = '';
+    for (let i = 1; i <= 10; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'cq-num' + (i === checkinVals[stepIdx] ? ' active' : '');
+      btn.textContent = i;
+      btn.onclick = () => selectCheckinNum(stepIdx, i);
+      grid.appendChild(btn);
+    }
+  }
+
+  function selectCheckinNum(stepIdx, val) {
+    checkinVals[stepIdx] = val;
+    document.getElementById(`cq-val-${stepIdx}`).textContent = val;
+    document.getElementById(`cq-slider-${stepIdx}`).value = val;
+    _updateSliderTrack(stepIdx, val);
+    document.querySelectorAll(`#cq-nums-${stepIdx} .cq-num`).forEach((b, i) => {
+      b.classList.toggle('active', i + 1 === val);
+    });
+  }
+
+  function syncCheckinSlider(stepIdx, val) {
+    val = parseInt(val);
+    checkinVals[stepIdx] = val;
+    document.getElementById(`cq-val-${stepIdx}`).textContent = val;
+    _updateSliderTrack(stepIdx, val);
+    document.querySelectorAll(`#cq-nums-${stepIdx} .cq-num`).forEach((b, i) => {
+      b.classList.toggle('active', i + 1 === val);
+    });
+  }
+
+  function _updateSliderTrack(stepIdx, val) {
+    const pct = ((val - 1) / 9 * 100).toFixed(1) + '%';
+    const slider = document.getElementById(`cq-slider-${stepIdx}`);
+    if (slider) slider.style.setProperty('--pct', pct);
+  }
+
+  function checkinNext() {
+    if (checkinStep < 2) {
+      document.getElementById(`cq-step-${checkinStep}`).classList.remove('active');
+      document.getElementById(`cq-dot-${checkinStep}`).classList.remove('active');
+      checkinStep++;
+      document.getElementById(`cq-step-${checkinStep}`).classList.add('active');
+      document.getElementById(`cq-dot-${checkinStep}`).classList.add('active');
+      _buildCheckinNums(checkinStep);
+      _updateSliderTrack(checkinStep, checkinVals[checkinStep]);
+      if (checkinStep === 2) {
+        const btn = document.getElementById('cq-next-btn');
+        btn.textContent = 'Submit ✓';
+        btn.classList.add('cq-submit');
+      }
+    } else {
+      submitCheckin();
+    }
+  }
+
+  async function submitCheckin() {
+    try {
+      await apiPost('/api/checkin', {
+        user_id: userId,
+        energy: checkinVals[0],
+        mood:   checkinVals[1],
+        focus:  checkinVals[2]
+      });
+    } catch (e) { /* save locally at minimum */ }
+    localStorage.setItem(CHECKIN_KEY, _todayStr());
+    document.getElementById('checkin-overlay').style.display = 'none';
+    pushNotif({ type: 'checkin', text: `Check-in saved — Energy ${checkinVals[0]}, Mood ${checkinVals[1]}, Focus ${checkinVals[2]}`, icon: '✅' });
+  }
+
+  function skipCheckin() {
+    localStorage.setItem(CHECKIN_KEY, _todayStr());
+    document.getElementById('checkin-overlay').style.display = 'none';
+  }
+
+  function checkDailyCheckin() {
+    if (localStorage.getItem(CHECKIN_KEY) === _todayStr()) return;
+    // Reset state
+    checkinStep = 0;
+    checkinVals[0] = 5; checkinVals[1] = 5; checkinVals[2] = 5;
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const now = new Date();
+    document.getElementById('checkin-date-label').textContent =
+      `${days[now.getDay()]}, ${months[now.getMonth()]} ${now.getDate()}`;
+    // Reset steps
+    for (let i = 0; i < 3; i++) {
+      document.getElementById(`cq-step-${i}`)?.classList.remove('active');
+      document.getElementById(`cq-dot-${i}`)?.classList.remove('active');
+      const sl = document.getElementById(`cq-slider-${i}`);
+      if (sl) sl.value = 5;
+    }
+    document.getElementById('cq-step-0').classList.add('active');
+    document.getElementById('cq-dot-0').classList.add('active');
+    const btn = document.getElementById('cq-next-btn');
+    btn.textContent = 'Next →'; btn.classList.remove('cq-submit');
+    for (let i = 0; i < 3; i++) { _buildCheckinNums(i); _updateSliderTrack(i, 5); }
+    document.getElementById('checkin-overlay').style.display = 'flex';
+  }
+
+  // ─── PERFORMANCE GRAPH ───
+
+  let checkinChartInstance = null;
+
+  async function loadCheckinChart() {
+    const wrap = document.getElementById('perf-graph-wrap');
+    const empty = document.getElementById('perf-graph-empty');
+    if (!wrap || !empty) return;
+    try {
+      const rows = await apiGet(`/api/checkin?user_id=${encodeURIComponent(userId)}`);
+      if (!rows.length) {
+        wrap.style.display = 'none';
+        empty.style.display = 'block';
+        return;
+      }
+      wrap.style.display = 'block';
+      empty.style.display = 'none';
+
+      // Build 30-day label array
+      const labels = [];
+      const byDate = {};
+      rows.forEach(r => { byDate[r.date] = r; });
+      for (let i = 29; i >= 0; i--) {
+        const d = new Date();
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().split('T')[0];
+        const mo = d.toLocaleString('default', { month: 'short' });
+        labels.push(`${mo} ${d.getDate()}`);
+        byDate[key] = byDate[key] || null;
+      }
+
+      const dateKeys = [];
+      for (let i = 29; i >= 0; i--) {
+        const d = new Date(); d.setDate(d.getDate() - i);
+        dateKeys.push(d.toISOString().split('T')[0]);
+      }
+
+      const toDataset = key => dateKeys.map(dk => byDate[dk] ? byDate[dk][key] : null);
+      const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+      const gridColor = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.07)';
+      const tickColor = isDark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.4)';
+
+      if (checkinChartInstance) { checkinChartInstance.destroy(); checkinChartInstance = null; }
+
+      const ctx = document.getElementById('checkin-chart').getContext('2d');
+      checkinChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Energy', data: toDataset('energy'),
+              borderColor: '#00FF87', backgroundColor: 'rgba(0,255,135,0.08)',
+              pointBackgroundColor: '#00FF87', pointRadius: 4, pointHoverRadius: 6,
+              borderWidth: 2.5, tension: 0.35, fill: false, spanGaps: false
+            },
+            {
+              label: 'Mood', data: toDataset('mood'),
+              borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.08)',
+              pointBackgroundColor: '#3b82f6', pointRadius: 4, pointHoverRadius: 6,
+              borderWidth: 2.5, tension: 0.35, fill: false, spanGaps: false
+            },
+            {
+              label: 'Focus', data: toDataset('focus'),
+              borderColor: '#a855f7', backgroundColor: 'rgba(168,85,247,0.08)',
+              pointBackgroundColor: '#a855f7', pointRadius: 4, pointHoverRadius: 6,
+              borderWidth: 2.5, tension: 0.35, fill: false, spanGaps: false
+            }
+          ]
+        },
+        options: {
+          responsive: true, maintainAspectRatio: false,
+          interaction: { mode: 'index', intersect: false },
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: isDark ? '#162030' : '#fff',
+              borderColor: isDark ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.1)',
+              borderWidth: 1, titleColor: isDark ? '#fff' : '#111',
+              bodyColor: isDark ? 'rgba(255,255,255,0.7)' : 'rgba(0,0,0,0.6)',
+              padding: 10, cornerRadius: 8,
+              callbacks: {
+                label: ctx => ctx.parsed.y !== null ? ` ${ctx.dataset.label}: ${ctx.parsed.y}/10` : ` ${ctx.dataset.label}: —`
+              }
+            }
+          },
+          scales: {
+            x: {
+              grid: { color: gridColor },
+              ticks: { color: tickColor, font: { size: 10 }, maxTicksLimit: 8, maxRotation: 0 },
+              border: { display: false }
+            },
+            y: {
+              min: 1, max: 10, stepSize: 1,
+              grid: { color: gridColor },
+              ticks: { color: tickColor, font: { size: 11 }, stepSize: 3 },
+              border: { display: false }
+            }
+          }
+        }
+      });
+    } catch (e) {
+      console.error('Failed to load check-in chart:', e);
+    }
+  }
+
   // ─── LOAD STATS FROM API ───
   async function loadStats() {
     try {
@@ -5958,8 +6272,9 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       document.getElementById('topbar-title').textContent = titles[viewName] || 'Playr';
     }
 
-    if (viewName === 'journal') loadJournalEntries();
-    if (viewName === 'explore') initExplore();
+    if (viewName === 'journal')   loadJournalEntries();
+    if (viewName === 'explore')   initExplore();
+    if (viewName === 'progress')  loadCheckinChart();
   }
 
   async function showEAF() {
@@ -5971,6 +6286,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     renderModulesGrid();
     renderProgressList();
     loadStats();
+    checkDailyCheckin();
   }
 
   // ─── WAITLIST ───
@@ -8854,6 +9170,64 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
         <div class="fab-option-sub">Share a thought, milestone, or moment</div>
       </div>
     </button>
+  </div>
+</div>
+
+<!-- ── Daily Check-in Overlay ── -->
+<div id="checkin-overlay" style="display:none">
+  <div class="checkin-card">
+    <div class="checkin-header">
+      <div class="checkin-date" id="checkin-date-label"></div>
+      <div class="checkin-title">Daily Check-in</div>
+      <div class="checkin-sub">3 quick questions · under 60 seconds</div>
+    </div>
+
+    <!-- Step 1: Energy -->
+    <div class="checkin-step active" id="cq-step-0">
+      <div class="cq-question">⚡ How is your <strong>energy</strong> today?</div>
+      <div class="cq-scale-labels"><span>Exhausted</span><span>Fully charged</span></div>
+      <div class="cq-num-grid" id="cq-nums-0"></div>
+      <div class="cq-slider-wrap">
+        <input type="range" min="1" max="10" value="5" class="cq-slider" id="cq-slider-0"
+          oninput="syncCheckinSlider(0,this.value)">
+      </div>
+      <div class="cq-selected-val" id="cq-val-0">5</div>
+    </div>
+
+    <!-- Step 2: Mood -->
+    <div class="checkin-step" id="cq-step-1">
+      <div class="cq-question">😊 How is your <strong>mood</strong>?</div>
+      <div class="cq-scale-labels"><span>Very low</span><span>Excellent</span></div>
+      <div class="cq-num-grid" id="cq-nums-1"></div>
+      <div class="cq-slider-wrap">
+        <input type="range" min="1" max="10" value="5" class="cq-slider" id="cq-slider-1"
+          oninput="syncCheckinSlider(1,this.value)">
+      </div>
+      <div class="cq-selected-val" id="cq-val-1">5</div>
+    </div>
+
+    <!-- Step 3: Focus -->
+    <div class="checkin-step" id="cq-step-2">
+      <div class="cq-question">🎯 How <strong>focused</strong> do you feel?</div>
+      <div class="cq-scale-labels"><span>Scattered</span><span>Laser sharp</span></div>
+      <div class="cq-num-grid" id="cq-nums-2"></div>
+      <div class="cq-slider-wrap">
+        <input type="range" min="1" max="10" value="5" class="cq-slider" id="cq-slider-2"
+          oninput="syncCheckinSlider(2,this.value)">
+      </div>
+      <div class="cq-selected-val" id="cq-val-2">5</div>
+    </div>
+
+    <div class="checkin-footer">
+      <div class="cq-dots">
+        <span class="cq-dot active" id="cq-dot-0"></span>
+        <span class="cq-dot" id="cq-dot-1"></span>
+        <span class="cq-dot" id="cq-dot-2"></span>
+      </div>
+      <button class="cq-btn" id="cq-next-btn" onclick="checkinNext()">Next →</button>
+    </div>
+
+    <button class="checkin-skip" onclick="skipCheckin()">Skip for today</button>
   </div>
 </div>
 

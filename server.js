@@ -62,6 +62,17 @@ db.exec(`
     country    TEXT DEFAULT '',
     updated_at DATETIME DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS daily_checkins (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id    TEXT    NOT NULL,
+    date       TEXT    NOT NULL,
+    energy     INTEGER NOT NULL,
+    mood       INTEGER NOT NULL,
+    focus      INTEGER NOT NULL,
+    created_at DATETIME DEFAULT (datetime('now')),
+    UNIQUE(user_id, date)
+  );
 `);
 
 // ── Journal ──
@@ -238,6 +249,31 @@ app.post('/api/location', (req, res) => {
 
 app.get('/api/locations', (_req, res) => {
   const rows = db.prepare('SELECT user_id, lat, lng, city, country FROM user_locations').all();
+  res.json(rows);
+});
+
+// ── Daily Check-ins ──
+
+app.post('/api/checkin', (req, res) => {
+  const { user_id, energy, mood, focus } = req.body;
+  if (!user_id || energy === undefined || mood === undefined || focus === undefined) {
+    return res.status(400).json({ error: 'user_id, energy, mood, focus required' });
+  }
+  const today = new Date().toISOString().split('T')[0];
+  db.prepare(`
+    INSERT INTO daily_checkins (user_id, date, energy, mood, focus)
+    VALUES (?, ?, ?, ?, ?)
+    ON CONFLICT(user_id, date) DO UPDATE SET energy = ?, mood = ?, focus = ?
+  `).run(user_id, today, energy, mood, focus, energy, mood, focus);
+  res.json({ success: true });
+});
+
+app.get('/api/checkin', (req, res) => {
+  const { user_id } = req.query;
+  if (!user_id) return res.status(400).json({ error: 'user_id required' });
+  const rows = db.prepare(
+    "SELECT date, energy, mood, focus FROM daily_checkins WHERE user_id = ? AND date >= date('now', '-30 days') ORDER BY date ASC"
+  ).all(user_id);
   res.json(rows);
 });
 
