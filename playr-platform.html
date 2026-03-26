@@ -791,6 +791,147 @@
       border: none;
     }
 
+    /* ─── Audio Mode ─── */
+    .media-mode-bar {
+      display: flex; gap: 8px; margin-bottom: 16px;
+    }
+    .mode-toggle-btn {
+      display: flex; align-items: center; gap: 7px; padding: 8px 18px;
+      border-radius: 10px; border: 1.5px solid var(--border); background: var(--bg-card2);
+      color: var(--muted); font-size: 13px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: all 0.18s;
+    }
+    .mode-toggle-btn:hover { border-color: rgba(255,255,255,0.18); color: var(--text); }
+    .mode-toggle-btn.active {
+      background: rgba(0,255,135,0.1); border-color: rgba(0,255,135,0.4);
+      color: #00FF87;
+    }
+
+    .audio-player {
+      background: var(--bg-card2); border: 1px solid var(--border);
+      border-radius: 20px; padding: 28px 28px 22px; margin-bottom: 32px;
+      position: relative; overflow: hidden;
+    }
+    .audio-player::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse at 30% 0%, rgba(0,255,135,0.05) 0%, transparent 60%);
+    }
+    .ap-header {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      margin-bottom: 24px; position: relative;
+    }
+    .ap-track-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 1.8px; text-transform: uppercase;
+      color: var(--green); margin-bottom: 4px;
+    }
+    .ap-track-title {
+      font-size: 16px; font-weight: 800; color: var(--text); line-height: 1.3;
+      max-width: 380px;
+    }
+
+    /* Waveform */
+    .ap-waveform {
+      display: flex; align-items: center; gap: 3px; height: 64px;
+      margin-bottom: 18px; padding: 0 2px;
+    }
+    .ap-wave-bar {
+      flex: 1; max-width: 6px; border-radius: 3px;
+      background: linear-gradient(to top, var(--green), rgba(0,255,135,0.4));
+      animation: wave-pulse var(--dur, 0.9s) var(--delay, 0s) ease-in-out infinite alternate;
+      animation-play-state: paused;
+      height: var(--min-h, 8px);
+    }
+    @keyframes wave-pulse {
+      from { height: var(--min-h, 8px); opacity: 0.5; }
+      to   { height: var(--max-h, 40px); opacity: 1; }
+    }
+    .ap-wave-bar.paused { animation-play-state: paused !important; }
+
+    /* Seek */
+    .ap-seek-wrap { margin-bottom: 10px; }
+    .ap-seek {
+      -webkit-appearance: none; appearance: none; width: 100%; height: 4px;
+      border-radius: 2px; outline: none; cursor: pointer;
+      background: linear-gradient(to right, var(--green) var(--pct, 0%), rgba(255,255,255,0.1) var(--pct, 0%));
+    }
+    .ap-seek::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 14px; height: 14px; border-radius: 50%;
+      background: var(--green); border: 2px solid #fff; box-shadow: 0 0 6px rgba(0,255,135,0.5);
+      transition: transform 0.15s;
+    }
+    .ap-seek::-webkit-slider-thumb:hover { transform: scale(1.25); }
+    .ap-seek::-moz-range-thumb {
+      width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff;
+      background: var(--green); box-shadow: 0 0 6px rgba(0,255,135,0.5);
+    }
+
+    /* Controls row */
+    .ap-controls {
+      display: flex; align-items: center; gap: 14px; margin-bottom: 14px;
+    }
+    .ap-play-btn {
+      width: 48px; height: 48px; border-radius: 50%; flex-shrink: 0;
+      background: var(--green); color: #000; border: none; font-size: 18px;
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: transform 0.15s, box-shadow 0.15s; font-family: inherit;
+      box-shadow: 0 0 20px rgba(0,255,135,0.25);
+    }
+    .ap-play-btn:hover { transform: scale(1.08); box-shadow: 0 0 28px rgba(0,255,135,0.4); }
+    .ap-time {
+      font-size: 13px; font-weight: 600; color: var(--muted);
+      font-variant-numeric: tabular-nums; min-width: 90px;
+    }
+    .ap-speed-btns { display: flex; gap: 4px; margin-left: auto; }
+    .ap-speed-btn {
+      padding: 5px 10px; border-radius: 7px; border: 1px solid var(--border);
+      background: var(--bg-card); color: var(--muted); font-size: 11px; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: all 0.15s;
+    }
+    .ap-speed-btn:hover { border-color: rgba(255,255,255,0.2); color: var(--text); }
+    .ap-speed-btn.active { background: rgba(0,255,135,0.12); border-color: rgba(0,255,135,0.4); color: var(--green); }
+
+    .ap-note {
+      font-size: 11px; color: var(--muted); text-align: center;
+      padding-top: 12px; border-top: 1px solid var(--border);
+      line-height: 1.5;
+    }
+
+    /* Sticky mini-player */
+    #audio-sticky {
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 900;
+      background: rgba(11,20,30,0.97); backdrop-filter: blur(16px);
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 20px 10px; display: flex; align-items: center; gap: 12px;
+      transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
+    }
+    #audio-sticky.visible { transform: translateY(0); pointer-events: auto; }
+    @media (min-width: 769px) { #audio-sticky { left: 64px; } }
+    @media (max-width: 768px) { #audio-sticky { padding-bottom: max(10px, env(safe-area-inset-bottom)); } }
+    .as-icon { font-size: 18px; flex-shrink: 0; }
+    .as-info  { flex: 1; min-width: 0; }
+    .as-title { font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .as-sub   { font-size: 10px; color: rgba(255,255,255,0.45); margin-top: 1px; }
+    .as-seek  {
+      flex: 1; max-width: 180px; -webkit-appearance: none; appearance: none;
+      height: 3px; border-radius: 2px; outline: none; cursor: pointer;
+      background: linear-gradient(to right, var(--green) var(--pct,0%), rgba(255,255,255,0.12) var(--pct,0%));
+    }
+    .as-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; border-radius: 50%; background: var(--green); }
+    .as-seek::-moz-range-thumb { width: 10px; height: 10px; border-radius: 50%; background: var(--green); border: none; }
+    .as-time  { font-size: 11px; color: rgba(255,255,255,0.5); font-variant-numeric: tabular-nums; min-width: 36px; }
+    .as-play  {
+      width: 34px; height: 34px; border-radius: 50%; background: var(--green); color: #000;
+      border: none; font-size: 14px; cursor: pointer; display: flex; align-items: center;
+      justify-content: center; flex-shrink: 0; font-family: inherit;
+    }
+    .as-close {
+      width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.06);
+      border: none; color: rgba(255,255,255,0.4); cursor: pointer; font-size: 14px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+    .as-close:hover { color: #fff; background: rgba(255,255,255,0.12); }
+
     .module-content-grid { display: grid; grid-template-columns: 1fr 340px; gap: 28px; }
 
     .lessons-list { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; margin-bottom: 28px; }
@@ -5971,6 +6112,8 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       showToast(`🔒 Complete "${prevName}" to unlock this`);
       return;
     }
+    _stopAudioIfChangingModule(id);
+    _initGlobalAudio();
     const isDone = m.status === 'done';
 
     const lessonsHTML = m.lessons_list.length > 0 ? `
@@ -6003,20 +6146,62 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
         </div>
       </div>
 
-      ${(ytId => ytId
-        ? `<div class="video-embed">
-             <iframe
-               src="https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white"
-               title="${m.title} — Introduction"
-               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-               allowfullscreen>
-             </iframe>
-           </div>`
-        : `<div class="video-placeholder">
-             <div class="video-play">▶</div>
-             <div class="video-label">Watch: ${m.title} — Introduction</div>
-           </div>`
-      )(extractYouTubeId(m.videoUrl))}
+      <!-- Mode toggle -->
+      <div class="media-mode-bar">
+        <button class="mode-toggle-btn active" id="mode-btn-video" onclick="setMediaMode('video')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          Video
+        </button>
+        <button class="mode-toggle-btn" id="mode-btn-audio" onclick="setMediaMode('audio')">
+          🎧 Audio Mode
+        </button>
+      </div>
+
+      <!-- Video wrap -->
+      <div id="ap-video-wrap">
+        ${(ytId => ytId
+          ? `<div class="video-embed">
+               <iframe
+                 src="https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white"
+                 title="${m.title} — Introduction"
+                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                 allowfullscreen>
+               </iframe>
+             </div>`
+          : `<div class="video-placeholder">
+               <div class="video-play">▶</div>
+               <div class="video-label">Watch: ${m.title} — Introduction</div>
+             </div>`
+        )(extractYouTubeId(m.videoUrl))}
+      </div>
+
+      <!-- Audio wrap (hidden until toggled) -->
+      <div id="ap-audio-wrap" style="display:none">
+        <div class="audio-player">
+          <div class="ap-header">
+            <div>
+              <div class="ap-track-eyebrow">🎧 Focus Music</div>
+              <div class="ap-track-title">${m.title}</div>
+            </div>
+          </div>
+          <div class="ap-waveform" id="ap-waveform"></div>
+          <div class="ap-controls">
+            <button class="ap-play-btn" id="ap-play-btn" onclick="apTogglePlay()">▶</button>
+            <span class="ap-time" id="ap-time">0:00 / —:——</span>
+            <div class="ap-speed-btns">
+              <button class="ap-speed-btn" data-speed="0.75" onclick="apSetSpeed(0.75)">0.75×</button>
+              <button class="ap-speed-btn active" data-speed="1" onclick="apSetSpeed(1)">1×</button>
+              <button class="ap-speed-btn" data-speed="1.25" onclick="apSetSpeed(1.25)">1.25×</button>
+              <button class="ap-speed-btn" data-speed="1.5" onclick="apSetSpeed(1.5)">1.5×</button>
+            </div>
+          </div>
+          <div class="ap-seek-wrap">
+            <input type="range" class="ap-seek" id="ap-seek" min="0" max="100" value="0"
+              oninput="apSeek(this.value)">
+          </div>
+          <div class="ap-note">🎵 Full narrated audio coming soon — currently playing focus music</div>
+        </div>
+      </div>
 
       <div class="module-content-grid">
         <div>
@@ -6053,6 +6238,186 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     showView('module-detail', null);
     document.getElementById('topbar-title').textContent = m.title;
     window.scrollTo(0, 0);
+  }
+
+  // ─── AUDIO MODE ───
+
+  const AP_TRACKS = [
+    'https://assets.mixkit.co/music/preview/mixkit-dreaming-big-31.mp3',
+    'https://assets.mixkit.co/music/preview/mixkit-spirit-in-the-forest-122.mp3',
+    'https://assets.mixkit.co/music/preview/mixkit-valley-sunset-127.mp3',
+  ];
+
+  const apState = { moduleId: null, mode: 'video', stickyObserver: null };
+
+  // Generate waveform bars with randomised heights and animation timings
+  function _buildWaveform() {
+    const el = document.getElementById('ap-waveform');
+    if (!el) return;
+    const profile = [18,28,14,42,30,54,22,44,16,50,34,60,26,46,20,56,32,48,24,52,18,40,28,54,16,44,36,58,20,42];
+    el.innerHTML = profile.map((h, i) => {
+      const minH = Math.max(5, Math.round(h * 0.28));
+      const dur  = (0.55 + (i % 5) * 0.12).toFixed(2);
+      const del  = (i * 0.045).toFixed(2);
+      return `<div class="ap-wave-bar" style="--min-h:${minH}px;--max-h:${h}px;--dur:${dur}s;--delay:${del}s"></div>`;
+    }).join('');
+  }
+
+  function _fmtTime(sec) {
+    if (!sec || isNaN(sec)) return '0:00';
+    const m = Math.floor(sec / 60);
+    const s = Math.floor(sec % 60);
+    return `${m}:${String(s).padStart(2, '0')}`;
+  }
+
+  function _updateApUI() {
+    const audio = document.getElementById('module-audio');
+    const playing = audio && !audio.paused;
+    const pct = (audio && audio.duration)
+      ? ((audio.currentTime / audio.duration) * 100).toFixed(1)
+      : 0;
+    const timeStr = `${_fmtTime(audio?.currentTime)} / ${_fmtTime(audio?.duration)}`;
+
+    // Main player
+    const mainPlay = document.getElementById('ap-play-btn');
+    if (mainPlay) mainPlay.textContent = playing ? '⏸' : '▶';
+    const mainSeek = document.getElementById('ap-seek');
+    if (mainSeek) { mainSeek.value = pct; mainSeek.style.setProperty('--pct', pct + '%'); }
+    const mainTime = document.getElementById('ap-time');
+    if (mainTime) mainTime.textContent = timeStr;
+
+    // Waveform animation state
+    document.querySelectorAll('.ap-wave-bar').forEach(b => {
+      b.style.animationPlayState = playing ? 'running' : 'paused';
+    });
+
+    // Sticky player
+    const stickyPlay = document.getElementById('as-play-btn');
+    if (stickyPlay) stickyPlay.textContent = playing ? '⏸' : '▶';
+    const asSeek = document.getElementById('as-seek');
+    if (asSeek) { asSeek.value = pct; asSeek.style.setProperty('--pct', pct + '%'); }
+    const asTime = document.getElementById('as-time');
+    if (asTime) asTime.textContent = _fmtTime(audio?.currentTime);
+  }
+
+  function _initGlobalAudio() {
+    const audio = document.getElementById('module-audio');
+    if (!audio || audio._apInited) return;
+    audio._apInited = true;
+
+    audio.addEventListener('timeupdate', _updateApUI);
+    audio.addEventListener('play',  _updateApUI);
+    audio.addEventListener('pause', _updateApUI);
+    audio.addEventListener('ended', () => { audio.currentTime = 0; _updateApUI(); });
+    audio.addEventListener('loadedmetadata', _updateApUI);
+  }
+
+  function setMediaMode(mode) {
+    apState.mode = mode;
+    const videoWrap = document.getElementById('ap-video-wrap');
+    const audioWrap = document.getElementById('ap-audio-wrap');
+    const btnV = document.getElementById('mode-btn-video');
+    const btnA = document.getElementById('mode-btn-audio');
+    if (!videoWrap || !audioWrap) return;
+
+    if (mode === 'audio') {
+      videoWrap.style.display = 'none';
+      audioWrap.style.display = 'block';
+      btnA?.classList.add('active'); btnV?.classList.remove('active');
+      _buildWaveform();
+
+      const audio = document.getElementById('module-audio');
+      const track = AP_TRACKS[apState.moduleId % AP_TRACKS.length];
+      if (audio && audio.src !== track) { audio.src = track; audio.load(); }
+      _initStickyObserver();
+      // Update sticky title
+      const m = modules[apState.moduleId];
+      if (m) {
+        const t = document.getElementById('as-title');
+        if (t) t.textContent = m.title;
+      }
+    } else {
+      videoWrap.style.display = 'block';
+      audioWrap.style.display = 'none';
+      btnV?.classList.add('active'); btnA?.classList.remove('active');
+    }
+    _updateApUI();
+  }
+
+  function apTogglePlay() {
+    const audio = document.getElementById('module-audio');
+    if (!audio || !audio.src) return;
+    audio.paused ? audio.play() : audio.pause();
+  }
+
+  function apSeek(val) {
+    const audio = document.getElementById('module-audio');
+    if (audio && audio.duration) {
+      audio.currentTime = (val / 100) * audio.duration;
+    }
+  }
+
+  function apStickySeek(val) { apSeek(val); }
+
+  function apSetSpeed(speed) {
+    const audio = document.getElementById('module-audio');
+    if (audio) audio.playbackRate = speed;
+    document.querySelectorAll('.ap-speed-btn').forEach(b => {
+      b.classList.toggle('active', parseFloat(b.dataset.speed) === speed);
+    });
+  }
+
+  function apStopAndHideSticky() {
+    const audio = document.getElementById('module-audio');
+    if (audio) { audio.pause(); audio.currentTime = 0; }
+    document.getElementById('audio-sticky')?.classList.remove('visible');
+    _updateApUI();
+  }
+
+  function _initStickyObserver() {
+    // Disconnect any previous observer
+    if (apState.stickyObserver) { apState.stickyObserver.disconnect(); apState.stickyObserver = null; }
+
+    const wrap = document.getElementById('ap-audio-wrap');
+    const sticky = document.getElementById('audio-sticky');
+    if (!wrap || !sticky || !window.IntersectionObserver) return;
+
+    apState.stickyObserver = new IntersectionObserver(entries => {
+      const audio = document.getElementById('module-audio');
+      const hidden = !entries[0].isIntersecting;
+      const shouldShow = hidden && audio && !audio.paused && apState.mode === 'audio';
+      sticky.classList.toggle('visible', shouldShow);
+    }, { threshold: 0, rootMargin: '0px' });
+
+    apState.stickyObserver.observe(wrap);
+
+    // Also update sticky when play/pause changes
+    const audio = document.getElementById('module-audio');
+    if (audio) {
+      const toggle = () => {
+        if (apState.stickyObserver) {
+          // Re-evaluate: if paused, always hide; if playing + hidden, show
+          const wrap2 = document.getElementById('ap-audio-wrap');
+          if (!wrap2) return;
+          const rect = wrap2.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight && rect.bottom > 0;
+          sticky.classList.toggle('visible', !audio.paused && !inView && apState.mode === 'audio');
+        }
+      };
+      audio.addEventListener('play',  toggle);
+      audio.addEventListener('pause', () => sticky.classList.remove('visible'));
+    }
+  }
+
+  // Stop audio when navigating away from module detail
+  function _stopAudioIfChangingModule(newId) {
+    if (apState.moduleId !== null && apState.moduleId !== newId) {
+      const audio = document.getElementById('module-audio');
+      if (audio) { audio.pause(); audio.currentTime = 0; audio.src = ''; }
+      document.getElementById('audio-sticky')?.classList.remove('visible');
+    }
+    apState.moduleId = newId;
+    apState.mode = 'video';
   }
 
   // ─── DAILY CHECK-IN ───
@@ -9610,6 +9975,23 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
     <button class="checkin-skip" onclick="skipCheckin()">Skip for today</button>
   </div>
+</div>
+
+<!-- Global audio element — lives outside module content so it survives scrolling -->
+<audio id="module-audio" preload="metadata"></audio>
+
+<!-- Sticky mini audio player -->
+<div id="audio-sticky">
+  <span class="as-icon">🎧</span>
+  <div class="as-info">
+    <div class="as-title" id="as-title">Focus Music</div>
+    <div class="as-sub" id="as-sub">Playing</div>
+  </div>
+  <input type="range" class="as-seek" id="as-seek" min="0" max="100" value="0"
+    oninput="apStickySeek(this.value)">
+  <span class="as-time" id="as-time">0:00</span>
+  <button class="as-play" id="as-play-btn" onclick="apTogglePlay()">▶</button>
+  <button class="as-close" onclick="apStopAndHideSticky()" title="Close">✕</button>
 </div>
 
 <!-- Full-screen Post Composer -->
