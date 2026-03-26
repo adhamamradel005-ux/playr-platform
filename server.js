@@ -81,6 +81,14 @@ db.exec(`
     earned_at  DATETIME DEFAULT (datetime('now')),
     UNIQUE(user_id, badge_id)
   );
+
+  CREATE TABLE IF NOT EXISTS users (
+    user_id    TEXT PRIMARY KEY,
+    email      TEXT,
+    role       TEXT NOT NULL DEFAULT 'player',
+    created_at DATETIME DEFAULT (datetime('now')),
+    updated_at DATETIME DEFAULT (datetime('now'))
+  );
 `);
 
 // ── Journal ──
@@ -283,6 +291,26 @@ app.get('/api/checkin', (req, res) => {
     "SELECT date, energy, mood, focus FROM daily_checkins WHERE user_id = ? AND date >= date('now', '-30 days') ORDER BY date ASC"
   ).all(user_id);
   res.json(rows);
+});
+
+// ── Users ──
+
+app.post('/api/users', (req, res) => {
+  const { user_id, email, role } = req.body;
+  if (!user_id || !role) return res.status(400).json({ error: 'user_id and role required' });
+  db.prepare(`
+    INSERT INTO users (user_id, email, role)
+    VALUES (?, ?, ?)
+    ON CONFLICT(user_id) DO UPDATE SET
+      email = COALESCE(?, email), role = ?, updated_at = datetime('now')
+  `).run(user_id, email || null, role, email || null, role);
+  res.json({ success: true });
+});
+
+app.get('/api/users/:userId', (req, res) => {
+  const row = db.prepare('SELECT user_id, email, role, created_at FROM users WHERE user_id = ?').get(req.params.userId);
+  if (!row) return res.status(404).json({ error: 'not found' });
+  res.json(row);
 });
 
 // ── Badges ──

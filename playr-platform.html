@@ -1339,6 +1339,83 @@
     }
 
     /* ══════════════════════════════════════════
+       SIGN-UP SCREEN
+    ══════════════════════════════════════════ */
+    #screen-signup {
+      flex-direction: column; align-items: center; justify-content: center;
+      background: var(--bg); min-height: 100vh; padding: 40px 24px;
+      position: relative; overflow: hidden;
+    }
+    .signup-wrap {
+      width: 100%; max-width: 480px; z-index: 2;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .su-logo {
+      font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
+      color: var(--text); margin-bottom: 10px;
+    }
+    .su-logo span { color: var(--purple-lt); }
+    .su-role-pill {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px; border-radius: 99px; font-size: 13px; font-weight: 700;
+      border: 1.5px solid; margin-bottom: 28px;
+    }
+    .su-heading {
+      text-align: center; margin-bottom: 32px; width: 100%;
+    }
+    .su-heading h1 {
+      font-size: clamp(24px, 4vw, 36px); font-weight: 900; letter-spacing: -1px;
+      margin-bottom: 8px; color: var(--text);
+    }
+    .su-heading p { color: var(--muted); font-size: 15px; }
+    .su-form { width: 100%; display: flex; flex-direction: column; gap: 16px; }
+    .su-field { display: flex; flex-direction: column; gap: 6px; }
+    .su-field label { font-size: 13px; font-weight: 600; color: var(--text); }
+    .su-field input {
+      padding: 13px 16px; border-radius: 12px;
+      border: 1.5px solid var(--border); background: var(--bg-card);
+      color: var(--text); font-size: 15px; font-family: inherit;
+      outline: none; transition: border-color 0.18s;
+    }
+    .su-field input:focus { border-color: var(--purple); }
+    .su-field input.error { border-color: var(--red); }
+    .su-pw-hint { font-size: 11px; color: var(--muted); }
+    .su-error { font-size: 12px; color: var(--red); font-weight: 600; min-height: 16px; }
+    .su-submit {
+      width: 100%; padding: 14px; border-radius: 12px; border: none;
+      background: var(--purple); color: #fff; font-size: 16px; font-weight: 800;
+      cursor: pointer; font-family: inherit; margin-top: 4px;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .su-submit:hover:not(:disabled) { opacity: 0.9; transform: translateY(-1px); }
+    .su-submit:disabled { opacity: 0.55; cursor: default; }
+    .su-divider {
+      text-align: center; font-size: 12px; color: var(--muted); margin-top: 4px;
+    }
+    .su-back {
+      margin-top: 20px; font-size: 13px; color: var(--muted);
+      cursor: pointer; background: none; border: none; font-family: inherit;
+      transition: color 0.15s;
+    }
+    .su-back:hover { color: var(--purple-lt); }
+    /* Role-adapted dashboard action banner */
+    .role-action-banner {
+      max-width: 680px; margin: 0 auto 4px; width: 100%;
+      border-radius: 14px; padding: 16px 20px;
+      display: flex; align-items: center; gap: 14px;
+      border: 1px solid;
+    }
+    .rab-icon { font-size: 24px; flex-shrink: 0; }
+    .rab-text { flex: 1; min-width: 0; }
+    .rab-headline { font-size: 14px; font-weight: 800; margin-bottom: 2px; }
+    .rab-sub { font-size: 12px; opacity: 0.75; }
+    .rab-btn {
+      padding: 8px 16px; border-radius: 8px; border: none;
+      font-size: 12px; font-weight: 800; cursor: pointer; font-family: inherit;
+      white-space: nowrap; flex-shrink: 0; color: #000;
+    }
+
+    /* ══════════════════════════════════════════
        NETWORK FEED SCREEN
     ══════════════════════════════════════════ */
     #screen-network {
@@ -4640,6 +4717,39 @@
 </div>
 
 <!-- ══════════════════════════════════════════
+     SCREEN 1.75: CREATE ACCOUNT
+══════════════════════════════════════════ -->
+<div id="screen-signup" class="screen">
+  <div class="entry-bg-orb orb1"></div>
+  <div class="entry-bg-orb orb2"></div>
+  <div class="signup-wrap">
+    <div class="su-logo">Pl<span>a</span>yr</div>
+    <div class="su-role-pill" id="su-role-pill">🏃 Player</div>
+    <div class="su-heading">
+      <h1>Create your account</h1>
+      <p>Join the professional ecosystem for athletes, scouts, coaches and clubs.</p>
+    </div>
+    <form class="su-form" onsubmit="createAccount(event)" novalidate autocomplete="on">
+      <div class="su-field">
+        <label for="su-email">Email address</label>
+        <input type="email" id="su-email" name="email" placeholder="you@email.com"
+          autocomplete="email" inputmode="email">
+      </div>
+      <div class="su-field">
+        <label for="su-password">Password</label>
+        <input type="password" id="su-password" name="password"
+          placeholder="At least 6 characters" autocomplete="new-password">
+        <div class="su-pw-hint">Minimum 6 characters — stored securely</div>
+      </div>
+      <div class="su-error" id="su-error"></div>
+      <button type="submit" class="su-submit" id="su-submit">Create Account →</button>
+      <div class="su-divider">By continuing you agree to Playr's Terms &amp; Privacy Policy</div>
+    </form>
+    <button class="su-back" onclick="showRoleScreen()">← Change role</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
      SCREEN 2: ELITE ATHLETE FRAMEWORK PLATFORM
 ══════════════════════════════════════════ -->
 <div id="screen-eaf" class="screen">
@@ -5026,6 +5136,9 @@
         <button class="network-search-filter" data-filter="club" onclick="setNetworkSearchFilter('club',this)">Clubs</button>
       </div>
     </div>
+
+    <!-- ── ROLE ACTION BANNER ── -->
+    <div id="role-action-banner" style="display:none"></div>
 
     <!-- ── STREAK BANNER ── -->
     <div class="streak-banner" id="network-streak-banner">
@@ -7053,10 +7166,23 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   // ─── ROLE DATA ───
+  // ─── ACCOUNT HELPERS ───
+  function _getAccount() {
+    try { return JSON.parse(localStorage.getItem('playr_account') || 'null'); } catch { return null; }
+  }
+  function _saveAccount(obj) {
+    localStorage.setItem('playr_account', JSON.stringify(obj));
+    localStorage.setItem('playr_role', obj.role);
+  }
+
   const ROLE_META = {
     player: {
       badge: '<span class="role-badge role-player">⚽ Player</span>',
+      pillLabel: '🏃 Player', pillColor: '#00FF87', pillBg: 'rgba(0,255,135,0.12)', pillBorder: 'rgba(0,255,135,0.35)',
       meta: 'Open to opportunities',
+      defaultFilter: 'all',
+      searchDefault: 'scout',
+      banner: { icon:'🔍', headline:'47 scouts active this week', sub:'Get your profile in front of the right people.', btnLabel:'Get Discovered', btnColor:'#00FF87', bg:'rgba(0,255,135,0.07)', border:'rgba(0,255,135,0.2)', action: "showMyNetwork()" },
       suggestionsTitle: 'Scouts & Clubs looking for talent',
       suggestions: [
         { id: 'lisa_chen',      initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen',          badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Premier League Affiliated',  mutual: '8 mutual connections' },
@@ -7068,7 +7194,11 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     },
     scout: {
       badge: '<span class="role-badge role-scout">🔍 Scout</span>',
+      pillLabel: '🔍 Scout', pillColor: '#f59e0b', pillBg: 'rgba(245,158,11,0.12)', pillBorder: 'rgba(245,158,11,0.35)',
       meta: 'Scouting for talent',
+      defaultFilter: 'highlights',
+      searchDefault: 'player',
+      banner: { icon:'⚽', headline:'312 new players joined this week', sub:'Browse talent by position, age, and nationality.', btnLabel:'Browse Talent', btnColor:'#f59e0b', bg:'rgba(245,158,11,0.07)', border:'rgba(245,158,11,0.2)', action: "showMyNetwork()" },
       suggestionsTitle: 'Players on your radar',
       suggestions: [
         { id: 'kai_mensah',    initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Kai Mensah',    badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · FC Velocity',             mutual: '5 mutual connections' },
@@ -7080,7 +7210,11 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     },
     coach: {
       badge: '<span class="role-badge role-coach">🎯 Coach</span>',
+      pillLabel: '📋 Coach', pillColor: '#3b82f6', pillBg: 'rgba(59,130,246,0.12)', pillBorder: 'rgba(59,130,246,0.35)',
       meta: 'UEFA Licensed · Available for roles',
+      defaultFilter: 'training',
+      searchDefault: 'club',
+      banner: { icon:'🏟️', headline:'18 clubs looking for coaches right now', sub:'Share your expertise and find your next role.', btnLabel:'View Opportunities', btnColor:'#3b82f6', bg:'rgba(59,130,246,0.07)', border:'rgba(59,130,246,0.2)', action: "showMyNetwork()" },
       suggestionsTitle: 'Clubs & Players to connect with',
       suggestions: [
         { id: 'fc_velocity',   initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy', badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',   sub: 'Verified Academy Club',     mutual: '4 mutual connections' },
@@ -7092,7 +7226,11 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     },
     club: {
       badge: '<span class="role-badge role-club">🏟️ Club</span>',
+      pillLabel: '🏟️ Club', pillColor: '#a855f7', pillBg: 'rgba(168,85,247,0.12)', pillBorder: 'rgba(168,85,247,0.35)',
       meta: 'Official Club Page · Verified',
+      defaultFilter: 'all',
+      searchDefault: 'player',
+      banner: { icon:'⭐', headline:'Build your squad from the ground up', sub:'Post trials, find scouts, recruit coaches and players.', btnLabel:'Post a Trial', btnColor:'#a855f7', bg:'rgba(168,85,247,0.07)', border:'rgba(168,85,247,0.2)', action: "showMyNetwork()" },
       suggestionsTitle: 'Players & Staff to recruit',
       suggestions: [
         { id: 'james_harrison', initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Senior Scout · Available',        mutual: '10 mutual connections' },
@@ -7106,18 +7244,22 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
   function renderNetworkProfile(role) {
     const meta = ROLE_META[role] || ROLE_META.player;
+
     // Status card
     document.getElementById('network-profile-badge').innerHTML = meta.badge;
     document.getElementById('network-profile-meta').innerHTML = meta.meta;
+
     // Sync composer avatar initials
     const composerAv = document.getElementById('composer-av');
     const av = document.getElementById('network-profile-avatar');
     if (composerAv && av) composerAv.textContent = av.textContent;
-    // Profile screen sidebar (same data)
+
+    // Profile screen sidebar
     if (document.getElementById('ps-badge')) {
       document.getElementById('ps-badge').innerHTML = meta.badge;
       document.getElementById('ps-meta').innerHTML = meta.meta;
     }
+
     // Suggestions
     document.getElementById('suggestions-title').textContent = meta.suggestionsTitle;
     document.getElementById('suggestions-list').innerHTML = meta.suggestions.map(p => `
@@ -7127,32 +7269,132 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
         <div class="profile-tile-sub">${p.sub}</div>
         ${connBtnHtml(p.id || '').replace(/connect-btn/g, 'profile-tile-btn')}
       </div>`).join('');
+
+    // Role action banner
+    const bannerEl = document.getElementById('role-action-banner');
+    if (bannerEl && meta.banner) {
+      const b = meta.banner;
+      bannerEl.style.display = 'block';
+      bannerEl.innerHTML = `
+        <div class="role-action-banner" style="background:${b.bg};border-color:${b.border}">
+          <span class="rab-icon">${b.icon}</span>
+          <div class="rab-text">
+            <div class="rab-headline" style="color:${b.btnColor}">${b.headline}</div>
+            <div class="rab-sub">${b.sub}</div>
+          </div>
+          <button class="rab-btn" style="background:${b.btnColor}" onclick="${b.action}">${b.btnLabel}</button>
+        </div>`;
+    }
+
+    // Default feed filter for this role
+    if (meta.defaultFilter) {
+      const btn = document.querySelector(`.filter-btn[data-filter="${meta.defaultFilter}"]`);
+      if (btn) applyFilter(meta.defaultFilter, btn);
+    }
+
+    // Default network search filter — pre-select the most relevant type
+    if (meta.searchDefault) {
+      const sf = document.querySelector(`.network-search-filter[data-filter="${meta.searchDefault}"]`);
+      if (sf) setNetworkSearchFilter(meta.searchDefault, sf);
+    }
   }
 
   function showNetwork() {
-    const savedRole = localStorage.getItem('playr_role');
-    if (!savedRole) {
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById('screen-role').classList.add('active');
-      document.getElementById('playr-nav').style.display = 'none';
+    const account = _getAccount();
+    const legacyRole = localStorage.getItem('playr_role');
+
+    if (account) {
+      // Returning user with full account — go straight to network
+      _enterNetwork(account.role);
+    } else if (legacyRole) {
+      // Legacy session (role set before signup screen existed) — honour it
+      _enterNetwork(legacyRole);
     } else {
-      renderNetworkProfile(savedRole);
-      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-      document.getElementById('screen-network').classList.add('active');
-      setTopbarSide('network');
-      setActiveNavItem('nav-home');
-      setTimeout(updateNetworkStreak, 100);
+      // Brand-new user — start the onboarding flow
+      showRoleScreen();
     }
     updateFabVisibility();
   }
 
-  function selectRole(role) {
-    localStorage.setItem('playr_role', role);
+  function showRoleScreen() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-role').classList.add('active');
+    document.getElementById('playr-nav').style.display = 'none';
+  }
+
+  function _enterNetwork(role) {
     renderNetworkProfile(role);
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-network').classList.add('active');
+    document.getElementById('playr-nav').style.display = '';
     setTopbarSide('network');
     setActiveNavItem('nav-home');
+    setTimeout(updateNetworkStreak, 100);
+  }
+
+  // ─── PENDING ROLE (set on role screen, used by signup screen) ───
+  let _pendingRole = 'player';
+
+  function selectRole(role) {
+    _pendingRole = role;
+    // Update the signup screen pill to reflect chosen role
+    const meta = ROLE_META[role] || ROLE_META.player;
+    const pill = document.getElementById('su-role-pill');
+    if (pill) {
+      pill.textContent = meta.pillLabel;
+      pill.style.color       = meta.pillColor;
+      pill.style.background  = meta.pillBg;
+      pill.style.borderColor = meta.pillBorder;
+    }
+    // Clear any previous errors and fields
+    const errEl = document.getElementById('su-error');
+    if (errEl) errEl.textContent = '';
+    // Navigate to signup screen
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-signup').classList.add('active');
+    document.getElementById('playr-nav').style.display = 'none';
+  }
+
+  async function createAccount(e) {
+    e.preventDefault();
+    const email = (document.getElementById('su-email')?.value || '').trim();
+    const password = document.getElementById('su-password')?.value || '';
+    const errEl = document.getElementById('su-error');
+    const btn = document.getElementById('su-submit');
+
+    // Validate
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      document.getElementById('su-email').classList.add('error');
+      return;
+    }
+    if (password.length < 6) {
+      errEl.textContent = 'Password must be at least 6 characters.';
+      document.getElementById('su-password').classList.add('error');
+      return;
+    }
+    errEl.textContent = '';
+    document.getElementById('su-email').classList.remove('error');
+    document.getElementById('su-password').classList.remove('error');
+
+    btn.disabled = true;
+    btn.textContent = 'Creating account…';
+
+    const role = _pendingRole || 'player';
+
+    // Persist account locally
+    _saveAccount({ email, role });
+
+    // Persist to server
+    try {
+      await apiPost('/api/users', { user_id: userId, email, role });
+    } catch { /* offline — local save is enough */ }
+
+    btn.disabled = false;
+    btn.textContent = 'Create Account →';
+
+    _enterNetwork(role);
+    updateFabVisibility();
   }
 
   // ─── NETWORK INTERACTIONS ───
