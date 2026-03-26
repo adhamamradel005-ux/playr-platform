@@ -4562,6 +4562,99 @@
   .sl-empty-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
   .sl-empty-sub { font-size: 14px; max-width: 280px; margin: 0 auto; }
 
+  /* ══════════════════════════════════════════
+     TRIAL APPLICATIONS
+  ══════════════════════════════════════════ */
+
+  /* Apply Now button (trial cards + globe popup) */
+  .apply-now-btn { display: inline-flex; align-items: center; gap: 6px; padding: 9px 18px; background: #16a34a; color: #fff; border: none; border-radius: 10px; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.2s; }
+  .apply-now-btn:hover { background: #15803d; }
+  .apply-now-btn.applied { background: rgba(22,163,74,0.15); color: #16a34a; border: 1px solid rgba(22,163,74,0.3); cursor: default; }
+
+  /* Trial cards in feed */
+  .trial-feed-section { padding: 0 16px 24px; }
+  .trial-feed-title { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 12px; }
+  .trial-cards-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px; -webkit-overflow-scrolling: touch; }
+  .trial-cards-scroll::-webkit-scrollbar { height: 4px; }
+  .trial-cards-scroll::-webkit-scrollbar-thumb { background: var(--scrollbar-thumb); border-radius: 4px; }
+  .trial-card-item { flex-shrink: 0; width: 280px; background: var(--bg-card); border: 1px solid rgba(22,163,74,0.2); border-radius: 14px; padding: 16px; cursor: default; }
+  .tc-badge { display: inline-flex; align-items: center; gap: 5px; background: rgba(22,163,74,0.12); color: #16a34a; border-radius: 6px; padding: 3px 8px; font-size: 11px; font-weight: 700; margin-bottom: 10px; }
+  .tc-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; line-height: 1.3; }
+  .tc-club { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .tc-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .tc-pill { font-size: 11px; background: rgba(255,255,255,0.06); color: var(--muted); border-radius: 20px; padding: 3px 8px; }
+
+  /* Apply modal */
+  #apply-modal { position: fixed; inset: 0; z-index: 9000; display: none; align-items: center; justify-content: center; padding: 16px; background: rgba(0,0,0,0.7); backdrop-filter: blur(6px); }
+  #apply-modal.open { display: flex; }
+  .apm-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 20px; width: 100%; max-width: 480px; overflow: hidden; animation: apm-in 0.25s cubic-bezier(0.34,1.56,0.64,1); }
+  @keyframes apm-in { from { opacity:0; transform: scale(0.9) translateY(20px); } to { opacity:1; transform: none; } }
+  .apm-header { padding: 20px 20px 0; display: flex; align-items: flex-start; justify-content: space-between; }
+  .apm-title { font-size: 18px; font-weight: 800; color: var(--text); }
+  .apm-close { background: none; border: none; color: var(--muted); font-size: 20px; cursor: pointer; padding: 0 4px; line-height: 1; }
+  .apm-close:hover { color: var(--text); }
+  .apm-trial-info { margin: 14px 20px; background: rgba(22,163,74,0.08); border: 1px solid rgba(22,163,74,0.2); border-radius: 12px; padding: 12px 14px; }
+  .apm-trial-name { font-size: 14px; font-weight: 700; color: var(--text); }
+  .apm-trial-meta { font-size: 12px; color: #16a34a; margin-top: 3px; }
+  .apm-divider { border: none; border-top: 1px solid var(--border); margin: 0 20px; }
+  .apm-section-label { font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; margin: 14px 20px 8px; }
+  .apm-player-summary { margin: 0 20px; background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 14px; display: flex; gap: 12px; align-items: center; }
+  .apm-avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 15px; color: #000; flex-shrink: 0; }
+  .apm-player-info { flex: 1; min-width: 0; }
+  .apm-player-name { font-weight: 700; font-size: 14px; color: var(--text); }
+  .apm-player-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .apm-player-reel { font-size: 12px; color: var(--purple); margin-top: 3px; word-break: break-all; }
+  .apm-msg-wrap { margin: 14px 20px 0; }
+  .apm-msg { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 13px; padding: 10px 12px; resize: vertical; min-height: 80px; font-family: inherit; line-height: 1.5; transition: border-color 0.2s; }
+  .apm-msg:focus { outline: none; border-color: var(--purple); }
+  .apm-msg::placeholder { color: var(--muted); opacity: 0.7; }
+  .apm-footer { padding: 14px 20px 20px; display: flex; gap: 10px; }
+  .apm-submit { flex: 1; padding: 12px; background: #16a34a; color: #fff; border: none; border-radius: 12px; font-weight: 700; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+  .apm-submit:hover { background: #15803d; }
+  .apm-submit:disabled { background: #166534; opacity: 0.6; cursor: not-allowed; }
+  .apm-cancel { padding: 12px 18px; background: rgba(255,255,255,0.06); color: var(--muted); border: 1px solid var(--border); border-radius: 12px; font-weight: 600; font-size: 13px; cursor: pointer; }
+  .apm-cancel:hover { color: var(--text); }
+
+  /* Application status badge */
+  .app-status { display: inline-flex; align-items: center; gap: 4px; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700; }
+  .app-status.pending  { background: rgba(251,191,36,0.12);  color: #fbbf24; }
+  .app-status.accepted { background: rgba(34,197,94,0.12);   color: #22c55e; }
+  .app-status.declined { background: rgba(255,59,59,0.12);   color: var(--red); }
+  .app-status.saved    { background: rgba(59,130,246,0.12);  color: #3b82f6; }
+
+  /* Club: Application cards */
+  .club-apps-wrap { padding: 0 4px; }
+  .club-apps-trial-group { margin-bottom: 24px; }
+  .club-apps-trial-label { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 10px; }
+  .app-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; }
+  .app-card-top { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .app-card-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 13px; color: #000; flex-shrink: 0; background: linear-gradient(135deg,#00FF87,#00C9A7); }
+  .app-card-info { flex: 1; min-width: 0; }
+  .app-card-name { font-weight: 700; font-size: 14px; color: var(--text); cursor: pointer; }
+  .app-card-name:hover { color: var(--purple); }
+  .app-card-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .app-card-msg { font-size: 13px; color: var(--muted); line-height: 1.5; margin-bottom: 12px; font-style: italic; }
+  .app-card-msg:empty { display: none; }
+  .app-card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .app-action-btn { padding: 7px 14px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; border: 1px solid; transition: all 0.15s; }
+  .app-action-accept { background: rgba(34,197,94,0.1); color: #22c55e; border-color: rgba(34,197,94,0.3); }
+  .app-action-accept:hover { background: rgba(34,197,94,0.2); }
+  .app-action-decline { background: rgba(255,59,59,0.08); color: var(--red); border-color: rgba(255,59,59,0.25); }
+  .app-action-decline:hover { background: rgba(255,59,59,0.15); }
+  .app-action-save { background: rgba(59,130,246,0.08); color: #3b82f6; border-color: rgba(59,130,246,0.25); }
+  .app-action-save:hover { background: rgba(59,130,246,0.15); }
+  .club-apps-empty { text-align: center; padding: 48px 20px; color: var(--muted); }
+
+  /* Player: My Applications section */
+  .my-apps-list { display: flex; flex-direction: column; gap: 10px; }
+  .my-app-card { background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; }
+  .my-app-icon { font-size: 24px; flex-shrink: 0; margin-top: 2px; }
+  .my-app-info { flex: 1; min-width: 0; }
+  .my-app-trial { font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 2px; }
+  .my-app-club { font-size: 12px; color: var(--muted); margin-bottom: 6px; }
+  .my-app-footer { display: flex; align-items: center; gap: 8px; }
+  .my-app-date { font-size: 11px; color: var(--muted); }
+
   /* Shortlist button on player profile */
   .shortlist-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1px solid rgba(0,255,135,0.25); background: rgba(0,255,135,0.08); color: var(--purple); }
   .shortlist-btn:hover { background: rgba(0,255,135,0.15); }
@@ -5647,6 +5740,17 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       </div>
     </div>
 
+    <!-- ─── SECTION 3: CLUB APPLICATIONS TAB (clubs only) ─── -->
+    <div class="prof-section" id="prof-apps-section" style="display:none">
+      <div class="prof-section-label" style="display:flex;align-items:center;justify-content:space-between">
+        <span>Applications</span>
+        <span class="app-status pending" id="prof-apps-count" style="display:none"></span>
+      </div>
+      <div class="club-apps-wrap" id="prof-apps-list">
+        <div class="club-apps-empty">Loading applications…</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -5792,6 +5896,16 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       </div>
     </div>
 
+    <!-- My Applications (players only) -->
+    <div class="mp-section" id="mp-applications-section" style="display:none">
+      <div class="mp-section-head">
+        <span class="mp-section-title">My Applications</span>
+      </div>
+      <div id="mp-applications-list" class="my-apps-list">
+        <div class="mp-empty">No trial applications yet.</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
@@ -5919,6 +6033,8 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
   <!-- ── Feed Scroll Area ── -->
   <div class="cf-scroll" id="cf-scroll">
+    <!-- Trials strip (player role only) -->
+    <div id="cf-trials-strip"></div>
     <div class="cf-feed" id="cf-feed"></div>
   </div>
 
@@ -7381,10 +7497,12 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     setTopbarSide('network');
     setActiveNavItem('nav-home');
     setTimeout(updateNetworkStreak, 100);
-    // Scout-only nav items
+    // Role-specific setup
     const isScout = role === 'scout';
+    const isPlayer = role === 'player';
     document.getElementById('nav-shortlist').style.display = isScout ? '' : 'none';
     if (isScout) loadShortlistIds();
+    if (isPlayer) _loadAppliedTrials();
   }
 
   // ─── PENDING ROLE (set on role screen, used by signup screen) ───
@@ -8131,6 +8249,281 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   let _profPosts = []; // combined posts+highlights for grid
 
   // ══════════════════════════════════════════
+  //  TRIAL APPLICATIONS
+  // ══════════════════════════════════════════
+
+  let _applyingTrial = null;   // { id, title, clubId, clubName, ageGroup, date }
+  let _appliedTrialIds = new Set();  // cache of applied trial IDs for this session
+
+  function _playerId() {
+    return localStorage.getItem('playr_user_id') || ('player_' + (localStorage.getItem('playr_account') ? JSON.parse(localStorage.getItem('playr_account')).email : 'anon'));
+  }
+
+  function _playerSummary() {
+    const d = typeof _mpData === 'function' ? _mpData() : {};
+    const name = d.name || localStorage.getItem('playr_user_id') || 'Player';
+    const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase() || 'P';
+    const position = (d.experience && d.experience[0]) ? d.experience[0].role : 'Player';
+    const location = d.location || '';
+    const clip = (d.clips && d.clips[0]) ? d.clips[0].url : '';
+    return { name, initials, position, location, clip };
+  }
+
+  async function _loadAppliedTrials() {
+    const pid = _playerId();
+    try {
+      const rows = await fetch('/api/trial-applications?player_id=' + encodeURIComponent(pid)).then(r => r.json());
+      if (Array.isArray(rows)) rows.forEach(r => _appliedTrialIds.add(r.trial_id));
+    } catch (e) { /* silent */ }
+  }
+
+  function openApplyModal(trialId, trialTitle, clubId, clubName, ageGroup, date) {
+    const acct = _getAccount();
+    if (!acct || acct.role !== 'player') { showToast('Only players can apply for trials'); return; }
+
+    _applyingTrial = { id: trialId, title: trialTitle, clubId, clubName, ageGroup, date };
+
+    // Fill trial info
+    document.getElementById('apm-trial-name').textContent = trialTitle;
+    document.getElementById('apm-trial-meta').textContent = `${clubName} · ${ageGroup} · ${date}`;
+
+    // Fill player summary
+    const ps = _playerSummary();
+    const avatarEl = document.getElementById('apm-avatar');
+    avatarEl.textContent = ps.initials;
+    avatarEl.style.background = 'linear-gradient(135deg,#00FF87,#00C9A7)';
+    document.getElementById('apm-player-name').textContent = ps.name;
+    document.getElementById('apm-player-meta').textContent = [ps.position, ps.location].filter(Boolean).join(' · ');
+    const reelEl = document.getElementById('apm-player-reel');
+    reelEl.textContent = ps.clip ? ('🎬 ' + ps.clip) : '';
+    reelEl.style.display = ps.clip ? '' : 'none';
+
+    // Reset form
+    document.getElementById('apm-msg').value = '';
+    const submitBtn = document.getElementById('apm-submit-btn');
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Send Application';
+
+    // Check if already applied
+    if (_appliedTrialIds.has(trialId)) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = '✓ Already Applied';
+    }
+
+    document.getElementById('apply-modal').classList.add('open');
+    setTimeout(() => document.getElementById('apm-msg').focus(), 200);
+  }
+
+  function closeApplyModal() {
+    document.getElementById('apply-modal').classList.remove('open');
+    _applyingTrial = null;
+  }
+
+  function applyModalOutsideClick(e) {
+    if (e.target === document.getElementById('apply-modal')) closeApplyModal();
+  }
+
+  async function submitApplication() {
+    if (!_applyingTrial) return;
+    const acct = _getAccount();
+    const pid = _playerId();
+    const ps = _playerSummary();
+    const msg = document.getElementById('apm-msg').value.trim();
+    const submitBtn = document.getElementById('apm-submit-btn');
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('/api/trial-applications', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          player_id:   pid,
+          player_name: ps.name,
+          trial_id:    _applyingTrial.id,
+          trial_title: _applyingTrial.title,
+          club_id:     _applyingTrial.clubId,
+          club_name:   _applyingTrial.clubName,
+          message:     msg
+        })
+      });
+      const data = await res.json();
+      if (data.error === 'already_applied') {
+        _appliedTrialIds.add(_applyingTrial.id);
+        submitBtn.textContent = '✓ Already Applied';
+        return;
+      }
+      _appliedTrialIds.add(_applyingTrial.id);
+      // Notify club (local notification for demo)
+      addNotif('trial_app', `Your application to ${_applyingTrial.title} was sent to ${_applyingTrial.clubName}`, '🏟️');
+      closeApplyModal();
+      showToast('Application sent! ✅');
+      // Refresh button states
+      _refreshApplyButtons();
+    } catch (e) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Application';
+      showToast('Error sending application. Try again.');
+    }
+  }
+
+  function _refreshApplyButtons() {
+    // Update any visible "Apply Now" buttons for already-applied trials
+    _appliedTrialIds.forEach(trialId => {
+      document.querySelectorAll(`[data-trial-id="${trialId}"]`).forEach(btn => {
+        btn.textContent = '✓ Applied';
+        btn.classList.add('applied');
+        btn.disabled = true;
+      });
+    });
+  }
+
+  // ── Trials strip in feed ──
+  function renderTrialsStrip() {
+    const strip = document.getElementById('cf-trials-strip');
+    if (!strip) return;
+    const acct = _getAccount();
+    // Show to players and unregistered (but hide to scouts/coaches/clubs)
+    if (acct && acct.role !== 'player') { strip.innerHTML = ''; return; }
+    strip.innerHTML = `
+      <div class="trial-feed-section">
+        <div class="trial-feed-title">🏟️ Open Trials Near You</div>
+        <div class="trial-cards-scroll" id="trial-cards-scroll">
+          ${MAP_TRIALS.map(t => {
+            const applied = _appliedTrialIds.has(t.id);
+            return `<div class="trial-card-item">
+              <div class="tc-badge"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> ${t.date}</div>
+              <div class="tc-title">${t.title}</div>
+              <div class="tc-club">${t.club}</div>
+              <div class="tc-meta">
+                <span class="tc-pill">👥 ${t.ageGroup}</span>
+                <span class="tc-pill">📍 ${t.location.split(',').pop().trim()}</span>
+              </div>
+              <button class="apply-now-btn${applied ? ' applied' : ''}" data-trial-id="${t.id}"
+                ${applied ? 'disabled' : `onclick="openApplyModal('${t.id}','${t.title.replace(/'/g,"\\'")}','${t.clubId}','${t.club.replace(/'/g,"\\'")}','${t.ageGroup}','${t.date}')"`}>
+                ${applied ? '✓ Applied' : '🏟️ Apply Now'}
+              </button>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+  }
+
+  // ── Club: Applications tab on profile ──
+  async function loadClubApplications(clubId) {
+    const sec = document.getElementById('prof-apps-section');
+    const list = document.getElementById('prof-apps-list');
+    const countEl = document.getElementById('prof-apps-count');
+    if (!sec || !list) return;
+    sec.style.display = '';
+    list.innerHTML = '<div class="club-apps-empty">Loading…</div>';
+    try {
+      const rows = await fetch('/api/trial-applications?club_id=' + encodeURIComponent(clubId)).then(r => r.json());
+      if (!Array.isArray(rows) || rows.length === 0) {
+        list.innerHTML = '<div class="club-apps-empty">No applications yet. Share your trial details to attract players.</div>';
+        return;
+      }
+      // Count pending
+      const pendingCount = rows.filter(r => r.status === 'pending').length;
+      if (countEl && pendingCount > 0) { countEl.textContent = pendingCount + ' new'; countEl.style.display = ''; }
+      // Group by trial
+      const grouped = {};
+      rows.forEach(r => {
+        if (!grouped[r.trial_id]) grouped[r.trial_id] = { title: r.trial_title || r.trial_id, apps: [] };
+        grouped[r.trial_id].apps.push(r);
+      });
+      list.innerHTML = Object.entries(grouped).map(([tid, group]) => `
+        <div class="club-apps-trial-group">
+          <div class="club-apps-trial-label">${group.title}</div>
+          ${group.apps.map(app => {
+            const initials = app.player_name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase() || 'P';
+            const dateStr = new Date(app.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short' });
+            const statusHtml = `<span class="app-status ${app.status}">${app.status.charAt(0).toUpperCase() + app.status.slice(1)}</span>`;
+            const msgHtml = app.message ? `<div class="app-card-msg">"${app.message}"</div>` : '';
+            const profId = app.player_id.startsWith('player_') ? '' : app.player_id; // only show profile link if player_id is a profile key
+            return `<div class="app-card" id="appcard-${app.id}">
+              <div class="app-card-top">
+                <div class="app-card-avatar">${initials}</div>
+                <div class="app-card-info">
+                  <div class="app-card-name" ${profId ? `onclick="showProfile('${profId}')"` : ''}>${app.player_name || 'Player'}</div>
+                  <div class="app-card-meta">Applied ${dateStr} · ${statusHtml}</div>
+                </div>
+              </div>
+              ${msgHtml}
+              <div class="app-card-actions">
+                <button class="app-action-btn app-action-accept" onclick="updateApplicationStatus(${app.id},'accepted',this)">✓ Accept</button>
+                <button class="app-action-btn app-action-save" onclick="updateApplicationStatus(${app.id},'saved',this)">🔖 Save</button>
+                <button class="app-action-btn app-action-decline" onclick="updateApplicationStatus(${app.id},'declined',this)">✕ Decline</button>
+              </div>
+            </div>`;
+          }).join('')}
+        </div>`).join('');
+    } catch (e) {
+      list.innerHTML = '<div class="club-apps-empty">Could not load applications.</div>';
+    }
+  }
+
+  async function updateApplicationStatus(appId, status, btn) {
+    try {
+      await fetch(`/api/trial-applications/${appId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status })
+      });
+      // Update the card's status badge
+      const card = document.getElementById('appcard-' + appId);
+      if (card) {
+        const metaEl = card.querySelector('.app-card-meta');
+        if (metaEl) {
+          const dateText = metaEl.textContent.split('·')[0].trim();
+          metaEl.innerHTML = `${dateText} · <span class="app-status ${status}">${status.charAt(0).toUpperCase() + status.slice(1)}</span>`;
+        }
+        card.querySelector('.app-card-actions').innerHTML =
+          `<span style="font-size:13px;color:var(--muted)">Status updated to <strong style="color:var(--text)">${status}</strong></span>`;
+      }
+      showToast(status.charAt(0).toUpperCase() + status.slice(1) + ' ✓');
+    } catch (e) {
+      showToast('Error updating status');
+    }
+  }
+
+  // ── Player: My Applications on own profile ──
+  async function loadMyApplications() {
+    const sec = document.getElementById('mp-applications-section');
+    const list = document.getElementById('mp-applications-list');
+    const acct = _getAccount();
+    if (!sec || !list || !acct || acct.role !== 'player') return;
+    sec.style.display = '';
+    try {
+      const pid = _playerId();
+      const rows = await fetch('/api/trial-applications?player_id=' + encodeURIComponent(pid)).then(r => r.json());
+      if (!Array.isArray(rows) || rows.length === 0) {
+        list.innerHTML = '<div class="mp-empty">No trial applications yet. Browse Open Trials to apply.</div>';
+        return;
+      }
+      rows.forEach(r => _appliedTrialIds.add(r.trial_id));
+      list.innerHTML = rows.map(app => {
+        const statusMap = { pending:'⏳', accepted:'✅', declined:'❌', saved:'🔖' };
+        const dateStr = new Date(app.created_at).toLocaleDateString('en-GB', { day:'numeric', month:'short', year:'numeric' });
+        return `<div class="my-app-card">
+          <div class="my-app-icon">${statusMap[app.status] || '🏟️'}</div>
+          <div class="my-app-info">
+            <div class="my-app-trial">${app.trial_title || app.trial_id}</div>
+            <div class="my-app-club">${app.club_name || app.club_id}</div>
+            <div class="my-app-footer">
+              <span class="app-status ${app.status}">${app.status.charAt(0).toUpperCase() + app.status.slice(1)}</span>
+              <span class="my-app-date">Applied ${dateStr}</span>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    } catch (e) {
+      list.innerHTML = '<div class="mp-empty">Could not load applications.</div>';
+    }
+  }
+
+  // ══════════════════════════════════════════
   //  SHORTLIST — scout private player tracking
   // ══════════════════════════════════════════
 
@@ -8458,6 +8851,19 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     document.getElementById('screen-profile').scrollTop = 0;
     setTopbarSide('network');
     setActiveNavItem('nav-discover');
+
+    // Club profiles: show Applications tab if viewer is the club owner or club role
+    const profAppsSection = document.getElementById('prof-apps-section');
+    if (profAppsSection) {
+      if (p.role === 'club') {
+        // Always show applications tab on club profiles (in a real app, gate by ownership)
+        loadClubApplications(id);
+      } else {
+        profAppsSection.style.display = 'none';
+        const countEl = document.getElementById('prof-apps-count');
+        if (countEl) countEl.style.display = 'none';
+      }
+    }
   }
 
   function openPostLightbox(i) {
@@ -8803,12 +9209,12 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   ];
 
   const MAP_TRIALS = [
-    { id: 'tr1', lat: 51.45, lng: -0.09, title: 'AFC Brixton Open Trial',          club: 'AFC Brixton',         ageGroup: 'U21',     date: 'April 15, 2026',  location: 'Brixton Rec Ground, London',           apply: 'trials@afcbrixton.com' },
-    { id: 'tr2', lat: 52.49, lng: -1.90, title: 'Birmingham City Foundation Trial', club: 'Birmingham City FC',  ageGroup: 'U18–U23', date: 'April 22, 2026',  location: 'St. Andrews Training Ground',          apply: 'bcfc.com/trials' },
-    { id: 'tr3', lat: 40.40, lng: -3.73, title: 'Atlético de Madrid Open Day',      club: 'Atlético de Madrid B',ageGroup: 'U19–U22', date: 'May 3, 2026',     location: 'Ciudad Deportiva, Madrid',             apply: 'cantera@atletico.es' },
-    { id: 'tr4', lat: 53.46, lng: -2.29, title: 'Salford City FC Trial',            club: 'Salford City FC',     ageGroup: 'U23',     date: 'May 10, 2026',    location: 'Peninsula Stadium, Salford',           apply: 'Apply via Playr' },
-    { id: 'tr5', lat: 48.88, lng:  2.39, title: 'PSG Academy International Day',   club: 'PSG Academy',         ageGroup: 'U17–U20', date: 'April 28, 2026',  location: 'Camp des Loges, Paris',                apply: 'psg.fr/academy' },
-    { id: 'tr6', lat:  5.36, lng: -4.01, title: 'ASEC Mimosas Talent Search',       club: 'ASEC Mimosas',        ageGroup: 'U16–U21', date: 'May 17, 2026',    location: 'Abidjan Sports Complex',               apply: 'talent@asecmimosas.com' },
+    { id: 'tr1', lat: 51.45, lng: -0.09, title: 'AFC Brixton Open Trial',          club: 'AFC Brixton',          clubId: 'afc_brixton',      ageGroup: 'U21',     date: 'April 15, 2026',  location: 'Brixton Rec Ground, London',  apply: 'trials@afcbrixton.com' },
+    { id: 'tr2', lat: 52.49, lng: -1.90, title: 'Birmingham City Foundation Trial', club: 'Birmingham City FC',   clubId: 'birmingham_city',  ageGroup: 'U18–U23', date: 'April 22, 2026',  location: 'St. Andrews Training Ground', apply: 'bcfc.com/trials' },
+    { id: 'tr3', lat: 40.40, lng: -3.73, title: 'Atlético de Madrid Open Day',      club: 'Atlético de Madrid B', clubId: 'atletico_madrid',  ageGroup: 'U19–U22', date: 'May 3, 2026',     location: 'Ciudad Deportiva, Madrid',    apply: 'cantera@atletico.es' },
+    { id: 'tr4', lat: 53.46, lng: -2.29, title: 'FC Velocity Open Trial',           club: 'FC Velocity Academy',  clubId: 'fc_velocity',      ageGroup: 'U18–U21', date: 'May 10, 2026',    location: 'Velocity Training Ground, Manchester', apply: 'Apply via Playr' },
+    { id: 'tr5', lat: 48.88, lng:  2.39, title: 'PSG Academy International Day',    club: 'PSG Academy',          clubId: 'psg_academy',      ageGroup: 'U17–U20', date: 'April 28, 2026',  location: 'Camp des Loges, Paris',       apply: 'psg.fr/academy' },
+    { id: 'tr6', lat:  5.36, lng: -4.01, title: 'ASEC Mimosas Talent Search',       club: 'ASEC Mimosas',         clubId: 'asec_mimosas',     ageGroup: 'U16–U21', date: 'May 17, 2026',    location: 'Abidjan Sports Complex',      apply: 'talent@asecmimosas.com' },
   ];
 
   const MAP_COACHING = [
@@ -9094,6 +9500,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   function renderContentFeed() {
     const feed = document.getElementById('cf-feed');
     if (!feed) return;
+    renderTrialsStrip();
 
     let posts = TRENDING_FEED.slice();
 
@@ -9295,7 +9702,13 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     const icon = typeIcon[pt._type] || '📌';
     let extra = '';
     if (pt._type === 'trial' && pt._trial) {
-      extra = `<div class="gi-detail">📍 ${pt._trial.location}</div><div class="gi-detail">📩 ${pt._trial.apply}</div>`;
+      const t = pt._trial;
+      const acct = _getAccount();
+      const isPlayer = acct && acct.role === 'player';
+      const applyBtn = isPlayer
+        ? `<button class="apply-now-btn" id="globe-apply-${t.id}" onclick="openApplyModal('${t.id}','${t.title.replace(/'/g,"\\'")}','${t.clubId}','${t.club.replace(/'/g,"\\'")}','${t.ageGroup}','${t.date}')">🏟️ Apply Now</button>`
+        : '';
+      extra = `<div class="gi-detail">📍 ${t.location}</div><div class="gi-detail">📅 ${t.date} · ${t.ageGroup}</div>${applyBtn}`;
     } else if (pt._type === 'coaching' && pt._coaching) {
       extra = `<div class="gi-detail">📍 ${pt._coaching.location}</div><div class="gi-detail">${pt._coaching.price}</div>`;
     }
@@ -9602,6 +10015,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     renderMyProfile();
     renderMpPostsGrid();
     updateFabVisibility();
+    loadMyApplications();
   }
 
   function renderMyProfile() {
@@ -10472,6 +10886,40 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     </div>
 
     <button class="checkin-skip" onclick="skipCheckin()">Skip for today</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     APPLY NOW MODAL
+══════════════════════════════════════════ -->
+<div id="apply-modal" onclick="applyModalOutsideClick(event)">
+  <div class="apm-card">
+    <div class="apm-header">
+      <div class="apm-title">Apply for Trial</div>
+      <button class="apm-close" onclick="closeApplyModal()">✕</button>
+    </div>
+    <div class="apm-trial-info">
+      <div class="apm-trial-name" id="apm-trial-name">Trial</div>
+      <div class="apm-trial-meta" id="apm-trial-meta"></div>
+    </div>
+    <hr class="apm-divider">
+    <div class="apm-section-label">Your Profile Summary</div>
+    <div class="apm-player-summary">
+      <div class="apm-avatar" id="apm-avatar">You</div>
+      <div class="apm-player-info">
+        <div class="apm-player-name" id="apm-player-name">Player</div>
+        <div class="apm-player-meta" id="apm-player-meta"></div>
+        <div class="apm-player-reel" id="apm-player-reel"></div>
+      </div>
+    </div>
+    <div class="apm-msg-wrap">
+      <div class="apm-section-label" style="margin:14px 0 8px">Message to Club <span style="font-weight:400;color:var(--muted)">(optional)</span></div>
+      <textarea class="apm-msg" id="apm-msg" placeholder="Tell the club a bit about yourself — your position, standout qualities, availability…" maxlength="400"></textarea>
+    </div>
+    <div class="apm-footer">
+      <button class="apm-cancel" onclick="closeApplyModal()">Cancel</button>
+      <button class="apm-submit" id="apm-submit-btn" onclick="submitApplication()">Send Application</button>
+    </div>
   </div>
 </div>
 

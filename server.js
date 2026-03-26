@@ -90,6 +90,24 @@ db.exec(`
     updated_at DATETIME DEFAULT (datetime('now'))
   );
 
+  CREATE TABLE IF NOT EXISTS trial_applications (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    player_id   TEXT    NOT NULL,
+    player_name TEXT    DEFAULT '',
+    trial_id    TEXT    NOT NULL,
+    trial_title TEXT    DEFAULT '',
+    club_id     TEXT    NOT NULL,
+    club_name   TEXT    DEFAULT '',
+    message     TEXT    DEFAULT '',
+    status      TEXT    NOT NULL DEFAULT 'pending',
+    created_at  DATETIME DEFAULT (datetime('now')),
+    updated_at  DATETIME DEFAULT (datetime('now')),
+    UNIQUE(player_id, trial_id)
+  );
+  CREATE INDEX IF NOT EXISTS idx_tapps_player ON trial_applications(player_id);
+  CREATE INDEX IF NOT EXISTS idx_tapps_club   ON trial_applications(club_id);
+  CREATE INDEX IF NOT EXISTS idx_tapps_trial  ON trial_applications(trial_id);
+
   CREATE TABLE IF NOT EXISTS shortlist (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
     scout_id   TEXT    NOT NULL,
@@ -386,6 +404,55 @@ app.patch('/api/shortlist/notes', (req, res) => {
   db.prepare(
     'UPDATE shortlist SET notes = ? WHERE scout_id = ? AND player_id = ?'
   ).run(notes || '', scout_id, player_id);
+  res.json({ success: true });
+});
+
+// ── Trial Applications ──
+
+app.post('/api/trial-applications', (req, res) => {
+  const { player_id, player_name, trial_id, trial_title, club_id, club_name, message } = req.body;
+  if (!player_id || !trial_id || !club_id) {
+    return res.status(400).json({ error: 'player_id, trial_id, club_id required' });
+  }
+  try {
+    const result = db.prepare(`
+      INSERT INTO trial_applications (player_id, player_name, trial_id, trial_title, club_id, club_name, message)
+      VALUES (?, ?, ?, ?, ?, ?, ?)
+    `).run(player_id, player_name || '', trial_id, trial_title || '', club_id, club_name || '', message || '');
+    res.json({ id: result.lastInsertRowid });
+  } catch (e) {
+    if (e.code === 'SQLITE_CONSTRAINT_UNIQUE') {
+      return res.status(409).json({ error: 'already_applied' });
+    }
+    throw e;
+  }
+});
+
+app.get('/api/trial-applications', (req, res) => {
+  const { player_id, club_id, trial_id } = req.query;
+  if (player_id) {
+    const rows = db.prepare(
+      'SELECT * FROM trial_applications WHERE player_id = ? ORDER BY created_at DESC'
+    ).all(player_id);
+    return res.json(rows);
+  }
+  if (club_id) {
+    let sql = 'SELECT * FROM trial_applications WHERE club_id = ?';
+    const params = [club_id];
+    if (trial_id) { sql += ' AND trial_id = ?'; params.push(trial_id); }
+    sql += ' ORDER BY created_at DESC';
+    return res.json(db.prepare(sql).all(...params));
+  }
+  res.status(400).json({ error: 'player_id or club_id required' });
+});
+
+app.patch('/api/trial-applications/:id', (req, res) => {
+  const { status } = req.body;
+  const allowed = ['pending', 'accepted', 'declined', 'saved'];
+  if (!allowed.includes(status)) return res.status(400).json({ error: 'invalid status' });
+  db.prepare(
+    "UPDATE trial_applications SET status = ?, updated_at = datetime('now') WHERE id = ?"
+  ).run(status, req.params.id);
   res.json({ success: true });
 });
 
