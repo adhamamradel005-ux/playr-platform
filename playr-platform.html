@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Playr — Built for Athletes</title>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/globe.gl@2"></script>
   <!-- Apply saved theme before paint to prevent flash -->
   <script>(function(){document.documentElement.setAttribute('data-theme',localStorage.getItem('playr_theme')||'dark');})();</script>
   <style>
@@ -2153,6 +2152,53 @@
     .map-filter-btn.fnw { border-color: #dc2626; background: rgba(220,38,38,0.1);  color: #dc2626; }
     .map-wrapper { flex: 1; min-height: 0; position: relative; }
     #map-container { width: 100%; height: 100%; }
+
+    /* ── Globe ── */
+    #globe-container { width: 100%; height: 100%; }
+    .globe-filter-bar {
+      position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: center;
+      background: rgba(11,20,30,0.82); backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 40px;
+      padding: 7px 14px; z-index: 10; box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    .globe-filter-bar .map-filter-label { color: rgba(255,255,255,0.5); }
+    .globe-filter-bar .map-filter-btn {
+      background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); color: rgba(255,255,255,0.5);
+    }
+    .gf-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .globe-info {
+      position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%);
+      background: rgba(11,20,30,0.92); backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.12); border-radius: 16px;
+      padding: 18px 22px; min-width: 240px; max-width: 320px;
+      z-index: 10; box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      animation: gi-in 0.25s ease;
+    }
+    @keyframes gi-in { from { opacity:0; transform: translateX(-50%) translateY(12px); } to { opacity:1; transform: translateX(-50%) translateY(0); } }
+    .globe-info-close {
+      position: absolute; top: 10px; right: 12px;
+      background: none; border: none; color: rgba(255,255,255,0.4);
+      font-size: 16px; cursor: pointer; line-height: 1; padding: 2px 6px; border-radius: 4px;
+    }
+    .globe-info-close:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .gi-icon { font-size: 28px; margin-bottom: 6px; }
+    .gi-name { font-size: 15px; font-weight: 700; color: #fff; margin-bottom: 4px; }
+    .gi-sub  { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.5; margin-bottom: 6px; }
+    .gi-detail { font-size: 12px; color: rgba(255,255,255,0.45); margin-bottom: 3px; }
+    .globe-info .map-popup-btn {
+      margin-top: 10px; padding: 8px 18px; border-radius: 8px; border: none;
+      font-size: 13px; font-weight: 700; cursor: pointer; color: #000; display: inline-block;
+    }
+    .globe-hint {
+      position: absolute; bottom: 18px; right: 18px;
+      background: rgba(11,20,30,0.75); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.08); border-radius: 20px;
+      padding: 6px 14px; font-size: 11px; color: rgba(255,255,255,0.45);
+      display: flex; align-items: center; gap: 6px; z-index: 10;
+      pointer-events: none; transition: opacity 1s ease;
+    }
+
     /* Legend */
     .map-legend {
       position: absolute; bottom: 32px; left: 14px;
@@ -5340,55 +5386,54 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 <!-- ══════════════════════════════════════════
      SCREEN: MAP — ATHLETE DISCOVERY MAP
 ══════════════════════════════════════════ -->
-<div id="screen-mapview" class="screen">
+<div id="screen-mapview" class="screen" style="position:relative;overflow:hidden;background:#020b14;">
 
-  <!-- Filter toggles -->
-  <div class="map-filter-bar">
+  <!-- Globe canvas fills the entire screen -->
+  <div id="globe-container" style="position:absolute;inset:0;z-index:0;"></div>
+
+  <!-- Filter bar floats above the globe -->
+  <div class="globe-filter-bar" id="globe-filter-bar">
     <span class="map-filter-label">Show:</span>
-    <button class="map-filter-btn fp"  id="mf-players"  onclick="toggleMapFilter('players',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#00FF87"></span> Players
+    <button class="map-filter-btn fp  active" id="mf-players"  onclick="toggleGlobeFilter('players',this)">
+      <span class="gf-dot" style="background:#00FF87"></span> Players
     </button>
-    <button class="map-filter-btn fs"  id="mf-scouts"   onclick="toggleMapFilter('scouts',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#1d4ed8"></span> Scouts
+    <button class="map-filter-btn fs  active" id="mf-scouts"   onclick="toggleGlobeFilter('scouts',this)">
+      <span class="gf-dot" style="background:#3b82f6"></span> Scouts
     </button>
-    <button class="map-filter-btn ftr" id="mf-trials"   onclick="toggleMapFilter('trials',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#16a34a"></span> Trials
+    <button class="map-filter-btn ftr active" id="mf-trials"   onclick="toggleGlobeFilter('trials',this)">
+      <span class="gf-dot" style="background:#16a34a"></span> Trials
     </button>
-    <button class="map-filter-btn fco" id="mf-coaching" onclick="toggleMapFilter('coaching',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#d97706"></span> Coaching
+    <button class="map-filter-btn fco active" id="mf-coaching" onclick="toggleGlobeFilter('coaching',this)">
+      <span class="gf-dot" style="background:#d97706"></span> Coaching
     </button>
-    <button class="map-filter-btn fnw" id="mf-news"     onclick="toggleMapFilter('news',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#dc2626"></span> News
+    <button class="map-filter-btn fnw active" id="mf-news"     onclick="toggleGlobeFilter('news',this)">
+      <span class="gf-dot" style="background:#dc2626"></span> News
     </button>
   </div>
 
-  <!-- Map + overlays -->
-  <div class="map-wrapper">
-    <div id="map-container"></div>
+  <!-- Click info panel — slides in from the right -->
+  <div id="globe-info" class="globe-info" style="display:none">
+    <button class="globe-info-close" onclick="closeGlobeInfo()">✕</button>
+    <div id="globe-info-body"></div>
+  </div>
 
-    <!-- Colour legend -->
-    <div class="map-legend">
-      <div class="map-legend-title">Legend</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#00FF87"></div> Players</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#1d4ed8"></div> Scouts</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#16a34a"></div> Trials</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#d97706"></div> Coaching</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#dc2626"></div> News</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#fff;border:2px solid #00FF87"></div> You</div>
-    </div>
-
-    <!-- Location permission dialog -->
-    <div id="loc-dialog-overlay" class="loc-dialog-overlay" style="display:none">
-      <div class="loc-dialog-card">
-        <div class="loc-icon">📍</div>
-        <h3>Show your location?</h3>
-        <p>We'll place you on the map at city level — never your exact address. Helps scouts find players near them.</p>
-        <div class="loc-dialog-btns">
-          <button class="loc-allow-btn" onclick="requestUserLocation()">Allow</button>
-          <button class="loc-deny-btn"  onclick="denyLocation()">Not now</button>
-        </div>
+  <!-- Location permission dialog -->
+  <div id="loc-dialog-overlay" class="loc-dialog-overlay" style="display:none">
+    <div class="loc-dialog-card">
+      <div class="loc-icon">📍</div>
+      <h3>Show your location?</h3>
+      <p>We'll place you on the globe at city level — never your exact address. Helps scouts find players near them.</p>
+      <div class="loc-dialog-btns">
+        <button class="loc-allow-btn" onclick="requestUserLocation()">Allow</button>
+        <button class="loc-deny-btn"  onclick="denyLocation()">Not now</button>
       </div>
     </div>
+  </div>
+
+  <!-- Hint -->
+  <div class="globe-hint" id="globe-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="13" height="13"><path d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+    Drag to rotate · Scroll to zoom · Click to explore
   </div>
 
 </div>
@@ -7190,9 +7235,8 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
   // ── Map Page ──
 
-  let leafletMap = null;
-  const mapLayerGroups = { players: [], scouts: [], trials: [], coaching: [], news: [] };
-  const mapFilterState  = { players: true, scouts: true, trials: true, coaching: true, news: true };
+  let globeInstance = null;
+  const globeFilterState = { players: true, scouts: true, trials: true, coaching: true, news: true };
 
   // ─── Simulated geographic data ───
 
@@ -7491,7 +7535,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     document.getElementById('screen-mapview').classList.add('active');
     setActiveNavItem('nav-mapview');
     updateFabVisibility();
-    setTimeout(initLeafletMap, 50);
+    setTimeout(initGlobe, 50);
   }
 
   function setCfTab(tab, btn) {
@@ -7650,140 +7694,142 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     if (isFollowing && typeof connectUser === 'function') connectUser(id);
   }
 
-  function initLeafletMap() {
-    if (typeof L === 'undefined') return;
-    if (leafletMap) { leafletMap.invalidateSize(); return; }
-    leafletMap = L.map('map-container').setView([48, 10], 4);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 18
-    }).addTo(leafletMap);
-    renderMapMarkers();
-    checkLocationPermission();
-  }
-
-  function renderMapMarkers() {
-    // Clear old layers
-    Object.keys(mapLayerGroups).forEach(type => {
-      mapLayerGroups[type].forEach(m => leafletMap.removeLayer(m));
-      mapLayerGroups[type] = [];
-    });
-
+  function _buildGlobePoints() {
+    const pts = [];
     const connections = loadConnections();
-
-    // Players
-    MAP_PLAYERS.forEach(p => {
-      const isConn = connections.connected.includes(p.id);
-      let marker;
-
-      if (isConn) {
+    if (globeFilterState.players) {
+      MAP_PLAYERS.forEach(p => {
+        const isConn = connections.connected.includes(p.id);
         const prof = PROFILES[p.id] || {};
-        const icon = L.divIcon({
-          className: 'map-player-icon',
-          html: `<div style="width:30px;height:30px;border-radius:50%;background:${prof.grad||'#00FF87'};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:11px;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.35)">${prof.initials||'?'}</div>`,
-          iconSize: [30, 30], iconAnchor: [15, 15], popupAnchor: [0, -15]
+        pts.push({
+          lat: p.lat, lng: p.lng, _type: 'player',
+          color: isConn ? (prof.grad || '#00FF87') : '#00FF87',
+          radius: isConn ? 0.5 : 0.35,
+          _label: isConn ? p.name : 'Anonymous Player',
+          _sub: p.position + (isConn ? ` · Age ${p.age}` : ' · Connect to reveal'),
+          _id: p.id, _connected: isConn, _prof: prof
         });
-        marker = L.marker([p.lat, p.lng], { icon });
-        marker.bindPopup(_playerPopup(p, true), { maxWidth: 250 });
-      } else {
-        marker = L.circleMarker([p.lat, p.lng], { radius: 9, fillColor: '#00FF87', color: '#5b21b6', weight: 2, opacity: 1, fillOpacity: 0.85 });
-        marker.bindPopup(_playerPopup(p, false), { maxWidth: 250 });
-      }
-      if (mapFilterState.players) marker.addTo(leafletMap);
-      mapLayerGroups.players.push(marker);
-    });
-
-    // Scouts
-    MAP_SCOUTS.forEach(s => {
-      const m = L.circleMarker([s.lat, s.lng], { radius: 9, fillColor: '#1d4ed8', color: '#1e3a8a', weight: 2, opacity: 1, fillOpacity: 0.88 });
-      m.bindPopup(`
-        <div class="map-popup">
-          <div class="map-popup-av" style="background:#1d4ed8;font-size:16px">🔍</div>
-          <div class="map-popup-body">
-            <div class="map-popup-name">${s.name}</div>
-            <div class="map-popup-sub">${s.club}${s.verified ? '<br>✅ Verified Scout' : ''}</div>
-            <button class="map-popup-btn" style="background:#1d4ed8" onclick="showProfile('${s.id}')">View Profile</button>
-          </div>
-        </div>`, { maxWidth: 260 });
-      if (mapFilterState.scouts) m.addTo(leafletMap);
-      mapLayerGroups.scouts.push(m);
-    });
-
-    // Trials
-    MAP_TRIALS.forEach(t => {
-      const m = L.circleMarker([t.lat, t.lng], { radius: 10, fillColor: '#16a34a', color: '#14532d', weight: 2, opacity: 1, fillOpacity: 0.88 });
-      m.bindPopup(`
-        <div class="map-popup">
-          <div class="map-popup-icon">🏟️</div>
-          <div class="map-popup-body">
-            <div class="map-popup-name">${t.title}</div>
-            <div class="map-popup-sub"><b>${t.club}</b> · ${t.ageGroup}<br>📅 ${t.date}<br>📍 ${t.location}<br>📩 ${t.apply}</div>
-            <button class="map-popup-btn" style="background:#16a34a">Apply Now</button>
-          </div>
-        </div>`, { maxWidth: 290 });
-      if (mapFilterState.trials) m.addTo(leafletMap);
-      mapLayerGroups.trials.push(m);
-    });
-
-    // Coaching
-    MAP_COACHING.forEach(c => {
-      const m = L.circleMarker([c.lat, c.lng], { radius: 10, fillColor: '#d97706', color: '#92400e', weight: 2, opacity: 1, fillOpacity: 0.88 });
-      m.bindPopup(`
-        <div class="map-popup">
-          <div class="map-popup-icon">📋</div>
-          <div class="map-popup-body">
-            <div class="map-popup-name">${c.title}</div>
-            <div class="map-popup-sub">${c.coach}<br>📅 ${c.date}<br>📍 ${c.location}<br>${c.spots} spots · ${c.price}</div>
-            <button class="map-popup-btn" style="background:#d97706">Sign Up</button>
-          </div>
-        </div>`, { maxWidth: 290 });
-      if (mapFilterState.coaching) m.addTo(leafletMap);
-      mapLayerGroups.coaching.push(m);
-    });
-
-    // News
-    MAP_NEWS.forEach(n => {
-      const m = L.circleMarker([n.lat, n.lng], { radius: 8, fillColor: '#dc2626', color: '#7f1d1d', weight: 2, opacity: 1, fillOpacity: 0.88 });
-      m.bindPopup(`
-        <div class="map-popup">
-          <div class="map-popup-icon">📰</div>
-          <div class="map-popup-body">
-            <div class="map-popup-name">${n.title}</div>
-            <div class="map-popup-sub">${n.source} · ${n.time}<br>${n.detail}</div>
-          </div>
-        </div>`, { maxWidth: 290 });
-      if (mapFilterState.news) m.addTo(leafletMap);
-      mapLayerGroups.news.push(m);
-    });
-  }
-
-  function _playerPopup(p, isConnected) {
-    const prof = PROFILES[p.id] || {};
-    if (isConnected) {
-      return `<div class="map-popup">
-        <div class="map-popup-av" style="background:${prof.grad||'#00FF87'}">${prof.initials||'?'}</div>
-        <div class="map-popup-body">
-          <div class="map-popup-name">${p.name}</div>
-          <div class="map-popup-sub">${p.position} · Age ${p.age}</div>
-          <button class="map-popup-btn" style="background:#00FF87" onclick="showProfile('${p.id}')">View Profile</button>
-        </div>
-      </div>`;
+      });
     }
-    return `<div class="map-popup">
-      <div class="map-popup-av" style="background:#9ca3af">?</div>
-      <div class="map-popup-body">
-        <div class="map-popup-name">Anonymous Player</div>
-        <div class="map-popup-sub">${p.position} · Near this area<br>Connect to reveal their profile</div>
-      </div>
-    </div>`;
+    if (globeFilterState.scouts) {
+      MAP_SCOUTS.forEach(s => pts.push({
+        lat: s.lat, lng: s.lng, _type: 'scout', color: '#3b82f6', radius: 0.42,
+        _label: s.name, _sub: s.club + (s.verified ? ' · ✅ Verified' : ''), _id: s.id
+      }));
+    }
+    if (globeFilterState.trials) {
+      MAP_TRIALS.forEach(t => pts.push({
+        lat: t.lat, lng: t.lng, _type: 'trial', color: '#16a34a', radius: 0.48,
+        _label: t.title, _sub: `${t.club} · ${t.ageGroup} · ${t.date}`, _trial: t
+      }));
+    }
+    if (globeFilterState.coaching) {
+      MAP_COACHING.forEach(c => pts.push({
+        lat: c.lat, lng: c.lng, _type: 'coaching', color: '#f59e0b', radius: 0.45,
+        _label: c.title, _sub: `${c.coach} · ${c.date} · ${c.spots} spots`, _coaching: c
+      }));
+    }
+    if (globeFilterState.news) {
+      MAP_NEWS.forEach(n => pts.push({
+        lat: n.lat, lng: n.lng, _type: 'news', color: '#ef4444', radius: 0.38,
+        _label: n.title, _sub: `${n.source} · ${n.time}`
+      }));
+    }
+    // user location ring
+    const ulat = parseFloat(localStorage.getItem('playr_user_lat'));
+    const ulng = parseFloat(localStorage.getItem('playr_user_lng'));
+    if (!isNaN(ulat) && !isNaN(ulng)) {
+      const role = localStorage.getItem('playr_role') || 'player';
+      const uc = { scout: '#3b82f6', coach: '#f59e0b', club: '#16a34a' }[role] || '#00FF87';
+      pts.push({ lat: ulat, lng: ulng, _type: 'user', color: uc, radius: 0.6, _label: 'You', _sub: 'Your location · city level precision' });
+    }
+    return pts;
   }
 
-  function toggleMapFilter(type, btn) {
-    if (!leafletMap) return;
-    mapFilterState[type] = !mapFilterState[type];
+  function handleGlobeClick(pt) {
+    if (!pt) return;
+    if (globeInstance) {
+      globeInstance.pointOfView({ lat: pt.lat, lng: pt.lng, altitude: 0.8 }, 800);
+      globeInstance.controls().autoRotate = false;
+    }
+    const typeIcon = { player: '⚽', scout: '🔍', trial: '🏟️', coaching: '📋', news: '📰', user: '📍' };
+    const icon = typeIcon[pt._type] || '📌';
+    let extra = '';
+    if (pt._type === 'trial' && pt._trial) {
+      extra = `<div class="gi-detail">📍 ${pt._trial.location}</div><div class="gi-detail">📩 ${pt._trial.apply}</div>`;
+    } else if (pt._type === 'coaching' && pt._coaching) {
+      extra = `<div class="gi-detail">📍 ${pt._coaching.location}</div><div class="gi-detail">${pt._coaching.price}</div>`;
+    }
+    const btnHtml = pt._type === 'player' && pt._id
+      ? `<button class="map-popup-btn" style="background:#00FF87;color:#000" onclick="showProfile('${pt._id}')">View Profile</button>`
+      : pt._type === 'scout' && pt._id
+      ? `<button class="map-popup-btn" style="background:#3b82f6" onclick="showProfile('${pt._id}')">View Profile</button>`
+      : '';
+    document.getElementById('globe-info-body').innerHTML = `
+      <div class="gi-icon">${icon}</div>
+      <div class="gi-name">${pt._label}</div>
+      <div class="gi-sub">${pt._sub}</div>
+      ${extra}
+      ${btnHtml}
+    `;
+    document.getElementById('globe-info').style.display = 'block';
+  }
+
+  function closeGlobeInfo() {
+    document.getElementById('globe-info').style.display = 'none';
+    if (globeInstance) globeInstance.controls().autoRotate = true;
+  }
+
+  function initGlobe() {
+    if (typeof Globe === 'undefined') return;
+    const container = document.getElementById('globe-container');
+    if (!container) return;
+    if (globeInstance) {
+      globeInstance.pointsData(_buildGlobePoints());
+      return;
+    }
+    globeInstance = Globe()(container)
+      .globeImageUrl('https://unpkg.com/three-globe/example/img/earth-night.jpg')
+      .bumpImageUrl('https://unpkg.com/three-globe/example/img/earth-topology.png')
+      .backgroundImageUrl('https://unpkg.com/three-globe/example/img/night-sky.png')
+      .showAtmosphere(true)
+      .atmosphereColor('#00884d')
+      .atmosphereAltitude(0.15)
+      .pointsData(_buildGlobePoints())
+      .pointLat('lat').pointLng('lng')
+      .pointColor('color').pointRadius('radius')
+      .pointAltitude(0.02)
+      .pointResolution(12)
+      .onPointClick(handleGlobeClick)
+      .onPointHover(pt => { container.style.cursor = pt ? 'pointer' : 'default'; });
+
+    const controls = globeInstance.controls();
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 0.5;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.minDistance = 101;
+    controls.maxDistance = 800;
+    globeInstance.pointOfView({ lat: 48, lng: 10, altitude: 2.5 });
+
+    // Resize handler
+    const ro = new ResizeObserver(() => {
+      if (globeInstance) globeInstance.width(container.offsetWidth).height(container.offsetHeight);
+    });
+    ro.observe(container);
+
+    checkLocationPermission();
+    setTimeout(() => {
+      const hint = document.getElementById('globe-hint');
+      if (hint) hint.style.opacity = '0';
+    }, 4000);
+  }
+
+  function toggleGlobeFilter(type, btn) {
+    globeFilterState[type] = !globeFilterState[type];
     const activeClass = { players: 'fp', scouts: 'fs', trials: 'ftr', coaching: 'fco', news: 'fnw' }[type];
-    btn.classList.toggle(activeClass, mapFilterState[type]);
-    mapLayerGroups[type].forEach(m => mapFilterState[type] ? m.addTo(leafletMap) : leafletMap.removeLayer(m));
+    btn.classList.toggle(activeClass, globeFilterState[type]);
+    if (globeInstance) globeInstance.pointsData(_buildGlobePoints());
   }
 
   // ─── Location permission ───
@@ -7801,14 +7847,15 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     localStorage.setItem('playr_location_asked', '1');
     if (!navigator.geolocation) return;
     navigator.geolocation.getCurrentPosition(pos => {
-      // Round to ~11 km precision — city level, not exact
       const lat = Math.round(pos.coords.latitude  * 10) / 10;
       const lng = Math.round(pos.coords.longitude * 10) / 10;
       localStorage.setItem('playr_user_lat', lat);
       localStorage.setItem('playr_user_lng', lng);
       apiPost('/api/location', { user_id: userId, lat, lng }).catch(() => {});
-      _addUserPin(lat, lng);
-      leafletMap.setView([lat, lng], 10);
+      if (globeInstance) {
+        globeInstance.pointsData(_buildGlobePoints());
+        globeInstance.pointOfView({ lat, lng, altitude: 1.2 }, 1200);
+      }
     }, () => {/* denied */});
   }
 
@@ -7820,27 +7867,10 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   function _loadSavedPin() {
     const lat = parseFloat(localStorage.getItem('playr_user_lat'));
     const lng = parseFloat(localStorage.getItem('playr_user_lng'));
-    if (!isNaN(lat) && !isNaN(lng)) { _addUserPin(lat, lng); leafletMap.setView([lat, lng], 9); }
-  }
-
-  function _addUserPin(lat, lng) {
-    const role = localStorage.getItem('playr_role') || 'player';
-    const name = document.getElementById('network-profile-name')?.textContent || 'You';
-    const initials = name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase() || 'ME';
-    const color = { scout: '#1d4ed8', coach: '#d97706', club: '#16a34a' }[role] || '#00FF87';
-    const icon = L.divIcon({
-      className: 'map-player-icon',
-      html: `<div style="width:34px;height:34px;border-radius:50%;background:${color};display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:12px;border:3px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,0.4)">${initials}</div>`,
-      iconSize: [34, 34], iconAnchor: [17, 17], popupAnchor: [0, -17]
-    });
-    L.marker([lat, lng], { icon }).addTo(leafletMap)
-      .bindPopup(`<div class="map-popup">
-        <div class="map-popup-av" style="background:${color}">${initials}</div>
-        <div class="map-popup-body">
-          <div class="map-popup-name">${name} (You)</div>
-          <div class="map-popup-sub">Your location · city level precision</div>
-        </div>
-      </div>`, { maxWidth: 240 });
+    if (!isNaN(lat) && !isNaN(lng) && globeInstance) {
+      globeInstance.pointsData(_buildGlobePoints());
+      globeInstance.pointOfView({ lat, lng, altitude: 1.5 }, 1000);
+    }
   }
 
   // ── Notifications ──
