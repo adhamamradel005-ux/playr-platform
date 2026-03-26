@@ -3377,6 +3377,678 @@
   .mp-stat-remove:hover { color: #ef4444; }
   .stat-box { position: relative; }
 
+  /* ══════════════════════════════════════
+     EXPLORE VIEW
+  ══════════════════════════════════════ */
+  .explore-search-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 12px;
+    padding: 0 14px;
+    margin-bottom: 16px;
+    transition: border-color 0.15s;
+  }
+  .explore-search-wrap:focus-within { border-color: #3a3a3a; }
+  .explore-search-icon { flex-shrink: 0; color: #555; margin-right: 10px; }
+  .explore-search-input {
+    flex: 1; background: none; border: none; outline: none;
+    color: #fff; font-size: 14px; font-family: 'Inter', sans-serif; padding: 13px 0;
+  }
+  .explore-search-input::placeholder { color: #555; }
+  .explore-search-clear {
+    background: none; border: none; color: #555; font-size: 16px;
+    cursor: pointer; padding: 4px; line-height: 1; transition: color 0.15s;
+  }
+  .explore-search-clear:hover { color: #aaa; }
+
+  .explore-chips {
+    display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto;
+    padding-bottom: 4px; margin-bottom: 16px;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  .explore-chips::-webkit-scrollbar { display: none; }
+  .explore-chip {
+    flex-shrink: 0; background: #1a1a1a; border: 1px solid #2a2a2a;
+    color: #888; border-radius: 20px; padding: 6px 15px;
+    font-size: 12px; font-weight: 600; font-family: 'Inter', sans-serif;
+    cursor: pointer; white-space: nowrap; transition: all 0.15s;
+  }
+  .explore-chip.active { background: #00FF87; border-color: #00FF87; color: #000; }
+  .explore-chip:hover:not(.active) { border-color: #3a3a3a; color: #ccc; }
+
+  .explore-count { font-size: 12px; color: #555; font-weight: 600; margin-bottom: 14px; padding-left: 2px; }
+
+  .explore-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding-bottom: 40px;
+  }
+  @media (min-width: 900px) { .explore-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 480px) { .explore-grid { grid-template-columns: 1fr; gap: 12px; } }
+
+  .explore-card {
+    background: #1a1a1a; border: 1px solid #222; border-radius: 12px;
+    overflow: hidden; cursor: pointer; transition: all 0.18s;
+  }
+  .explore-card:hover { border-color: #3a3a3a; transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+
+  .explore-thumb-wrap {
+    position: relative; aspect-ratio: 16 / 9;
+    background: #111; overflow: hidden;
+  }
+  .explore-thumb { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s; }
+  .explore-card:hover .explore-thumb { transform: scale(1.04); }
+  .explore-thumb-fallback { position: absolute; inset: 0; align-items: center; justify-content: center; }
+  .explore-dur {
+    position: absolute; bottom: 8px; right: 8px;
+    background: rgba(0,0,0,0.82); color: #fff;
+    font-size: 11px; font-weight: 700; padding: 2px 6px;
+    border-radius: 4px; font-family: 'Inter', sans-serif; letter-spacing: 0.3px;
+  }
+  .explore-play-overlay {
+    position: absolute; inset: 0; display: flex;
+    align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.3); opacity: 0; transition: opacity 0.18s;
+  }
+  .explore-card:hover .explore-play-overlay { opacity: 1; }
+
+  .explore-card-body { padding: 10px 12px 12px; }
+  .explore-card-title {
+    font-size: 13px; font-weight: 600; color: #e8e8e8;
+    line-height: 1.4; margin-bottom: 6px;
+    display: -webkit-box; -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .explore-card-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+  .explore-channel { font-size: 11px; color: #666; font-weight: 600; }
+  .explore-views   { font-size: 11px; color: #444; }
+  .explore-cat-pill {
+    display: inline-block; background: rgba(0,255,135,0.08); color: #00a86b;
+    border-radius: 10px; font-size: 10px; font-weight: 700;
+    padding: 2px 8px; letter-spacing: 0.3px; font-family: 'Inter', sans-serif;
+  }
+  .explore-empty {
+    flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px; padding: 60px 0; color: #555; font-size: 14px; text-align: center;
+  }
+
+  /* Explore Modal */
+  .explore-modal-inner {
+    width: min(820px, 96vw); background: #141414; border-radius: 16px;
+    overflow: hidden; display: flex; flex-direction: column; max-height: 90vh;
+  }
+  .explore-modal-header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    gap: 12px; padding: 16px 18px 12px; border-bottom: 1px solid #222;
+  }
+  .explore-modal-title { font-size: 15px; font-weight: 700; color: #fff; line-height: 1.4; flex: 1; }
+  .explore-modal-close {
+    background: #1f1f1f; border: 1px solid #333; color: #aaa; border-radius: 50%;
+    width: 30px; height: 30px; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; flex-shrink: 0; font-size: 13px; transition: all 0.15s;
+  }
+  .explore-modal-close:hover { background: #2a2a2a; color: #fff; }
+  .explore-modal-player { aspect-ratio: 16 / 9; background: #000; width: 100%; }
+  .explore-modal-player iframe { width: 100%; height: 100%; border: none; display: block; }
+  .explore-modal-meta {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 18px; font-size: 12px; flex-wrap: wrap;
+  }
+
+  /* ══════════════════════════════════════
+     EMOJI REACTIONS
+  ══════════════════════════════════════ */
+  .post-reactions {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #242424;
+    margin: 0 -16px;
+    padding: 2px 6px;
+    flex-wrap: wrap;
+    gap: 2px;
+  }
+  .emoji-reactions {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+  }
+  .emoji-react-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 20px;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Inter', sans-serif;
+  }
+  .emoji-react-btn:hover {
+    background: rgba(255,255,255,0.05);
+    border-color: #333;
+  }
+  .emoji-react-btn.emoji-reacted {
+    background: rgba(255,255,255,0.07);
+    border-color: #3a3a3a;
+  }
+  .emoji-react-icon { font-size: 16px; line-height: 1; }
+  .emoji-react-count {
+    font-size: 12px;
+    font-weight: 700;
+    color: #888;
+    font-family: 'Inter', sans-serif;
+    min-width: 10px;
+  }
+  .emoji-react-btn.emoji-reacted .emoji-react-count { color: #ccc; }
+  .post-react-repost { margin-left: auto; }
+
+  /* ══════════════════════════════════════
+     STREAK BANNER
+  ══════════════════════════════════════ */
+  .streak-banner {
+    max-width: 680px;
+    margin: 0 auto 4px;
+    width: 100%;
+    padding: 0 0 4px;
+  }
+  .streak-banner-inner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: linear-gradient(135deg, rgba(255,90,0,0.12) 0%, rgba(255,184,0,0.08) 100%);
+    border: 1px solid rgba(255,120,0,0.2);
+    border-radius: 14px;
+    padding: 14px 18px;
+  }
+  .streak-flame { font-size: 32px; flex-shrink: 0; }
+  .streak-banner-info { flex-shrink: 0; }
+  .streak-banner-num {
+    font-family: 'Barlow Condensed', 'Inter', sans-serif;
+    font-size: 36px;
+    font-weight: 900;
+    color: #ff7a00;
+    line-height: 1;
+  }
+  .streak-banner-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #ff9a40;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .streak-banner-right { flex: 1; min-width: 0; }
+  .streak-banner-msg {
+    font-size: 12px;
+    color: #aaa;
+    line-height: 1.5;
+    margin-bottom: 6px;
+  }
+  .streak-banner-cta {
+    background: none;
+    border: 1px solid rgba(255,120,0,0.35);
+    color: #ff9a40;
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .streak-banner-cta:hover { background: rgba(255,120,0,0.12); }
+
+  /* ══════════════════════════════════════
+     TRENDING IN SPORT
+  ══════════════════════════════════════ */
+  .trending-section { padding: 0 0 4px; }
+  .trending-section-head {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: #666;
+    padding: 12px 4px 8px;
+  }
+  .trending-sport-scroll {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .trending-sport-scroll::-webkit-scrollbar { display: none; }
+  .trending-sport-card {
+    flex-shrink: 0;
+    width: 108px;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 14px;
+    padding: 14px 12px 12px;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.18s;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .trending-sport-card:hover { border-color: #3a3a3a; background: #202020; transform: translateY(-2px); }
+  .ts-emoji { font-size: 24px; margin-bottom: 2px; }
+  .ts-label { font-size: 13px; font-weight: 700; color: #fff; font-family: 'Barlow Condensed', sans-serif; text-transform: uppercase; letter-spacing: 0.3px; }
+  .ts-count { font-size: 11px; color: #555; font-weight: 600; }
+  .ts-hot { font-size: 10px; font-weight: 700; color: #ff7a00; margin-top: 2px; }
+
+  /* Accent borders per sport */
+  .ts-football   { border-top: 2px solid #00FF87; }
+  .ts-basketball { border-top: 2px solid #f97316; }
+  .ts-athletics  { border-top: 2px solid #facc15; }
+  .ts-rugby      { border-top: 2px solid #16a34a; }
+  .ts-tennis     { border-top: 2px solid #06b6d4; }
+
+  /* ══════════════════════════════════════
+     NOTIFICATION BELL NAV ITEM
+  ══════════════════════════════════════ */
+  #nav-notifs.active .pn-icon-wrap svg { stroke: #00FF87; }
+
+  /* ══════════════════════════════════════
+     CONTENT FEED (For You screen)
+  ══════════════════════════════════════ */
+
+  /* Top bar */
+  .cf-topbar {
+    flex-shrink: 0;
+    background: rgba(15,15,15,0.98);
+    border-bottom: 1px solid #1e1e1e;
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .cf-tabs {
+    display: flex;
+    border-bottom: 1px solid #1a1a1a;
+    padding: 0 16px;
+  }
+  .cf-tab {
+    background: none;
+    border: none;
+    color: #666;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 14px 20px 12px;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.15s;
+  }
+  .cf-tab.active {
+    color: #fff;
+  }
+  .cf-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #00FF87;
+    border-radius: 2px 2px 0 0;
+  }
+
+  /* Sport pills */
+  .cf-sport-pills {
+    display: flex;
+    gap: 8px;
+    padding: 10px 16px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .cf-sport-pills::-webkit-scrollbar { display: none; }
+  .cf-sport-pill {
+    flex-shrink: 0;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    color: #888;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .cf-sport-pill.active {
+    background: #00FF87;
+    border-color: #00FF87;
+    color: #000;
+  }
+
+  /* Scroll container */
+  .cf-scroll {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: #2a2a2a transparent;
+  }
+  .cf-scroll::-webkit-scrollbar { width: 4px; }
+  .cf-scroll::-webkit-scrollbar-track { background: transparent; }
+  .cf-scroll::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 2px; }
+
+  /* Feed column */
+  .cf-feed {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 16px 0 100px;
+  }
+
+  /* Card */
+  .cf-card {
+    margin: 0 0 20px;
+    background: #1a1a1a;
+    border: 1px solid #222;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: border-color 0.15s;
+  }
+  .cf-card:hover { border-color: #2e2e2e; }
+  @media (min-width: 769px) {
+    .cf-feed { padding: 20px 20px 100px; }
+    .cf-card { border-radius: 14px; }
+  }
+
+  /* Media zones */
+  .cf-media {
+    width: 100%;
+    display: block;
+    overflow: hidden;
+    position: relative;
+  }
+  .cf-media-video {
+    aspect-ratio: 16 / 9;
+    background: #111;
+  }
+  .cf-media-video iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    display: block;
+  }
+  .cf-play-label {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    padding: 3px 8px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+  }
+  .cf-media-photos {
+    display: grid;
+    aspect-ratio: 4 / 3;
+    gap: 2px;
+  }
+  .cf-photo-cell {
+    overflow: hidden;
+    position: relative;
+    background: #111;
+  }
+  .cf-photo-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .cf-photo-more {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.62);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 22px;
+    font-weight: 800;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  .cf-media-update {
+    padding: 32px 24px;
+    min-height: 160px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cf-update-text {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.45;
+    text-align: center;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.55);
+    max-width: 420px;
+  }
+
+  /* Body */
+  .cf-body {
+    padding: 14px 16px 8px;
+  }
+  .cf-author-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+  .cf-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 12px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .cf-author-info { flex: 1; min-width: 0; }
+  .cf-author-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+  .cf-verified { flex-shrink: 0; }
+  .cf-author-meta {
+    font-size: 11px;
+    color: #666;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .cf-trending-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    background: rgba(0,255,135,0.1);
+    color: #00FF87;
+    border: 1px solid rgba(0,255,135,0.2);
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 7px;
+    letter-spacing: 0.3px;
+  }
+  .cf-follow-btn {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid #3a3a3a;
+    color: #ccc;
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'Inter', sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cf-follow-btn.cf-following {
+    background: rgba(0,255,135,0.1);
+    border-color: rgba(0,255,135,0.35);
+    color: #00FF87;
+  }
+  .cf-caption {
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1.55;
+    margin-bottom: 8px;
+  }
+  .cf-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .cf-tag {
+    font-size: 11px;
+    font-weight: 600;
+    color: #00a86b;
+    cursor: pointer;
+  }
+
+  /* Reactions bar */
+  .cf-reactions {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #232323;
+    padding: 4px 8px;
+    gap: 2px;
+  }
+  .cf-react-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    color: #777;
+    font-size: 12px;
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    padding: 7px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .cf-react-btn:hover { background: #222; color: #ccc; }
+  .cf-react-btn.cf-liked { color: #f43f5e; }
+  .cf-react-btn.cf-liked svg { stroke: #f43f5e; }
+  .cf-react-btn.cf-shared { color: #00FF87; }
+  .cf-views {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: #555;
+    margin-left: auto;
+    padding: 0 6px;
+  }
+  .cf-ts {
+    font-size: 11px;
+    color: #444;
+    padding: 0 6px;
+    white-space: nowrap;
+  }
+
+  /* Comments */
+  .cf-comments-wrap {
+    border-top: 1px solid #1e1e1e;
+    padding: 12px 16px;
+  }
+  .cf-comments-list {
+    max-height: 160px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .cf-comment-item {
+    font-size: 12px;
+    color: #bbb;
+    line-height: 1.5;
+  }
+  .cf-comment-author {
+    font-weight: 700;
+    color: #fff;
+    margin-right: 4px;
+  }
+  .cf-comment-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .cf-comment-av {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 800;
+    color: #000;
+  }
+  .cf-comment-input {
+    flex: 1;
+    background: #111;
+    border: 1px solid #2a2a2a;
+    border-radius: 20px;
+    color: #fff;
+    font-size: 12px;
+    font-family: 'Inter', sans-serif;
+    padding: 7px 14px;
+    outline: none;
+  }
+  .cf-comment-input:focus { border-color: #3a3a3a; }
+  .cf-comment-input::placeholder { color: #555; }
+
+  /* Empty states */
+  .cf-empty {
+    text-align: center;
+    padding: 80px 40px;
+    color: #555;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .cf-empty-icon { font-size: 40px; }
+  .cf-empty-msg { font-size: 14px; line-height: 1.6; max-width: 260px; }
+
   </style>
 </head>
 <body>
@@ -3407,11 +4079,11 @@
       <span class="pn-label">Discover</span>
     </button>
 
-    <button class="pn-item" id="nav-map" onclick="showMap()" data-tooltip="Map">
+    <button class="pn-item" id="nav-map" onclick="showFeed()" data-tooltip="Feed">
       <span class="pn-icon-wrap">
-        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
       </span>
-      <span class="pn-label">Map</span>
+      <span class="pn-label">Feed</span>
     </button>
 
     <button class="pn-item" id="nav-messaging" onclick="toggleChat()" data-tooltip="Messages">
@@ -3422,10 +4094,17 @@
       <span class="pn-label">Messages</span>
     </button>
 
+    <button class="pn-item notif-bell-wrap" id="nav-notifs" onclick="toggleNotifDropdown()" data-tooltip="Notifications">
+      <span class="pn-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <span class="pn-badge" id="nav-badge-notifs" style="display:none">0</span>
+      </span>
+      <span class="pn-label">Alerts</span>
+    </button>
+
     <button class="pn-item" id="nav-profile" onclick="showMyProfile()" data-tooltip="Profile">
       <span class="pn-icon-wrap">
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-        <span class="pn-badge" id="nav-badge-notifs" style="display:none">0</span>
       </span>
       <span class="pn-label">Profile</span>
     </button>
@@ -3589,6 +4268,11 @@
     </div>
 
     <div class="sidebar-section-label">Discover</div>
+    <div class="nav-item" onclick="showView('explore', this)">
+      <span class="nav-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span> Explore
+    </div>
     <div class="nav-item" onclick="showView('elites', this)">
       <span class="nav-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -3769,6 +4453,43 @@
       </div>
 
       <!-- ── ELITE STORIES VIEW ── -->
+      <!-- ── EXPLORE VIEW ── -->
+      <div id="view-explore" class="view">
+
+        <!-- Search -->
+        <div class="explore-search-wrap">
+          <svg class="explore-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="explore-search-input" id="explore-search" type="search" placeholder='Search "resilience", "Ronaldo", "pressure"…' oninput="filterExplore(this.value)" autocomplete="off">
+          <button class="explore-search-clear" id="explore-search-clear" onclick="clearExploreSearch()" style="display:none">✕</button>
+        </div>
+
+        <!-- Filter chips -->
+        <div class="explore-chips" id="explore-chips">
+          <button class="explore-chip active" data-cat="all"             onclick="setExploreCat('all',this)">All</button>
+          <button class="explore-chip"        data-cat="psychology"      onclick="setExploreCat('psychology',this)">Psychology</button>
+          <button class="explore-chip"        data-cat="elitestories"    onclick="setExploreCat('elitestories',this)">Elite Stories</button>
+          <button class="explore-chip"        data-cat="motivation"      onclick="setExploreCat('motivation',this)">Motivation</button>
+          <button class="explore-chip"        data-cat="tactics"         onclick="setExploreCat('tactics',this)">Tactics &amp; IQ</button>
+          <button class="explore-chip"        data-cat="injury"          onclick="setExploreCat('injury',this)">Injury &amp; Recovery</button>
+          <button class="explore-chip"        data-cat="womensfootball"  onclick="setExploreCat('womensfootball',this)">Women's Football</button>
+          <button class="explore-chip"        data-cat="documentary"     onclick="setExploreCat('documentary',this)">Documentaries</button>
+        </div>
+
+        <!-- Results count -->
+        <div class="explore-count" id="explore-count"></div>
+
+        <!-- Video grid -->
+        <div class="explore-grid" id="explore-grid"></div>
+
+        <!-- Empty state -->
+        <div class="explore-empty" id="explore-empty" style="display:none">
+          <div style="font-size:36px">🎬</div>
+          <div>No videos match your search.</div>
+          <button class="explore-chip active" onclick="clearExploreSearch()" style="margin-top:8px">Clear search</button>
+        </div>
+
+      </div>
+
       <div id="view-elites" class="view">
         <div class="section-title" style="font-size:20px;font-weight:800;margin-bottom:6px">Elite Stories</div>
         <p style="color:var(--muted);font-size:14px;margin-bottom:28px">Real accounts of how elite athletes built their minds — not just their bodies.</p>
@@ -3873,6 +4594,21 @@
       </div>
     </div>
 
+    <!-- ── STREAK BANNER ── -->
+    <div class="streak-banner" id="network-streak-banner">
+      <div class="streak-banner-inner">
+        <div class="streak-flame">🔥</div>
+        <div class="streak-banner-info">
+          <div class="streak-banner-num" id="network-streak-num">—</div>
+          <div class="streak-banner-label">Day Streak</div>
+        </div>
+        <div class="streak-banner-right">
+          <div class="streak-banner-msg" id="network-streak-msg">Keep logging to build your streak</div>
+          <button class="streak-banner-cta" onclick="switchToFramework()">Log today →</button>
+        </div>
+      </div>
+    </div>
+
     <!-- ── PEOPLE STRIP ── -->
     <div class="people-strip-wrap">
       <div class="people-strip-header">
@@ -3880,6 +4616,46 @@
         <span class="people-strip-see-all" onclick="showMyNetwork()">See all</span>
       </div>
       <div class="people-strip" id="suggestions-list"></div>
+    </div>
+
+    <!-- ── TRENDING IN SPORT ── -->
+    <div class="trending-section" style="max-width:680px;margin:0 auto;width:100%">
+      <div class="trending-section-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+        Trending in Sport
+      </div>
+      <div class="trending-sport-scroll">
+        <button class="trending-sport-card ts-football"   onclick="showFeedFiltered('football')">
+          <div class="ts-emoji">⚽</div>
+          <div class="ts-label">Football</div>
+          <div class="ts-count">2.4K posts</div>
+          <div class="ts-hot">🔥 Hot</div>
+        </button>
+        <button class="trending-sport-card ts-basketball" onclick="showFeedFiltered('basketball')">
+          <div class="ts-emoji">🏀</div>
+          <div class="ts-label">Basketball</div>
+          <div class="ts-count">1.1K posts</div>
+          <div class="ts-hot"></div>
+        </button>
+        <button class="trending-sport-card ts-athletics"  onclick="showFeedFiltered('athletics')">
+          <div class="ts-emoji">🏃</div>
+          <div class="ts-label">Athletics</div>
+          <div class="ts-count">847 posts</div>
+          <div class="ts-hot"></div>
+        </button>
+        <button class="trending-sport-card ts-rugby"      onclick="showFeedFiltered('rugby')">
+          <div class="ts-emoji">🏉</div>
+          <div class="ts-label">Rugby</div>
+          <div class="ts-count">392 posts</div>
+          <div class="ts-hot"></div>
+        </button>
+        <button class="trending-sport-card ts-tennis"     onclick="showFeedFiltered('tennis')">
+          <div class="ts-emoji">🎾</div>
+          <div class="ts-label">Tennis</div>
+          <div class="ts-count">218 posts</div>
+          <div class="ts-hot"></div>
+        </button>
+      </div>
     </div>
 
     <!-- ── POST COMPOSER ── -->
@@ -3946,15 +4722,16 @@ Strikers train in the dark. The lights come on match day. Every rep, every sprin
 
 <span class="post-tag">#PreSeason #StrikerLife #Grind #FCVelocity</span></div>
           <div class="post-reactions">
-            <button class="post-react-btn" onclick="feedLike(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              <span>247</span>
-            </button>
+            <div class="emoji-reactions">
+              <button class="emoji-react-btn" onclick="feedReact(this,'🔥')" data-emoji="🔥"><span class="emoji-react-icon">🔥</span><span class="emoji-react-count">183</span></button>
+              <button class="emoji-react-btn" onclick="feedReact(this,'💪')" data-emoji="💪"><span class="emoji-react-icon">💪</span><span class="emoji-react-count">64</span></button>
+              <button class="emoji-react-btn" onclick="feedReact(this,'❤️')" data-emoji="❤️"><span class="emoji-react-icon">❤️</span><span class="emoji-react-count">0</span></button>
+            </div>
             <button class="post-react-btn" onclick="feedComment(this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
               <span>38</span>
             </button>
-            <button class="post-react-btn" onclick="feedRepost(this)">
+            <button class="post-react-btn post-react-repost" onclick="feedRepost(this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
               <span>12</span>
             </button>
@@ -4008,15 +4785,16 @@ To everyone who told me to be realistic — this is me being realistic. Every ma
 
 <span class="post-tag">#MatchDay #Striker #Senegal #Goals</span></div>
           <div class="post-reactions">
-            <button class="post-react-btn" onclick="feedLike(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              <span>634</span>
-            </button>
+            <div class="emoji-reactions">
+              <button class="emoji-react-btn" onclick="feedReact(this,'🔥')" data-emoji="🔥"><span class="emoji-react-icon">🔥</span><span class="emoji-react-count">412</span></button>
+              <button class="emoji-react-btn" onclick="feedReact(this,'❤️')" data-emoji="❤️"><span class="emoji-react-icon">❤️</span><span class="emoji-react-count">222</span></button>
+              <button class="emoji-react-btn" onclick="feedReact(this,'👏')" data-emoji="👏"><span class="emoji-react-icon">👏</span><span class="emoji-react-count">0</span></button>
+            </div>
             <button class="post-react-btn" onclick="feedComment(this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
               <span>91</span>
             </button>
-            <button class="post-react-btn" onclick="feedRepost(this)">
+            <button class="post-react-btn post-react-repost" onclick="feedRepost(this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
               <span>47</span>
             </button>
@@ -4067,15 +4845,16 @@ CM, 22, open to trials in England or Germany. Everything in the reel. DMs open.
 
 <span class="post-tag">#Highlights #CentralMidfielder #FreeAgent #Football</span></div>
           <div class="post-reactions">
-            <button class="post-react-btn" onclick="feedLike(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              <span>156</span>
-            </button>
+            <div class="emoji-reactions">
+              <button class="emoji-react-btn" onclick="feedReact(this,'🔥')" data-emoji="🔥"><span class="emoji-react-icon">🔥</span><span class="emoji-react-count">89</span></button>
+              <button class="emoji-react-btn" onclick="feedReact(this,'💪')" data-emoji="💪"><span class="emoji-react-icon">💪</span><span class="emoji-react-count">67</span></button>
+              <button class="emoji-react-btn" onclick="feedReact(this,'😮')" data-emoji="😮"><span class="emoji-react-icon">😮</span><span class="emoji-react-count">0</span></button>
+            </div>
             <button class="post-react-btn" onclick="feedComment(this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
               <span>43</span>
             </button>
-            <button class="post-react-btn" onclick="feedRepost(this)">
+            <button class="post-react-btn post-react-repost" onclick="feedRepost(this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
               <span>28</span>
             </button>
@@ -4122,15 +4901,16 @@ The shift in focus quality was immediate. Try it.
 
 <span class="post-tag">#SportsPsychology #MentalPerformance #EliteAthlete #Coaching</span></div>
           <div class="post-reactions">
-            <button class="post-react-btn" onclick="feedLike(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              <span>891</span>
-            </button>
+            <div class="emoji-reactions">
+              <button class="emoji-react-btn" onclick="feedReact(this,'💪')" data-emoji="💪"><span class="emoji-react-icon">💪</span><span class="emoji-react-count">634</span></button>
+              <button class="emoji-react-btn" onclick="feedReact(this,'🔥')" data-emoji="🔥"><span class="emoji-react-icon">🔥</span><span class="emoji-react-count">257</span></button>
+              <button class="emoji-react-btn" onclick="feedReact(this,'❤️')" data-emoji="❤️"><span class="emoji-react-icon">❤️</span><span class="emoji-react-count">0</span></button>
+            </div>
             <button class="post-react-btn" onclick="feedComment(this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
               <span>204</span>
             </button>
-            <button class="post-react-btn" onclick="feedRepost(this)">
+            <button class="post-react-btn post-react-repost" onclick="feedRepost(this)">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
               <span>145</span>
             </button>
@@ -4521,55 +5301,28 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 <!-- ══════════════════════════════════════════
      SCREEN: MAP — ATHLETE DISCOVERY MAP
 ══════════════════════════════════════════ -->
-<div id="screen-map" class="screen">
+<div id="screen-map" class="screen" style="flex-direction:column;align-items:stretch;overflow:hidden;background:#0f0f0f;padding:0;">
 
-  <!-- Filter toggles -->
-  <div class="map-filter-bar">
-    <span class="map-filter-label">Show:</span>
-    <button class="map-filter-btn fp"  id="mf-players"  onclick="toggleMapFilter('players',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#00FF87"></span> Players
-    </button>
-    <button class="map-filter-btn fs"  id="mf-scouts"   onclick="toggleMapFilter('scouts',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#1d4ed8"></span> Scouts
-    </button>
-    <button class="map-filter-btn ftr" id="mf-trials"   onclick="toggleMapFilter('trials',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#16a34a"></span> Trials
-    </button>
-    <button class="map-filter-btn fco" id="mf-coaching" onclick="toggleMapFilter('coaching',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#d97706"></span> Coaching
-    </button>
-    <button class="map-filter-btn fnw" id="mf-news"     onclick="toggleMapFilter('news',this)">
-      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#dc2626"></span> News
-    </button>
+  <!-- ── Feed Top Bar ── -->
+  <div class="cf-topbar">
+    <div class="cf-tabs">
+      <button class="cf-tab active" id="cf-tab-foryou" onclick="setCfTab('foryou',this)">For You</button>
+      <button class="cf-tab" id="cf-tab-following" onclick="setCfTab('following',this)">Following</button>
+    </div>
+    <div class="cf-sport-pills" id="cf-sport-pills">
+      <button class="cf-sport-pill active" data-sport="all"        onclick="setCfSport('all',this)">All</button>
+      <button class="cf-sport-pill"        data-sport="football"   onclick="setCfSport('football',this)">Football</button>
+      <button class="cf-sport-pill"        data-sport="basketball" onclick="setCfSport('basketball',this)">Basketball</button>
+      <button class="cf-sport-pill"        data-sport="athletics"  onclick="setCfSport('athletics',this)">Athletics</button>
+      <button class="cf-sport-pill"        data-sport="rugby"      onclick="setCfSport('rugby',this)">Rugby</button>
+      <button class="cf-sport-pill"        data-sport="tennis"     onclick="setCfSport('tennis',this)">Tennis</button>
+      <button class="cf-sport-pill"        data-sport="swimming"   onclick="setCfSport('swimming',this)">Swimming</button>
+    </div>
   </div>
 
-  <!-- Map + overlays -->
-  <div class="map-wrapper">
-    <div id="map-container"></div>
-
-    <!-- Colour legend -->
-    <div class="map-legend">
-      <div class="map-legend-title">Legend</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#00FF87"></div> Players</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#1d4ed8"></div> Scouts</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#16a34a"></div> Trials</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#d97706"></div> Coaching</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#dc2626"></div> News</div>
-      <div class="map-legend-item"><div class="map-legend-dot" style="background:#fff;border:2px solid #00FF87"></div> You</div>
-    </div>
-
-    <!-- Location permission dialog -->
-    <div id="loc-dialog-overlay" class="loc-dialog-overlay" style="display:none">
-      <div class="loc-dialog-card">
-        <div class="loc-icon">📍</div>
-        <h3>Show your location?</h3>
-        <p>We'll place you on the map at city level — never your exact address. Helps scouts find players near them.</p>
-        <div class="loc-dialog-btns">
-          <button class="loc-allow-btn" onclick="requestUserLocation()">Allow</button>
-          <button class="loc-deny-btn"  onclick="denyLocation()">Not now</button>
-        </div>
-      </div>
-    </div>
+  <!-- ── Feed Scroll Area ── -->
+  <div class="cf-scroll" id="cf-scroll">
+    <div class="cf-feed" id="cf-feed"></div>
   </div>
 
 </div>
@@ -5090,11 +5843,12 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     if (navEl) {
       document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
       navEl.classList.add('active');
-      const titles = { home: 'Dashboard', modules: 'All Modules', progress: 'My Progress', journal: 'Journal', elites: 'Elite Stories', community: 'Community' };
+      const titles = { home: 'Dashboard', modules: 'All Modules', progress: 'My Progress', journal: 'Journal', explore: 'Explore', elites: 'Elite Stories', community: 'Community' };
       document.getElementById('topbar-title').textContent = titles[viewName] || 'Playr';
     }
 
     if (viewName === 'journal') loadJournalEntries();
+    if (viewName === 'explore') initExplore();
   }
 
   async function showEAF() {
@@ -5235,6 +5989,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       document.getElementById('screen-network').classList.add('active');
       setTopbarSide('network');
       setActiveNavItem('nav-home');
+      setTimeout(updateNetworkStreak, 100);
     }
     updateFabVisibility();
   }
@@ -5254,9 +6009,75 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     const countEl = btn.querySelector('span');
     const count = parseInt(countEl.textContent) || 0;
     countEl.textContent = isLiked ? count + 1 : Math.max(0, count - 1);
+    if (isLiked) pushNotif({ type:'reaction', text:'Someone reacted ❤️ to your post', icon:'❤️' });
   }
   // keep old name as alias for any leftover calls
   function toggleLike(btn) { feedLike(btn); }
+
+  function feedReact(btn, emoji) {
+    const wasActive = btn.classList.contains('emoji-reacted');
+    // Deactivate all emoji reactions on this post first
+    btn.closest('.emoji-reactions').querySelectorAll('.emoji-react-btn').forEach(b => {
+      if (b.classList.contains('emoji-reacted')) {
+        b.classList.remove('emoji-reacted');
+        const c = b.querySelector('.emoji-react-count');
+        c.textContent = Math.max(0, parseInt(c.textContent) - 1);
+      }
+    });
+    // Toggle on if wasn't active
+    if (!wasActive) {
+      btn.classList.add('emoji-reacted');
+      const c = btn.querySelector('.emoji-react-count');
+      c.textContent = parseInt(c.textContent) + 1;
+      const authorName = btn.closest('.post-card')?.querySelector('.post-author-name .user-link')?.textContent || 'someone';
+      pushNotif({ type:'reaction', text:`You reacted ${emoji} to ${authorName}'s post`, icon: emoji });
+    }
+  }
+
+  function showFeedFiltered(sport) {
+    _cfSport = sport;
+    _cfTab = 'foryou';
+    // Activate the correct pill
+    document.querySelectorAll('.cf-sport-pill').forEach(b => {
+      b.classList.toggle('active', b.dataset.sport === sport);
+    });
+    document.querySelectorAll('.cf-tab').forEach(b => {
+      b.classList.toggle('active', b.id === 'cf-tab-foryou');
+    });
+    showFeed();
+  }
+
+  function updateNetworkStreak() {
+    // Pull streak value from the framework stat element if available, else from localStorage activity
+    const frameworkStreak = document.getElementById('stat-streak');
+    let streak = frameworkStreak ? parseInt(frameworkStreak.textContent) || 0 : 0;
+    // Compute from journal localStorage if available
+    try {
+      const entries = JSON.parse(localStorage.getItem('playr_journal') || '[]');
+      if (entries.length) {
+        const days = [...new Set(entries.map(e => new Date(e.created_at || e.ts || Date.now()).toDateString()))];
+        let s = 0;
+        for (let i = 0; i < days.length; i++) {
+          const d = new Date(); d.setDate(d.getDate() - i);
+          if (days.includes(d.toDateString())) s++; else break;
+        }
+        if (s > streak) streak = s;
+      }
+    } catch(e) {}
+    const numEl = document.getElementById('network-streak-num');
+    const msgEl = document.getElementById('network-streak-msg');
+    if (!numEl) return;
+    numEl.textContent = streak || '—';
+    if (streak >= 7) {
+      msgEl.textContent = `${streak} days straight — elite consistency 🏆`;
+    } else if (streak >= 3) {
+      msgEl.textContent = `${streak} days in a row — keep it going!`;
+    } else if (streak >= 1) {
+      msgEl.textContent = `${streak} day streak — log again tomorrow to extend it`;
+    } else {
+      msgEl.textContent = 'Log today to start your streak';
+    }
+  }
 
   function feedComment(btn) {
     const card = btn.closest('.post-card');
@@ -6357,28 +7178,405 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     { id: 'nw5', lat: 52.37, lng:  4.90, title: 'Ajax release 4 youth players — all on the market',   source: '📋 Scout Alert',         time: '12h ago', detail: 'Four released prospects available immediately; all have Eredivisie youth experience.' },
   ];
 
-  // ─── Map init & control ───
+  // ─── Explore View ───
 
-  function showMap() {
+  const EXPLORE_VIDEOS = [
+    { id: 'H14bBuluwB8', title: 'Grit: The Power of Passion and Perseverance',           channel: 'TED',                  views: '24M views',  dur: '6:12',  cat: 'psychology' },
+    { id: '_X0mgOOSpLU', title: 'The Power of Believing That You Can Improve',            channel: 'TED',                  views: '14M views',  dur: '10:20', cat: 'psychology' },
+    { id: 'RcGyVTAoXEU', title: 'How to Make Stress Your Friend',                         channel: 'TED',                  views: '29M views',  dur: '14:27', cat: 'psychology' },
+    { id: 'GXy__kBVq1M', title: 'The Happy Secret to Better Work',                        channel: 'TED',                  views: '22M views',  dur: '12:19', cat: 'psychology' },
+    { id: '7sxpKhIbr0E', title: 'The Psychology of Self-Motivation',                      channel: 'TEDx Talks',            views: '4.2M views', dur: '14:27', cat: 'psychology' },
+    { id: 'VBmMU_iwe6U', title: 'Kobe Bryant — What It Takes to Be Great',               channel: 'NBA',                  views: '3.1M views', dur: '5:47',  cat: 'elitestories' },
+    { id: 'JcjGEJCFtWg', title: "Marcus Rashford's Mental Recovery Story",                channel: "The Players' Tribune", views: '1.2M views', dur: '9:15',  cat: 'elitestories' },
+    { id: 'CmAzMBKoqyc', title: 'Serena Williams: Mind of a Champion',                   channel: 'USTA',                 views: '2.8M views', dur: '18:42', cat: 'elitestories' },
+    { id: 'mgmVOuLgFB0', title: "Messi — The Silence Before the Storm",                  channel: 'Copa90',               views: '4.5M views', dur: '8:22',  cat: 'elitestories' },
+    { id: 'IOlYPOfuFgQ', title: 'How Great Leaders Inspire Action',                       channel: 'TED',                  views: '60M views',  dur: '18:01', cat: 'motivation' },
+    { id: 'lsSC2vx7zFQ', title: 'What Every Athlete Should Know About Flow State',        channel: 'Impact Theory',        views: '890K views', dur: '22:14', cat: 'motivation' },
+    { id: 'pN34FNbOKXc', title: 'David Goggins — The Mindset Behind 100%',               channel: 'Goalside',             views: '1.7M views', dur: '16:40', cat: 'motivation' },
+    { id: 'E_HHqHBrJlY', title: 'The False Nine — How One Position Changed Football',    channel: 'Tifo Football',        views: '1.8M views', dur: '7:14',  cat: 'tactics' },
+    { id: 'cFV-RdIPWR4', title: "Pep Guardiola's Pressing System Explained",             channel: 'Tifo Football',        views: '2.1M views', dur: '9:03',  cat: 'tactics' },
+    { id: 'Rqm1SXxDqH8', title: 'What Makes a Complete Midfielder? Tactics Breakdown',   channel: 'Tifo Football',        views: '1.3M views', dur: '8:45',  cat: 'tactics' },
+    { id: 'QXRtFbkGHmk', title: 'Reading the Game: Positional Intelligence for Players', channel: 'Goalside',             views: '420K views', dur: '11:30', cat: 'tactics' },
+    { id: 'iXhW0Ju4VOk', title: 'The Science of ACL Recovery in Professional Football',  channel: 'Copa90',               views: '680K views', dur: '14:51', cat: 'injury' },
+    { id: 'DLzxrzFCyOs', title: 'How Athletes Rebuild After Career-Threatening Injury',  channel: 'Goalside',             views: '320K views', dur: '16:22', cat: 'injury' },
+    { id: 'SQKb5bGNPlE', title: "Sam Kerr: The Striker's Mind — Mental Edge Explained",  channel: 'FIFA',                 views: '1.1M views', dur: '10:08', cat: 'womensfootball' },
+    { id: 'h7mMN8hmyxM', title: "Women's Football and the Mental Health Conversation",   channel: 'Copa90',               views: '560K views', dur: '12:30', cat: 'womensfootball' },
+    { id: 'ZHwVBirqB2s', title: 'Inside the Academy: What It Really Takes to Make It',  channel: 'Tifo Football',        views: '2.4M views', dur: '24:06', cat: 'documentary' },
+  ];
+
+  let _exploreCat    = 'all';
+  let _exploreSearch = '';
+  let _exploreInited = false;
+
+  function initExplore() {
+    if (_exploreInited) { renderExploreGrid(); return; }
+    _exploreInited = true;
+    renderExploreGrid();
+  }
+
+  function setExploreCat(cat, btn) {
+    _exploreCat = cat;
+    document.querySelectorAll('.explore-chip').forEach(b => b.classList.toggle('active', b.dataset.cat === cat));
+    renderExploreGrid();
+  }
+
+  function filterExplore(val) {
+    _exploreSearch = val.trim().toLowerCase();
+    document.getElementById('explore-search-clear').style.display = _exploreSearch ? '' : 'none';
+    renderExploreGrid();
+  }
+
+  function clearExploreSearch() {
+    _exploreSearch = '';
+    const input = document.getElementById('explore-search');
+    if (input) input.value = '';
+    document.getElementById('explore-search-clear').style.display = 'none';
+    renderExploreGrid();
+  }
+
+  function renderExploreGrid() {
+    let videos = EXPLORE_VIDEOS.slice();
+    if (_exploreCat !== 'all') videos = videos.filter(v => v.cat === _exploreCat);
+    if (_exploreSearch) videos = videos.filter(v =>
+      v.title.toLowerCase().includes(_exploreSearch) ||
+      v.channel.toLowerCase().includes(_exploreSearch)
+    );
+    const grid  = document.getElementById('explore-grid');
+    const empty = document.getElementById('explore-empty');
+    const count = document.getElementById('explore-count');
+    if (!grid) return;
+    if (videos.length === 0) {
+      grid.innerHTML = '';
+      empty.style.display = 'flex';
+      count.textContent = '';
+      return;
+    }
+    empty.style.display = 'none';
+    count.textContent = videos.length === EXPLORE_VIDEOS.length
+      ? `${videos.length} videos`
+      : `${videos.length} of ${EXPLORE_VIDEOS.length} videos`;
+    const catLabel = { psychology:'Psychology', elitestories:'Elite Stories', motivation:'Motivation', tactics:'Tactics & IQ', injury:'Injury & Recovery', womensfootball:"Women's Football", documentary:'Documentary' };
+    grid.innerHTML = videos.map(v => {
+      const thumb = `https://img.youtube.com/vi/${v.id}/hqdefault.jpg`;
+      const safeTitle = v.title.replace(/'/g, "\\'");
+      const safeChan  = v.channel.replace(/'/g, "\\'");
+      return `<div class="explore-card" onclick="openExploreVideo('${v.id}','${safeTitle}','${safeChan}','${v.views}','${v.dur}')">
+        <div class="explore-thumb-wrap">
+          <img class="explore-thumb" src="${thumb}" alt="${v.title}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <div class="explore-thumb-fallback" style="display:none;background:linear-gradient(135deg,#1a1a2e,#16213e)"><svg viewBox="0 0 24 24" fill="none" stroke="#555" stroke-width="1.5" width="32" height="32"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+          <div class="explore-dur">${v.dur}</div>
+          <div class="explore-play-overlay"><svg viewBox="0 0 24 24" fill="white" width="40" height="40"><polygon points="5 3 19 12 5 21 5 3"/></svg></div>
+        </div>
+        <div class="explore-card-body">
+          <div class="explore-card-title">${v.title}</div>
+          <div class="explore-card-meta">
+            <span class="explore-channel">${v.channel}</span>
+            <span class="explore-views">${v.views}</span>
+          </div>
+          <span class="explore-cat-pill">${catLabel[v.cat] || ''}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function openExploreVideo(id, title, channel, views, dur) {
+    document.getElementById('explore-modal-title').textContent = title;
+    document.getElementById('explore-modal-meta').innerHTML =
+      `<span class="explore-channel">${channel}</span><span class="explore-views">${views}</span><span style="background:rgba(255,255,255,0.08);border-radius:4px;padding:2px 7px;font-size:11px;font-weight:700;color:#aaa">${dur}</span>`;
+    document.getElementById('explore-modal-iframe').src =
+      `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1`;
+    document.getElementById('explore-modal').style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeExploreModal(e) {
+    if (e && e.target !== document.getElementById('explore-modal')) return;
+    _closeExploreModal();
+  }
+
+  function _closeExploreModal() {
+    document.getElementById('explore-modal').style.display = 'none';
+    document.getElementById('explore-modal-iframe').src = '';
+    document.body.style.overflow = '';
+  }
+
+  // ─── Content Feed ───
+
+  const TRENDING_FEED = [
+    {
+      id: 'tf1', sport: 'football', type: 'video',
+      author: { id: 'kai_mensah', name: 'Kai Mensah', initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', position: 'Striker', location: 'Manchester, England', verified: true },
+      ytId: 'dklX65wuKSw',
+      caption: 'Finishing session before the big match. Left foot work is coming together 🔥',
+      tags: ['#Football','#Training','#Striker','#Manchester'],
+      ts: '2h ago', likes: 1847, comments: 94, views: '24.3K',
+      trending: true
+    },
+    {
+      id: 'tf2', sport: 'football', type: 'video',
+      author: { id: 'marcus_diallo', name: 'Marcus Diallo', initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)', position: 'Central Midfielder', location: 'London, England', verified: true },
+      ytId: 'BRHb6dnkSPs',
+      caption: 'Match highlights vs Athletico B — 2 assists, 1 goal. Best game of the season so far.',
+      tags: ['#Football','#Highlights','#Midfielder','#London'],
+      ts: '4h ago', likes: 3210, comments: 187, views: '51.8K',
+      trending: true
+    },
+    {
+      id: 'tf3', sport: 'basketball', type: 'video',
+      author: { id: 'jordan_flash', name: 'Jordan "J-Flash" Williams', initials: 'JW', grad: 'linear-gradient(135deg,#f97316,#dc2626)', position: 'Shooting Guard', location: 'London, England', verified: false },
+      ytId: 'Ep0ZWXQ0UkY',
+      caption: 'My dunk compilation from this season. Still got work to do but progress is real 💪',
+      tags: ['#Basketball','#Dunks','#Training','#London'],
+      ts: '6h ago', likes: 5620, comments: 312, views: '89.1K',
+      trending: true
+    },
+    {
+      id: 'tf4', sport: 'athletics', type: 'video',
+      author: { id: 'amara_sprint', name: 'Amara Diallo', initials: 'AD', grad: 'linear-gradient(135deg,#facc15,#f97316)', position: '100m / 200m', location: 'Paris, France', verified: true },
+      ytId: 'zHAQfzpHkTc',
+      caption: 'Block start drills — reaction time is everything at this level. 0.14s today 🚀',
+      tags: ['#Athletics','#Sprint','#TrackAndField','#Paris'],
+      ts: '8h ago', likes: 2190, comments: 76, views: '33.4K',
+      trending: false
+    },
+    {
+      id: 'tf5', sport: 'football', type: 'photos',
+      author: { id: 'sofia_ramos', name: 'Sofia Ramos', initials: 'SR', grad: 'linear-gradient(135deg,#a855f7,#6366f1)', position: 'Left Winger', location: 'Madrid, Spain', verified: true },
+      photos: [
+        'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
+        'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&q=80',
+        'https://images.unsplash.com/photo-1517466787929-bc90951d0974?w=800&q=80',
+        'https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?w=800&q=80'
+      ],
+      caption: 'Morning session ☀️ Hard work in silence. Results will make the noise.',
+      tags: ['#Football','#Training','#Winger','#Madrid'],
+      ts: '10h ago', likes: 918, comments: 45, views: '12.1K',
+      trending: false
+    },
+    {
+      id: 'tf6', sport: 'rugby', type: 'video',
+      author: { id: 'liam_tackle', name: 'Liam O\'Sullivan', initials: 'LS', grad: 'linear-gradient(135deg,#16a34a,#14532d)', position: 'Flanker', location: 'Dublin, Ireland', verified: false },
+      ytId: 'mYNDSFBUAGM',
+      caption: 'Tackle technique deep dive with the S&C coach. Defence wins championships.',
+      tags: ['#Rugby','#Defence','#Training','#Ireland'],
+      ts: '12h ago', likes: 672, comments: 38, views: '9.8K',
+      trending: false
+    },
+    {
+      id: 'tf7', sport: 'basketball', type: 'photos',
+      author: { id: 'keisha_hoops', name: 'Keisha Thompson', initials: 'KT', grad: 'linear-gradient(135deg,#3b82f6,#1d4ed8)', position: 'Point Guard', location: 'Birmingham, England', verified: true },
+      photos: [
+        'https://images.unsplash.com/photo-1546519638-68e109498ffc?w=800&q=80',
+        'https://images.unsplash.com/photo-1505666287802-931dc83948e9?w=800&q=80',
+        'https://images.unsplash.com/photo-1519861531473-9200262188bf?w=800&q=80'
+      ],
+      caption: 'Game day energy 🏀 Dropped 24pts last night. Grateful for every opportunity.',
+      tags: ['#Basketball','#GameDay','#PointGuard','#UK'],
+      ts: '14h ago', likes: 1340, comments: 67, views: '18.7K',
+      trending: false
+    },
+    {
+      id: 'tf8', sport: 'tennis', type: 'video',
+      author: { id: 'alex_serve', name: 'Alex Petrov', initials: 'AP', grad: 'linear-gradient(135deg,#06b6d4,#0284c7)', position: 'Singles', location: 'Barcelona, Spain', verified: false },
+      ytId: 'vXkxQSQr05U',
+      caption: 'Serve speed up to 214km/h this week. Working with a biomechanics specialist and the results are showing.',
+      tags: ['#Tennis','#Serve','#Training','#Barcelona'],
+      ts: '18h ago', likes: 487, comments: 29, views: '7.3K',
+      trending: false
+    },
+    {
+      id: 'tf9', sport: 'football', type: 'update',
+      author: { id: 'james_harrison', name: 'James Harrison', initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', position: 'Scout · Manchester United', location: 'Manchester, England', verified: true },
+      caption: 'Just watched three U21 players this weekend who absolutely belong at a higher level. If you\'re a left-footed central midfielder aged 18–21 playing in the Championship or lower, my DMs are open. The market is moving fast this window.',
+      tags: ['#Scouting','#Football','#Opportunity','#Transfer'],
+      ts: '20h ago', likes: 2890, comments: 234, views: '41.2K',
+      trending: false
+    },
+    {
+      id: 'tf10', sport: 'athletics', type: 'photos',
+      author: { id: 'amara_sprint', name: 'Amara Diallo', initials: 'AD', grad: 'linear-gradient(135deg,#facc15,#f97316)', position: '100m / 200m', location: 'Paris, France', verified: true },
+      photos: [
+        'https://images.unsplash.com/photo-1571008887538-b36bb32f4571?w=800&q=80',
+        'https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&q=80'
+      ],
+      caption: 'Stade de France vibes 🏟️ Nothing compares to training in a world-class facility.',
+      tags: ['#Athletics','#TrackAndField','#Paris','#StadeDeFrance'],
+      ts: '1d ago', likes: 1105, comments: 58, views: '15.9K',
+      trending: false
+    },
+  ];
+
+  let _cfSport = 'all';
+  let _cfTab   = 'foryou';
+
+  function showFeed() {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-map').classList.add('active');
     setActiveNavItem('nav-map');
-    setTimeout(initLeafletMap, 50); // wait for container to be visible
+    updateFabVisibility();
+    renderContentFeed();
   }
 
-  function initLeafletMap() {
-    if (typeof L === 'undefined') return;
-    if (leafletMap) { leafletMap.invalidateSize(); return; }
+  // keep old showMap as alias so nothing else breaks
+  function showMap() { showFeed(); }
 
-    leafletMap = L.map('map-container').setView([48, 10], 4);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-      maxZoom: 18
-    }).addTo(leafletMap);
-
-    renderMapMarkers();
-    checkLocationPermission();
+  function setCfTab(tab, btn) {
+    _cfTab = tab;
+    document.querySelectorAll('.cf-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderContentFeed();
   }
+
+  function setCfSport(sport, btn) {
+    _cfSport = sport;
+    document.querySelectorAll('.cf-sport-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderContentFeed();
+  }
+
+  function renderContentFeed() {
+    const feed = document.getElementById('cf-feed');
+    if (!feed) return;
+
+    let posts = TRENDING_FEED.slice();
+
+    // Following tab: show scout/coach posts + connected athletes (simulate)
+    if (_cfTab === 'following') {
+      const conn = loadConnections ? loadConnections() : { connected: [] };
+      posts = posts.filter(p => conn.connected.includes(p.author.id) || p.author.position.toLowerCase().includes('scout') || p.author.position.toLowerCase().includes('coach'));
+      if (posts.length === 0) {
+        feed.innerHTML = '<div class="cf-empty"><div class="cf-empty-icon">👥</div><div class="cf-empty-msg">Connect with athletes to see their posts here.</div><button class="btn btn-primary" onclick="showDiscover()" style="margin-top:16px">Find Athletes</button></div>';
+        return;
+      }
+    }
+
+    // Sport filter
+    if (_cfSport !== 'all') {
+      posts = posts.filter(p => p.sport === _cfSport);
+    }
+
+    if (posts.length === 0) {
+      feed.innerHTML = '<div class="cf-empty"><div class="cf-empty-icon">🏅</div><div class="cf-empty-msg">No posts in this sport yet. Check back soon.</div></div>';
+      return;
+    }
+
+    feed.innerHTML = posts.map((p, i) => buildCfCard(p, i)).join('');
+  }
+
+  function buildCfCard(p, i) {
+    const isTrending = p.trending ? '<span class="cf-trending-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Trending</span>' : '';
+
+    let mediaHtml = '';
+    if (p.type === 'video') {
+      mediaHtml = `<div class="cf-media cf-media-video">
+        <iframe src="https://www.youtube.com/embed/${p.ytId}?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe>
+        <div class="cf-play-label"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><polygon points="5 3 19 12 5 21 5 3"/></svg> Video</div>
+      </div>`;
+    } else if (p.type === 'photos') {
+      const cols = p.photos.length >= 4 ? 2 : (p.photos.length >= 2 ? 2 : 1);
+      const rows = p.photos.length >= 3 ? 2 : 1;
+      const photoItems = p.photos.slice(0, 4).map((url, pi) =>
+        `<div class="cf-photo-cell" ${pi === 3 && p.photos.length > 4 ? `data-more="+${p.photos.length-4}"` : ''}>
+           <img src="${url}" alt="post photo" loading="lazy" />
+           ${pi === 3 && p.photos.length > 4 ? `<div class="cf-photo-more">+${p.photos.length-4}</div>` : ''}
+         </div>`
+      ).join('');
+      mediaHtml = `<div class="cf-media cf-media-photos" style="grid-template-columns:repeat(${cols},1fr);grid-template-rows:repeat(${rows},1fr)">${photoItems}</div>`;
+    } else {
+      // update / text-only — gradient bg
+      mediaHtml = `<div class="cf-media cf-media-update" style="background:${p.author.grad}">
+        <div class="cf-update-text">${p.caption}</div>
+      </div>`;
+    }
+
+    const tagsHtml = p.tags.map(t => `<span class="cf-tag">${t}</span>`).join('');
+    const captionHtml = p.type !== 'update' ? `<div class="cf-caption">${p.caption}</div>` : '';
+    const verifiedBadge = p.author.verified ? '<svg class="cf-verified" viewBox="0 0 24 24" fill="#00FF87" width="13" height="13"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>' : '';
+
+    return `<div class="cf-card" data-id="${p.id}">
+      <div class="cf-card-inner">
+        ${mediaHtml}
+        <div class="cf-body">
+          <div class="cf-author-row">
+            <div class="cf-avatar" style="background:${p.author.grad}" onclick="showProfile('${p.author.id}')">${p.author.initials}</div>
+            <div class="cf-author-info">
+              <div class="cf-author-name">${p.author.name} ${verifiedBadge} ${isTrending}</div>
+              <div class="cf-author-meta">${p.author.position} · ${p.author.location}</div>
+            </div>
+            <button class="cf-follow-btn" onclick="cfFollowToggle(this,'${p.author.id}')">Follow</button>
+          </div>
+          ${captionHtml}
+          <div class="cf-tags">${tagsHtml}</div>
+        </div>
+        <div class="cf-reactions">
+          <button class="cf-react-btn" onclick="cfLike(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+            <span>${p.likes.toLocaleString()}</span>
+          </button>
+          <button class="cf-react-btn" onclick="cfComment(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            <span>${p.comments}</span>
+          </button>
+          <button class="cf-react-btn" onclick="cfShare(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="18" height="18"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            <span>Share</span>
+          </button>
+          <div class="cf-views">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="14" height="14"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            ${p.views}
+          </div>
+          <span class="cf-ts">${p.ts}</span>
+        </div>
+        <div class="cf-comments-wrap" style="display:none">
+          <div class="cf-comments-list"></div>
+          <div class="cf-comment-input-row">
+            <div class="cf-comment-av" style="background:linear-gradient(135deg,#00FF87,#1e40af)">You</div>
+            <input class="cf-comment-input" placeholder="Add a comment…" onkeydown="cfSubmitComment(event,this)">
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function cfLike(btn) {
+    const isLiked = btn.classList.toggle('cf-liked');
+    const span = btn.querySelector('span');
+    const num = parseInt(span.textContent.replace(/,/g,''));
+    span.textContent = (isLiked ? num + 1 : Math.max(0, num - 1)).toLocaleString();
+  }
+
+  function cfComment(btn) {
+    const wrap = btn.closest('.cf-card').querySelector('.cf-comments-wrap');
+    const isOpen = wrap.style.display !== 'none';
+    wrap.style.display = isOpen ? 'none' : '';
+    if (!isOpen) wrap.querySelector('.cf-comment-input')?.focus();
+  }
+
+  function cfShare(btn) {
+    btn.classList.add('cf-shared');
+    const span = btn.querySelector('span');
+    span.textContent = 'Shared!';
+    setTimeout(() => { btn.classList.remove('cf-shared'); span.textContent = 'Share'; }, 2000);
+  }
+
+  function cfSubmitComment(e, input) {
+    if (e.key !== 'Enter' || !input.value.trim()) return;
+    const list = input.closest('.cf-comments-wrap').querySelector('.cf-comments-list');
+    const div = document.createElement('div');
+    div.className = 'cf-comment-item';
+    div.innerHTML = `<span class="cf-comment-author">You</span> ${input.value.trim()}`;
+    list.appendChild(div);
+    input.value = '';
+    list.scrollTop = list.scrollHeight;
+  }
+
+  function cfFollowToggle(btn, id) {
+    const isFollowing = btn.classList.toggle('cf-following');
+    btn.textContent = isFollowing ? 'Following' : 'Follow';
+    if (isFollowing && typeof connectUser === 'function') connectUser(id);
+  }
+
+  function initLeafletMap() { /* map removed — feed replaces it */ }
 
   function renderMapMarkers() {
     // Clear old layers
@@ -6645,11 +7843,16 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     localStorage.setItem(NOTIF_SEED_KEY, '1');
     const now = Date.now();
     const initial = [
-      { id: now+1, type: 'connection_request', text: 'Marcus Diallo sent you a connection request', icon: '👥', ts: now - 1000*60*60*5, read: false },
-      { id: now+2, type: 'connection_request', text: 'Jamie Asante sent you a connection request',  icon: '👥', ts: now - 1000*60*60*3, read: false },
-      { id: now+3, type: 'like',               text: 'Amira Osei liked your post',                  icon: '❤️', ts: now - 1000*60*42,    read: false },
-      { id: now+4, type: 'comment',            text: 'Sofia Reyes commented: "Keep grinding, this is 🔥"', icon: '💬', ts: now - 1000*60*28, read: false },
-      { id: now+5, type: 'like',               text: 'Kai Mensah liked your post',                  icon: '❤️', ts: now - 1000*60*18,    read: false },
+      { id: now+1,  type: 'follow',            text: 'Marcus Diallo started following you',                        icon: '👤', ts: now - 1000*60*60*8, read: false },
+      { id: now+2,  type: 'connection_request',text: 'Jamie Asante sent you a connection request',                 icon: '👥', ts: now - 1000*60*60*5, read: false },
+      { id: now+3,  type: 'reaction',          text: 'Amira Osei reacted 🔥 to your Training Clip',               icon: '🔥', ts: now - 1000*60*60*3, read: false },
+      { id: now+4,  type: 'reaction',          text: 'Kai Mensah reacted 💪 to your post',                        icon: '💪', ts: now - 1000*60*90,    read: false },
+      { id: now+5,  type: 'comment',           text: 'Sofia Reyes commented: "This mentality is elite 🔥"',       icon: '💬', ts: now - 1000*60*72,    read: false },
+      { id: now+6,  type: 'follow',            text: 'James Harrison (Scout · Man Utd) started following you',    icon: '👤', ts: now - 1000*60*55,    read: false },
+      { id: now+7,  type: 'reaction',          text: 'Amara Touré and 12 others reacted to your highlight',       icon: '🔥', ts: now - 1000*60*40,    read: false },
+      { id: now+8,  type: 'comment',           text: 'FC Velocity Academy commented on your post',                icon: '💬', ts: now - 1000*60*28,    read: false },
+      { id: now+9,  type: 'streak',            text: 'You\'re on a 3-day streak! Keep the momentum going 🔥',    icon: '🔥', ts: now - 1000*60*18,    read: false },
+      { id: now+10, type: 'connection_request',text: 'Sarah Okonkwo wants to connect with you',                   icon: '👥', ts: now - 1000*60*8,     read: false },
     ];
     saveNotifs(initial);
     updateBellBadge();
@@ -6720,6 +7923,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     document.getElementById('screen-network').classList.add('active');
     setActiveNavItem('nav-home');
     updateFabVisibility();
+    setTimeout(updateNetworkStreak, 100);
   }
 
   // ─── MY PROFILE ───
@@ -7478,6 +8682,22 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     </div>
   </div>
   <div class="chat-body" id="chat-body"></div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     EXPLORE VIDEO MODAL
+══════════════════════════════════════════ -->
+<div id="explore-modal" style="display:none;position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;flex-direction:column;" onclick="closeExploreModal(event)">
+  <div class="explore-modal-inner" onclick="event.stopPropagation()">
+    <div class="explore-modal-header">
+      <div class="explore-modal-title" id="explore-modal-title"></div>
+      <button class="explore-modal-close" onclick="_closeExploreModal()">✕</button>
+    </div>
+    <div class="explore-modal-player">
+      <iframe id="explore-modal-iframe" src="" allowfullscreen allow="autoplay; encrypted-media"></iframe>
+    </div>
+    <div class="explore-modal-meta" id="explore-modal-meta"></div>
+  </div>
 </div>
 
 <!-- ══ FLOATING ACTION BUTTON ══ -->
