@@ -4525,6 +4525,49 @@
   .cf-empty-icon { font-size: 40px; }
   .cf-empty-msg { font-size: 14px; line-height: 1.6; max-width: 260px; }
 
+  /* ══════════════════════════════════════════
+     SHORTLIST
+  ══════════════════════════════════════════ */
+  #screen-shortlist { flex-direction: column; background: var(--bg); }
+  .sl-wrap { max-width: 900px; width: 100%; margin: 0 auto; padding: 24px 16px 100px; }
+  .sl-header { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+  .sl-back { background: none; border: none; color: var(--muted); cursor: pointer; font-size: 14px; padding: 4px 0; }
+  .sl-back:hover { color: var(--text); }
+  .sl-title { font-size: 22px; font-weight: 800; color: var(--text); }
+  .sl-count { font-size: 13px; color: var(--muted); margin-left: auto; }
+  .sl-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 16px; }
+  .sl-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: border-color 0.2s; }
+  .sl-card:hover { border-color: var(--hover-border); }
+  .sl-card-top { padding: 20px 20px 14px; display: flex; gap: 14px; align-items: center; }
+  .sl-avatar { width: 52px; height: 52px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; color: #000; flex-shrink: 0; }
+  .sl-info { flex: 1; min-width: 0; }
+  .sl-name { font-weight: 700; font-size: 15px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .sl-pos { font-size: 12px; color: var(--purple); margin-top: 3px; font-weight: 600; }
+  .sl-location { font-size: 12px; color: var(--muted); margin-top: 2px; }
+  .sl-added { font-size: 11px; color: var(--muted); margin-top: 1px; }
+  .sl-notes-wrap { padding: 0 16px 12px; }
+  .sl-notes-label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 6px; }
+  .sl-notes { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border); border-radius: 10px; color: var(--text); font-size: 13px; padding: 10px 12px; resize: vertical; min-height: 68px; font-family: inherit; line-height: 1.5; transition: border-color 0.2s; }
+  .sl-notes:focus { outline: none; border-color: var(--purple); }
+  .sl-notes::placeholder { color: var(--muted); opacity: 0.7; }
+  .sl-notes-saved { font-size: 11px; color: var(--green); margin-top: 5px; height: 14px; opacity: 0; transition: opacity 0.3s; }
+  .sl-notes-saved.show { opacity: 1; }
+  .sl-card-actions { padding: 0 16px 16px; display: flex; gap: 8px; }
+  .sl-btn-view { flex: 1; padding: 9px; background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(0,255,135,0.2); border-radius: 10px; font-weight: 600; font-size: 13px; cursor: pointer; transition: background 0.2s; }
+  .sl-btn-view:hover { background: rgba(0,255,135,0.18); }
+  .sl-btn-remove { padding: 9px 12px; background: rgba(255,59,59,0.07); color: var(--red); border: 1px solid rgba(255,59,59,0.14); border-radius: 10px; font-size: 13px; cursor: pointer; transition: background 0.2s; }
+  .sl-btn-remove:hover { background: rgba(255,59,59,0.14); }
+  .sl-empty { text-align: center; padding: 80px 20px; color: var(--muted); }
+  .sl-empty-icon { font-size: 52px; margin-bottom: 16px; }
+  .sl-empty-title { font-size: 18px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+  .sl-empty-sub { font-size: 14px; max-width: 280px; margin: 0 auto; }
+
+  /* Shortlist button on player profile */
+  .shortlist-btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: 1px solid rgba(0,255,135,0.25); background: rgba(0,255,135,0.08); color: var(--purple); }
+  .shortlist-btn:hover { background: rgba(0,255,135,0.15); }
+  .shortlist-btn.shortlisted { background: var(--purple); color: #000; border-color: var(--purple); }
+  .shortlist-btn.shortlisted:hover { background: #00e07a; }
+
   </style>
 </head>
 <body>
@@ -4590,6 +4633,14 @@
         <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       </span>
       <span class="pn-label">Profile</span>
+    </button>
+
+    <button class="pn-item" id="nav-shortlist" onclick="showShortlist()" data-tooltip="Shortlist" style="display:none">
+      <span class="pn-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
+        <span class="pn-badge" id="nav-badge-shortlist" style="display:none">0</span>
+      </span>
+      <span class="pn-label">Shortlist</span>
     </button>
 
   </div>
@@ -7330,6 +7381,10 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     setTopbarSide('network');
     setActiveNavItem('nav-home');
     setTimeout(updateNetworkStreak, 100);
+    // Scout-only nav items
+    const isScout = role === 'scout';
+    document.getElementById('nav-shortlist').style.display = isScout ? '' : 'none';
+    if (isScout) loadShortlistIds();
   }
 
   // ─── PENDING ROLE (set on role screen, used by signup screen) ───
@@ -8075,6 +8130,200 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   let _profId = '';
   let _profPosts = []; // combined posts+highlights for grid
 
+  // ══════════════════════════════════════════
+  //  SHORTLIST — scout private player tracking
+  // ══════════════════════════════════════════
+
+  let _shortlistIds = new Set();   // local cache of shortlisted player_ids
+  let _shortlistData = [];         // full rows [{player_id, notes, created_at}]
+
+  function _scoutId() {
+    const a = _getAccount();
+    return a ? (localStorage.getItem('playr_user_id') || 'scout_' + (a.email || 'user')) : null;
+  }
+
+  async function loadShortlistIds() {
+    const sid = _scoutId();
+    if (!sid) return;
+    try {
+      const rows = await fetch('/api/shortlist?scout_id=' + encodeURIComponent(sid)).then(r => r.json());
+      _shortlistData = Array.isArray(rows) ? rows : [];
+      _shortlistIds = new Set(_shortlistData.map(r => r.player_id));
+      updateShortlistBadge();
+    } catch (e) { /* silent */ }
+  }
+
+  function updateShortlistBadge() {
+    const badge = document.getElementById('nav-badge-shortlist');
+    if (!badge) return;
+    const n = _shortlistIds.size;
+    badge.textContent = n;
+    badge.style.display = n > 0 ? '' : 'none';
+  }
+
+  function _refreshProfileShortlistBtn(profileId) {
+    const btn = document.getElementById('prof-shortlist-btn');
+    const lbl = document.getElementById('prof-shortlist-label');
+    if (!btn || !lbl) return;
+    if (_shortlistIds.has(profileId)) {
+      btn.classList.add('shortlisted');
+      lbl.textContent = 'Shortlisted';
+    } else {
+      btn.classList.remove('shortlisted');
+      lbl.textContent = 'Shortlist';
+    }
+  }
+
+  async function toggleShortlist(profileId) {
+    const sid = _scoutId();
+    if (!sid) return;
+    if (_shortlistIds.has(profileId)) {
+      // Remove
+      _shortlistIds.delete(profileId);
+      _shortlistData = _shortlistData.filter(r => r.player_id !== profileId);
+      _refreshProfileShortlistBtn(profileId);
+      updateShortlistBadge();
+      await fetch('/api/shortlist', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scout_id: sid, player_id: profileId })
+      }).catch(() => {});
+      showToast('Removed from shortlist');
+    } else {
+      // Add
+      _shortlistIds.add(profileId);
+      _shortlistData.unshift({ player_id: profileId, notes: '', created_at: new Date().toISOString() });
+      _refreshProfileShortlistBtn(profileId);
+      updateShortlistBadge();
+      await fetch('/api/shortlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ scout_id: sid, player_id: profileId, notes: '' })
+      }).catch(() => {});
+      showToast('Added to shortlist 🔖');
+    }
+  }
+
+  async function removeFromShortlist(profileId) {
+    const sid = _scoutId();
+    if (!sid) return;
+    _shortlistIds.delete(profileId);
+    _shortlistData = _shortlistData.filter(r => r.player_id !== profileId);
+    updateShortlistBadge();
+    renderShortlistGrid();
+    await fetch('/api/shortlist', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ scout_id: sid, player_id: profileId })
+    }).catch(() => {});
+    showToast('Removed from shortlist');
+  }
+
+  let _noteTimers = {};
+  function onShortlistNoteInput(profileId, textarea) {
+    clearTimeout(_noteTimers[profileId]);
+    _noteTimers[profileId] = setTimeout(() => saveShortlistNote(profileId, textarea.value), 900);
+  }
+
+  async function saveShortlistNote(profileId, notes) {
+    const sid = _scoutId();
+    if (!sid) return;
+    // Update local cache
+    const entry = _shortlistData.find(r => r.player_id === profileId);
+    if (entry) entry.notes = notes;
+    // Show saved indicator
+    const savedEl = document.getElementById('sl-saved-' + profileId);
+    if (savedEl) { savedEl.classList.add('show'); setTimeout(() => savedEl.classList.remove('show'), 2000); }
+    await fetch('/api/shortlist/notes', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ scout_id: sid, player_id: profileId, notes })
+    }).catch(() => {});
+  }
+
+  function _playerPosition(p) {
+    if (!p || !p.career || !p.career.length) return 'Player';
+    const role = p.career[0].role || '';
+    // Strip club-level prefix words like "First Team", "Academy", etc.
+    return role.replace(/^(First Team|Academy|Youth|Senior|Reserve[s]?)\s+/i, '') || 'Player';
+  }
+
+  function _playerNationality(p) {
+    if (!p) return '';
+    const loc = p.location || '';
+    // Try to parse after last comma or dot
+    const parts = loc.replace('📍', '').trim().split(/[,·]/);
+    return (parts[parts.length - 1] || '').trim();
+  }
+
+  function renderShortlistGrid() {
+    const grid = document.getElementById('sl-grid');
+    const countEl = document.getElementById('sl-count');
+    if (!grid) return;
+    if (!_shortlistData.length) {
+      grid.innerHTML = `<div class="sl-empty">
+        <div class="sl-empty-icon">🔖</div>
+        <div class="sl-empty-title">No players shortlisted yet</div>
+        <div class="sl-empty-sub">Browse the Athlete Discovery Network and bookmark players you want to track.</div>
+      </div>`;
+      if (countEl) countEl.textContent = '';
+      return;
+    }
+    if (countEl) countEl.textContent = _shortlistData.length + ' player' + (_shortlistData.length !== 1 ? 's' : '');
+    grid.innerHTML = _shortlistData.map(row => {
+      const p = PROFILES[row.player_id];
+      const name = p ? p.name : row.player_id.replace(/_/g, ' ');
+      const initials = p ? p.initials : (name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase());
+      const grad = p ? p.grad : 'linear-gradient(135deg,#334155,#1e293b)';
+      const pos = p ? _playerPosition(p) : 'Player';
+      const nat = p ? _playerNationality(p) : '';
+      const addedDate = row.created_at ? new Date(row.created_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
+      const safeId = row.player_id.replace(/[^a-z0-9_]/gi, '_');
+      const notes = (row.notes || '').replace(/"/g, '&quot;');
+      return `<div class="sl-card" id="slc-${safeId}">
+        <div class="sl-card-top">
+          <div class="sl-avatar" style="background:${grad}">${initials}</div>
+          <div class="sl-info">
+            <div class="sl-name">${name}</div>
+            <div class="sl-pos">${pos}</div>
+            ${nat ? `<div class="sl-location">${nat}</div>` : ''}
+            ${addedDate ? `<div class="sl-added">Added ${addedDate}</div>` : ''}
+          </div>
+        </div>
+        <div class="sl-notes-wrap">
+          <div class="sl-notes-label">Scout Notes</div>
+          <textarea class="sl-notes" id="sl-notes-${safeId}" placeholder="e.g. Strong left foot, follow up in March…" oninput="onShortlistNoteInput('${row.player_id}', this)">${notes}</textarea>
+          <div class="sl-notes-saved" id="sl-saved-${safeId}">Saved ✓</div>
+        </div>
+        <div class="sl-card-actions">
+          ${p ? `<button class="sl-btn-view" onclick="showProfile('${row.player_id}')">View Profile</button>` : ''}
+          <button class="sl-btn-remove" onclick="removeFromShortlist('${row.player_id}')" title="Remove from shortlist">✕ Remove</button>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  async function showShortlist() {
+    const sid = _scoutId();
+    if (!sid) return;
+    // Refresh from server
+    try {
+      const rows = await fetch('/api/shortlist?scout_id=' + encodeURIComponent(sid)).then(r => r.json());
+      _shortlistData = Array.isArray(rows) ? rows : [];
+      _shortlistIds = new Set(_shortlistData.map(r => r.player_id));
+      updateShortlistBadge();
+    } catch (e) { /* use cached */ }
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-shortlist').classList.add('active');
+    document.getElementById('screen-shortlist').scrollTop = 0;
+    setTopbarSide('network');
+    setActiveNavItem('nav-shortlist');
+    renderShortlistGrid();
+    updateFabVisibility();
+  }
+
+  // ══════════════════════════════════════════
+
   function showProfile(id) {
     if (!id || !PROFILES[id]) return;
     const p = PROFILES[id];
@@ -8086,10 +8335,17 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     photoEl.textContent = p.initials;
     photoEl.style.background = p.grad;
 
-    // ── Actions (connect/message) ──
+    // ── Actions (connect/message/shortlist) ──
+    const _acct = _getAccount();
+    const _isScout = _acct && _acct.role === 'scout';
+    const _shortlistHtml = (_isScout && p.role === 'player')
+      ? `<button class="shortlist-btn" id="prof-shortlist-btn" onclick="toggleShortlist('${id}')">🔖 <span id="prof-shortlist-label">Shortlist</span></button>`
+      : '';
     document.getElementById('prof-hero-actions').innerHTML =
       profileConnectBtn(id) +
-      `<button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="openMessageTo('${id}')">Message</button>`;
+      `<button class="btn btn-ghost" style="padding:8px 16px;font-size:12px" onclick="openMessageTo('${id}')">Message</button>` +
+      _shortlistHtml;
+    if (_isScout && p.role === 'player') _refreshProfileShortlistBtn(id);
 
     // ── Identity ──
     document.getElementById('prof-name').textContent = p.name;
@@ -10216,6 +10472,26 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     </div>
 
     <button class="checkin-skip" onclick="skipCheckin()">Skip for today</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: SHORTLIST (scout only)
+══════════════════════════════════════════ -->
+<div id="screen-shortlist" class="screen">
+  <div class="sl-wrap">
+    <div class="sl-header">
+      <button class="sl-back" onclick="goBackToNetwork()">← Back</button>
+      <h1 class="sl-title">🔖 My Shortlist</h1>
+      <span class="sl-count" id="sl-count"></span>
+    </div>
+    <div class="sl-grid" id="sl-grid">
+      <div class="sl-empty">
+        <div class="sl-empty-icon">🔖</div>
+        <div class="sl-empty-title">No players shortlisted yet</div>
+        <div class="sl-empty-sub">Browse the Athlete Discovery Network and bookmark players you want to track.</div>
+      </div>
+    </div>
   </div>
 </div>
 

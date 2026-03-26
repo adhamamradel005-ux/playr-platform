@@ -89,6 +89,16 @@ db.exec(`
     created_at DATETIME DEFAULT (datetime('now')),
     updated_at DATETIME DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS shortlist (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    scout_id   TEXT    NOT NULL,
+    player_id  TEXT    NOT NULL,
+    notes      TEXT    DEFAULT '',
+    created_at DATETIME DEFAULT (datetime('now')),
+    UNIQUE(scout_id, player_id)
+  );
+  CREATE INDEX IF NOT EXISTS idx_shortlist_scout ON shortlist(scout_id);
 `);
 
 // ── Journal ──
@@ -333,6 +343,50 @@ app.get('/api/badges', (req, res) => {
     'SELECT badge_id, earned_at FROM user_badges WHERE user_id = ? ORDER BY earned_at ASC'
   ).all(user_id);
   res.json(rows);
+});
+
+// ── Shortlist ──
+
+app.post('/api/shortlist', (req, res) => {
+  const { scout_id, player_id, notes } = req.body;
+  if (!scout_id || !player_id) {
+    return res.status(400).json({ error: 'scout_id and player_id required' });
+  }
+  db.prepare(`
+    INSERT INTO shortlist (scout_id, player_id, notes)
+    VALUES (?, ?, ?)
+    ON CONFLICT(scout_id, player_id) DO UPDATE SET notes = COALESCE(?, notes)
+  `).run(scout_id, player_id, notes || '', notes ?? null);
+  res.json({ success: true });
+});
+
+app.delete('/api/shortlist', (req, res) => {
+  const { scout_id, player_id } = req.body;
+  if (!scout_id || !player_id) {
+    return res.status(400).json({ error: 'scout_id and player_id required' });
+  }
+  db.prepare('DELETE FROM shortlist WHERE scout_id = ? AND player_id = ?').run(scout_id, player_id);
+  res.json({ success: true });
+});
+
+app.get('/api/shortlist', (req, res) => {
+  const { scout_id } = req.query;
+  if (!scout_id) return res.status(400).json({ error: 'scout_id required' });
+  const rows = db.prepare(
+    'SELECT player_id, notes, created_at FROM shortlist WHERE scout_id = ? ORDER BY created_at DESC'
+  ).all(scout_id);
+  res.json(rows);
+});
+
+app.patch('/api/shortlist/notes', (req, res) => {
+  const { scout_id, player_id, notes } = req.body;
+  if (!scout_id || !player_id) {
+    return res.status(400).json({ error: 'scout_id and player_id required' });
+  }
+  db.prepare(
+    'UPDATE shortlist SET notes = ? WHERE scout_id = ? AND player_id = ?'
+  ).run(notes || '', scout_id, player_id);
+  res.json({ success: true });
 });
 
 app.get('/admin/waitlist', (_req, res) => {
