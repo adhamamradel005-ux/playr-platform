@@ -2126,13 +2126,13 @@
     }
 
     /* ── Map Screen ── */
-    #screen-map {
+    #screen-mapview, #screen-map {
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
     }
-    @media (min-width: 769px) { #screen-map { padding-left: 64px; padding-top: 0; } }
-    @media (max-width: 768px) { #screen-map { padding-bottom: 62px; padding-top: 0; } }
+    @media (min-width: 769px) { #screen-mapview, #screen-map { padding-left: 64px; padding-top: 0; } }
+    @media (max-width: 768px) { #screen-mapview, #screen-map { padding-bottom: 62px; padding-top: 0; } }
     .map-filter-bar {
       display: flex; align-items: center; gap: 8px; flex-shrink: 0;
       padding: 9px 16px; background: var(--bg-card);
@@ -2451,8 +2451,8 @@
     .me-dropdown-link:hover { background: #1e2d3d !important; color: #ffffff; }
 
     /* ── Map ── */
-    #screen-map { background: #0F1923; }
-    .map-filter-bar { background: rgba(13,13,13,0.95) !important; border-color: rgba(255,255,255,0.08) !important; }
+    #screen-mapview, #screen-map { background: #0F1923; }
+    .map-filter-bar { background: rgba(15,25,35,0.97) !important; border-color: rgba(255,255,255,0.08) !important; }
     .map-filter-btn { background: #162030 !important; border-color: rgba(255,255,255,0.08) !important; color: #888888; border-radius: 4px; }
     .map-filter-btn.active { border-color: #00FF87 !important; color: #00FF87 !important; }
     .map-legend { background: rgba(13,13,13,0.9) !important; border-color: rgba(255,255,255,0.08) !important; border-radius: 4px; color: #cccccc; }
@@ -4089,6 +4089,13 @@
       <span class="pn-label">Feed</span>
     </button>
 
+    <button class="pn-item" id="nav-mapview" onclick="showMapView()" data-tooltip="Map">
+      <span class="pn-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      </span>
+      <span class="pn-label">Map</span>
+    </button>
+
     <button class="pn-item" id="nav-messaging" onclick="toggleChat()" data-tooltip="Messages">
       <span class="pn-icon-wrap">
         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
@@ -5326,6 +5333,62 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   <!-- ── Feed Scroll Area ── -->
   <div class="cf-scroll" id="cf-scroll">
     <div class="cf-feed" id="cf-feed"></div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN: MAP — ATHLETE DISCOVERY MAP
+══════════════════════════════════════════ -->
+<div id="screen-mapview" class="screen">
+
+  <!-- Filter toggles -->
+  <div class="map-filter-bar">
+    <span class="map-filter-label">Show:</span>
+    <button class="map-filter-btn fp"  id="mf-players"  onclick="toggleMapFilter('players',this)">
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#00FF87"></span> Players
+    </button>
+    <button class="map-filter-btn fs"  id="mf-scouts"   onclick="toggleMapFilter('scouts',this)">
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#1d4ed8"></span> Scouts
+    </button>
+    <button class="map-filter-btn ftr" id="mf-trials"   onclick="toggleMapFilter('trials',this)">
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#16a34a"></span> Trials
+    </button>
+    <button class="map-filter-btn fco" id="mf-coaching" onclick="toggleMapFilter('coaching',this)">
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#d97706"></span> Coaching
+    </button>
+    <button class="map-filter-btn fnw" id="mf-news"     onclick="toggleMapFilter('news',this)">
+      <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#dc2626"></span> News
+    </button>
+  </div>
+
+  <!-- Map + overlays -->
+  <div class="map-wrapper">
+    <div id="map-container"></div>
+
+    <!-- Colour legend -->
+    <div class="map-legend">
+      <div class="map-legend-title">Legend</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#00FF87"></div> Players</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#1d4ed8"></div> Scouts</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#16a34a"></div> Trials</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#d97706"></div> Coaching</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#dc2626"></div> News</div>
+      <div class="map-legend-item"><div class="map-legend-dot" style="background:#fff;border:2px solid #00FF87"></div> You</div>
+    </div>
+
+    <!-- Location permission dialog -->
+    <div id="loc-dialog-overlay" class="loc-dialog-overlay" style="display:none">
+      <div class="loc-dialog-card">
+        <div class="loc-icon">📍</div>
+        <h3>Show your location?</h3>
+        <p>We'll place you on the map at city level — never your exact address. Helps scouts find players near them.</p>
+        <div class="loc-dialog-btns">
+          <button class="loc-allow-btn" onclick="requestUserLocation()">Allow</button>
+          <button class="loc-deny-btn"  onclick="denyLocation()">Not now</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -7421,7 +7484,15 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   // keep old showMap as alias so nothing else breaks
-  function showMap() { showFeed(); }
+  function showMap() { showMapView(); }
+
+  function showMapView() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-mapview').classList.add('active');
+    setActiveNavItem('nav-mapview');
+    updateFabVisibility();
+    setTimeout(initLeafletMap, 50);
+  }
 
   function setCfTab(tab, btn) {
     _cfTab = tab;
@@ -7579,7 +7650,17 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     if (isFollowing && typeof connectUser === 'function') connectUser(id);
   }
 
-  function initLeafletMap() { /* map removed — feed replaces it */ }
+  function initLeafletMap() {
+    if (typeof L === 'undefined') return;
+    if (leafletMap) { leafletMap.invalidateSize(); return; }
+    leafletMap = L.map('map-container').setView([48, 10], 4);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+      maxZoom: 18
+    }).addTo(leafletMap);
+    renderMapMarkers();
+    checkLocationPermission();
+  }
 
   function renderMapMarkers() {
     // Clear old layers
