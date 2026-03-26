@@ -73,6 +73,14 @@ db.exec(`
     created_at DATETIME DEFAULT (datetime('now')),
     UNIQUE(user_id, date)
   );
+
+  CREATE TABLE IF NOT EXISTS user_badges (
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id    TEXT    NOT NULL,
+    badge_id   TEXT    NOT NULL,
+    earned_at  DATETIME DEFAULT (datetime('now')),
+    UNIQUE(user_id, badge_id)
+  );
 `);
 
 // ── Journal ──
@@ -273,6 +281,28 @@ app.get('/api/checkin', (req, res) => {
   if (!user_id) return res.status(400).json({ error: 'user_id required' });
   const rows = db.prepare(
     "SELECT date, energy, mood, focus FROM daily_checkins WHERE user_id = ? AND date >= date('now', '-30 days') ORDER BY date ASC"
+  ).all(user_id);
+  res.json(rows);
+});
+
+// ── Badges ──
+
+app.post('/api/badges', (req, res) => {
+  const { user_id, badge_id } = req.body;
+  if (!user_id || !badge_id) {
+    return res.status(400).json({ error: 'user_id and badge_id required' });
+  }
+  db.prepare(
+    'INSERT OR IGNORE INTO user_badges (user_id, badge_id) VALUES (?, ?)'
+  ).run(user_id, badge_id);
+  res.json({ success: true });
+});
+
+app.get('/api/badges', (req, res) => {
+  const { user_id } = req.query;
+  if (!user_id) return res.status(400).json({ error: 'user_id required' });
+  const rows = db.prepare(
+    'SELECT badge_id, earned_at FROM user_badges WHERE user_id = ? ORDER BY earned_at ASC'
   ).all(user_id);
   res.json(rows);
 });

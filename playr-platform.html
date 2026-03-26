@@ -560,6 +560,100 @@
     }
     #playr-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
+    /* ── Badge Grid ── */
+    .badges-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 14px;
+      margin-top: 4px;
+    }
+    .badge-tile {
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+      padding: 18px 10px 14px; border-radius: 14px; border: 1px solid var(--border);
+      background: var(--bg-card2); text-align: center; transition: transform 0.2s, border-color 0.2s;
+    }
+    .badge-tile.earned { border-color: transparent; }
+    .badge-tile.earned:hover { transform: translateY(-3px); }
+    .badge-tile.locked-badge { opacity: 0.42; filter: grayscale(0.7); }
+    .badge-icon-wrap {
+      width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; font-size: 26px; flex-shrink: 0;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.06);
+    }
+    .badge-tile.earned .badge-icon-wrap { box-shadow: 0 0 18px var(--badge-glow, rgba(0,255,135,0.3)); }
+    .badge-tile-name  { font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.3; }
+    .badge-tile-req   { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .badge-tile-date  { font-size: 10px; color: var(--green); font-weight: 600; }
+
+    /* ── Badge Celebration Modal ── */
+    #badge-modal {
+      position: fixed; inset: 0; z-index: 9800;
+      background: rgba(0,0,0,0.82); backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .badge-modal-card {
+      background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 28px; width: 100%; max-width: 400px; padding: 36px 28px 28px;
+      text-align: center; position: relative; overflow: hidden;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+      animation: bm-in 0.45s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes bm-in {
+      from { opacity:0; transform: scale(0.78) translateY(30px); }
+      to   { opacity:1; transform: none; }
+    }
+    .badge-modal-rays {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .bm-ray {
+      position: absolute; top: 50%; left: 50%;
+      width: 2px; height: 120px; transform-origin: top center;
+      background: linear-gradient(to bottom, var(--bm-color, #00FF87), transparent);
+      opacity: 0.18; animation: bm-ray-spin 8s linear infinite;
+    }
+    @keyframes bm-ray-spin { from { transform: rotate(var(--r,0deg)) translateY(-50%); } to { transform: rotate(calc(var(--r,0deg) + 360deg)) translateY(-50%); } }
+    .badge-modal-close {
+      position: absolute; top: 14px; right: 16px; background: none; border: none;
+      color: var(--muted); font-size: 18px; cursor: pointer; padding: 4px 8px;
+      border-radius: 6px; transition: color 0.15s;
+    }
+    .badge-modal-close:hover { color: var(--text); }
+    .badge-modal-eyebrow {
+      font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px;
+      margin-bottom: 20px; opacity: 0.6;
+    }
+    .badge-modal-icon-wrap {
+      width: 96px; height: 96px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 46px; margin: 0 auto 18px;
+      animation: bm-bounce 0.6s 0.35s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes bm-bounce { from { transform: scale(0.3); opacity:0; } to { transform: scale(1); opacity:1; } }
+    .badge-modal-headline { font-size: 22px; font-weight: 900; color: var(--text); margin-bottom: 8px; }
+    .badge-modal-subline  { font-size: 14px; color: var(--muted); line-height: 1.6; margin-bottom: 24px; }
+    .badge-modal-btns { display: flex; gap: 10px; justify-content: center; }
+    .bm-btn-share {
+      padding: 11px 22px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.12);
+      background: var(--bg-card2); color: var(--text); font-size: 13px; font-weight: 700;
+      cursor: pointer; font-family: inherit; transition: border-color 0.15s;
+    }
+    .bm-btn-share:hover { border-color: rgba(255,255,255,0.25); }
+    .bm-btn-done {
+      padding: 11px 28px; border-radius: 12px; border: none;
+      font-size: 13px; font-weight: 800; cursor: pointer; font-family: inherit;
+      color: #000; transition: opacity 0.15s;
+    }
+    .bm-btn-done:hover { opacity: 0.85; }
+
+    /* Confetti particles */
+    .confetti-piece {
+      position: absolute; width: 8px; height: 8px; border-radius: 2px;
+      animation: confetti-fall var(--dur,1.2s) var(--delay,0s) ease-in forwards;
+      top: -10px;
+    }
+    @keyframes confetti-fall {
+      0%   { transform: translateX(0) rotate(0deg) translateY(0); opacity: 1; }
+      100% { transform: translateX(var(--tx,20px)) rotate(var(--rot,360deg)) translateY(200px); opacity: 0; }
+    }
+
     .module-thumb {
       width: 100%;
       height: 140px;
@@ -4585,6 +4679,15 @@
           <div id="progress-list"></div>
         </div>
 
+        <!-- Badges -->
+        <div class="sidebar-card" style="margin-top:8px">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+            <h4 style="margin:0">Badges</h4>
+            <span style="font-size:12px;color:var(--muted)" id="badges-count-label"></span>
+          </div>
+          <div class="badges-grid" id="badges-grid"></div>
+        </div>
+
         <!-- Performance Graph -->
         <div class="sidebar-card" style="margin-top:8px" id="perf-graph-card">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px">
@@ -6168,6 +6271,178 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     }
   }
 
+  // ─── BADGE SYSTEM ───
+
+  const BADGES = [
+    {
+      id: 'streak_3',   label: 'Getting Started',   icon: '🌱',
+      color: '#22c55e', glow: 'rgba(34,197,94,0.35)',
+      desc: '3-day login streak',
+      check: s => s.streak >= 3
+    },
+    {
+      id: 'streak_7',   label: 'One Week Warrior',  icon: '⚔️',
+      color: '#f59e0b', glow: 'rgba(245,158,11,0.35)',
+      desc: '7-day login streak',
+      check: s => s.streak >= 7
+    },
+    {
+      id: 'streak_30',  label: 'Mental Elite',      icon: '🧠',
+      color: '#a855f7', glow: 'rgba(168,85,247,0.4)',
+      desc: '30-day streak',
+      check: s => s.streak >= 30
+    },
+    {
+      id: 'modules_5',  label: 'Halfway There',     icon: '⭐',
+      color: '#3b82f6', glow: 'rgba(59,130,246,0.35)',
+      desc: 'Complete 5 modules',
+      check: s => s.completedCount >= 5
+    },
+    {
+      id: 'modules_10', label: 'Framework Complete',icon: '🏆',
+      color: '#fbbf24', glow: 'rgba(251,191,36,0.4)',
+      desc: 'Complete all 10 modules',
+      check: s => s.completedCount >= 10
+    },
+  ];
+
+  const BADGES_KEY = 'playr_earned_badges'; // { badge_id: earned_at_iso }
+
+  function _loadLocalBadges() {
+    try { return JSON.parse(localStorage.getItem(BADGES_KEY) || '{}'); } catch { return {}; }
+  }
+  function _saveLocalBadges(obj) {
+    localStorage.setItem(BADGES_KEY, JSON.stringify(obj));
+  }
+
+  async function syncBadgesFromServer() {
+    try {
+      const rows = await apiGet(`/api/badges?user_id=${encodeURIComponent(userId)}`);
+      const obj = _loadLocalBadges();
+      rows.forEach(r => { if (!obj[r.badge_id]) obj[r.badge_id] = r.earned_at; });
+      _saveLocalBadges(obj);
+    } catch { /* offline — use local cache */ }
+  }
+
+  const _badgeQueue = [];
+  let _badgeModalOpen = false;
+
+  async function checkAndAwardBadges(stats) {
+    const earned = _loadLocalBadges();
+    const newlyEarned = [];
+
+    for (const b of BADGES) {
+      if (!earned[b.id] && b.check(stats)) {
+        earned[b.id] = new Date().toISOString();
+        newlyEarned.push(b);
+        apiPost('/api/badges', { user_id: userId, badge_id: b.id }).catch(() => {});
+      }
+    }
+
+    if (newlyEarned.length) {
+      _saveLocalBadges(earned);
+      newlyEarned.forEach(b => _badgeQueue.push(b));
+      if (!_badgeModalOpen) _showNextBadgeModal();
+    }
+  }
+
+  function _showNextBadgeModal() {
+    if (!_badgeQueue.length) { _badgeModalOpen = false; return; }
+    _badgeModalOpen = true;
+    const b = _badgeQueue.shift();
+    _openBadgeModal(b);
+  }
+
+  let _currentBadge = null;
+  function _openBadgeModal(b) {
+    _currentBadge = b;
+    const card = document.getElementById('badge-modal-card');
+
+    // Rays
+    const raysEl = document.getElementById('bm-rays');
+    raysEl.innerHTML = '';
+    for (let i = 0; i < 12; i++) {
+      const ray = document.createElement('div');
+      ray.className = 'bm-ray';
+      ray.style.cssText = `--r:${i * 30}deg; --bm-color:${b.color}; animation-delay:${i * 0.05}s`;
+      raysEl.appendChild(ray);
+    }
+
+    // Confetti
+    const colors = [b.color, '#fff', '#fbbf24', '#f472b6'];
+    for (let i = 0; i < 22; i++) {
+      const p = document.createElement('div');
+      p.className = 'confetti-piece';
+      p.style.cssText = [
+        `background:${colors[i % colors.length]}`,
+        `left:${10 + Math.random() * 80}%`,
+        `--tx:${(Math.random() - 0.5) * 80}px`,
+        `--rot:${Math.round(Math.random() * 720)}deg`,
+        `--dur:${(0.9 + Math.random() * 0.8).toFixed(2)}s`,
+        `--delay:${(Math.random() * 0.4).toFixed(2)}s`,
+      ].join(';');
+      raysEl.appendChild(p);
+    }
+
+    document.getElementById('bm-eyebrow').style.color = b.color;
+    document.getElementById('bm-icon').textContent = b.icon;
+    document.getElementById('bm-icon-wrap').style.background = `${b.glow.replace('0.', '0.1').replace('0.35','0.12').replace('0.4','0.12')}`;
+    document.getElementById('bm-icon-wrap').style.boxShadow = `0 0 32px ${b.glow}`;
+    document.getElementById('bm-headline').textContent = b.label;
+    document.getElementById('bm-subline').textContent = `You earned the "${b.label}" badge for ${b.desc}. Keep building — greatness is a habit.`;
+    const doneBtn = document.getElementById('bm-done-btn');
+    doneBtn.style.background = b.color;
+    card.style.setProperty('--bm-color', b.color);
+
+    document.getElementById('badge-modal').style.display = 'flex';
+    addNotif('badge', `Badge earned: ${b.label}`, b.icon);
+  }
+
+  function closeBadgeModal() {
+    document.getElementById('badge-modal').style.display = 'none';
+    _currentBadge = null;
+    setTimeout(_showNextBadgeModal, 400);
+  }
+
+  function shareBadge() {
+    if (!_currentBadge) return;
+    const text = `I just earned the "${_currentBadge.label}" badge ${_currentBadge.icon} on Playr — the mental performance platform for athletes. 💪`;
+    if (navigator.share) {
+      navigator.share({ title: 'Playr Badge', text }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(text).then(() => showToast('Copied to clipboard!')).catch(() => {});
+    }
+  }
+
+  async function renderBadgesSection() {
+    await syncBadgesFromServer();
+    const earned = _loadLocalBadges();
+    const grid = document.getElementById('badges-grid');
+    const label = document.getElementById('badges-count-label');
+    if (!grid) return;
+
+    const earnedCount = BADGES.filter(b => earned[b.id]).length;
+    if (label) label.textContent = `${earnedCount} / ${BADGES.length} earned`;
+
+    grid.innerHTML = BADGES.map(b => {
+      const isEarned = !!earned[b.id];
+      const dateStr = isEarned
+        ? new Date(earned[b.id]).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
+        : '';
+      return `
+        <div class="badge-tile ${isEarned ? 'earned' : 'locked-badge'}"
+             style="${isEarned ? `--badge-glow:${b.glow}` : ''}">
+          <div class="badge-icon-wrap" style="background:${isEarned ? b.glow.replace(/[\d.]+\)$/, '0.15)') : 'rgba(255,255,255,0.04)'}">
+            ${b.icon}
+          </div>
+          <div class="badge-tile-name">${b.label}</div>
+          <div class="badge-tile-req">${b.desc}</div>
+          ${isEarned ? `<div class="badge-tile-date">Earned ${dateStr}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+  }
+
   // ─── LOAD STATS FROM API ───
   async function loadStats() {
     try {
@@ -6195,6 +6470,9 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       document.getElementById('journal-total-entries').textContent = s.journalCount;
       document.getElementById('journal-week-entries').textContent = s.thisWeekCount;
       document.getElementById('journal-streak-stat').textContent = s.streak + ' days 🔥';
+
+      // Badge check — runs after every stat load
+      checkAndAwardBadges(s);
     } catch (e) {
       console.error('Failed to load stats:', e);
     }
@@ -6356,7 +6634,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
     if (viewName === 'journal')   loadJournalEntries();
     if (viewName === 'explore')   initExplore();
-    if (viewName === 'progress')  loadCheckinChart();
+    if (viewName === 'progress') { loadCheckinChart(); renderBadgesSection(); }
   }
 
   async function showEAF() {
@@ -9257,6 +9535,24 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
 <!-- Toast -->
 <div id="playr-toast"></div>
+
+<!-- Badge Celebration Modal -->
+<div id="badge-modal" style="display:none">
+  <div class="badge-modal-card" id="badge-modal-card">
+    <div class="badge-modal-rays" id="bm-rays"></div>
+    <button class="badge-modal-close" onclick="closeBadgeModal()">✕</button>
+    <div class="badge-modal-eyebrow" id="bm-eyebrow">🎉 Badge Unlocked</div>
+    <div class="badge-modal-icon-wrap" id="bm-icon-wrap">
+      <span id="bm-icon"></span>
+    </div>
+    <div class="badge-modal-headline" id="bm-headline"></div>
+    <div class="badge-modal-subline"  id="bm-subline"></div>
+    <div class="badge-modal-btns">
+      <button class="bm-btn-share" onclick="shareBadge()">Share 🔗</button>
+      <button class="bm-btn-done"  id="bm-done-btn" onclick="closeBadgeModal()">Nice! 🎉</button>
+    </div>
+  </div>
+</div>
 
 <!-- ── Daily Check-in Overlay ── -->
 <div id="checkin-overlay" style="display:none">
