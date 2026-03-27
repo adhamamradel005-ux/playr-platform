@@ -1565,6 +1565,21 @@
     .profile-tile-btn.connected { border-color: rgba(255,255,255,0.08); color: #888888; cursor: default; }
     .profile-tile-btn.connected:hover { background: transparent; color: #888888; }
 
+    /* ── Invite empty state ── */
+    .invite-empty-card {
+      background: rgba(0,255,135,0.04); border: 1px dashed rgba(0,255,135,0.2);
+      border-radius: 12px; padding: 20px 16px; text-align: center; margin: 8px 0;
+    }
+    .invite-empty-text {
+      color: var(--muted); font-size: 13px; line-height: 1.55; margin-bottom: 14px;
+    }
+    .invite-empty-btn {
+      background: #00FF87; color: #0F1923; border: none; border-radius: 8px;
+      padding: 9px 20px; font-weight: 700; font-size: 13px; cursor: pointer;
+      font-family: inherit; transition: opacity 0.15s;
+    }
+    .invite-empty-btn:hover { opacity: 0.88; }
+
     /* ── Post composer bar ── */
     .composer-bar {
       display: flex; align-items: center; gap: 10px;
@@ -7438,13 +7453,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       searchDefault: 'scout',
       banner: { icon:'🔍', headline:'47 scouts active this week', sub:'Get your profile in front of the right people.', btnLabel:'Get Discovered', btnColor:'#00FF87', bg:'rgba(0,255,135,0.07)', border:'rgba(0,255,135,0.2)', action: "showMyNetwork()" },
       suggestionsTitle: 'Scouts & Clubs looking for talent',
-      suggestions: [
-        { id: 'lisa_chen',      initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen',          badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Premier League Affiliated',  mutual: '8 mutual connections' },
-        { id: 'james_harrison', initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison',    badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Senior Scout',               mutual: '14 mutual connections' },
-        { id: 'fc_velocity',    initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy',badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',   sub: 'Verified Club',              mutual: '3 mutual connections' },
-        { id: 'sarah_okonkwo', initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo',    badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'UEFA A Licensed',            mutual: '6 mutual connections' },
-        { id: 'ryan_morris',   initials: 'RM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Ryan Morris',      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Championship Scout',         mutual: '11 mutual connections' },
-      ]
+      suggestions: []
     },
     scout: {
       badge: '<span class="role-badge role-scout">🔍 Scout</span>',
@@ -7454,13 +7463,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       searchDefault: 'player',
       banner: { icon:'⚽', headline:'312 new players joined this week', sub:'Browse talent by position, age, and nationality.', btnLabel:'Browse Talent', btnColor:'#f59e0b', bg:'rgba(245,158,11,0.07)', border:'rgba(245,158,11,0.2)', action: "showMyNetwork()" },
       suggestionsTitle: 'Players on your radar',
-      suggestions: [
-        { id: 'kai_mensah',    initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Kai Mensah',    badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · FC Velocity',             mutual: '5 mutual connections' },
-        { id: 'marcus_diallo', initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)', name: 'Marcus Diallo', badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Central Midfielder · Free Agent',   mutual: '9 mutual connections' },
-        { id: 'amara_toure',   initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré',   badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇸🇳 Senegalese',          mutual: '7 mutual connections' },
-        { id: 'jamie_asante',  initials: 'JA', grad: 'linear-gradient(135deg,#00FF87,#6d28d9)', name: 'Jamie Asante',  badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Winger · U21',                      mutual: '12 mutual connections' },
-        { id: 'rayan_bouzid',  initials: 'RB', grad: 'linear-gradient(135deg,#2563eb,#1d4ed8)', name: 'Rayan Bouzid',  badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · 🇫🇷 French',                   mutual: '4 mutual connections' },
-      ]
+      suggestions: []
     },
     coach: {
       badge: '<span class="role-badge role-coach">🎯 Coach</span>',
@@ -7470,13 +7473,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       searchDefault: 'club',
       banner: { icon:'🏟️', headline:'18 clubs looking for coaches right now', sub:'Share your expertise and find your next role.', btnLabel:'View Opportunities', btnColor:'#3b82f6', bg:'rgba(59,130,246,0.07)', border:'rgba(59,130,246,0.2)', action: "showMyNetwork()" },
       suggestionsTitle: 'Clubs & Players to connect with',
-      suggestions: [
-        { id: 'fc_velocity',   initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy', badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',   sub: 'Verified Academy Club',     mutual: '4 mutual connections' },
-        { id: 'david_osei',    initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei',         badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'Academy Coach',             mutual: '7 mutual connections' },
-        { id: 'kai_mensah',    initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Kai Mensah',         badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Seeking coaching', mutual: '3 mutual connections' },
-        { id: 'lisa_chen',     initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen',          badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'PL Scout · Talent network', mutual: '6 mutual connections' },
-        { id: 'marcus_diallo', initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)', name: 'Marcus Diallo',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'CM · Free Agent',           mutual: '2 mutual connections' },
-      ]
+      suggestions: []
     },
     club: {
       badge: '<span class="role-badge role-club">🏟️ Club</span>',
@@ -7486,13 +7483,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       searchDefault: 'player',
       banner: { icon:'⭐', headline:'Build your squad from the ground up', sub:'Post trials, find scouts, recruit coaches and players.', btnLabel:'Post a Trial', btnColor:'#a855f7', bg:'rgba(168,85,247,0.07)', border:'rgba(168,85,247,0.2)', action: "showMyNetwork()" },
       suggestionsTitle: 'Players & Staff to recruit',
-      suggestions: [
-        { id: 'james_harrison', initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison', badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',  sub: 'Senior Scout · Available',        mutual: '10 mutual connections' },
-        { id: 'sarah_okonkwo',  initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo',  badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'UEFA A · Sports Psychologist',    mutual: '8 mutual connections' },
-        { id: 'kai_mensah',     initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Kai Mensah',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · 🇬🇭 Ghanaian',          mutual: '5 mutual connections' },
-        { id: 'amara_toure',    initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré',    badgeHtml: '<span class="role-badge role-player">⚽ Player</span>', sub: 'Striker · Free Agent',           mutual: '3 mutual connections' },
-        { id: 'david_osei',     initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei',     badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>', sub: 'Academy Coach · 🇬🇭 Ghanaian',   mutual: '7 mutual connections' },
-      ]
+      suggestions: []
     }
   };
 
@@ -7521,13 +7512,11 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
     // Suggestions
     document.getElementById('suggestions-title').textContent = meta.suggestionsTitle;
-    document.getElementById('suggestions-list').innerHTML = meta.suggestions.map(p => `
-      <div class="profile-tile" onclick="showProfile('${p.id || ''}')">
-        <div class="profile-tile-av" style="background:${p.grad}">${p.initials}</div>
-        <div class="profile-tile-name">${p.name}</div>
-        <div class="profile-tile-sub">${p.sub}</div>
-        ${connBtnHtml(p.id || '').replace(/connect-btn/g, 'profile-tile-btn')}
-      </div>`).join('');
+    document.getElementById('suggestions-list').innerHTML = `
+      <div class="invite-empty-card">
+        <div class="invite-empty-text">No connections yet — the network grows when you invite people who matter to your career.</div>
+        <button class="invite-empty-btn" onclick="openInviteModal()">Invite Someone</button>
+      </div>`;
 
     // Role action banner
     const bannerEl = document.getElementById('role-action-banner');
@@ -7787,16 +7776,21 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   // ─── CONNECTIONS SYSTEM ───
-  const SIMULATED_INCOMING = ['marcus_diallo', 'jamie_asante']; // pre-seeded requests
-
   function loadConnections() {
     try {
       const raw = localStorage.getItem('playr_connections');
-      if (raw) return JSON.parse(raw);
-      // First visit: seed simulated incoming requests
-      const init = { sent: [], received: [...SIMULATED_INCOMING], connected: [] };
-      localStorage.setItem('playr_connections', JSON.stringify(init));
-      return init;
+      const c = raw ? JSON.parse(raw) : { sent: [], received: [], connected: [] };
+      // Filter out any stale fake IDs not backed by real DISCOVER_USERS entries
+      const validIds = new Set(DISCOVER_USERS.map(u => u.id));
+      const clean = {
+        sent:      (c.sent      || []).filter(id => validIds.has(id)),
+        received:  (c.received  || []).filter(id => validIds.has(id)),
+        connected: (c.connected || []).filter(id => validIds.has(id)),
+      };
+      if (!raw || JSON.stringify(clean) !== JSON.stringify(c)) {
+        localStorage.setItem('playr_connections', JSON.stringify(clean));
+      }
+      return clean;
     } catch { return { sent: [], received: [], connected: [] }; }
   }
 
@@ -7962,7 +7956,10 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
             ${connBtnHtml(u.id)}
           </div>`;
         }).join('')
-      : '<div class="mn-empty">You\'re connected to everyone! 🎉</div>';
+      : `<div class="invite-empty-card">
+          <div class="invite-empty-text">No connections yet — the network grows when you invite people who matter to your career.</div>
+          <button class="invite-empty-btn" onclick="openInviteModal()">Invite Someone</button>
+        </div>`;
 
     document.getElementById('my-network-body').innerHTML = `
       <div class="mn-section">
@@ -8126,217 +8123,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   // ─── PROFILE DATA ───
-  const PROFILES = {
-    kai_mensah: {
-      initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)',
-      cover: 'linear-gradient(135deg,#1a0a2e 0%,#00C9A7 60%,#00FF87 100%)',
-      name: 'Kai Mensah', role: 'player',
-      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
-      location: '📍 Manchester, England', connections: '247', views: '1.4k', impressions: '8.3k',
-      bio: 'Professional footballer recently signed with FC Velocity\'s first team. After two years in the academy and multiple setbacks — two injuries, one release — I\'m here to prove what I\'m capable of. Mental strength is the edge nobody talks about.',
-      career: [
-        { club: 'FC Velocity', role: 'First Team Striker', dates: '2026 — Present', current: true },
-        { club: 'FC Velocity Academy', role: 'Academy Striker', dates: '2024 — 2026', current: false },
-        { club: 'Ashford United FC', role: 'Youth Striker', dates: '2022 — 2024', current: false },
-      ],
-      stats: [{ label: 'Goals (24/25)', value: '18' }, { label: 'Assists', value: '7' }, { label: 'Appearances', value: '31' }, { label: 'Sprint Speed', value: '33 km/h' }],
-      highlights: [{ title: '2024/25 Season Highlight Reel', ytId: 'dQw4w9WgXcQ' }],
-      certs: [],
-      posts: [
-        { ts: '2h ago', text: '🚀 Incredibly excited to announce that I\'ve signed my first professional contract!\n\nAfter two years in the academy and a lot of hard work — I\'m officially joining FC Velocity\'s first team for next season. To every young player grinding right now: keep going. The breakthrough comes. 🙏' },
-      ],
-      alsoViewed: ['marcus_diallo', 'amara_toure', 'jamie_asante'],
-    },
-    james_harrison: {
-      initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)',
-      cover: 'linear-gradient(135deg,#1a0f00 0%,#92400e 60%,#d97706 100%)',
-      name: 'James Harrison', role: 'scout',
-      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',
-      location: '📍 Manchester, England', connections: '612', views: '3.1k', impressions: '21k',
-      bio: 'Senior Scout with 12 years\' experience across the Football League and Premier League affiliates. Specialist in identifying technical midfielders and technically proficient wingers aged 16–23. I watch every clip sent to me.',
-      career: [
-        { club: 'Premier League Affiliate Club', role: 'Senior Scout', dates: '2021 — Present', current: true },
-        { club: 'Championship Club', role: 'Regional Scout – North West', dates: '2017 — 2021', current: false },
-        { club: 'League One Club', role: 'Academy Scout', dates: '2013 — 2017', current: false },
-      ],
-      stats: [{ label: 'Players Signed', value: '34' }, { label: 'Clubs Worked With', value: '6' }, { label: 'Reports Filed', value: '1.2k' }, { label: 'Years Experience', value: '12' }],
-      highlights: [],
-      certs: [{ icon: '📋', name: 'UEFA Scouting Certificate', org: 'UEFA · 2019' }, { icon: '🏆', name: 'FA Talent ID Level 2', org: 'The Football Association · 2015' }],
-      posts: [
-        { ts: '4h ago', text: '🔍 TALENT SEARCH | Currently scouting for our regional programme. Looking for attacking midfielders & wingers, aged 16–21. High work rate and coachability are non-negotiable. DM your highlight reel.' },
-      ],
-      alsoViewed: ['lisa_chen', 'ryan_morris', 'fc_velocity'],
-    },
-    fc_velocity: {
-      initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)',
-      cover: 'linear-gradient(135deg,#022c0a 0%,#14532d 60%,#16a34a 100%)',
-      name: 'FC Velocity Academy', role: 'club',
-      badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',
-      location: '📍 Manchester, England · Est. 2004', connections: '1.8k', views: '12k', impressions: '94k',
-      bio: 'Professional academy developing next-generation footballers. Our philosophy: technical excellence, physical conditioning, and mental performance. We produce players — not just athletes.',
-      career: [
-        { club: 'Northern Premier League', role: 'First Team', dates: '2010 — Present', current: true },
-        { club: 'FA Youth Cup', role: 'Academy Finalists', dates: '2023', current: false },
-        { club: 'Manchester FA', role: 'Regional Champions', dates: '2021', current: false },
-      ],
-      stats: [{ label: 'Players Developed', value: '140+' }, { label: 'Pro Contracts', value: '23' }, { label: 'Academy Alumni', value: '67' }, { label: 'Years Active', value: '21' }],
-      highlights: [{ title: 'U18 Training Highlights 2025', ytId: 'dQw4w9WgXcQ' }],
-      certs: [{ icon: '🏟️', name: 'FA Licensed Academy', org: 'The Football Association · Verified' }, { icon: '⭐', name: 'Elite Performance Environment', org: 'Premier League Academy Standards · 2024' }],
-      posts: [
-        { ts: 'Yesterday', text: '📢 OPEN TRIALS — April 12–13, 2026\n📍 Velocity Training Ground, Manchester\n⚽ U18 & U21 squads: GK · CB · CM · CAM · ST\n✅ Technical ability, mental toughness, and coachability required. Apply via the link in our bio.' },
-      ],
-      alsoViewed: ['james_harrison', 'sarah_okonkwo', 'david_osei'],
-    },
-    sarah_okonkwo: {
-      initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)',
-      cover: 'linear-gradient(135deg,#0a1535 0%,#1e40af 60%,#2563eb 100%)',
-      name: 'Sarah Okonkwo', role: 'coach',
-      badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',
-      location: '📍 London, England', connections: '891', views: '4.7k', impressions: '62k',
-      bio: 'UEFA A Licensed coach and certified sports psychologist specialising in mental performance for elite footballers. I help players transform their relationship with pressure, failure, and identity. Because the mental game decides everything at the top.',
-      career: [
-        { club: 'Independent Practice', role: 'Sports Psychologist & Coach', dates: '2020 — Present', current: true },
-        { club: 'Premier League Academy', role: 'Head of Mental Performance', dates: '2016 — 2020', current: false },
-        { club: 'National Women\'s Team', role: 'Assistant Coach', dates: '2013 — 2016', current: false },
-      ],
-      stats: [{ label: 'Athletes Coached', value: '200+' }, { label: 'Clubs Partnered', value: '14' }, { label: 'Pro Players', value: '38' }, { label: 'Years Experience', value: '13' }],
-      highlights: [{ title: 'Mental Performance Talk — Pressure Protocol', ytId: 'dQw4w9WgXcQ' }],
-      certs: [
-        { icon: '🎯', name: 'UEFA A Licence', org: 'UEFA · 2015' },
-        { icon: '🧠', name: 'MSc Sports Psychology', org: 'Loughborough University · 2013' },
-        { icon: '📋', name: 'BPS Chartered Psychologist', org: 'British Psychological Society · 2014' },
-      ],
-      posts: [
-        { ts: '2 days ago', text: '💡 Pressure is not the problem. Your relationship with pressure is the problem.\n\nElite performers learn to use that energy — interpret it as excitement, not threat. The body can\'t tell the difference between anxiety and excitement. What changes is the story you tell about it.' },
-      ],
-      alsoViewed: ['david_osei', 'james_harrison', 'fc_velocity'],
-    },
-    marcus_diallo: {
-      initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)',
-      cover: 'linear-gradient(135deg,#0d0a2e 0%,#1e40af 50%,#00FF87 100%)',
-      name: 'Marcus Diallo', role: 'player',
-      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
-      location: '📍 London, England · 🇫🇷 French', connections: '156', views: '892', impressions: '4.1k',
-      bio: 'Central midfielder, 22. Three weeks back to full fitness after a hamstring injury. The rehab process taught me more about myself than any season on the pitch. Open to trial opportunities in England or Germany.',
-      career: [
-        { club: 'Free Agent', role: 'Central Midfielder', dates: '2025 — Present', current: true },
-        { club: 'Stade Brestois B', role: 'Reserve Central Midfielder', dates: '2023 — 2025', current: false },
-        { club: 'INF Clairefontaine', role: 'Academy Midfielder', dates: '2019 — 2023', current: false },
-      ],
-      stats: [{ label: 'Pass Accuracy', value: '89%' }, { label: 'Km Covered / 90', value: '11.4' }, { label: 'Tackles Won', value: '68%' }, { label: 'Goals (23/24)', value: '6' }],
-      highlights: [{ title: 'Season 23/24 Best Moments', ytId: 'dQw4w9WgXcQ' }],
-      certs: [],
-      posts: [
-        { ts: '3 days ago', text: 'Back on the training pitch. 💪\n\n3 weeks out with a hamstring injury. Used the time to go deep on the mental game. Came back with more clarity about my game than I had before. Open to trial opportunities in England or Germany. DMs open.' },
-      ],
-      alsoViewed: ['kai_mensah', 'rayan_bouzid', 'jamie_asante'],
-    },
-    jamie_asante: {
-      initials: 'JA', grad: 'linear-gradient(135deg,#00FF87,#6d28d9)',
-      cover: 'linear-gradient(135deg,#1a0a2e 0%,#6d28d9 60%,#00FF87 100%)',
-      name: 'Jamie Asante', role: 'player',
-      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
-      location: '📍 Birmingham, England', connections: '94', views: '412', impressions: '2.8k',
-      bio: 'U21 winger with rapid acceleration and strong 1v1 ability. Currently in pre-season training with my club. 12 mutual connections with scouts and coaches. Serious about taking the next step.',
-      career: [
-        { club: 'FC Solihull Academy', role: 'Winger', dates: '2024 — Present', current: true },
-        { club: 'Aston Villa Academy', role: 'U18 Winger', dates: '2022 — 2024', current: false },
-      ],
-      stats: [{ label: 'Sprint Speed', value: '34 km/h' }, { label: 'Goals (24/25)', value: '9' }, { label: 'Assists', value: '11' }, { label: 'Dribbles / 90', value: '4.2' }],
-      highlights: [{ title: 'U21 Season Highlights', ytId: 'dQw4w9WgXcQ' }],
-      certs: [],
-      posts: [],
-      alsoViewed: ['kai_mensah', 'marcus_diallo', 'rayan_bouzid'],
-    },
-    lisa_chen: {
-      initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)',
-      cover: 'linear-gradient(135deg,#1c0e00 0%,#b45309 60%,#d97706 100%)',
-      name: 'Lisa Chen', role: 'scout',
-      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',
-      location: '📍 London, England', connections: '744', views: '2.9k', impressions: '18k',
-      bio: 'Premier League affiliated scout with a focus on Asian and European talent pipelines. Former player turned analyst. I identify players with elite physical and technical profiles — and a mindset to match.',
-      career: [
-        { club: 'Premier League Club (Undisclosed)', role: 'Scout – Asian & European Markets', dates: '2022 — Present', current: true },
-        { club: 'EFL Championship Club', role: 'Talent Analyst', dates: '2019 — 2022', current: false },
-        { club: 'Women\'s Super League', role: 'Performance Analyst', dates: '2016 — 2019', current: false },
-      ],
-      stats: [{ label: 'Players Signed', value: '19' }, { label: 'Reports Filed', value: '680+' }, { label: 'Countries Covered', value: '12' }, { label: 'Years Scouting', value: '7' }],
-      highlights: [],
-      certs: [{ icon: '📊', name: 'UEFA Scouting Certificate', org: 'UEFA · 2020' }, { icon: '📐', name: 'Sports Analytics (MSc)', org: 'University of Manchester · 2016' }],
-      posts: [],
-      alsoViewed: ['james_harrison', 'ryan_morris', 'sarah_okonkwo'],
-    },
-    rayan_bouzid: {
-      initials: 'RB', grad: 'linear-gradient(135deg,#2563eb,#1d4ed8)',
-      cover: 'linear-gradient(135deg,#040d24 0%,#1d4ed8 60%,#2563eb 100%)',
-      name: 'Rayan Bouzid', role: 'player',
-      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
-      location: '📍 Lyon, France · 🇫🇷 French', connections: '128', views: '534', impressions: '3.2k',
-      bio: 'Technically refined central midfielder raised in the French academy system. Strong in tight spaces, exceptional vision. Currently finishing my final season at youth level and exploring professional opportunities abroad.',
-      career: [
-        { club: 'Olympique Lyonnais B', role: 'Central Midfielder', dates: '2024 — Present', current: true },
-        { club: 'INF Clairefontaine', role: 'Academy Midfielder', dates: '2020 — 2024', current: false },
-      ],
-      stats: [{ label: 'Pass Accuracy', value: '91%' }, { label: 'Key Passes / 90', value: '3.7' }, { label: 'Goals (24/25)', value: '8' }, { label: 'Assists', value: '14' }],
-      highlights: [{ title: 'Technical Highlights — 2024/25', ytId: 'dQw4w9WgXcQ' }],
-      certs: [],
-      posts: [],
-      alsoViewed: ['marcus_diallo', 'kai_mensah', 'jamie_asante'],
-    },
-    david_osei: {
-      initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)',
-      cover: 'linear-gradient(135deg,#040d24 0%,#1e40af 55%,#2563eb 100%)',
-      name: 'David Osei', role: 'coach',
-      badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',
-      location: '📍 Manchester, England · 🇬🇭 Ghanaian', connections: '267', views: '1.1k', impressions: '7.2k',
-      bio: 'Academy coach working across U16–U21 levels in Manchester. Ghanaian background gives me a unique lens on player development across cultures. I help young players find their voice on and off the pitch.',
-      career: [
-        { club: 'FC Velocity Academy', role: 'U18 Head Coach', dates: '2023 — Present', current: true },
-        { club: 'Manchester FA', role: 'Regional Development Coach', dates: '2020 — 2023', current: false },
-        { club: 'Kumasi Asante Kotoko', role: 'Youth Assistant Coach', dates: '2017 — 2020', current: false },
-      ],
-      stats: [{ label: 'Players Coached', value: '85+' }, { label: 'Pro Transitions', value: '11' }, { label: 'Years Coaching', value: '9' }, { label: 'Clubs Worked', value: '4' }],
-      highlights: [],
-      certs: [{ icon: '🎯', name: 'UEFA B Licence', org: 'UEFA · 2021' }, { icon: '📋', name: 'FA Level 3 Youth Award', org: 'The Football Association · 2020' }],
-      posts: [],
-      alsoViewed: ['sarah_okonkwo', 'fc_velocity', 'james_harrison'],
-    },
-    amara_toure: {
-      initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)',
-      cover: 'linear-gradient(135deg,#021a0a 0%,#15803d 55%,#16a34a 100%)',
-      name: 'Amara Touré', role: 'player',
-      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
-      location: '📍 Dakar, Senegal · 🇸🇳 Senegalese', connections: '83', views: '321', impressions: '1.9k',
-      bio: 'Powerful, clinical striker with pace to burn. Trained extensively in the Senegalese development system and looking to make my move to European football. Strong aerial ability and finishing from tight angles.',
-      career: [
-        { club: 'AS Pikine', role: 'Striker', dates: '2023 — Present', current: true },
-        { club: 'Génération Foot', role: 'Academy Striker', dates: '2019 — 2023', current: false },
-      ],
-      stats: [{ label: 'Goals (24/25)', value: '22' }, { label: 'Assists', value: '5' }, { label: 'Appearances', value: '28' }, { label: 'Aerial Duels Won', value: '71%' }],
-      highlights: [{ title: 'Senegal League Best Goals 2024', ytId: 'dQw4w9WgXcQ' }],
-      certs: [],
-      posts: [],
-      alsoViewed: ['kai_mensah', 'marcus_diallo', 'jamie_asante'],
-    },
-    ryan_morris: {
-      initials: 'RM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)',
-      cover: 'linear-gradient(135deg,#0f0520 0%,#00C9A7 55%,#00FF87 100%)',
-      name: 'Ryan Morris', role: 'scout',
-      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',
-      location: '📍 Leeds, England', connections: '389', views: '1.7k', impressions: '11k',
-      bio: 'Championship scout with a particular eye for defensive midfielders and centre-backs. Data-informed approach backed by 8 years of hands-on match observation across the EFL. I go to the games nobody else attends.',
-      career: [
-        { club: 'Championship Club (Undisclosed)', role: 'Scout – Defensive Profiles', dates: '2020 — Present', current: true },
-        { club: 'League One Club', role: 'First Team Scout', dates: '2016 — 2020', current: false },
-        { club: 'Yorkshire FA', role: 'Talent Identification', dates: '2013 — 2016', current: false },
-      ],
-      stats: [{ label: 'Players Recruited', value: '27' }, { label: 'Games Attended', value: '900+' }, { label: 'Reports Filed', value: '820+' }, { label: 'Years Experience', value: '11' }],
-      highlights: [],
-      certs: [{ icon: '📋', name: 'FA Talent ID Level 2', org: 'The Football Association · 2017' }],
-      posts: [],
-      alsoViewed: ['james_harrison', 'lisa_chen', 'fc_velocity'],
-    },
-  };
+  const PROFILES = {};
 
   // ─── PROFILE VARIABLES ───
   let _profId = '';
@@ -8369,6 +8156,41 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       const rows = await fetch('/api/trial-applications?player_id=' + encodeURIComponent(pid)).then(r => r.json());
       if (Array.isArray(rows)) rows.forEach(r => _appliedTrialIds.add(r.trial_id));
     } catch (e) { /* silent */ }
+  }
+
+  // ─── INVITE MODAL ───
+  function openInviteModal() {
+    const link = window.location.origin || 'https://playr.app';
+    document.getElementById('invite-link-input').value = link;
+    const modal = document.getElementById('invite-modal');
+    modal.style.display = 'flex';
+  }
+
+  function closeInviteModal() {
+    document.getElementById('invite-modal').style.display = 'none';
+  }
+
+  function copyInviteLink() {
+    const input = document.getElementById('invite-link-input');
+    navigator.clipboard.writeText(input.value).then(() => {
+      const btn = document.getElementById('invite-copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    }).catch(() => {
+      input.select();
+      document.execCommand('copy');
+      const btn = document.getElementById('invite-copy-btn');
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+
+  function shareInviteLink(via) {
+    const link = document.getElementById('invite-link-input').value;
+    const text = encodeURIComponent('Join me on Playr — the network built for footballers: ' + link);
+    if (via === 'whatsapp') window.open('https://wa.me/?text=' + text, '_blank');
+    else if (via === 'sms') window.open('sms:?body=' + text, '_blank');
+    else if (via === 'email') window.open('mailto:?subject=' + encodeURIComponent('Join me on Playr') + '&body=' + text, '_blank');
   }
 
   function openApplyModal(trialId, trialTitle, clubId, clubName, ageGroup, date) {
@@ -9040,25 +8862,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   // ─── MESSAGING SYSTEM ───
-  const AUTO_REPLY_MAP = {
-    kai_mensah:     ["Thanks for connecting! Really excited about this new chapter 🙏","Appreciate the support! What's on your mind?","Cheers! Let's connect properly."],
-    james_harrison: ["Thanks for reaching out. Send your highlight reel when you can.","Good to connect. What position do you play?","Noted — I'll have a look at your profile."],
-    fc_velocity:    ["Thanks for your interest in FC Velocity! Trials info is in our bio.","We appreciate the message. Next trials are April 12–13. Stay tuned!","Thanks for connecting. We'll be in touch about upcoming opportunities."],
-    sarah_okonkwo:  ["Thanks for reaching out! The mental game is everything 🧠","Love the engagement! What aspect of mental performance are you working on?","Great to connect. Let me know how I can help your journey."],
-    marcus_diallo:  ["Hey! Good to connect. Back to full fitness and ready to go 💪","Cheers! Open to any trial opportunities — hit me up.","Thanks! It's been tough but I'm back stronger."],
-    jamie_asante:   ["Thanks for connecting! Always looking to expand my network 🙌","Hey! Good to hear from you. Any opportunities you know of?","Appreciate the message. Let's stay in touch!"],
-    lisa_chen:      ["Thanks for connecting. I'll take a look at your profile.","Good to connect! Send me your highlights if you're a player.","Noted — I'll keep you in mind for suitable opportunities."],
-    rayan_bouzid:   ["Merci pour le message! Great to connect.","Hey! Looking forward to making my move to Europe this summer.","Thanks! Let's chat about opportunities."],
-    david_osei:     ["Good to connect! Always looking for players with the right mentality.","Thanks for reaching out. What are your development goals?","Great to hear from you! Happy to share coaching insights."],
-    amara_toure:    ["Merci! Hoping to make my European move soon 🙏","Good to connect! My numbers this season speak for themselves.","Thanks! Always happy to connect with the football community."],
-    ryan_morris:    ["Thanks for connecting. I'll add you to my watchlist.","Good to hear from you. What position and age group?","Noted. Drop your highlights and I'll take a look."],
-    elena_marchetti:["Grazie for connecting! Happy to expand my network.","Ciao! Always looking for technical talent. What position?","Good to connect. I cover Southern Europe and Africa mainly."],
-    carlos_herrera: ["¡Hola! Good to connect. Looking for first-team opportunities.","Thanks! My distribution stats are strong — happy to discuss.","Appreciate the message. Let's stay in touch!"],
-    ibrahima_kone:  ["Thanks for connecting! Working hard to get to Europe 💪","Good to connect. My reading of the game is my biggest strength.","Merci! Always happy to connect with scouts and clubs."],
-    yuki_tanaka:    ["Arigatou! Great to connect 🙏 Hoping to play in Europe soon.","Thanks! My assist numbers this season have been strong.","Good to connect! Happy to share my highlights."],
-    patrick_obrien: ["Thanks for reaching out! Happy to connect with the football community.","Good to hear from you. Always looking to share knowledge.","Cheers! Drop me a message if you need coaching advice."],
-    fatou_dieng:    ["Merci beaucoup! Working hard to get to Europe 🙏","Good to connect! My pace and finishing are my strengths.","Thanks! Happy to connect with anyone in football."],
-  };
+  const AUTO_REPLY_MAP = {};
 
   const chatState = { open: false, view: 'list', activeId: null };
 
@@ -9280,26 +9084,26 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   // ─── Simulated geographic data ───
 
   const MAP_PLAYERS = [
-    { id: 'kai_mensah',     lat: 51.51,  lng: -0.13,   name: 'Kai Mensah',     position: 'Winger',             age: 20 },
-    { id: 'sofia_reyes',    lat: 40.42,  lng: -3.70,   name: 'Sofia Reyes',    position: 'Central Midfielder', age: 22 },
-    { id: 'amira_osei',     lat: 52.37,  lng:  4.90,   name: 'Amira Osei',     position: 'Striker',            age: 19 },
-    { id: 'marcus_diallo',  lat: 48.85,  lng:  2.35,   name: 'Marcus Diallo',  position: 'Winger',             age: 23 },
-    { id: 'jamie_asante',   lat: 51.48,  lng: -3.17,   name: 'Jamie Asante',   position: 'Defensive Mid',      age: 21 },
-    { id: 'lucas_ferreira', lat: 38.72,  lng: -9.14,   name: 'Lucas Ferreira', position: 'Striker',            age: 21 },
-    { id: 'yuki_tanaka',    lat: 35.68,  lng: 139.69,  name: 'Yuki Tanaka',    position: 'Goalkeeper',         age: 24 },
-    { id: 'ibrahima_kone',  lat:  5.36,  lng: -4.01,   name: 'Ibrahima Koné',  position: 'Winger',             age: 20 },
-    { id: 'lena_hoffmann',  lat: 52.52,  lng: 13.40,   name: 'Lena Hoffmann',  position: 'Striker',            age: 21 },
-    { id: 'dmitri_volkov',  lat: 55.75,  lng: 37.62,   name: 'Dmitri Volkov',  position: 'Center Back',        age: 25 },
-    { id: 'fatou_diallo',   lat: 14.69,  lng: -17.44,  name: 'Fatou Diallo',   position: 'Winger',             age: 19 },
-    { id: 'tomas_novak',    lat: 50.08,  lng: 14.44,   name: 'Tomáš Novák',    position: 'Goalkeeper',         age: 23 },
+    { lat: 51.51,  lng: -0.13,   name: 'Kai Mensah',     position: 'Winger',             age: 20 },
+    { lat: 40.42,  lng: -3.70,   name: 'Sofia Reyes',    position: 'Central Midfielder', age: 22 },
+    { lat: 52.37,  lng:  4.90,   name: 'Amira Osei',     position: 'Striker',            age: 19 },
+    { lat: 48.85,  lng:  2.35,   name: 'Marcus Diallo',  position: 'Winger',             age: 23 },
+    { lat: 51.48,  lng: -3.17,   name: 'Jamie Asante',   position: 'Defensive Mid',      age: 21 },
+    { lat: 38.72,  lng: -9.14,   name: 'Lucas Ferreira', position: 'Striker',            age: 21 },
+    { lat: 35.68,  lng: 139.69,  name: 'Yuki Tanaka',    position: 'Goalkeeper',         age: 24 },
+    { lat:  5.36,  lng: -4.01,   name: 'Ibrahima Koné',  position: 'Winger',             age: 20 },
+    { lat: 52.52,  lng: 13.40,   name: 'Lena Hoffmann',  position: 'Striker',            age: 21 },
+    { lat: 55.75,  lng: 37.62,   name: 'Dmitri Volkov',  position: 'Center Back',        age: 25 },
+    { lat: 14.69,  lng: -17.44,  name: 'Fatou Diallo',   position: 'Winger',             age: 19 },
+    { lat: 50.08,  lng: 14.44,   name: 'Tomáš Novák',    position: 'Goalkeeper',         age: 23 },
   ];
 
   const MAP_SCOUTS = [
-    { id: 'james_harrison', lat: 53.48, lng: -2.24,   name: 'James Harrison', club: 'Manchester City Academy',        verified: true  },
-    { id: 'elena_vasquez',  lat: 40.45, lng: -3.68,   name: 'Elena Vásquez',  club: 'Real Madrid Foundation',         verified: true  },
-    { id: 'raj_patel',      lat: 51.50, lng: -0.08,   name: 'Raj Patel',      club: 'Chelsea FC Scout Network',       verified: false },
-    { id: 'chen_wei',       lat: 31.23, lng: 121.47,  name: 'Chen Wei',       club: 'Shanghai Port FC',               verified: true  },
-    { id: 'sarah_okonkwo',  lat:  6.52, lng:   3.37,  name: 'Sarah Okonkwo',  club: 'Nigeria Football Federation',    verified: true  },
+    { lat: 53.48, lng: -2.24,   name: 'James Harrison', club: 'Manchester City Academy',        verified: true  },
+    { lat: 40.45, lng: -3.68,   name: 'Elena Vásquez',  club: 'Real Madrid Foundation',         verified: true  },
+    { lat: 51.50, lng: -0.08,   name: 'Raj Patel',      club: 'Chelsea FC Scout Network',       verified: false },
+    { lat: 31.23, lng: 121.47,  name: 'Chen Wei',       club: 'Shanghai Port FC',               verified: true  },
+    { lat:  6.52, lng:   3.37,  name: 'Sarah Okonkwo',  club: 'Nigeria Football Federation',    verified: true  },
   ];
 
   const MAP_TRIALS = [
@@ -9454,7 +9258,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   const TRENDING_FEED = [
     {
       id: 'tf1', sport: 'football', type: 'video',
-      author: { id: 'kai_mensah', name: 'Kai Mensah', initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', position: 'Striker', location: 'Manchester, England', verified: true },
+      author: { name: 'Kai Mensah', initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', position: 'Striker', location: 'Manchester, England', verified: true },
       ytId: 'dklX65wuKSw',
       caption: 'Finishing session before the big match. Left foot work is coming together 🔥',
       tags: ['#Football','#Training','#Striker','#Manchester'],
@@ -9463,7 +9267,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     },
     {
       id: 'tf2', sport: 'football', type: 'video',
-      author: { id: 'marcus_diallo', name: 'Marcus Diallo', initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)', position: 'Central Midfielder', location: 'London, England', verified: true },
+      author: { name: 'Marcus Diallo', initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)', position: 'Central Midfielder', location: 'London, England', verified: true },
       ytId: 'BRHb6dnkSPs',
       caption: 'Match highlights vs Athletico B — 2 assists, 1 goal. Best game of the season so far.',
       tags: ['#Football','#Highlights','#Midfielder','#London'],
@@ -9490,7 +9294,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     },
     {
       id: 'tf5', sport: 'football', type: 'photos',
-      author: { id: 'sofia_ramos', name: 'Sofia Ramos', initials: 'SR', grad: 'linear-gradient(135deg,#a855f7,#6366f1)', position: 'Left Winger', location: 'Madrid, Spain', verified: true },
+      author: { name: 'Sofia Ramos', initials: 'SR', grad: 'linear-gradient(135deg,#a855f7,#6366f1)', position: 'Left Winger', location: 'Madrid, Spain', verified: true },
       photos: [
         'https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&q=80',
         'https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=800&q=80',
@@ -9535,7 +9339,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     },
     {
       id: 'tf9', sport: 'football', type: 'update',
-      author: { id: 'james_harrison', name: 'James Harrison', initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', position: 'Scout · Manchester United', location: 'Manchester, England', verified: true },
+      author: { name: 'James Harrison', initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', position: 'Scout', location: 'Manchester, England', verified: true },
       caption: 'Just watched three U21 players this weekend who absolutely belong at a higher level. If you\'re a left-footed central midfielder aged 18–21 playing in the Championship or lower, my DMs are open. The market is moving fast this window.',
       tags: ['#Scouting','#Football','#Opportunity','#Transfer'],
       ts: '20h ago', likes: 2890, comments: 234, views: '41.2K',
@@ -9656,12 +9460,12 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
         ${mediaHtml}
         <div class="cf-body">
           <div class="cf-author-row">
-            <div class="cf-avatar" style="background:${p.author.grad}" onclick="showProfile('${p.author.id}')">${p.author.initials}</div>
+            <div class="cf-avatar" style="background:${p.author.grad}" ${p.author.id ? `onclick="showProfile('${p.author.id}')" style="cursor:pointer"` : ''}>${p.author.initials}</div>
             <div class="cf-author-info">
               <div class="cf-author-name">${p.author.name} ${verifiedBadge} ${isTrending}</div>
               <div class="cf-author-meta">${p.author.position} · ${p.author.location}</div>
             </div>
-            <button class="cf-follow-btn" onclick="cfFollowToggle(this,'${p.author.id}')">Follow</button>
+            <button class="cf-follow-btn" onclick="cfFollowToggle(this,'${p.author.id || ''}')">Follow</button>
           </div>
           ${captionHtml}
           <div class="cf-tags">${tagsHtml}</div>
@@ -9999,27 +9803,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   function _seedInitialNotifs() {
-    if (localStorage.getItem(NOTIF_SEED_KEY)) return;
-    localStorage.setItem(NOTIF_SEED_KEY, '1');
-    const now = Date.now();
-    const initial = [
-      { id: now+1,  type: 'follow',            text: 'Marcus Diallo started following you',                        icon: '👤', ts: now - 1000*60*60*8, read: false },
-      { id: now+2,  type: 'connection_request',text: 'Jamie Asante sent you a connection request',                 icon: '👥', ts: now - 1000*60*60*5, read: false },
-      { id: now+3,  type: 'reaction',          text: 'Amira Osei reacted 🔥 to your Training Clip',               icon: '🔥', ts: now - 1000*60*60*3, read: false },
-      { id: now+4,  type: 'reaction',          text: 'Kai Mensah reacted 💪 to your post',                        icon: '💪', ts: now - 1000*60*90,    read: false },
-      { id: now+5,  type: 'comment',           text: 'Sofia Reyes commented: "This mentality is elite 🔥"',       icon: '💬', ts: now - 1000*60*72,    read: false },
-      { id: now+6,  type: 'follow',            text: 'James Harrison (Scout · Man Utd) started following you',    icon: '👤', ts: now - 1000*60*55,    read: false },
-      { id: now+7,  type: 'reaction',          text: 'Amara Touré and 12 others reacted to your highlight',       icon: '🔥', ts: now - 1000*60*40,    read: false },
-      { id: now+8,  type: 'comment',           text: 'FC Velocity Academy commented on your post',                icon: '💬', ts: now - 1000*60*28,    read: false },
-      { id: now+9,  type: 'streak',            text: 'You\'re on a 3-day streak! Keep the momentum going 🔥',    icon: '🔥', ts: now - 1000*60*18,    read: false },
-      { id: now+10, type: 'connection_request',text: 'Sarah Okonkwo wants to connect with you',                   icon: '👥', ts: now - 1000*60*8,     read: false },
-    ];
-    saveNotifs(initial);
-    updateBellBadge();
-
-    // Simulate a few more arriving after page load
-    setTimeout(() => addNotif('like',    'James Harrison liked your post',             '❤️'), 8000);
-    setTimeout(() => addNotif('comment', 'Marcus Diallo commented: "Great mindset 💪"', '💬'), 22000);
+    // No seed data — notifications are generated from real activity only
   }
 
   // ── Global topbar & side switcher ──
@@ -10745,101 +10529,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   // ─── DISCOVERY PAGE ───
-  // Extend PROFILES with 6 more users (light profiles for discovery)
-  Object.assign(PROFILES, {
-    ibrahima_kone: {
-      initials: 'IK', grad: 'linear-gradient(135deg,#f97316,#c2410c)',
-      cover: 'linear-gradient(135deg,#1a0800 0%,#c2410c 55%,#f97316 100%)',
-      name: 'Ibrahima Koné', role: 'player',
-      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
-      location: '📍 Abidjan, Ivory Coast · 🇨🇮 Ivorian', connections: '41', views: '187', impressions: '940',
-      bio: 'Young defensive midfielder with exceptional reading of the game. Part of the Ivory Coast U20 setup and looking to break into European football.',
-      career: [{ club: 'ASEC Mimosas', role: 'Defensive Midfielder', dates: '2024 — Present', current: true }, { club: 'ASEC Academy', role: 'Academy Midfielder', dates: '2021 — 2024', current: false }],
-      stats: [{ label: 'Tackles / 90', value: '6.2' }, { label: 'Pass Acc.', value: '86%' }, { label: 'Interceptions', value: '4.1' }, { label: 'Age', value: '18' }],
-      highlights: [{ title: 'IK Defensive Highlights 2024', ytId: 'dQw4w9WgXcQ' }],
-      certs: [], posts: [], alsoViewed: ['marcus_diallo', 'rayan_bouzid', 'kai_mensah'],
-    },
-    carlos_herrera: {
-      initials: 'CH', grad: 'linear-gradient(135deg,#dc2626,#991b1b)',
-      cover: 'linear-gradient(135deg,#200505 0%,#991b1b 55%,#dc2626 100%)',
-      name: 'Carlos Herrera', role: 'player',
-      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
-      location: '📍 Madrid, Spain · 🇪🇸 Spanish', connections: '118', views: '562', impressions: '3.1k',
-      bio: 'Commanding goalkeeper trained in the Atlético de Madrid system. Excellent distribution, aggressive in the box. Looking for first-team opportunities in England or France.',
-      career: [{ club: 'Atlético de Madrid B', role: 'Goalkeeper', dates: '2023 — Present', current: true }, { club: 'Atlético Academy', role: 'U21 GK', dates: '2020 — 2023', current: false }],
-      stats: [{ label: 'Clean Sheets', value: '11' }, { label: 'Save %', value: '74%' }, { label: 'Dist. Accuracy', value: '82%' }, { label: 'Age', value: '23' }],
-      highlights: [{ title: 'GK Highlights — 2024/25', ytId: 'dQw4w9WgXcQ' }],
-      certs: [], posts: [], alsoViewed: ['kai_mensah', 'marcus_diallo', 'amara_toure'],
-    },
-    elena_marchetti: {
-      initials: 'EM', grad: 'linear-gradient(135deg,#0ea5e9,#0369a1)',
-      cover: 'linear-gradient(135deg,#020e1a 0%,#0369a1 55%,#0ea5e9 100%)',
-      name: 'Elena Marchetti', role: 'scout',
-      badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',
-      location: '📍 Milan, Italy', connections: '334', views: '1.4k', impressions: '9.2k',
-      bio: 'Italian scout specialising in Serie A and B talent pipelines. Strong network across Southern Europe and Africa. Particularly focused on technical forwards and creative midfielders.',
-      career: [{ club: 'Serie A Club (Undisclosed)', role: 'International Scout', dates: '2021 — Present', current: true }, { club: 'AC Milan Academy', role: 'Talent Analyst', dates: '2018 — 2021', current: false }],
-      stats: [{ label: 'Players Signed', value: '22' }, { label: 'Countries Covered', value: '9' }, { label: 'Years Scouting', value: '7' }, { label: 'Reports Filed', value: '540+' }],
-      highlights: [], certs: [{ icon: '📋', name: 'UEFA Scouting Certificate', org: 'UEFA · 2021' }],
-      posts: [], alsoViewed: ['james_harrison', 'lisa_chen', 'ryan_morris'],
-    },
-    yuki_tanaka: {
-      initials: 'YT', grad: 'linear-gradient(135deg,#ec4899,#9d174d)',
-      cover: 'linear-gradient(135deg,#1a0411 0%,#9d174d 55%,#ec4899 100%)',
-      name: 'Yuki Tanaka', role: 'player',
-      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
-      location: '📍 Tokyo, Japan · 🇯🇵 Japanese', connections: '87', views: '403', impressions: '2.4k',
-      bio: 'Technical attacking midfielder with elite close control and vision. Trained in Japan\'s elite J1 League academy. Eager to test myself in European football — particularly Germany and the Netherlands.',
-      career: [{ club: 'Urawa Red Diamonds Academy', role: 'Attacking Midfielder', dates: '2023 — Present', current: true }, { club: 'FC Tokyo Academy', role: 'Youth CAM', dates: '2020 — 2023', current: false }],
-      stats: [{ label: 'Goals (24/25)', value: '12' }, { label: 'Assists', value: '18' }, { label: 'Key Passes / 90', value: '4.3' }, { label: 'Age', value: '21' }],
-      highlights: [{ title: 'Yuki Tanaka — Technical Highlights', ytId: 'dQw4w9WgXcQ' }],
-      certs: [], posts: [], alsoViewed: ['rayan_bouzid', 'marcus_diallo', 'jamie_asante'],
-    },
-    patrick_obrien: {
-      initials: 'PO', grad: 'linear-gradient(135deg,#16a34a,#064e3b)',
-      cover: 'linear-gradient(135deg,#021a0d 0%,#064e3b 55%,#16a34a 100%)',
-      name: 'Patrick O\'Brien', role: 'coach',
-      badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',
-      location: '📍 Dublin, Ireland · 🇮🇪 Irish', connections: '198', views: '764', impressions: '4.8k',
-      bio: 'Former League of Ireland professional turned UEFA B Licensed coach. Passionate about developing young Irish talent and creating pathways to the UK and European game.',
-      career: [{ club: 'St. Patrick\'s Athletic Academy', role: 'Head of Academy Coaching', dates: '2022 — Present', current: true }, { club: 'Shamrock Rovers', role: 'U19 Coach', dates: '2018 — 2022', current: false }],
-      stats: [{ label: 'Players Coached', value: '60+' }, { label: 'Pro Transitions', value: '7' }, { label: 'Years Coaching', value: '7' }, { label: 'Clubs Worked', value: '3' }],
-      highlights: [], certs: [{ icon: '🎯', name: 'UEFA B Licence', org: 'FAI · 2020' }, { icon: '📋', name: 'FAI Youth Award Level 3', org: 'Football Association of Ireland · 2018' }],
-      posts: [], alsoViewed: ['david_osei', 'sarah_okonkwo', 'fc_velocity'],
-    },
-    fatou_dieng: {
-      initials: 'FD', grad: 'linear-gradient(135deg,#a855f7,#6d28d9)',
-      cover: 'linear-gradient(135deg,#0f0520 0%,#6d28d9 55%,#a855f7 100%)',
-      name: 'Fatou Dieng', role: 'player',
-      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',
-      location: '📍 Dakar, Senegal · 🇸🇳 Senegalese', connections: '56', views: '231', impressions: '1.2k',
-      bio: 'Explosive forward with blistering pace and 1v1 ability. Trained under the same Génération Foot programme that produced Sadio Mané. Targeting a European move in the next transfer window.',
-      career: [{ club: 'Génération Foot', role: 'Forward', dates: '2023 — Present', current: true }, { club: 'Génération Foot Academy', role: 'Academy Forward', dates: '2020 — 2023', current: false }],
-      stats: [{ label: 'Goals (24/25)', value: '17' }, { label: 'Assists', value: '6' }, { label: 'Sprint Speed', value: '35 km/h' }, { label: 'Age', value: '20' }],
-      highlights: [{ title: 'Fatou Dieng — Forward Highlights', ytId: 'dQw4w9WgXcQ' }],
-      certs: [], posts: [], alsoViewed: ['amara_toure', 'kai_mensah', 'marcus_diallo'],
-    },
-  });
-
-  const DISCOVER_USERS = [
-    { id: 'kai_mensah',    role: 'player', position: 'Striker',              nationality: 'Ghanaian',  age: 19, location: 'Manchester, England',   initials: 'KM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Kai Mensah',        badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 247 },
-    { id: 'marcus_diallo', role: 'player', position: 'Central Midfielder',   nationality: 'French',    age: 22, location: 'London, England',         initials: 'MD', grad: 'linear-gradient(135deg,#00FF87,#1e40af)', name: 'Marcus Diallo',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 156 },
-    { id: 'jamie_asante',  role: 'player', position: 'Winger',               nationality: 'British',   age: 20, location: 'Birmingham, England',      initials: 'JA', grad: 'linear-gradient(135deg,#00FF87,#6d28d9)', name: 'Jamie Asante',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 94  },
-    { id: 'rayan_bouzid',  role: 'player', position: 'Central Midfielder',   nationality: 'French',    age: 20, location: 'Lyon, France',             initials: 'RB', grad: 'linear-gradient(135deg,#2563eb,#1d4ed8)', name: 'Rayan Bouzid',      badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 128 },
-    { id: 'amara_toure',   role: 'player', position: 'Striker',              nationality: 'Senegalese',age: 21, location: 'Dakar, Senegal',           initials: 'AT', grad: 'linear-gradient(135deg,#16a34a,#15803d)', name: 'Amara Touré',       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 83  },
-    { id: 'ibrahima_kone', role: 'player', position: 'Defensive Midfielder', nationality: 'Ivorian',   age: 18, location: 'Abidjan, Ivory Coast',     initials: 'IK', grad: 'linear-gradient(135deg,#f97316,#c2410c)', name: 'Ibrahima Koné',     badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 41  },
-    { id: 'carlos_herrera',role: 'player', position: 'Goalkeeper',           nationality: 'Spanish',   age: 23, location: 'Madrid, Spain',            initials: 'CH', grad: 'linear-gradient(135deg,#dc2626,#991b1b)', name: 'Carlos Herrera',    badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 118 },
-    { id: 'yuki_tanaka',   role: 'player', position: 'Attacking Midfielder', nationality: 'Japanese',  age: 21, location: 'Tokyo, Japan',             initials: 'YT', grad: 'linear-gradient(135deg,#ec4899,#9d174d)', name: 'Yuki Tanaka',       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 87  },
-    { id: 'fatou_dieng',   role: 'player', position: 'Striker',              nationality: 'Senegalese',age: 20, location: 'Dakar, Senegal',           initials: 'FD', grad: 'linear-gradient(135deg,#a855f7,#6d28d9)', name: 'Fatou Dieng',       badgeHtml: '<span class="role-badge role-player">⚽ Player</span>',  connections: 56  },
-    { id: 'james_harrison',role: 'scout',  position: null,                   nationality: 'British',   age: 38, location: 'Manchester, England',      initials: 'JH', grad: 'linear-gradient(135deg,#d97706,#92400e)', name: 'James Harrison',    badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 612 },
-    { id: 'lisa_chen',     role: 'scout',  position: null,                   nationality: 'British',   age: 31, location: 'London, England',          initials: 'LC', grad: 'linear-gradient(135deg,#d97706,#b45309)', name: 'Lisa Chen',         badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 744 },
-    { id: 'ryan_morris',   role: 'scout',  position: null,                   nationality: 'British',   age: 40, location: 'Leeds, England',           initials: 'RM', grad: 'linear-gradient(135deg,#00FF87,#00C9A7)', name: 'Ryan Morris',       badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 389 },
-    { id: 'elena_marchetti',role:'scout',  position: null,                   nationality: 'Italian',   age: 29, location: 'Milan, Italy',             initials: 'EM', grad: 'linear-gradient(135deg,#0ea5e9,#0369a1)', name: 'Elena Marchetti',   badgeHtml: '<span class="role-badge role-scout">🔍 Scout</span>',    connections: 334 },
-    { id: 'sarah_okonkwo', role: 'coach',  position: null,                   nationality: 'Nigerian',  age: 36, location: 'London, England',          initials: 'SO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'Sarah Okonkwo',     badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',    connections: 891 },
-    { id: 'david_osei',    role: 'coach',  position: null,                   nationality: 'Ghanaian',  age: 33, location: 'Manchester, England',      initials: 'DO', grad: 'linear-gradient(135deg,#2563eb,#1e40af)', name: 'David Osei',        badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',    connections: 267 },
-    { id: 'patrick_obrien',role: 'coach',  position: null,                   nationality: 'Irish',     age: 39, location: 'Dublin, Ireland',          initials: 'PO', grad: 'linear-gradient(135deg,#16a34a,#064e3b)', name: "Patrick O'Brien",   badgeHtml: '<span class="role-badge role-coach">🎯 Coach</span>',    connections: 198 },
-    { id: 'fc_velocity',   role: 'club',   position: null,                   nationality: null,        age: null,location: 'Manchester, England',     initials: 'FV', grad: 'linear-gradient(135deg,#16a34a,#14532d)', name: 'FC Velocity Academy',badgeHtml: '<span class="role-badge role-club">🏟️ Club</span>',     connections: 1800},
-  ];
+  const DISCOVER_USERS = [];
 
   const discoverState = { tab: 'all', search: '', position: 'all', nationality: 'all', ageRange: 'all', location: '' };
 
@@ -10872,7 +10562,12 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     count.textContent = `${users.length} profile${users.length !== 1 ? 's' : ''} found`;
     const grid = document.getElementById('discover-grid');
     if (!users.length) {
-      grid.innerHTML = '<div class="discover-empty"><div class="discover-empty-icon">🔍</div><div>No profiles match your search.<br>Try adjusting your filters.</div></div>';
+      const noFiltersActive = !discoverState.search && discoverState.tab === 'all' && discoverState.position === 'all' && discoverState.nationality === 'all' && discoverState.ageRange === 'all' && !discoverState.location;
+      if (noFiltersActive && DISCOVER_USERS.length === 0) {
+        grid.innerHTML = '<div class="discover-empty"><div class="discover-empty-icon">🌱</div><div>Be one of the first on Playr — the scouts and players are coming.</div></div>';
+      } else {
+        grid.innerHTML = '<div class="discover-empty"><div class="discover-empty-icon">🔍</div><div>No profiles match your search.<br>Try adjusting your filters.</div></div>';
+      }
       return;
     }
     grid.innerHTML = users.map(u => {
@@ -11134,6 +10829,25 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 <!-- ══════════════════════════════════════════
      APPLY NOW MODAL
 ══════════════════════════════════════════ -->
+<div id="invite-modal" onclick="if(event.target===this)closeInviteModal()" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,0.7);display:none;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#1a1a2e;border:1px solid rgba(255,255,255,0.1);border-radius:16px;width:100%;max-width:420px;padding:28px 24px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px">
+      <div style="font-size:17px;font-weight:700;color:#fff">Invite to Playr</div>
+      <button onclick="closeInviteModal()" style="background:none;border:none;color:var(--muted);font-size:20px;cursor:pointer;line-height:1">✕</button>
+    </div>
+    <p style="color:var(--muted);font-size:14px;line-height:1.5;margin:0 0 20px">Share this link with scouts, players, coaches or clubs you want to connect with. The network grows from real relationships.</p>
+    <div style="display:flex;gap:8px;margin-bottom:20px">
+      <input id="invite-link-input" readonly style="flex:1;background:#0d0d1a;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:10px 14px;color:#fff;font-size:13px;font-family:inherit" value="">
+      <button onclick="copyInviteLink()" id="invite-copy-btn" style="background:#00FF87;color:#000;border:none;border-radius:10px;padding:10px 16px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">Copy</button>
+    </div>
+    <div style="display:flex;gap:10px">
+      <button onclick="shareInviteLink('whatsapp')" style="flex:1;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);color:#25d366;border-radius:10px;padding:10px;font-size:13px;font-weight:600;cursor:pointer">WhatsApp</button>
+      <button onclick="shareInviteLink('sms')" style="flex:1;background:rgba(0,255,135,0.08);border:1px solid rgba(0,255,135,0.25);color:#00FF87;border-radius:10px;padding:10px;font-size:13px;font-weight:600;cursor:pointer">SMS</button>
+      <button onclick="shareInviteLink('email')" style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:10px;padding:10px;font-size:13px;font-weight:600;cursor:pointer">Email</button>
+    </div>
+  </div>
+</div>
+
 <div id="apply-modal" onclick="applyModalOutsideClick(event)">
   <div class="apm-card">
     <div class="apm-header">
