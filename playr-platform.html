@@ -2410,7 +2410,7 @@
     @media (max-width: 768px) {
       #playr-nav {
         top: auto; left: 0; right: 0; bottom: 0;
-        width: 100%; height: 62px;
+        width: 100%; height: 68px;
         flex-direction: row; align-items: stretch;
         padding: 0; border-right: none;
         background: #111B26;
@@ -2419,18 +2419,6 @@
       .pn-logo, .pn-bottom { display: none; }
       .pn-items {
         flex-direction: row; gap: 0; flex: 1; height: 100%; align-items: stretch;
-      }
-      .pn-item {
-        flex: 1; height: 100%; padding: 8px 4px;
-      }
-      .pn-item.active::before {
-        width: 24px; height: 3px;
-        top: 0; left: 50%; transform: translateX(-50%);
-        border-radius: 0 0 2px 2px;
-      }
-      .pn-label {
-        display: block; font-size: 10px; font-weight: 600;
-        letter-spacing: 0.2px; color: inherit; line-height: 1;
       }
     }
 
@@ -4792,12 +4780,48 @@
       padding-top: 0 !important;
     }
 
-    /* ── Nav: icons only, 5 items (hide Feed + Alerts) ── */
-    .pn-label { display: none !important; }
+    /* ── Bottom nav: 5-tab Instagram-style bar ── */
+
+    /* Taller bar to fit icon + label comfortably */
+    #playr-nav { height: 68px !important; }
+
+    /* Hide the two tabs not in the 5-tab set */
     #nav-map { display: none !important; }
     #nav-notifs { display: none !important; }
-    .pn-item { padding: 6px 2px; }
+
+    /* Each tab: icon centred, label beneath */
+    .pn-item {
+      flex: 1; height: 100%;
+      padding: 10px 4px 8px;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* Icons: slightly larger than desktop */
+    .pn-icon-wrap { width: 26px; height: 26px; }
     .pn-icon-wrap svg { width: 24px; height: 24px; }
+
+    /* Labels: always visible, same colour as icon */
+    .pn-label {
+      display: block !important;
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.2px; color: inherit; line-height: 1;
+      white-space: nowrap;
+    }
+
+    /* Active indicator: slim green line at top of active tab */
+    .pn-item.active { color: #00FF87; }
+    .pn-item.active::before {
+      width: 28px; height: 3px;
+      top: 0; left: 50%; transform: translateX(-50%);
+      border-radius: 0 0 3px 3px;
+    }
+
+    /* Network screens: bottom padding matches taller nav */
+    #screen-network, #screen-profile, #screen-discover, #screen-my-network {
+      padding-bottom: 68px !important;
+    }
+    #screen-mapview, #screen-map { padding-bottom: 68px !important; }
 
     /* ── Audio player + messaging widget: hidden on mobile ── */
     #audio-sticky { display: none !important; }
