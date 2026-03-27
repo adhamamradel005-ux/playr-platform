@@ -4735,8 +4735,9 @@
   .shortlist-btn.shortlisted { background: var(--purple); color: #000; border-color: var(--purple); }
   .shortlist-btn.shortlisted:hover { background: #00e07a; }
 
-  /* Mobile topbar: hidden on desktop, styled only inside the media query below */
-  #mobile-topbar { display: none; }
+  /* Mobile topbar + EAF bottom nav: hidden on desktop, styled only inside media query */
+  #mobile-topbar  { display: none; }
+  #eaf-bottom-nav { display: none; }
 
   /* Desktop sidebar switcher labels */
   .pn-sw-label {
@@ -4842,6 +4843,49 @@
     /* ── Audio player + messaging widget: hidden on mobile ── */
     #audio-sticky { display: none !important; }
     #chat-drawer  { display: none !important; }
+
+    /* ── EAF mobile bottom navigation ── */
+    #eaf-bottom-nav {
+      display: flex;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 200;
+      height: 68px;
+      background: #111B26;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      align-items: stretch;
+    }
+    .eaf-nav-item {
+      position: relative;
+      flex: 1; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 4px; padding: 10px 2px 8px;
+      background: none; border: none; cursor: pointer;
+      color: #888888; font-family: inherit;
+      transition: color 0.15s;
+    }
+    .eaf-nav-item:hover { color: #ffffff; }
+    .eaf-nav-item.active { color: #00FF87; }
+    .eaf-nav-item.active::before {
+      content: '';
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 28px; height: 3px;
+      background: #00FF87; border-radius: 0 0 3px 3px;
+    }
+    .eaf-nav-icon {
+      display: flex; align-items: center; justify-content: center;
+      width: 24px; height: 24px;
+    }
+    .eaf-nav-icon svg {
+      width: 22px; height: 22px;
+      stroke: currentColor; stroke-width: 1.5; fill: none;
+      stroke-linecap: round; stroke-linejoin: round;
+    }
+    .eaf-nav-label {
+      font-size: 10px; font-weight: 600; color: inherit;
+      white-space: nowrap; line-height: 1;
+    }
+    /* EAF content area: bottom padding so nav doesn't cover last content */
+    #screen-eaf .content-area { padding-bottom: 68px; }
 
     /* ── Entry screen: full mobile overhaul ── */
 
@@ -5404,7 +5448,7 @@
     <div class="top-bar">
       <span class="top-bar-title" id="topbar-title">Dashboard</span>
       <div class="top-bar-actions">
-        <button class="btn btn-primary" onclick="showView('modules', document.querySelector('.nav-item:nth-child(3)'))">Continue Learning</button>
+        <button class="btn btn-primary" onclick="showEafView('modules')">Continue Learning</button>
       </div>
     </div>
 
@@ -5647,7 +5691,7 @@
 
       <!-- ── MODULE DETAIL VIEW ── -->
       <div id="view-module-detail" class="view">
-        <div class="module-detail-back" onclick="showView('modules', document.querySelector('.nav-item:nth-child(3)'))">
+        <div class="module-detail-back" onclick="showEafView('modules')">
           ← Back to Modules
         </div>
         <div id="module-detail-content"></div>
@@ -7736,6 +7780,18 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   // ─── NAVIGATION ───
+
+  // showEafView: called by EAF mobile bottom nav — syncs both sidebar + bottom bar active state
+  function showEafView(viewName) {
+    // Find the matching sidebar nav-item and delegate to showView (handles title + sidebar active)
+    const sidebarItem = document.querySelector(`#screen-eaf .sidebar .nav-item[onclick*="'${viewName}'"]`);
+    showView(viewName, sidebarItem); // sidebarItem may be null on very narrow screens — that's ok
+    // Sync EAF bottom nav active state
+    document.querySelectorAll('.eaf-nav-item').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById('eaf-nav-' + viewName);
+    if (btn) btn.classList.add('active');
+  }
+
   function showView(viewName, navEl) {
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
     document.getElementById('view-' + viewName).classList.add('active');
@@ -10187,11 +10243,15 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
   function setTopbarSide(side) {
     const nav = document.getElementById('playr-nav');
+    const eafNav = document.getElementById('eaf-bottom-nav');
+
     if (side === 'network') {
       nav.style.display = 'flex';
+      if (eafNav) eafNav.style.display = 'none'; // hide EAF bottom bar in network
     } else {
-      // Framework has its own sidebar — hide global nav on desktop
+      // Framework has its own sidebar — hide global ADN nav on desktop
       nav.style.display = 'none';
+      if (eafNav) eafNav.style.display = ''; // let CSS show EAF bottom bar on mobile
     }
 
     // Mobile topbar: visible in all pathways, right button adapts per side
@@ -11007,9 +11067,11 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-entry').classList.add('active');
     document.getElementById('playr-nav').style.display = 'none';
-    // Hide mobile topbar on entry screen (no pathway = no topbar)
+    // Hide all mobile nav elements on entry screen
     const topbar = document.getElementById('mobile-topbar');
     if (topbar) { topbar.style.display = 'none'; delete topbar.dataset.side; }
+    const eafNav = document.getElementById('eaf-bottom-nav');
+    if (eafNav) eafNav.style.display = 'none';
   }
 
   // ─── THEME TOGGLE ───
@@ -11313,6 +11375,53 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   <button class="as-play" id="as-play-btn" onclick="apTogglePlay()">▶</button>
   <button class="as-close" onclick="apStopAndHideSticky()" title="Close">✕</button>
 </div>
+
+<!-- EAF mobile bottom navigation (shown only at ≤768px when in EAF) -->
+<nav id="eaf-bottom-nav" style="display:none" aria-label="Framework navigation">
+
+  <button class="eaf-nav-item active" id="eaf-nav-home" onclick="showEafView('home')">
+    <span class="eaf-nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    </span>
+    <span class="eaf-nav-label">Home</span>
+  </button>
+
+  <button class="eaf-nav-item" id="eaf-nav-modules" onclick="showEafView('modules')">
+    <span class="eaf-nav-icon">
+      <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+    </span>
+    <span class="eaf-nav-label">Modules</span>
+  </button>
+
+  <button class="eaf-nav-item" id="eaf-nav-progress" onclick="showEafView('progress')">
+    <span class="eaf-nav-icon">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+    </span>
+    <span class="eaf-nav-label">Progress</span>
+  </button>
+
+  <button class="eaf-nav-item" id="eaf-nav-journal" onclick="showEafView('journal')">
+    <span class="eaf-nav-icon">
+      <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    </span>
+    <span class="eaf-nav-label">Journal</span>
+  </button>
+
+  <button class="eaf-nav-item" id="eaf-nav-explore" onclick="showEafView('explore')">
+    <span class="eaf-nav-icon">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </span>
+    <span class="eaf-nav-label">Explore</span>
+  </button>
+
+  <button class="eaf-nav-item" id="eaf-nav-elites" onclick="showEafView('elites')">
+    <span class="eaf-nav-icon">
+      <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    </span>
+    <span class="eaf-nav-label">Stories</span>
+  </button>
+
+</nav>
 
 <!-- Full-screen Post Composer -->
 <div id="post-composer">
