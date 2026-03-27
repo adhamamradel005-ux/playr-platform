@@ -906,8 +906,15 @@
       pointer-events: none;
     }
     #audio-sticky.visible { transform: translateY(0); pointer-events: auto; }
-    @media (min-width: 769px) { #audio-sticky { left: 64px; } }
-    @media (max-width: 768px) { #audio-sticky { padding-bottom: max(10px, env(safe-area-inset-bottom)); } }
+    @media (min-width: 769px) {
+      #audio-sticky { left: 64px; }
+      /* Chat drawer: anchored left of content area (next to sidebar), not floating over content */
+      .chat-drawer {
+        left: 64px; right: auto;
+        width: 320px;
+        border-radius: 12px 12px 0 0;
+      }
+    }
     .as-icon { font-size: 18px; flex-shrink: 0; }
     .as-info  { flex: 1; min-width: 0; }
     .as-title { font-size: 12px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -4792,8 +4799,9 @@
     .pn-item { padding: 6px 2px; }
     .pn-icon-wrap svg { width: 24px; height: 24px; }
 
-    /* ── Audio sticky: sit above bottom nav ── */
-    #audio-sticky { bottom: 62px; }
+    /* ── Audio player + messaging widget: hidden on mobile ── */
+    #audio-sticky { display: none !important; }
+    #chat-drawer  { display: none !important; }
 
     /* ── Entry screen: full mobile overhaul ── */
 
@@ -4929,13 +4937,7 @@
     .map-filter-label { white-space: nowrap; }
     .map-filter-btn { white-space: nowrap; flex-shrink: 0; }
 
-    /* ── Chat drawer: full screen above bottom nav ── */
-    .chat-drawer {
-      left: 0 !important; right: 0 !important; bottom: 62px !important;
-      width: 100% !important; border-radius: 16px 16px 0 0;
-      max-height: calc(100dvh - 62px - 52px);
-    }
-    .chat-drawer.open { max-height: calc(100dvh - 62px); }
+    /* chat-drawer hidden on mobile — see rule above */
 
     /* ── Check-in overlay: bottom sheet ── */
     #checkin-overlay { align-items: flex-end; padding: 0; }
