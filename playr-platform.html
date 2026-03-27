@@ -4795,19 +4795,102 @@
     /* ── Audio sticky: sit above bottom nav ── */
     #audio-sticky { bottom: 62px; }
 
-    /* ── Entry screen: stack path cards ── */
-    .entry-paths {
-      flex-direction: column;
-      gap: 16px;
-      padding: 0 16px;
+    /* ── Entry screen: full mobile overhaul ── */
+
+    /* Screen: scrollable, top-aligned so nothing gets clipped */
+    #screen-entry {
+      justify-content: flex-start;
+      align-items: center;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-top: 72px;
+      padding-bottom: 32px;
+    }
+
+    /* Logo: top-left corner, not centered-absolute so it can't overlap */
+    .entry-logo {
+      left: 20px;
+      transform: none;
+      top: 18px;
+      font-size: 20px;
+    }
+
+    /* Tagline: tighter spacing, readable at 375px */
+    .entry-tagline {
+      margin-bottom: 20px;
+      padding: 0 20px;
       width: 100%;
       box-sizing: border-box;
     }
-    .path-card { width: 100%; box-sizing: border-box; }
-    .entry-tagline h1 { font-size: 26px; }
-    .entry-tagline p { font-size: 14px; }
-    .entry-logo { font-size: 32px; }
-    .entry-stats { gap: 16px; }
+    .entry-tagline h1 {
+      font-size: clamp(22px, 7vw, 30px);
+      letter-spacing: -0.5px;
+      line-height: 1.15;
+    }
+    .entry-tagline p { font-size: 13px; line-height: 1.55; }
+
+    /* Stats: 2×2 grid so "Women's + Men's" never wraps badly */
+    .entry-stats {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      width: calc(100% - 40px);
+      margin: 0 0 20px;
+      border-radius: 12px;
+      flex-wrap: unset;
+    }
+    /* Reset flex-based borders, re-add for grid pattern */
+    .entry-stat + .entry-stat { border-left: none; }
+    .entry-stat { padding: 13px 14px; }
+    .entry-stat:nth-child(1) {
+      border-right: 1px solid rgba(255,255,255,0.08);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .entry-stat:nth-child(2) { border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .entry-stat:nth-child(3) { border-right: 1px solid rgba(255,255,255,0.08); }
+    .entry-stat-num { font-size: 17px; }
+
+    /* Path cards: stacked, full-width, compact padding */
+    .entry-paths {
+      flex-direction: column;
+      gap: 14px;
+      padding: 0 20px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .path-card {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 22px 20px;
+    }
+    /* Hide features list — too long for mobile above-the-fold requirement */
+    .path-features { display: none; }
+    .path-icon { width: 44px; height: 44px; font-size: 22px; margin-bottom: 14px; }
+    .path-label { margin-bottom: 6px; }
+    .path-card h2 { font-size: 20px; margin-bottom: 10px; }
+    .path-card p  { font-size: 13px; line-height: 1.55; margin-bottom: 18px; }
+    /* CTA becomes a proper full-width button */
+    .path-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      min-height: 48px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px 20px;
+      box-sizing: border-box;
+      border: 1px solid;
+    }
+    .path-card.eaf .path-cta {
+      background: rgba(108,62,255,0.15);
+      border-color: rgba(108,62,255,0.4);
+    }
+    .path-card.network .path-cta {
+      background: rgba(0,255,135,0.1);
+      border-color: rgba(0,255,135,0.35);
+    }
 
     /* ── EAF layout: tighter on mobile ── */
     .top-bar { padding: 0 16px; height: 52px; }
@@ -4925,9 +5008,12 @@
 
   }
 
-  /* ── Small phones (375px) ── */
-  @media (max-width: 400px) {
+  /* ── Small phones (≤390px) ── */
+  @media (max-width: 390px) {
+    #screen-entry { padding-top: 68px; }
     .entry-tagline h1 { font-size: 22px; }
+    .path-card { padding: 18px 16px; }
+    .path-card h2 { font-size: 18px; }
     .stats-row { grid-template-columns: repeat(2, 1fr); gap: 8px; }
     .nf-hero-name { font-size: 18px; }
     .cq-num-grid { grid-template-columns: repeat(5, 1fr); }
