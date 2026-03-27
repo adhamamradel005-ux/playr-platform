@@ -4741,30 +4741,8 @@
   .shortlist-btn.shortlisted { background: var(--purple); color: #000; border-color: var(--purple); }
   .shortlist-btn.shortlisted:hover { background: #00e07a; }
 
-  /* ══════════════════════════════════════════
-     MOBILE TOPBAR (network screens only)
-  ══════════════════════════════════════════ */
-  #mobile-topbar {
-    display: none;
-    position: fixed; top: 0; left: 0; right: 0; z-index: 1500;
-    height: 52px; padding: 0 16px;
-    background: rgba(10,18,30,0.97); backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    align-items: center; justify-content: space-between;
-  }
-  #mobile-topbar-logo {
-    font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
-    color: #fff; cursor: pointer; font-family: inherit;
-    background: none; border: none; padding: 0;
-  }
-  #mobile-topbar-logo span { color: var(--green); }
-  #mobile-topbar-avatar {
-    width: 34px; height: 34px; border-radius: 50%;
-    background: linear-gradient(135deg, #6C3EFF, #00FF87);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 800; color: #fff; cursor: pointer;
-    border: none; font-family: inherit;
-  }
+  /* Mobile topbar: hidden on desktop, styled only inside the media query below */
+  #mobile-topbar { display: none; }
 
   /* ══════════════════════════════════════════
      MOBILE RESPONSIVENESS (≤768px)
@@ -4774,8 +4752,28 @@
     /* Global overflow guard */
     html, body { overflow-x: hidden; max-width: 100vw; }
 
-    /* ── Mobile topbar ── */
-    #mobile-topbar { display: flex; }
+    /* ── Mobile topbar: all styling scoped here ── */
+    #mobile-topbar {
+      display: flex;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1500;
+      height: 52px; padding: 0 16px;
+      background: rgba(10,18,30,0.97); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      align-items: center; justify-content: space-between;
+    }
+    #mobile-topbar-logo {
+      font-size: 22px; font-weight: 900; letter-spacing: -0.5px;
+      color: #fff; cursor: pointer; font-family: inherit;
+      background: none; border: none; padding: 0;
+    }
+    #mobile-topbar-logo span { color: var(--green); }
+    #mobile-topbar-avatar {
+      width: 34px; height: 34px; border-radius: 50%;
+      background: linear-gradient(135deg, #6C3EFF, #00FF87);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 13px; font-weight: 800; color: #fff; cursor: pointer;
+      border: none; font-family: inherit;
+    }
 
     /* ── Network screens: top padding for mobile topbar ── */
     #screen-network, #screen-profile, #screen-discover, #screen-my-network {
