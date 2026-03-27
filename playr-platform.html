@@ -1501,7 +1501,7 @@
     .ring-fill {
       fill: none; stroke: #00FF87; stroke-width: 8;
       stroke-linecap: round;
-      transition: stroke-dashoffset 1s ease;
+      transition: stroke-dashoffset 0.9s cubic-bezier(0.34,1.1,0.64,1);
     }
     .ring-center {
       position: absolute; inset: 0;
@@ -4563,6 +4563,71 @@
   .sl-empty-sub { font-size: 14px; max-width: 280px; margin: 0 auto; }
 
   /* ══════════════════════════════════════════
+     PROFILE COMPLETION
+  ══════════════════════════════════════════ */
+
+  /* Progress bar — shared track/fill */
+  .pcomp-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .pcomp-bar-track {
+    flex: 1; height: 6px; background: rgba(255,255,255,0.07);
+    border-radius: 99px; overflow: hidden;
+  }
+  .pcomp-bar-fill {
+    height: 100%; border-radius: 99px;
+    background: #00FF87;
+    transition: width 0.8s cubic-bezier(0.34,1.2,0.64,1), background 0.4s ease;
+  }
+  .pcomp-pct-label {
+    font-size: 12px; font-weight: 700; color: var(--purple);
+    min-width: 34px; text-align: right; flex-shrink: 0;
+  }
+
+  /* Nudge card — compact (sidebar / network home) */
+  .pcomp-nudge {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(0,255,135,0.05);
+    border: 1px solid rgba(0,255,135,0.15);
+    border-radius: 10px; padding: 10px 12px; margin-top: 8px;
+  }
+  .pcomp-nudge-icon { font-size: 18px; flex-shrink: 0; }
+  .pcomp-nudge-body { flex: 1; min-width: 0; }
+  .pcomp-nudge-text { font-size: 12px; color: var(--text); line-height: 1.4; }
+  .pcomp-nudge-text strong { color: var(--purple); }
+  .pcomp-nudge-btn {
+    flex-shrink: 0; padding: 6px 12px;
+    background: var(--purple); color: #000;
+    border: none; border-radius: 8px;
+    font-size: 11px; font-weight: 700; cursor: pointer;
+    white-space: nowrap; transition: background 0.15s;
+  }
+  .pcomp-nudge-btn:hover { background: #00e07a; }
+
+  /* Complete state */
+  .pcomp-complete {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: var(--purple); font-weight: 600;
+    padding: 10px 0 2px;
+  }
+
+  /* Full-width section on My Profile page */
+  #mp-completion-section { padding: 0 !important; }
+  .mp-comp-card {
+    background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 16px 18px;
+  }
+  .mp-comp-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .mp-comp-title { font-size: 13px; font-weight: 700; color: var(--text); }
+  .mp-comp-pct { font-size: 22px; font-weight: 900; color: var(--purple); font-family: 'Barlow Condensed', sans-serif; line-height: 1; }
+
+  /* Nudge on My Profile — slightly larger */
+  #mp-nudge-wrap .pcomp-nudge { margin-top: 12px; }
+  #mp-nudge-wrap .pcomp-nudge-text { font-size: 13px; }
+  #mp-nudge-wrap .pcomp-nudge-btn { padding: 8px 14px; font-size: 12px; }
+
+  /* ══════════════════════════════════════════
      TRIAL APPLICATIONS
   ══════════════════════════════════════════ */
 
@@ -5229,7 +5294,7 @@
         <svg class="status-ring" viewBox="0 0 120 120" aria-hidden="true">
           <circle class="ring-track" cx="60" cy="60" r="50"/>
           <circle class="ring-fill" id="status-ring-fill" cx="60" cy="60" r="50"
-            stroke-dasharray="314" stroke-dashoffset="94"
+            stroke-dasharray="314" stroke-dashoffset="314"
             transform="rotate(-90 60 60)"/>
         </svg>
         <div class="ring-center">
@@ -5255,9 +5320,17 @@
           </div>
           <div class="status-metric-div"></div>
           <div class="status-metric">
-            <span class="status-metric-val">70%</span>
+            <span class="status-metric-val" id="sc-complete-val">—</span>
             <span class="status-metric-label">Profile Complete</span>
           </div>
+        </div>
+        <!-- Completion bar + nudge -->
+        <div id="sc-completion-block" style="margin-bottom:14px">
+          <div class="pcomp-row">
+            <div class="pcomp-bar-track"><div class="pcomp-bar-fill" id="sc-bar-fill" style="width:0%"></div></div>
+            <span class="pcomp-pct-label" id="sc-bar-pct">0%</span>
+          </div>
+          <div id="sc-nudge-wrap"></div>
         </div>
         <div class="status-actions">
           <button class="btn btn-primary" onclick="openPostForm()" style="font-size:13px;padding:8px 18px">Post Update</button>
@@ -5806,6 +5879,20 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
             <button class="btn btn-ghost" onclick="toggleMpEdit(false)">Cancel</button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- Profile Completion -->
+    <div class="mp-section" id="mp-completion-section">
+      <div class="mp-comp-card">
+        <div class="mp-comp-header">
+          <span class="mp-comp-title">Profile Strength</span>
+          <span class="mp-comp-pct" id="mp-comp-pct">0%</span>
+        </div>
+        <div class="pcomp-bar-track" style="margin-bottom:0">
+          <div class="pcomp-bar-fill" id="mp-bar-fill" style="width:0%"></div>
+        </div>
+        <div id="mp-nudge-wrap"></div>
       </div>
     </div>
 
@@ -7416,6 +7503,11 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     document.getElementById('network-profile-badge').innerHTML = meta.badge;
     document.getElementById('network-profile-meta').innerHTML = meta.meta;
 
+    // Profile completion bar + nudge (player role only — others get bar hidden)
+    const compBlock = document.getElementById('sc-completion-block');
+    if (compBlock) compBlock.style.display = role === 'player' ? '' : 'none';
+    renderCompletionUI();
+
     // Sync composer avatar initials
     const composerAv = document.getElementById('composer-av');
     const av = document.getElementById('network-profile-avatar');
@@ -7497,6 +7589,8 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     setTopbarSide('network');
     setActiveNavItem('nav-home');
     setTimeout(updateNetworkStreak, 100);
+    // Deferred ring animation (needs DOM paint first)
+    setTimeout(renderCompletionUI, 120);
     // Role-specific setup
     const isScout = role === 'scout';
     const isPlayer = role === 'player';
@@ -10018,6 +10112,159 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     loadMyApplications();
   }
 
+  // ══════════════════════════════════════════
+  //  PROFILE COMPLETION ENGINE
+  // ══════════════════════════════════════════
+
+  // Priority-ordered fields — first missing one becomes the nudge
+  const COMPLETION_FIELDS = [
+    {
+      key: 'clips',
+      weight: 15,
+      check: d => !!(d.clips && d.clips.length),
+      nudgeIcon: '🎬',
+      nudgeText: 'Add your highlight reel to get <strong>3× more scout views</strong>',
+      btnLabel: 'Add Highlights',
+      scroll: 'mp-clips-list',
+      action: () => { showMyProfile(); setTimeout(() => openMpForm('mp-clip-form'), 250); }
+    },
+    {
+      key: 'bio',
+      weight: 20,
+      check: d => !!(d.bio && d.bio.trim().length > 10),
+      nudgeIcon: '✍️',
+      nudgeText: 'Write your bio to tell scouts <strong>who you are and what you bring</strong>',
+      btnLabel: 'Write Bio',
+      scroll: 'mp-bio-display',
+      action: () => { showMyProfile(); setTimeout(() => { toggleMpBioEdit(); document.getElementById('mp-bio-display')?.scrollIntoView({ behavior:'smooth', block:'center' }); }, 250); }
+    },
+    {
+      key: 'experience',
+      weight: 15,
+      check: d => !!(d.experience && d.experience.length),
+      nudgeIcon: '🏆',
+      nudgeText: 'Add your career history to appear in <strong>experience-based searches</strong>',
+      btnLabel: 'Add Experience',
+      scroll: 'mp-experience-list',
+      action: () => { showMyProfile(); setTimeout(() => openMpForm('mp-exp-form'), 250); }
+    },
+    {
+      key: 'stats',
+      weight: 15,
+      check: d => !!(d.stats && d.stats.length),
+      nudgeIcon: '📊',
+      nudgeText: 'Add your match stats to get <strong>2× more profile views</strong> from scouts',
+      btnLabel: 'Add Stats',
+      scroll: 'mp-stats-grid',
+      action: () => { showMyProfile(); setTimeout(() => openMpForm('mp-stat-form'), 250); }
+    },
+    {
+      key: 'position',
+      weight: 10,
+      check: d => !!(d.experience && d.experience.length && d.experience[0].role && d.experience[0].role.trim()),
+      nudgeIcon: '⚽',
+      nudgeText: 'Add your position to appear in <strong>40% more scout filter searches</strong>',
+      btnLabel: 'Add Position',
+      scroll: 'mp-experience-list',
+      action: () => { showMyProfile(); setTimeout(() => openMpForm('mp-exp-form'), 250); }
+    },
+    {
+      key: 'location',
+      weight: 10,
+      check: d => !!(d.location && d.location.trim()),
+      nudgeIcon: '📍',
+      nudgeText: 'Add your location to appear in <strong>regional searches</strong>',
+      btnLabel: 'Add Location',
+      scroll: 'mp-location-display',
+      action: () => { showMyProfile(); setTimeout(() => toggleMpEdit(true), 250); }
+    },
+    {
+      key: 'name',
+      weight: 15,
+      check: d => !!(d.name && d.name.trim()),
+      nudgeIcon: '👤',
+      nudgeText: 'Add your name so scouts know <strong>who you are</strong>',
+      btnLabel: 'Add Name',
+      scroll: null,
+      action: () => { showMyProfile(); setTimeout(() => toggleMpEdit(true), 250); }
+    },
+  ];
+
+  function _calcProfileCompletion() {
+    const d = _mpData();
+    let score = 0;
+    let topMissing = null;
+    for (const field of COMPLETION_FIELDS) {
+      if (field.check(d)) {
+        score += field.weight;
+      } else if (!topMissing) {
+        topMissing = field;
+      }
+    }
+    return { score, topMissing };
+  }
+
+  function _nudgeHtml(field, compact) {
+    if (!field) return '';
+    return `<div class="pcomp-nudge">
+      <span class="pcomp-nudge-icon">${field.nudgeIcon}</span>
+      <div class="pcomp-nudge-body">
+        <div class="pcomp-nudge-text">${field.nudgeText}</div>
+      </div>
+      <button class="pcomp-nudge-btn" onclick="nudgeAction('${field.key}')">${field.btnLabel} →</button>
+    </div>`;
+  }
+
+  function nudgeAction(key) {
+    const field = COMPLETION_FIELDS.find(f => f.key === key);
+    if (field) field.action();
+  }
+
+  function renderCompletionUI() {
+    const { score, topMissing } = _calcProfileCompletion();
+    const role = (localStorage.getItem('playr_role') || 'player');
+
+    // ── Bar colour: red → amber → green ──
+    const barColor = score >= 80 ? '#00FF87' : score >= 50 ? '#f59e0b' : '#ef4444';
+
+    // ── Network home status card ──
+    const scVal    = document.getElementById('sc-complete-val');
+    const scFill   = document.getElementById('sc-bar-fill');
+    const scPct    = document.getElementById('sc-bar-pct');
+    const scNudge  = document.getElementById('sc-nudge-wrap');
+    if (scVal)   scVal.textContent  = score + '%';
+    if (scFill)  { scFill.style.width = score + '%'; scFill.style.background = barColor; }
+    if (scPct)   scPct.textContent  = score + '%';
+    if (scNudge) {
+      scNudge.innerHTML = score === 100
+        ? '<div class="pcomp-complete">✅ Profile Complete — you\'re fully visible to scouts</div>'
+        : (role === 'player' && topMissing ? _nudgeHtml(topMissing, true) : '');
+    }
+
+    // ── Animated ring on status card ──
+    const ringFill = document.getElementById('status-ring-fill');
+    if (ringFill) {
+      const circumference = 314;
+      ringFill.style.strokeDashoffset = circumference - (score / 100) * circumference;
+    }
+
+    // ── My Profile page ──
+    const mpPct   = document.getElementById('mp-comp-pct');
+    const mpFill  = document.getElementById('mp-bar-fill');
+    const mpNudge = document.getElementById('mp-nudge-wrap');
+    const mpOld   = document.getElementById('mp-complete-pct');
+    if (mpPct)  { mpPct.textContent = score + '%'; mpPct.style.color = barColor; }
+    if (mpFill) { mpFill.style.width = score + '%'; mpFill.style.background = barColor; }
+    if (mpOld)  mpOld.textContent = score + '%';
+    if (mpNudge) {
+      mpNudge.innerHTML = score === 100
+        ? '<div class="pcomp-complete" style="padding-top:12px">✅ Profile Complete — you\'re fully visible to scouts</div>'
+        : (role === 'player' && topMissing ? _nudgeHtml(topMissing, false) : '');
+    }
+  }
+
+  // ══════════════════════════════════════════
+
   function renderMyProfile() {
     const d = _mpData();
     const role = localStorage.getItem('playr_role') || 'player';
@@ -10033,15 +10280,8 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     document.getElementById('mp-photo').textContent = name.slice(0,2).toUpperCase();
     document.getElementById('mp-badge-display').innerHTML = ROLE_BADGES[role] || ROLE_BADGES.player;
     document.getElementById('mp-location-display').textContent = d.location || 'Add your location';
-    // Completeness
-    let score = 0;
-    if (d.name) score += 20;
-    if (d.location) score += 10;
-    if (d.bio) score += 20;
-    if (d.experience && d.experience.length) score += 20;
-    if (d.stats && d.stats.length) score += 15;
-    if (d.clips && d.clips.length) score += 15;
-    document.getElementById('mp-complete-pct').textContent = score + '%';
+    // Completion bar + nudge
+    renderCompletionUI();
     // Bio
     const bioEl = document.getElementById('mp-bio-display');
     if (d.bio) { bioEl.textContent = d.bio; bioEl.classList.remove('mp-empty'); }
@@ -10218,6 +10458,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     document.getElementById('mp-clip-title').value = '';
     closeMpForm('mp-clip-form');
     renderMpClips();
+    renderCompletionUI();
   }
 
   function removeMpClip(i) {
@@ -10225,6 +10466,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     d.clips.splice(i, 1);
     _mpSave(d);
     renderMpClips();
+    renderCompletionUI();
   }
 
   // ─── FAB (FLOATING ACTION BUTTON) ───
