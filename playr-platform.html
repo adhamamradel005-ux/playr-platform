@@ -2125,7 +2125,6 @@
       .network-nav { display: none; }
       .discover-layout { grid-template-columns: 1fr; }
       .discover-filters-sidebar { display: none; }
-      .chat-drawer { width: calc(100vw - 32px); right: 16px; }
     }
 
     /* ══════════════════════════════════════════
@@ -2478,7 +2477,7 @@
     }
     @media (max-width: 768px) {
       #screen-network, #screen-profile, #screen-discover, #screen-my-network {
-        padding-top: 0; padding-bottom: 62px;
+        padding-top: 0; padding-bottom: 68px;
       }
     }
 
@@ -2489,7 +2488,7 @@
       overflow: hidden;
     }
     @media (min-width: 769px) { #screen-mapview, #screen-map { padding-left: 64px; padding-top: 0; } }
-    @media (max-width: 768px) { #screen-mapview, #screen-map { padding-bottom: 62px; padding-top: 0; } }
+    @media (max-width: 768px) { #screen-mapview, #screen-map { padding-bottom: 68px; padding-top: 0; } }
     .map-filter-bar {
       display: flex; align-items: center; gap: 8px; flex-shrink: 0;
       padding: 9px 16px; background: var(--bg-card);
@@ -4780,20 +4779,28 @@
       border: none; font-family: inherit;
     }
 
-    /* ── Network screens: top padding for mobile topbar ── */
-    #screen-network, #screen-profile, #screen-discover, #screen-my-network {
+    /* ── Desktop sidebar: force-hidden on mobile (belt + suspenders) ── */
+    .sidebar { display: none !important; }
+    .main-content { margin-left: 0 !important; }
+
+    /* ── All screens: top padding clears the fixed mobile topbar ── */
+    #screen-network, #screen-profile, #screen-discover, #screen-my-network,
+    #screen-my-profile, #screen-my-network {
       padding-top: 52px !important;
     }
 
-    /* ── Map + feed screens also need top space ── */
+    /* ── EAF screen: push content below fixed mobile topbar ── */
+    #screen-eaf { padding-top: 52px !important; }
+    /* EAF sticky top-bar sticks below the mobile topbar, not behind it */
+    #screen-eaf .top-bar { top: 52px; }
+
+    /* ── Map screens: no top padding (map handles its own layout) ── */
     #screen-mapview, #screen-map {
       padding-top: 0 !important;
     }
 
     /* ── Bottom nav: 5-tab Instagram-style bar ── */
-
-    /* Taller bar to fit icon + label comfortably */
-    #playr-nav { height: 68px !important; }
+    /* Height (68px) is set in the inner @media block near the nav CSS */
 
     /* Hide the two tabs not in the 5-tab set */
     #nav-map { display: none !important; }
@@ -4827,11 +4834,10 @@
       border-radius: 0 0 3px 3px;
     }
 
-    /* Network screens: bottom padding matches taller nav */
-    #screen-network, #screen-profile, #screen-discover, #screen-my-network {
-      padding-bottom: 68px !important;
-    }
-    #screen-mapview, #screen-map { padding-bottom: 68px !important; }
+    /* Network + map screens: bottom padding clears the 68px nav bar */
+    #screen-network, #screen-profile, #screen-discover, #screen-my-network,
+    #screen-my-profile { padding-bottom: 68px; }
+    #screen-mapview, #screen-map { padding-bottom: 68px; }
 
     /* ── Audio player + messaging widget: hidden on mobile ── */
     #audio-sticky { display: none !important; }
