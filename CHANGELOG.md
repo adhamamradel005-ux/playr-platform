@@ -1,0 +1,90 @@
+# Playr — Changelog
+
+A running log of every change made to the platform. Written in plain English so the whole team can follow along.
+
+---
+
+## 2026-03-29
+
+### EAF mobile bottom navigation
+The Elite Athlete Framework now has a proper mobile navigation bar at the bottom of the screen. Previously, users on a phone were stuck with no way to move between sections. Now there are 6 clearly labelled tabs at the bottom — Home, Modules, Progress, Journal, Explore, and Stories — styled exactly like the Athlete Discovery Network's navigation bar. The active tab highlights in green. Works on all screens under 768px wide; desktop sidebar is completely unchanged.
+
+---
+
+## 2026-03-28
+
+### Pathway switcher (switch between EAF and ADN)
+Added a persistent way for users to switch between the two pathways from anywhere in the app.
+
+- **Desktop:** The sidebar now shows labelled "Framework" and "Network" buttons at the bottom with icons, so users always know they can switch.
+- **Mobile (inside Network):** The Profile tab now has a full-width "Switch to Elite Athlete Framework" button at the bottom of the screen.
+- **Mobile (inside EAF):** The top bar now shows a green "Network →" button on the right, giving users a clear escape route back to the Discovery Network. Previously there was no way to switch at all on mobile.
+
+### Complete desktop/mobile layout separation
+Audited and fixed every place where desktop styles were bleeding into mobile and vice versa:
+
+- Fixed a padding inconsistency where the bottom spacing on screens was 62px but the navigation bar is 68px tall — content was being slightly hidden behind the nav bar.
+- Removed a chat drawer positioning rule that was running at the wrong screen size.
+- Explicitly hid the desktop sidebar on mobile (it was only hidden at a wider breakpoint before, not the main 768px mobile breakpoint).
+- The EAF screen now correctly pushes its content below the fixed top bar on mobile.
+- The EAF sticky header now sits below the mobile top bar rather than overlapping it.
+
+### EAF mobile bottom navigation (foundations)
+Built the technical groundwork for the EAF mobile nav — show/hide logic, active state syncing, and content padding so the last item on screen is never hidden behind the navigation bar.
+
+---
+
+## 2026-03-27
+
+### Fix: mobile bottom navigation (ADN)
+The bottom navigation bar in the Athlete Discovery Network was broken — labels were hidden, making icons meaningless, and users couldn't tell what each tab did.
+
+- Labels now always show beneath each icon.
+- Bar height increased from 62px to 68px so icons and labels both have breathing room.
+- 5 tabs visible: Home, Discover, Map, Messages, Profile.
+- Active tab highlights in green with a small accent line at the top.
+- All screen content updated to have the correct bottom padding so nothing hides behind the bar.
+
+### Remove floating audio player and messaging widget on mobile
+The audio player bar (headphones) and the chat messaging bubble were floating over the screen on mobile and couldn't be dismissed. Both are now completely removed from the mobile UI. On desktop, the messaging widget has been moved to sit alongside the sidebar rather than floating over the main content.
+
+### Fix: landing page layout on mobile
+The landing page had multiple layout problems on phones:
+
+- The Playr logo was overlapping the headline text.
+- The stats bar (12K+ Athletes, 580+ Scouts etc.) was a 4-column row that caused the "Women's + Men's" stat to wrap or get cut off. It's now a clean 2×2 grid.
+- The two path cards (Elite Athlete Framework and Athlete Discovery Network) stack vertically and each take full width.
+- The "Enter the framework" and "Join the network" buttons are now proper full-width tappable buttons (48px minimum height).
+- The page is now scrollable on small screens rather than clipping content.
+
+### Mobile responsiveness — full pass
+First comprehensive mobile pass across the entire platform:
+
+- Fixed bottom navigation bar for the ADN (Instagram-style, 5 tabs).
+- Mobile top bar showing Playr logo + profile avatar on network screens.
+- All multi-column layouts collapse to single column.
+- Map filter bar scrolls horizontally instead of wrapping.
+- Daily check-in and modals appear as bottom sheets (slide up from bottom).
+- Buttons are a minimum of 48px tall for easy tapping.
+- Horizontal scrolling prevented globally.
+
+### Backup created
+Backed up `playr-platform.html` and `server.js` into `/backup-desktop` before making changes.
+
+---
+
+## 2026-03-26
+
+### Remove fake placeholder users
+Removed all hardcoded fake profiles from the Athlete Discovery Network — Lisa Chen, James Harrison, FC Velocity Academy, Sarah Okonkwo, Ryan Morris, and all others. The platform now has clean empty states:
+
+- **Scouts & Clubs section:** Shows "No connections yet — the network grows when you invite people who matter to your career." with an Invite Someone button.
+- **Discovery page:** Shows "Be one of the first on Playr — the scouts and players are coming." when no real users exist.
+- **Invite modal:** Share link via copy, WhatsApp, SMS, or Email.
+
+### Revert: map upgrade (Leaflet)
+A Leaflet.js map upgrade was pushed but then reverted after review — the 3D globe was removed unintentionally. The original Globe.gl 3D globe has been restored.
+
+---
+
+*This file is updated with every deployment. Most recent changes appear at the top.*
