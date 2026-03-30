@@ -4,6 +4,18 @@ A running log of every change made to the platform. Written in plain English so 
 
 ---
 
+## 2026-03-30
+
+### Full DM messaging system (replaces floating chat popup)
+The old floating chat widget has been removed entirely and replaced with a proper dedicated Messages page, styled like Instagram or iMessage.
+
+- **Desktop:** Clicking the Messages icon in the sidebar opens a full two-column Messages screen. The left column shows all conversations with profile avatar, name, last message preview, timestamp, and an unread badge. The right column shows the open chat thread — messages bubble left and right depending on who sent them, timestamps under each bubble. The input bar is fixed at the bottom of the thread with a text field, emoji button, and send button.
+- **Mobile:** Tapping Messages in the bottom nav opens the conversations list full screen. Tapping a conversation slides into the thread full screen with a back arrow (‹) in the header to return to the list. The chat bubbles use the app's green accent (`#00FF87`) for sent messages and a dark card for received messages.
+- **No floating overlay anywhere:** The floating messaging popup that used to appear over every screen has been completely removed — no overlay, no z-index wars.
+- **Messages persist:** Sent messages are stored in localStorage and pushed to the database (`/api/messages`) as before. Unread count badge on the Messages nav icon still updates in real time.
+
+---
+
 ## 2026-03-29
 
 ### EAF mobile bottom navigation
