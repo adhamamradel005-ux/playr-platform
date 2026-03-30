@@ -4,6 +4,21 @@ A running log of every change made to the platform. Written in plain English so 
 
 ---
 
+## 2026-03-30 (2)
+
+### Separated Home feed and Discover pages
+
+**Home (Feed tab)**
+Removed the search bar and "All / Players / Scouts / Coaches / Clubs" filter chips from the Home screen. The feed now shows only posts, updates, trial announcements, and content — no search UI anywhere on this page. Feels like an Instagram or Twitter feed. The "Post Update" composer is still at the top.
+
+**Discover tab**
+The Discover tab now opens the full Discover page (previously it opened "My Network"). The search bar is larger and more prominent — full width with a green focus glow. Filter chips (All, Players, Scouts, Coaches, Clubs) sit immediately below. As the user types, results filter in real time. When no search is typed yet, three suggested sections appear: "Scouts looking for your position", "Players near you", and "Verified coaches" — each with an invite button so the network can grow.
+
+**Navigation**
+Both pages are clearly labelled and separated in the desktop sidebar and mobile bottom nav bar. Home = feed. Discover = search and find people.
+
+---
+
 ## 2026-03-30
 
 ### Full DM messaging system (replaces floating chat popup)

@@ -2009,30 +2009,54 @@
     .filter-reset-btn:hover { border-color: var(--purple); color: var(--purple-lt); }
 
     /* Discover main area */
-    .discover-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+    .discover-main { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
     .discover-search-wrap { position: relative; }
     .discover-search-icon {
-      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-      font-size: 15px; pointer-events: none; color: var(--muted);
+      position: absolute; left: 18px; top: 50%; transform: translateY(-50%);
+      font-size: 18px; pointer-events: none; color: var(--muted);
     }
     .discover-search-input {
       width: 100%;
       background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 12px 14px 12px 40px;
-      font-size: 14px;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 18px 16px 52px;
+      font-size: 16px;
       color: var(--text);
       font-family: inherit;
       outline: none;
-      transition: border-color 0.2s;
+      transition: border-color 0.2s, box-shadow 0.2s;
       box-sizing: border-box;
     }
-    .discover-search-input:focus { border-color: var(--purple); }
+    .discover-search-input:focus {
+      border-color: var(--purple);
+      box-shadow: 0 0 0 3px var(--purple-dim);
+    }
     .discover-search-input::placeholder { color: var(--muted); }
 
+    /* Suggestion sections */
+    .discover-suggestions { display: flex; flex-direction: column; gap: 28px; padding: 4px 0; }
+    .discover-suggestion-section { display: flex; flex-direction: column; gap: 12px; }
+    .discover-suggestion-heading { font-size: 15px; font-weight: 700; color: var(--text); }
+    .discover-suggestion-empty {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      padding: 16px 20px; background: var(--bg-card);
+      border: 1px solid var(--border); border-radius: 12px;
+    }
+    .discover-suggestion-pill {
+      flex: 1; font-size: 13px; color: var(--muted); min-width: 180px;
+    }
+    .discover-invite-btn {
+      padding: 8px 18px; border-radius: 20px;
+      border: 1px solid var(--purple); background: transparent;
+      color: var(--purple); font-size: 13px; font-weight: 700;
+      cursor: pointer; white-space: nowrap; font-family: inherit;
+      transition: background 0.15s, color 0.15s;
+    }
+    .discover-invite-btn:hover { background: var(--purple); color: #000; }
+
     /* Tab bar */
-    .discover-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .discover-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
     .discover-tab {
       padding: 8px 18px;
       border-radius: 999px;
@@ -3149,41 +3173,6 @@
     letter-spacing: 0.5px;
   }
 
-  /* ── Network home search bar ── */
-  .network-search-wrap {
-    width: 100%; max-width: 680px; margin: 0 auto;
-    padding: 0 16px 4px; position: relative;
-    display: flex; flex-direction: column; gap: 10px;
-  }
-  .network-search-icon {
-    position: absolute; left: 30px; top: 13px;
-    color: var(--muted); pointer-events: none;
-    display: flex; align-items: center;
-  }
-  .network-search-input {
-    width: 100%; padding: 12px 16px 12px 42px;
-    background: var(--bg-card); border: 1px solid var(--border);
-    border-radius: 6px; color: var(--text);
-    font-family: 'Inter', sans-serif; font-size: 14px;
-    outline: none; transition: border-color 0.15s;
-  }
-  .network-search-input:focus { border-color: var(--purple); }
-  .network-search-input::placeholder { color: var(--muted); }
-  .network-search-filters {
-    display: flex; gap: 6px; flex-wrap: wrap;
-  }
-  .network-search-filter {
-    padding: 5px 14px; border-radius: 20px;
-    border: 1px solid var(--border); background: transparent;
-    color: var(--muted); font-family: 'Inter', sans-serif;
-    font-size: 11px; font-weight: 700; letter-spacing: 0.5px;
-    text-transform: uppercase; cursor: pointer;
-    transition: border-color 0.15s, color 0.15s, background 0.15s;
-  }
-  .network-search-filter:hover { border-color: var(--purple); color: var(--purple); }
-  .network-search-filter.active {
-    background: var(--purple); border-color: var(--purple); color: #000;
-  }
 
   /* ── EAF sidebar switch-to-network button ── */
   .sidebar-switch-btn {
@@ -5135,7 +5124,7 @@
       <span class="pn-label">Home</span>
     </button>
 
-    <button class="pn-item" id="nav-discover" onclick="showMyNetwork()" data-tooltip="Discover">
+    <button class="pn-item" id="nav-discover" onclick="showDiscover()" data-tooltip="Discover">
       <span class="pn-icon-wrap">
         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
         <span class="pn-badge" id="nav-badge-network" style="display:none">0</span>
@@ -5731,21 +5720,6 @@
           <button class="btn btn-primary" onclick="openPostForm()" style="font-size:13px;padding:8px 18px">Post Update</button>
           <button class="btn btn-ghost" onclick="switchToFramework()" style="font-size:13px;padding:8px 18px">Framework</button>
         </div>
-      </div>
-    </div>
-
-    <!-- ── SEARCH BAR ── -->
-    <div class="network-search-wrap">
-      <span class="network-search-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      </span>
-      <input class="network-search-input" id="network-search" type="text" placeholder="Search players, scouts, clubs, coaches…" onfocus="networkSearchFocus()" oninput="networkSearchInput(this.value)">
-      <div class="network-search-filters">
-        <button class="network-search-filter active" data-filter="all" onclick="setNetworkSearchFilter('all',this)">All</button>
-        <button class="network-search-filter" data-filter="player" onclick="setNetworkSearchFilter('player',this)">Players</button>
-        <button class="network-search-filter" data-filter="scout" onclick="setNetworkSearchFilter('scout',this)">Scouts</button>
-        <button class="network-search-filter" data-filter="coach" onclick="setNetworkSearchFilter('coach',this)">Coaches</button>
-        <button class="network-search-filter" data-filter="club" onclick="setNetworkSearchFilter('club',this)">Clubs</button>
       </div>
     </div>
 
@@ -7940,11 +7914,6 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       if (btn) applyFilter(meta.defaultFilter, btn);
     }
 
-    // Default network search filter — pre-select the most relevant type
-    if (meta.searchDefault) {
-      const sf = document.querySelector(`.network-search-filter[data-filter="${meta.searchDefault}"]`);
-      if (sf) setNetworkSearchFilter(meta.searchDefault, sf);
-    }
   }
 
   function showNetwork() {
@@ -10889,40 +10858,6 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     openPostLightbox(i);
   }
 
-  // ─── NETWORK HOME SEARCH ───
-  let _networkSearchFilter = 'all';
-
-  function networkSearchFocus() {
-    // On focus, if there's already text navigate straight to discover
-    const val = document.getElementById('network-search')?.value?.trim();
-    if (val) { _goToDiscoverWithSearch(val, _networkSearchFilter); }
-  }
-
-  function networkSearchInput(val) {
-    if (val.trim().length >= 1) {
-      _goToDiscoverWithSearch(val.trim(), _networkSearchFilter);
-    }
-  }
-
-  function setNetworkSearchFilter(filter, btn) {
-    _networkSearchFilter = filter;
-    document.querySelectorAll('.network-search-filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    // Also sync the discover tab if already on discover screen
-    const discoverTab = document.querySelector(`.discover-tab[data-tab="${filter}"]`);
-    if (discoverTab) { setDiscoverTab(filter, discoverTab); }
-  }
-
-  function _goToDiscoverWithSearch(query, filter) {
-    showDiscover();
-    const input = document.getElementById('discover-search');
-    if (input) { input.value = query; discoverState.search = query; }
-    if (filter && filter !== 'all') {
-      const tab = document.querySelector(`.discover-tab[data-tab="${filter}"]`);
-      if (tab) setDiscoverTab(filter, tab);
-    }
-    filterDiscover();
-  }
 
   // ─── DISCOVERY PAGE ───
   const DISCOVER_USERS = [];
@@ -10955,17 +10890,46 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
   function renderDiscoverGrid(users) {
     const count = document.getElementById('discover-count');
-    count.textContent = `${users.length} profile${users.length !== 1 ? 's' : ''} found`;
     const grid = document.getElementById('discover-grid');
-    if (!users.length) {
-      const noFiltersActive = !discoverState.search && discoverState.tab === 'all' && discoverState.position === 'all' && discoverState.nationality === 'all' && discoverState.ageRange === 'all' && !discoverState.location;
-      if (noFiltersActive && DISCOVER_USERS.length === 0) {
-        grid.innerHTML = '<div class="discover-empty"><div class="discover-empty-icon">🌱</div><div>Be one of the first on Playr — the scouts and players are coming.</div></div>';
-      } else {
-        grid.innerHTML = '<div class="discover-empty"><div class="discover-empty-icon">🔍</div><div>No profiles match your search.<br>Try adjusting your filters.</div></div>';
-      }
+    const noFiltersActive = !discoverState.search && discoverState.tab === 'all' && discoverState.position === 'all' && discoverState.nationality === 'all' && discoverState.ageRange === 'all' && !discoverState.location;
+
+    if (!users.length && noFiltersActive) {
+      // Suggested sections — shown before user types anything
+      count.textContent = '';
+      grid.innerHTML = `
+        <div class="discover-suggestions">
+          <div class="discover-suggestion-section">
+            <div class="discover-suggestion-heading">🔍 Scouts looking for your position</div>
+            <div class="discover-suggestion-empty">
+              <div class="discover-suggestion-pill">Scouts will appear here as they join Playr</div>
+              <button class="discover-invite-btn" onclick="openInviteModal()">Invite a scout →</button>
+            </div>
+          </div>
+          <div class="discover-suggestion-section">
+            <div class="discover-suggestion-heading">👥 Players near you</div>
+            <div class="discover-suggestion-empty">
+              <div class="discover-suggestion-pill">Players in your area will appear here</div>
+              <button class="discover-invite-btn" onclick="openInviteModal()">Invite a player →</button>
+            </div>
+          </div>
+          <div class="discover-suggestion-section">
+            <div class="discover-suggestion-heading">✅ Verified coaches</div>
+            <div class="discover-suggestion-empty">
+              <div class="discover-suggestion-pill">Verified coaches will appear here as they join</div>
+              <button class="discover-invite-btn" onclick="openInviteModal()">Invite a coach →</button>
+            </div>
+          </div>
+        </div>`;
       return;
     }
+
+    if (!users.length) {
+      count.textContent = 'No results';
+      grid.innerHTML = '<div class="discover-empty"><div class="discover-empty-icon">🔍</div><div>No profiles match your search.<br>Try adjusting your filters.</div></div>';
+      return;
+    }
+
+    count.textContent = `${users.length} profile${users.length !== 1 ? 's' : ''} found`;
     grid.innerHTML = users.map(u => {
       const metaParts = [u.position, u.nationality ? u.nationality : null, u.age ? u.age + ' yrs' : null].filter(Boolean);
       return `
@@ -11001,7 +10965,9 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     discoverState.tab = 'all';
     document.querySelectorAll('.discover-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === 'all'));
     filterDiscover();
-    setActiveNavItem('nav-mynetwork');
+    setActiveNavItem('nav-discover');
+    setTopbarSide('network');
+    setTimeout(() => document.getElementById('discover-search')?.focus(), 80);
   }
 
   function goToEntry() {
