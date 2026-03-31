@@ -1582,28 +1582,20 @@
     .invite-empty-btn:hover { opacity: 0.88; }
 
     /* ── Post composer bar ── */
-    .composer-bar {
-      display: flex; align-items: center; gap: 10px;
-      background: #162030; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px;
-      padding: 10px 14px;
-    }
     .composer-av {
       width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
       background: #00FF87; color: #0F1923;
       display: flex; align-items: center; justify-content: center;
       font-size: 12px; font-weight: 800;
     }
-    .composer-input {
-      flex: 1; font-size: 14px; color: #888888; cursor: pointer;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    .post-submit-blue {
+      display: block; width: 100%; margin-top: 12px;
+      background: #3b82f6; color: #fff;
+      border: none; border-radius: 10px; padding: 12px;
+      font-size: 15px; font-weight: 700; cursor: pointer;
+      font-family: inherit; transition: opacity 0.2s;
     }
-    .composer-btn {
-      width: 32px; height: 32px; border-radius: 50%; border: none; flex-shrink: 0;
-      background: #00FF87; color: #0F1923;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: transform 0.15s;
-    }
-    .composer-btn:hover { transform: scale(1.1); }
+    .post-submit-blue:hover { opacity: 0.88; }
 
     /* ── Feed ── */
     .network-feed { display: flex; flex-direction: column; gap: 2px; }
@@ -3465,40 +3457,6 @@
   .comment-name { font-weight: 700; font-size: 11px; margin-bottom: 2px; color: #ccc; }
   .comment-text { color: #aaa; }
 
-  /* Composer redesign */
-  .composer-bar {
-    background: #162030; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px;
-    max-width: 680px; margin: 0 auto; width: 100%;
-  }
-  .composer-bar-top {
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px 16px;
-  }
-  .composer-type-tabs {
-    display: flex; gap: 6px; padding: 0 16px 12px;
-    overflow-x: auto; scrollbar-width: none;
-  }
-  .composer-type-tabs::-webkit-scrollbar { display: none; }
-  .composer-tab {
-    padding: 5px 14px; border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.08); background: transparent;
-    color: #666; font-size: 10px; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 0.6px;
-    cursor: pointer; transition: all 0.15s;
-    font-family: 'Inter', sans-serif; white-space: nowrap; flex-shrink: 0;
-  }
-  .composer-tab:hover { border-color: #00FF87; color: #00FF87; }
-  .composer-tab.active { background: #00FF87; border-color: #00FF87; color: #000; }
-  .post-form {
-    display: none; padding: 0 16px 16px;
-    border-top: 1px solid rgba(255,255,255,0.08); margin-top: 0;
-  }
-  .post-form.open { display: block; }
-  .post-media-label {
-    font-size: 10px; color: #555; font-weight: 800; text-transform: uppercase;
-    letter-spacing: 0.6px; margin: 10px 0 4px;
-    font-family: 'Inter', sans-serif;
-  }
 
   /* ══════════════════════════════════════════
      ATHLETE PROFILE — Section 1 + Section 2 grid
@@ -5846,30 +5804,34 @@
     </div>
 
     <!-- ── POST COMPOSER ── -->
-    <div class="composer-bar" style="max-width:680px;margin:0 auto;width:100%">
-      <div class="composer-bar-top">
+    <div class="start-post-box" style="max-width:680px;margin:0 auto;width:100%">
+      <!-- Top row: avatar + pill -->
+      <div class="start-post-row">
         <div class="composer-av" id="composer-av">A</div>
-        <div class="composer-input" onclick="openPostForm()" style="flex:1;cursor:pointer">Drop a clip, photo, or update…</div>
-        <button class="composer-btn" onclick="openPostForm()">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-        </button>
+        <div class="start-post-input" onclick="openPostForm()">What's your update?</div>
       </div>
-      <div class="composer-type-tabs" id="composer-type-tabs">
-        <button class="composer-tab active" data-type="training"   onclick="setPostType('training',this)">Training</button>
-        <button class="composer-tab"        data-type="highlights" onclick="setPostType('highlights',this)">Highlights</button>
-        <button class="composer-tab"        data-type="matchday"   onclick="setPostType('matchday',this)">Match Day</button>
-        <button class="composer-tab"        data-type="photo"      onclick="setPostType('photo',this)">Photo</button>
-        <button class="composer-tab"        data-type="text"       onclick="setPostType('text',this)">Text</button>
+      <!-- Action buttons (hidden when form is open) -->
+      <div class="start-post-actions" id="pc-bottom-actions">
+        <button class="post-action-btn" onclick="setPostType('photo',null)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          Photo
+        </button>
+        <button class="post-action-btn" onclick="setPostType('highlights',null)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg>
+          Video
+        </button>
+        <button class="post-action-btn" onclick="setPostType('training',null)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+          Achievement
+        </button>
       </div>
       <!-- Expanded form -->
       <div class="post-form" id="post-form">
         <textarea class="post-textarea" id="post-textarea" placeholder="What happened in training today?…" rows="3"></textarea>
         <div class="post-media-label" id="post-media-label">Video / Image URL</div>
         <input class="post-url-input" id="post-url-input" type="url" placeholder="Paste a YouTube or image link…">
-        <div class="post-form-footer" style="margin-top:12px">
-          <button class="post-cancel-btn" onclick="closePostForm()">Cancel</button>
-          <button class="post-submit-btn" onclick="submitPost()">Post</button>
-        </div>
+        <button class="post-submit-blue" onclick="submitPost()">Post</button>
+        <button class="post-cancel-btn" style="display:block;width:100%;margin-top:6px" onclick="closePostForm()">Cancel</button>
       </div>
     </div>
 
@@ -8446,6 +8408,8 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
   function openPostForm() {
     document.getElementById('post-form').classList.add('open');
+    const actions = document.getElementById('pc-bottom-actions');
+    if (actions) actions.style.display = 'none';
     document.getElementById('post-textarea').focus();
   }
 
@@ -8453,6 +8417,8 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     document.getElementById('post-form').classList.remove('open');
     document.getElementById('post-textarea').value = '';
     document.getElementById('post-url-input').value = '';
+    const actions = document.getElementById('pc-bottom-actions');
+    if (actions) actions.style.display = '';
   }
 
   function submitPost() {

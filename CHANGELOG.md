@@ -4,6 +4,22 @@ A running log of every change made to the platform. Written in plain English so 
 
 ---
 
+## 2026-03-31 (3)
+
+### Fix: Post Update composer broken layout on desktop and mobile
+
+The "Post Update" box on the Athlete Discovery Network home page had broken layout — text appeared vertically or jumbled on both desktop and mobile. Root cause: two conflicting `.composer-bar` CSS rules where the first set `display: flex; align-items: center` (row direction) but the second override never set `flex-direction: column`, causing all child sections to render side by side horizontally.
+
+- Composer rebuilt from scratch using the clean `.start-post-box` card structure.
+- Top row: circular avatar + "What's your update?" pill input, side by side.
+- Action buttons row below: Photo, Video, Achievement — each with an icon and label, all horizontal and readable.
+- Clicking the pill or any action button opens the expanded form, hiding the action buttons to keep the layout clean.
+- Expanded form: multi-line textarea, optional media URL field, full-width blue "Post" button, and a Cancel link below.
+- Cancelled or posted: form closes and action buttons reappear.
+- Works correctly on desktop and mobile at all screen sizes.
+
+---
+
 ## 2026-03-31 (2)
 
 ### Fix: Explore page video grid on mobile (EAF)
