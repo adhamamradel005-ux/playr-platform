@@ -4,6 +4,18 @@ A running log of every change made to the platform. Written in plain English so 
 
 ---
 
+## 2026-03-31 (2)
+
+### Fix: Explore page video grid on mobile (EAF)
+On mobile the video thumbnails were taking up the full screen width — only one card visible at a time. A mobile CSS rule was forcing `grid-template-columns: 1fr` which overrode the 2-column base layout.
+
+- Explore grid now stays **2 columns on all screen sizes** including phones.
+- Card body padding, title font, channel font, and duration badge are all scaled down slightly to fit 3–4 cards on screen without scrolling.
+- Thumbnail retains its 16:9 aspect ratio — no stretching or cropping.
+- Search bar and filter chips at the top are unchanged.
+
+---
+
 ## 2026-03-31
 
 ### Fix: nudge card vertical text on mobile (network home)
