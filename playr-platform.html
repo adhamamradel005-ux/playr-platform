@@ -4807,6 +4807,57 @@
     #screen-my-profile { padding-bottom: 68px; }
     #screen-mapview, #screen-map { padding-bottom: 68px; }
 
+    /* ── Status card: stack vertically on mobile ── */
+    .status-card {
+      flex-direction: column;
+      align-items: stretch;
+      padding: 16px;
+      gap: 14px;
+    }
+    .status-ring-wrap {
+      width: 72px; height: 72px;
+      align-self: center;
+    }
+    .ring-av { width: 46px; height: 46px; font-size: 16px; }
+    .status-info { width: 100%; }
+    .status-name { font-size: 20px !important; }
+    .status-metrics { gap: 0; }
+    .status-metric-val { font-size: 16px; }
+
+    /* ── Nudge card: stack text above button on mobile ── */
+    /* This prevents text being crushed to one-character-per-line
+       by the non-shrinking button beside it */
+    .pcomp-nudge {
+      flex-wrap: wrap;
+      gap: 10px 10px;
+    }
+    .pcomp-nudge-body {
+      flex-basis: 0;
+      flex-grow: 1;
+      min-width: 140px; /* force wrap if there isn't 140px for text */
+    }
+    .pcomp-nudge-btn {
+      flex-basis: 100%;
+      text-align: center;
+    }
+
+    /* ── FAB: move to bottom-right corner so it never covers feed content ── */
+    #playr-fab {
+      bottom: 82px;
+      left: auto;
+      right: 16px;
+      transform: none;
+    }
+
+    /* ── Composer bar: prevent A avatar and + btn from being cut off ── */
+    .composer-bar-top {
+      flex-wrap: nowrap;
+      min-width: 0;
+    }
+    .composer-input {
+      min-width: 0;
+    }
+
     /* ── Audio player: hidden on mobile ── */
     #audio-sticky { display: none !important; }
 

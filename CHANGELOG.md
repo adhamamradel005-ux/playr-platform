@@ -4,6 +4,20 @@ A running log of every change made to the platform. Written in plain English so 
 
 ---
 
+## 2026-03-31
+
+### Fix: nudge card vertical text on mobile (network home)
+On small phone screens the profile completion nudge card ("Add your highlight reel to get 3× more scout views") was showing text one character per line. Root cause: the non-shrinking action button next to the text was wider than the available space, collapsing the text container to near-zero width.
+
+- Nudge card now wraps: if the button can't fit beside the text, it drops to its own full-width line below the message.
+- Minimum text body width set to `140px` so the button always wraps rather than crushing the text.
+- Status card on mobile now stacks vertically (ring centred at top, info full-width below) — this gives the nudge card the full card width to work with.
+- Ring avatar reduced from 100px to 72px on mobile.
+- FAB "+" button moved to bottom-right corner on mobile so it no longer sits centred over feed content.
+- All nudge card variants (highlights, bio, position, etc.) benefit from this fix automatically.
+
+---
+
 ## 2026-03-30 (2)
 
 ### Separated Home feed and Discover pages
