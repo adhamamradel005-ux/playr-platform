@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Playr — Built for Athletes</title>
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,800;0,900;1,800&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/globe.gl@2"></script>
@@ -2564,6 +2564,23 @@
       display: flex; align-items: center; gap: 6px; z-index: 10;
       pointer-events: none; transition: opacity 1s ease;
     }
+
+    /* ── Globe zoom buttons ── */
+    .globe-zoom-controls {
+      position: absolute; bottom: 90px; right: 16px; z-index: 10;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .globe-zoom-btn {
+      width: 38px; height: 38px;
+      background: rgba(11,20,30,0.85); backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,0.14); border-radius: 10px;
+      color: rgba(255,255,255,0.85); font-size: 22px; font-weight: 300; line-height: 1;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background 0.15s, border-color 0.15s;
+      user-select: none;
+    }
+    .globe-zoom-btn:hover { background: rgba(0,255,135,0.15); border-color: #00FF87; color: #00FF87; }
+    .globe-zoom-btn:active { transform: scale(0.93); }
 
     /* Legend */
     .map-legend {
@@ -6552,7 +6569,13 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 <div id="screen-mapview" class="screen" style="position:relative;overflow:hidden;background:#020b14;">
 
   <!-- Globe canvas fills the entire screen -->
-  <div id="globe-container" style="position:absolute;inset:0;z-index:0;"></div>
+  <div id="globe-container" style="position:absolute;inset:0;z-index:0;touch-action:none;"></div>
+
+  <!-- Zoom controls -->
+  <div class="globe-zoom-controls">
+    <button class="globe-zoom-btn" onclick="globeZoomIn()" title="Zoom in">+</button>
+    <button class="globe-zoom-btn" onclick="globeZoomOut()" title="Zoom out">&#8722;</button>
+  </div>
 
   <!-- Filter bar floats above the globe -->
   <div class="globe-filter-bar" id="globe-filter-bar">
@@ -10047,9 +10070,10 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     controls.autoRotateSpeed = 0.5;
     controls.enableDamping = true;
     controls.dampingFactor = 0.08;
-    controls.minDistance = 101;
-    controls.maxDistance = 800;
-    globeInstance.pointOfView({ lat: 48, lng: 10, altitude: 2.5 });
+    controls.enableZoom = true;          // scroll wheel / pinch zoom on the globe
+    controls.minDistance = 101;          // ~altitude 0.01 — max zoom in (zoom 18 equivalent)
+    controls.maxDistance = 600;          // ~altitude 5.0  — max zoom out (zoom 5 equivalent)
+    globeInstance.pointOfView({ lat: 48, lng: 10, altitude: 2.0 }); // initial view — continental
 
     // Resize handler
     const ro = new ResizeObserver(() => {
@@ -10062,6 +10086,22 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
       const hint = document.getElementById('globe-hint');
       if (hint) hint.style.opacity = '0';
     }, 4000);
+  }
+
+  function globeZoomIn() {
+    if (!globeInstance) return;
+    const pov = globeInstance.pointOfView();
+    const newAlt = Math.max(0.02, pov.altitude / 1.6);
+    globeInstance.pointOfView({ lat: pov.lat, lng: pov.lng, altitude: newAlt }, 350);
+    if (globeInstance.controls) globeInstance.controls().autoRotate = false;
+  }
+
+  function globeZoomOut() {
+    if (!globeInstance) return;
+    const pov = globeInstance.pointOfView();
+    const newAlt = Math.min(5.0, pov.altitude * 1.6);
+    globeInstance.pointOfView({ lat: pov.lat, lng: pov.lng, altitude: newAlt }, 350);
+    if (globeInstance.controls) globeInstance.controls().autoRotate = false;
   }
 
   function toggleGlobeFilter(type, btn) {
