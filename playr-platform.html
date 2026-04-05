@@ -2521,6 +2521,7 @@
 
     /* ── Globe ── */
     #globe-container { width: 100%; height: 100%; }
+    #globe-container canvas { touch-action: none; display: block; }
     .globe-filter-bar {
       position: absolute; top: 14px; left: 50%; transform: translateX(-50%);
       display: flex; align-items: center; gap: 6px; flex-wrap: wrap; justify-content: center;
@@ -10074,6 +10075,15 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     controls.minDistance = 101;          // ~altitude 0.01 — max zoom in (zoom 18 equivalent)
     controls.maxDistance = 600;          // ~altitude 5.0  — max zoom out (zoom 5 equivalent)
     globeInstance.pointOfView({ lat: 48, lng: 10, altitude: 2.0 }); // initial view — continental
+
+    // Prevent iOS/Android browser from intercepting pinch-to-zoom on the globe.
+    // { passive: false } is required so preventDefault() actually works.
+    container.addEventListener('touchmove', function(e) {
+      if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
+    container.addEventListener('touchstart', function(e) {
+      if (e.touches.length > 1) e.preventDefault();
+    }, { passive: false });
 
     // Resize handler
     const ro = new ResizeObserver(() => {
