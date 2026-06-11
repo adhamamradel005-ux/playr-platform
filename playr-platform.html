@@ -5292,6 +5292,7 @@
     </div>
 
   </div>
+    <div style="text-align:center;margin-top:18px;font-size:14px;color:#8a97a6">Already on Playr? <a onclick="showLogin()" style="color:#00FF87;cursor:pointer;font-weight:700">Log in</a></div>
 </div>
 
 <!-- ══════════════════════════════════════════
@@ -5354,6 +5355,10 @@
     </div>
     <form class="su-form" onsubmit="createAccount(event)" novalidate autocomplete="on">
       <div class="su-field">
+        <label for="su-name">Full name</label>
+        <input type="text" id="su-name" name="name" placeholder="Your name" autocomplete="name">
+      </div>
+      <div class="su-field">
         <label for="su-email">Email address</label>
         <input type="email" id="su-email" name="email" placeholder="you@email.com"
           autocomplete="email" inputmode="email">
@@ -5368,7 +5373,37 @@
       <button type="submit" class="su-submit" id="su-submit">Create Account →</button>
       <div class="su-divider">By continuing you agree to Playr's Terms &amp; Privacy Policy</div>
     </form>
+    <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--muted)">Already have an account? <a onclick="showLogin()" style="color:#00FF87;cursor:pointer;font-weight:700">Log in</a></div>
     <button class="su-back" onclick="showRoleScreen()">← Change role</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCREEN 1.6: LOG IN
+══════════════════════════════════════════ -->
+<div id="screen-login" class="screen">
+  <div class="entry-bg-orb orb1"></div>
+  <div class="entry-bg-orb orb2"></div>
+  <div class="signup-wrap">
+    <div class="su-logo">Pl<span>a</span>yr</div>
+    <div class="su-heading">
+      <h1>Welcome back</h1>
+      <p>Log in to your Playr account.</p>
+    </div>
+    <form class="su-form" onsubmit="login(event)" novalidate autocomplete="on">
+      <div class="su-field">
+        <label for="li-email">Email address</label>
+        <input type="email" id="li-email" name="email" placeholder="you@email.com" autocomplete="email" inputmode="email">
+      </div>
+      <div class="su-field">
+        <label for="li-password">Password</label>
+        <input type="password" id="li-password" name="password" placeholder="Your password" autocomplete="current-password">
+      </div>
+      <div class="su-error" id="li-error"></div>
+      <button type="submit" class="su-submit" id="li-submit">Log in →</button>
+    </form>
+    <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--muted)">New to Playr? <a onclick="showRoleScreen()" style="color:#00FF87;cursor:pointer;font-weight:700">Create an account</a></div>
+    <button class="su-back" onclick="goToEntry()">← Back</button>
   </div>
 </div>
 
@@ -5443,6 +5478,38 @@
           <div class="streak-banner-msg" id="network-streak-msg">Keep posting to build your streak</div>
         </div>
       </div>
+    </div>
+
+    <!-- ── STORIES ── -->
+    <style>
+      .stories-rail { display:flex; gap:14px; overflow-x:auto; padding:12px 4px; scrollbar-width:none; }
+      .stories-rail::-webkit-scrollbar { display:none; }
+      .story-cell { flex:none; width:64px; text-align:center; cursor:pointer; }
+      .story-ring { width:62px; height:62px; border-radius:50%; padding:3px; background:conic-gradient(from 0deg,#00FF87,#6C3EFF,#FF2D92,#00FF87); display:flex; align-items:center; justify-content:center; position:relative; }
+      .story-ring.story-add { background:#33414f; }
+      .story-av { width:100%; height:100%; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:#fff; font-size:18px; border:2px solid var(--bg,#0F1923); }
+      .story-plus { position:absolute; bottom:-2px; right:-2px; width:20px; height:20px; border-radius:50%; background:#00FF87; color:#08131f; font-weight:900; display:flex; align-items:center; justify-content:center; font-size:14px; border:2px solid var(--bg,#0F1923); }
+      .story-name { font-size:11px; margin-top:5px; color:var(--muted,#8a97a6); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+      .story-overlay { position:fixed; inset:0; z-index:9999; display:none; align-items:center; justify-content:center; }
+      .sv-backdrop { position:absolute; inset:0; background:rgba(0,0,0,0.85); }
+      .sv-card { position:relative; width:min(420px,92vw); height:min(720px,88vh); border-radius:16px; overflow:hidden; display:flex; flex-direction:column; color:#fff; }
+      .sv-bars { display:flex; gap:4px; padding:10px 10px 0; }
+      .sv-bar { flex:1; height:3px; background:rgba(255,255,255,0.35); border-radius:2px; overflow:hidden; }
+      .sv-bar-fill { height:100%; background:#fff; }
+      .sv-head { display:flex; align-items:center; gap:10px; padding:12px; }
+      .sv-name { font-weight:700; font-size:14px; flex:1; }
+      .sv-time { font-size:12px; opacity:0.8; }
+      .sv-close { background:none; border:none; color:#fff; font-size:18px; cursor:pointer; }
+      .sv-media { width:100%; flex:1; object-fit:cover; min-height:0; }
+      .sv-caption { padding:18px; font-size:20px; font-weight:700; text-align:center; flex:1; display:flex; align-items:center; justify-content:center; }
+      .sv-nav { position:absolute; top:60px; bottom:0; width:40%; background:none; border:none; cursor:pointer; font-size:0; }
+      .sv-prev { left:0; } .sv-next { right:0; }
+      .story-composer-card { position:relative; width:min(440px,92vw); background:var(--card,#162030); border:1px solid rgba(255,255,255,0.1); border-radius:16px; padding:20px; }
+      .story-grad-pick { width:38px; height:38px; border-radius:10px; cursor:pointer; border:2px solid transparent; }
+      .story-grad-pick.sel { border-color:#fff; }
+    </style>
+    <div class="stories-wrap" style="max-width:680px;margin:0 auto 4px;width:100%">
+      <div class="stories-rail" id="stories-rail"></div>
     </div>
 
     <!-- ── PEOPLE STRIP ── -->
@@ -5537,293 +5604,6 @@
 
     <!-- ── FEED ── -->
     <div class="network-feed" id="network-feed-posts">
-
-      <!-- POST 1: Kai Mensah — Training Clip -->
-      <div class="post-card" data-category="training" data-user-id="kai_mensah">
-        <div class="post-media">
-          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="post-body">
-          <div class="post-header">
-            <div class="post-avatar user-link" style="background:linear-gradient(135deg,#00FF87,#00C9A7)" onclick="showProfile('kai_mensah')">KM</div>
-            <div class="post-author-info">
-              <div class="post-author-name">
-                <span class="user-link" onclick="showProfile('kai_mensah')">Kai Mensah</span>
-                <span class="post-type-pill training">Training</span>
-              </div>
-              <div class="post-author-sub">Striker · FC Velocity Academy · 🇬🇭</div>
-              <div class="post-timestamp">2h ago</div>
-            </div>
-            <div class="post-more">···</div>
-          </div>
-          <div class="post-text">Pre-season day 27. No days off. 🔥
-
-Strikers train in the dark. The lights come on match day. Every rep, every sprint, every touch — it compounds.
-
-<span class="post-tag">#PreSeason #StrikerLife #Grind #FCVelocity</span></div>
-          <div class="post-reactions">
-            <div class="emoji-reactions">
-              <button class="emoji-react-btn" onclick="feedReact(this,'🔥')" data-emoji="🔥"><span class="emoji-react-icon">🔥</span><span class="emoji-react-count">183</span></button>
-              <button class="emoji-react-btn" onclick="feedReact(this,'💪')" data-emoji="💪"><span class="emoji-react-icon">💪</span><span class="emoji-react-count">64</span></button>
-              <button class="emoji-react-btn" onclick="feedReact(this,'❤️')" data-emoji="❤️"><span class="emoji-react-icon">❤️</span><span class="emoji-react-count">0</span></button>
-            </div>
-            <button class="post-react-btn" onclick="feedComment(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-              <span>38</span>
-            </button>
-            <button class="post-react-btn post-react-repost" onclick="feedRepost(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
-              <span>12</span>
-            </button>
-          </div>
-          <div class="post-comments-wrap" style="display:none">
-            <div class="comment-input-row">
-              <div class="comment-av-sm" id="comment-av-1">A</div>
-              <input class="comment-input" placeholder="Add a comment…">
-              <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
-            </div>
-            <div class="comments-list">
-              <div class="comment-item">
-                <div class="comment-av-sm" style="background:linear-gradient(135deg,#d97706,#92400e)">JH</div>
-                <div class="comment-bubble"><div class="comment-name">James Harrison</div><div class="comment-text">This mentality is exactly what we look for. DM me your highlights.</div></div>
-              </div>
-              <div class="comment-item">
-                <div class="comment-av-sm" style="background:linear-gradient(135deg,#2563eb,#1e40af)">SO</div>
-                <div class="comment-bubble"><div class="comment-name">Sarah Okonkwo</div><div class="comment-text">The consistency is everything. Keep going 🔥</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- POST 2: Amara Touré — Match Day Photos -->
-      <div class="post-card" data-category="matchday" data-user-id="amara_toure">
-        <div class="post-media-photo" style="background:linear-gradient(135deg,#0a1628 0%,#1a3a6b 50%,#0f2a4d 100%)">
-          <div class="post-photo-grid">
-            <div class="post-photo-cell" style="background:linear-gradient(135deg,#0d1f3c,#1a3a6b)">⚽</div>
-            <div class="post-photo-cell" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">🏟️</div>
-            <div class="post-photo-cell" style="background:linear-gradient(135deg,#0f3460,#533483)">🎯</div>
-            <div class="post-photo-cell" style="background:linear-gradient(135deg,#e94560,#0f3460)">🏆</div>
-          </div>
-        </div>
-        <div class="post-body">
-          <div class="post-header">
-            <div class="post-avatar user-link" style="background:linear-gradient(135deg,#f97316,#c2410c)" onclick="showProfile('amara_toure')">AT</div>
-            <div class="post-author-info">
-              <div class="post-author-name">
-                <span class="user-link" onclick="showProfile('amara_toure')">Amara Touré</span>
-                <span class="post-type-pill matchday">Match Day</span>
-              </div>
-              <div class="post-author-sub">Striker · RC Lens B · 🇸🇳</div>
-              <div class="post-timestamp">5h ago</div>
-            </div>
-            <div class="post-more">···</div>
-          </div>
-          <div class="post-text">Scored the winner. 89th minute. Pure feeling. 🎯
-
-To everyone who told me to be realistic — this is me being realistic. Every match, every goal, every moment I'm building towards something bigger.
-
-<span class="post-tag">#MatchDay #Striker #Senegal #Goals</span></div>
-          <div class="post-reactions">
-            <div class="emoji-reactions">
-              <button class="emoji-react-btn" onclick="feedReact(this,'🔥')" data-emoji="🔥"><span class="emoji-react-icon">🔥</span><span class="emoji-react-count">412</span></button>
-              <button class="emoji-react-btn" onclick="feedReact(this,'❤️')" data-emoji="❤️"><span class="emoji-react-icon">❤️</span><span class="emoji-react-count">222</span></button>
-              <button class="emoji-react-btn" onclick="feedReact(this,'👏')" data-emoji="👏"><span class="emoji-react-icon">👏</span><span class="emoji-react-count">0</span></button>
-            </div>
-            <button class="post-react-btn" onclick="feedComment(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-              <span>91</span>
-            </button>
-            <button class="post-react-btn post-react-repost" onclick="feedRepost(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
-              <span>47</span>
-            </button>
-          </div>
-          <div class="post-comments-wrap" style="display:none">
-            <div class="comment-input-row">
-              <div class="comment-av-sm" id="comment-av-2">A</div>
-              <input class="comment-input" placeholder="Add a comment…">
-              <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
-            </div>
-            <div class="comments-list">
-              <div class="comment-item">
-                <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">KM</div>
-                <div class="comment-bubble"><div class="comment-name">Kai Mensah</div><div class="comment-text">BROTHER!! That 89th minute 😤🔥</div></div>
-              </div>
-              <div class="comment-item">
-                <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#1e40af)">MD</div>
-                <div class="comment-bubble"><div class="comment-name">Marcus Diallo</div><div class="comment-text">Let's go!! Different level mentality 💪</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- POST 3: Marcus Diallo — Highlight Reel -->
-      <div class="post-card" data-category="highlights" data-user-id="marcus_diallo">
-        <div class="post-media">
-          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="post-body">
-          <div class="post-header">
-            <div class="post-avatar user-link" style="background:linear-gradient(135deg,#00FF87,#1e40af)" onclick="showProfile('marcus_diallo')">MD</div>
-            <div class="post-author-info">
-              <div class="post-author-name">
-                <span class="user-link" onclick="showProfile('marcus_diallo')">Marcus Diallo</span>
-                <span class="post-type-pill highlights">Highlights</span>
-              </div>
-              <div class="post-author-sub">Central Midfielder · Free Agent · 🇫🇷</div>
-              <div class="post-timestamp">Yesterday</div>
-            </div>
-            <div class="post-more">···</div>
-          </div>
-          <div class="post-text">Season highlights — back to full fitness. 💫
-
-3 weeks out with hamstring. Used that time to work on the mental side. Came back sharper than before.
-
-CM, 22, open to trials in England or Germany. Everything in the reel. DMs open.
-
-<span class="post-tag">#Highlights #CentralMidfielder #FreeAgent #Football</span></div>
-          <div class="post-reactions">
-            <div class="emoji-reactions">
-              <button class="emoji-react-btn" onclick="feedReact(this,'🔥')" data-emoji="🔥"><span class="emoji-react-icon">🔥</span><span class="emoji-react-count">89</span></button>
-              <button class="emoji-react-btn" onclick="feedReact(this,'💪')" data-emoji="💪"><span class="emoji-react-icon">💪</span><span class="emoji-react-count">67</span></button>
-              <button class="emoji-react-btn" onclick="feedReact(this,'😮')" data-emoji="😮"><span class="emoji-react-icon">😮</span><span class="emoji-react-count">0</span></button>
-            </div>
-            <button class="post-react-btn" onclick="feedComment(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-              <span>43</span>
-            </button>
-            <button class="post-react-btn post-react-repost" onclick="feedRepost(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
-              <span>28</span>
-            </button>
-          </div>
-          <div class="post-comments-wrap" style="display:none">
-            <div class="comment-input-row">
-              <div class="comment-av-sm" id="comment-av-3">A</div>
-              <input class="comment-input" placeholder="Add a comment…">
-              <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
-            </div>
-            <div class="comments-list">
-              <div class="comment-item">
-                <div class="comment-av-sm" style="background:linear-gradient(135deg,#d97706,#92400e)">JH</div>
-                <div class="comment-bubble"><div class="comment-name">James Harrison</div><div class="comment-text">Quality on the ball. Added you to my shortlist.</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- POST 4: Sarah Okonkwo — Mental Performance Clip -->
-      <div class="post-card" data-category="training" data-user-id="sarah_okonkwo">
-        <div class="post-media">
-          <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen loading="lazy"></iframe>
-        </div>
-        <div class="post-body">
-          <div class="post-header">
-            <div class="post-avatar user-link" style="background:linear-gradient(135deg,#2563eb,#1e40af)" onclick="showProfile('sarah_okonkwo')">SO</div>
-            <div class="post-author-info">
-              <div class="post-author-name">
-                <span class="user-link" onclick="showProfile('sarah_okonkwo')">Sarah Okonkwo</span>
-                <span class="post-type-pill training">Training</span>
-              </div>
-              <div class="post-author-sub">UEFA A Licensed · Sports Psychologist</div>
-              <div class="post-timestamp">2 days ago</div>
-            </div>
-            <div class="post-more">···</div>
-          </div>
-          <div class="post-text">Mental reps are physical reps. 🧠
-
-Before you can perform under pressure, you have to perform in training. 5 minutes of visualisation before every session — I walked a group of U21 players through this last week.
-
-The shift in focus quality was immediate. Try it.
-
-<span class="post-tag">#SportsPsychology #MentalPerformance #EliteAthlete #Coaching</span></div>
-          <div class="post-reactions">
-            <div class="emoji-reactions">
-              <button class="emoji-react-btn" onclick="feedReact(this,'💪')" data-emoji="💪"><span class="emoji-react-icon">💪</span><span class="emoji-react-count">634</span></button>
-              <button class="emoji-react-btn" onclick="feedReact(this,'🔥')" data-emoji="🔥"><span class="emoji-react-icon">🔥</span><span class="emoji-react-count">257</span></button>
-              <button class="emoji-react-btn" onclick="feedReact(this,'❤️')" data-emoji="❤️"><span class="emoji-react-icon">❤️</span><span class="emoji-react-count">0</span></button>
-            </div>
-            <button class="post-react-btn" onclick="feedComment(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-              <span>204</span>
-            </button>
-            <button class="post-react-btn post-react-repost" onclick="feedRepost(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
-              <span>145</span>
-            </button>
-          </div>
-          <div class="post-comments-wrap" style="display:none">
-            <div class="comment-input-row">
-              <div class="comment-av-sm" id="comment-av-4">A</div>
-              <input class="comment-input" placeholder="Add a comment…">
-              <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
-            </div>
-            <div class="comments-list">
-              <div class="comment-item">
-                <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">KM</div>
-                <div class="comment-bubble"><div class="comment-name">Kai Mensah</div><div class="comment-text">Started doing this two weeks ago — massive difference in how I handle pre-match nerves.</div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- POST 5: Rayan Bouzid — Photo Dump -->
-      <div class="post-card" data-category="photo" data-user-id="rayan_bouzid">
-        <div class="post-media-photo" style="background:#111">
-          <div class="post-photo-grid">
-            <div class="post-photo-cell" style="background:linear-gradient(135deg,#1a1a2e,#16213e)">🏃</div>
-            <div class="post-photo-cell" style="background:linear-gradient(135deg,#0f3460,#e94560)">💪</div>
-            <div class="post-photo-cell" style="background:linear-gradient(135deg,#533483,#1a1a2e)">🧘</div>
-            <div class="post-photo-cell" style="background:linear-gradient(135deg,#e94560,#533483)">⚽</div>
-          </div>
-        </div>
-        <div class="post-body">
-          <div class="post-header">
-            <div class="post-avatar user-link" style="background:linear-gradient(135deg,#7c3aed,#4c1d95)" onclick="showProfile('rayan_bouzid')">RB</div>
-            <div class="post-author-info">
-              <div class="post-author-name">
-                <span class="user-link" onclick="showProfile('rayan_bouzid')">Rayan Bouzid</span>
-                <span class="post-type-pill photo">Photo</span>
-              </div>
-              <div class="post-author-sub">Winger · AS Nancy B · 🇩🇿</div>
-              <div class="post-timestamp">3 days ago</div>
-            </div>
-            <div class="post-more">···</div>
-          </div>
-          <div class="post-text">Week in pictures. 📸
-
-Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highlights. Happy to finally feel 100% going into the second half of the season.
-
-<span class="post-tag">#WeekInPictures #PhotoDump #Winger #AlgerianFootball</span></div>
-          <div class="post-reactions">
-            <button class="post-react-btn" onclick="feedLike(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-              <span>318</span>
-            </button>
-            <button class="post-react-btn" onclick="feedComment(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-              <span>57</span>
-            </button>
-            <button class="post-react-btn" onclick="feedRepost(this)">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
-              <span>22</span>
-            </button>
-          </div>
-          <div class="post-comments-wrap" style="display:none">
-            <div class="comment-input-row">
-              <div class="comment-av-sm" id="comment-av-5">A</div>
-              <input class="comment-input" placeholder="Add a comment…">
-              <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
-            </div>
-            <div class="comments-list"></div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div><!-- .network-home -->
 </div>
@@ -7832,31 +7612,22 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   // ─── CONNECTIONS SYSTEM ───
-  function loadConnections() {
+  // Connections are server-backed; _connCache is the synchronous snapshot.
+  let _connCache = { sent: [], received: [], connected: [] };
+  function loadConnections() { return _connCache; }
+  function saveConnections() { /* server is the source of truth now */ }
+  async function syncConnections() {
     try {
-      const raw = localStorage.getItem('playr_connections');
-      const c = raw ? JSON.parse(raw) : { sent: [], received: [], connected: [] };
-      // Filter out any stale fake IDs not backed by real DISCOVER_USERS entries
-      const validIds = new Set(DISCOVER_USERS.map(u => u.id));
-      const clean = {
-        sent:      (c.sent      || []).filter(id => validIds.has(id)),
-        received:  (c.received  || []).filter(id => validIds.has(id)),
-        connected: (c.connected || []).filter(id => validIds.has(id)),
-      };
-      if (!raw || JSON.stringify(clean) !== JSON.stringify(c)) {
-        localStorage.setItem('playr_connections', JSON.stringify(clean));
-      }
-      return clean;
-    } catch { return { sent: [], received: [], connected: [] }; }
-  }
-
-  function saveConnections(c) {
-    localStorage.setItem('playr_connections', JSON.stringify(c));
+      const c = await apiGet('/api/connections?user_id=' + encodeURIComponent(userId));
+      _connCache = { sent: c.sent||[], received: c.received||[], connected: c.connected||[] };
+    } catch (e) {}
     updateNotifBadges();
+    if (typeof updateChatBadge === 'function') updateChatBadge();
+    return _connCache;
   }
 
   function connStatus(id) {
-    const c = loadConnections();
+    const c = _connCache;
     if (c.connected.includes(id)) return 'connected';
     if (c.sent.includes(id))      return 'pending';
     if (c.received.includes(id))  return 'received';
@@ -7871,46 +7642,28 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     return `<button class="connect-btn" onclick="event.stopPropagation();sendConnectionRequest('${id}',this)">+ Connect</button>`;
   }
 
-  function sendConnectionRequest(id, btn) {
+  async function sendConnectionRequest(id, btn) {
     if (!id) return;
-    const c = loadConnections();
-    if (!c.sent.includes(id) && !c.connected.includes(id) && !c.received.includes(id)) {
-      c.sent.push(id);
-      saveConnections(c);
-    }
-    if (btn) {
-      btn.textContent = 'Pending ✕';
-      btn.classList.add('pending');
-      btn.onclick = (e) => { e.stopPropagation(); withdrawConnection(id, btn); };
-    }
+    if (btn) { btn.textContent = 'Pending ✕'; btn.classList.add('pending'); btn.onclick = (e) => { e.stopPropagation(); withdrawConnection(id, btn); }; }
+    try { await apiPost('/api/connections', { target_id: id }); } catch(e){}
+    await syncConnections();
   }
-
-  function acceptConnection(id) {
-    const c = loadConnections();
-    c.received = c.received.filter(x => x !== id);
-    if (!c.connected.includes(id)) c.connected.push(id);
-    saveConnections(c);
-    if (document.getElementById('my-network-body').children.length) renderMyNetworkPage();
-    const name = (PROFILES[id] || {}).name || id;
-    addNotif('connection_accepted', `You are now connected with ${name}`, '🤝');
+  async function acceptConnection(id) {
+    try { await apiPatch('/api/connections', { requester_id: id, action: 'accept' }); } catch(e){}
+    await syncConnections();
+    const body = document.getElementById('my-network-body');
+    if (body && body.children.length) renderMyNetworkPage();
   }
-
-  function declineConnection(id) {
-    const c = loadConnections();
-    c.received = c.received.filter(x => x !== id);
-    saveConnections(c);
-    if (document.getElementById('my-network-body').children.length) renderMyNetworkPage();
+  async function declineConnection(id) {
+    try { await apiPatch('/api/connections', { requester_id: id, action: 'decline' }); } catch(e){}
+    await syncConnections();
+    const body = document.getElementById('my-network-body');
+    if (body && body.children.length) renderMyNetworkPage();
   }
-
-  function withdrawConnection(id, btn) {
-    const c = loadConnections();
-    c.sent = c.sent.filter(x => x !== id);
-    saveConnections(c);
-    if (btn) {
-      btn.textContent = '+ Connect';
-      btn.classList.remove('pending');
-      btn.onclick = (e) => { e.stopPropagation(); sendConnectionRequest(id, btn); };
-    }
+  async function withdrawConnection(id, btn) {
+    try { await apiDelete('/api/connections', { target_id: id }); } catch(e){}
+    await syncConnections();
+    if (btn) { btn.textContent = '+ Connect'; btn.classList.remove('pending'); btn.onclick = (e) => { e.stopPropagation(); sendConnectionRequest(id, btn); }; }
   }
 
   function updateNotifBadges() {
@@ -8083,76 +7836,11 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   function submitPost() {
+    if (!authToken) { showLogin(); return; }
     const text = document.getElementById('post-textarea').value.trim();
-    if (!text) return;
     const url = document.getElementById('post-url-input').value.trim();
-    const type = _currentPostType;
-    const reactionSVG = (icon) => {
-      const icons = {
-        heart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>',
-        comment: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>',
-        repost: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>',
-      };
-      return icons[icon] || '';
-    };
-
-    let mediaHtml = '';
-    if (url) {
-      const ytId = extractYouTubeId(url);
-      if (ytId) {
-        mediaHtml = `<div class="post-media"><iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen loading="lazy"></iframe></div>`;
-      } else {
-        mediaHtml = `<div class="post-media"><img src="${url.replace(/"/g,'')}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"></div>`;
-      }
-    } else if (type === 'photo') {
-      mediaHtml = `<div class="post-media-photo" style="background:#162030"><div class="post-photo-grid"><div class="post-photo-cell" style="background:#162030">📸</div><div class="post-photo-cell" style="background:#131e2b">🎞️</div><div class="post-photo-cell" style="background:#131e2b">🏃</div><div class="post-photo-cell" style="background:#162030">⚽</div></div></div>`;
-    }
-
-    const myName = document.getElementById('network-profile-name')?.textContent || 'You';
-    const myAv = document.getElementById('network-profile-avatar')?.textContent || 'A';
-    const myRole = localStorage.getItem('playr_role') || 'player';
-    const d = _mpData ? _mpData() : {};
-    const sub = [d.position || '', d.location || ''].filter(Boolean).join(' · ') || 'Athlete';
-
-    const card = document.createElement('div');
-    card.className = 'post-card post-new';
-    card.dataset.category = type;
-    card.innerHTML = `
-      ${mediaHtml}
-      <div class="post-body">
-        <div class="post-header">
-          <div class="post-avatar" style="background:linear-gradient(135deg,#00FF87,#00C9A7);font-size:14px">${myAv}</div>
-          <div class="post-author-info">
-            <div class="post-author-name">${myName} <span class="post-type-pill ${type}">${type.charAt(0).toUpperCase()+type.slice(1)}</span></div>
-            <div class="post-author-sub">${sub}</div>
-            <div class="post-timestamp">Just now</div>
-          </div>
-          <div class="post-more">···</div>
-        </div>
-        <div class="post-text">${text.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}</div>
-        <div class="post-reactions">
-          <button class="post-react-btn" onclick="feedLike(this)">${reactionSVG('heart')} <span>0</span></button>
-          <button class="post-react-btn" onclick="feedComment(this)">${reactionSVG('comment')} <span>0</span></button>
-          <button class="post-react-btn" onclick="feedRepost(this)">${reactionSVG('repost')} <span>0</span></button>
-        </div>
-        <div class="post-comments-wrap" style="display:none">
-          <div class="comment-input-row">
-            <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">${myAv}</div>
-            <input class="comment-input" placeholder="Add a comment…">
-            <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
-          </div>
-          <div class="comments-list"></div>
-        </div>
-      </div>`;
-
-    const container = document.getElementById('network-feed-posts');
-    container.insertBefore(card, container.firstChild);
-
-    const activeFilter = document.querySelector('.filter-btn.active');
-    if (activeFilter && activeFilter.dataset.filter !== 'all' && activeFilter.dataset.filter !== type) {
-      card.style.display = 'none';
-    }
-
+    if (!text && !url) return;
+    createPostOnServer({ type: _currentPostType, text, url });
     closePostForm();
   }
 
@@ -8921,34 +8609,10 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     if (commentBtn) commentBtn.textContent = parseInt(commentBtn.textContent||0) + 1;
   }
 
-  // ─── MESSAGING SYSTEM ───
-  const msgState = { view: 'list', activeId: null };
+  // ─── MESSAGING SYSTEM (server-backed) ───
+  const msgState = { view: 'list', activeId: null, convs: [], thread: [] };
 
-  function convId(otherId) {
-    return [userId, otherId].sort().join('__');
-  }
-
-  function getMsgs(otherId) {
-    try { return JSON.parse(localStorage.getItem('playr_chat_' + convId(otherId)) || '[]'); }
-    catch { return []; }
-  }
-
-  function saveMsgs(otherId, msgs) {
-    localStorage.setItem('playr_chat_' + convId(otherId), JSON.stringify(msgs));
-  }
-
-  function getTotalUnread() {
-    const c = loadConnections();
-    return c.connected.reduce((sum, id) => {
-      return sum + getMsgs(id).filter(m => m.from !== 'me' && !m.read).length;
-    }, 0);
-  }
-
-  function updateChatBadge() {
-    const n = getTotalUnread();
-    const el = document.getElementById('nav-badge-messaging');
-    if (el) { el.textContent = n; el.style.display = n > 0 ? 'flex' : 'none'; }
-  }
+  function convId(otherId) { return [userId, otherId].sort().join('__'); }
 
   function relTime(ts) {
     const d = Date.now() - ts;
@@ -8958,68 +8622,75 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     return Math.floor(d / 86400000) + 'd ago';
   }
 
+  async function updateChatBadge() {
+    let n = 0;
+    try { n = (await apiGet('/api/messages/unread?user_id=' + encodeURIComponent(userId))).count || 0; } catch(e){}
+    const el = document.getElementById('nav-badge-messaging');
+    if (el) { el.textContent = n; el.style.display = n > 0 ? 'flex' : 'none'; }
+  }
+
+  async function refreshConversations() {
+    try { msgState.convs = await apiGet('/api/conversations?user_id=' + encodeURIComponent(userId)); }
+    catch(e){ msgState.convs = []; }
+    updateChatBadge();
+    if (document.getElementById('screen-messages')?.classList.contains('active')) renderMsgConvList();
+  }
+
   function showMessages() {
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     document.getElementById('screen-messages').classList.add('active');
     setActiveNavItem('nav-messaging');
+    setTopbarSide('network');
     msgState.view = 'list';
     msgState.activeId = null;
     const layout = document.getElementById('msg-screen-layout');
     if (layout) layout.classList.remove('thread-open');
     renderMsgConvList();
+    refreshConversations();
+  }
+
+  function _msgUser(id) {
+    const c = msgState.convs.find(x => x.other_id === id);
+    if (c) return { id, name: c.other_name, grad: c.other_grad, initials: _initials(c.other_name), role: c.other_role };
+    const p = PROFILES[id];
+    if (p) return { id, name: p.name, grad: p.grad, initials: p.initials, role: p.role };
+    return { id, name: 'Unknown', grad: '#33414f', initials: '?', role: '' };
   }
 
   function renderMsgConvList() {
-    const c = loadConnections();
     const listEl = document.getElementById('msg-conv-list');
     if (!listEl) return;
-    if (!c.connected.length) {
-      listEl.innerHTML = '<div style="text-align:center;padding:48px 20px;color:var(--muted);font-size:13px"><div style="font-size:36px;margin-bottom:14px">💬</div>Connect with scouts, players and coaches to start messaging.</div>';
+    if (!msgState.convs.length) {
+      listEl.innerHTML = `<div style="text-align:center;padding:48px 20px;color:var(--muted);font-size:13px"><div style="font-size:36px;margin-bottom:14px">💬</div>No conversations yet. Open a profile and tap Message to start one.</div>`;
       return;
     }
-    const convos = c.connected.map(id => {
-      const msgs = getMsgs(id);
-      const last = msgs[msgs.length - 1];
-      const unread = msgs.filter(m => m.from !== 'me' && !m.read).length;
-      return { id, msgs, last, unread };
-    }).sort((a, b) => {
-      if (!a.last && !b.last) return 0;
-      if (!a.last) return 1;
-      if (!b.last) return -1;
-      return b.last.ts - a.last.ts;
-    });
-    listEl.innerHTML = convos.map(({ id, last, unread }) => {
-      const u = DISCOVER_USERS.find(x => x.id === id);
-      if (!u) return '';
-      const preview = last
-        ? (last.from === 'me' ? 'You: ' + last.text : last.text).slice(0, 48) + (last.text.length > 48 ? '…' : '')
-        : 'Start a conversation';
-      const isActive = id === msgState.activeId;
-      return `<div class="conv-item${isActive ? ' active' : ''}" onclick="openMsgConversation('${id}')">
-        <div class="conv-av" style="background:${u.grad}">${u.initials}</div>
+    listEl.innerHTML = msgState.convs.map(c => {
+      const isActive = c.other_id === msgState.activeId;
+      const preview = (c.last_from_me ? 'You: ' : '') + (c.last_text || '');
+      return `<div class="conv-item${isActive ? ' active' : ''}" onclick="openMsgConversation('${c.other_id}')">
+        <div class="conv-av" style="background:${c.other_grad}">${_initials(c.other_name)}</div>
         <div class="conv-info">
-          <div class="conv-name">${u.name}</div>
-          <div class="conv-preview${unread ? ' unread' : ''}">${preview}</div>
+          <div class="conv-name">${_esc(c.other_name)}</div>
+          <div class="conv-preview${c.unread ? ' unread' : ''}">${_esc(preview).slice(0,52)}</div>
         </div>
         <div class="conv-meta">
-          ${last ? `<span class="conv-time">${relTime(last.ts)}</span>` : ''}
-          ${unread ? `<span class="conv-unread-dot"></span>` : ''}
+          <span class="conv-time">${timeAgo(c.last_ts)}</span>
+          ${c.unread ? '<span class="conv-unread-dot"></span>' : ''}
         </div>
       </div>`;
     }).join('');
   }
 
-  function openMsgConversation(otherId) {
-    const msgs = getMsgs(otherId).map(m => ({ ...m, read: true }));
-    saveMsgs(otherId, msgs);
-    updateChatBadge();
+  async function openMsgConversation(otherId) {
     msgState.activeId = otherId;
     msgState.view = 'thread';
     const layout = document.getElementById('msg-screen-layout');
     if (layout) layout.classList.add('thread-open');
-    renderMsgConvList();
+    try { msgState.thread = await apiGet('/api/messages?conv_id=' + encodeURIComponent(convId(otherId))); }
+    catch(e){ msgState.thread = []; }
+    try { await apiPatch('/api/messages/read', { conv_id: convId(otherId), user_id: userId }); } catch(e){}
     renderMsgThread(otherId);
-    apiPost('/api/messages/read', { conv_id: convId(otherId), user_id: userId }).catch(() => {});
+    refreshConversations();
   }
 
   function backToMsgList() {
@@ -9037,30 +8708,29 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   function renderMsgThread(otherId) {
-    const u = DISCOVER_USERS.find(x => x.id === otherId);
-    if (!u) return;
-    const msgs = getMsgs(otherId);
+    const u = _msgUser(otherId);
     const panel = document.getElementById('msg-thread-panel');
     if (!panel) return;
+    const msgs = msgState.thread || [];
     panel.innerHTML = `
       <div class="msg-thread-header">
         <button class="msg-thread-back" onclick="backToMsgList()" aria-label="Back">‹</button>
         <div class="conv-av" style="background:${u.grad};width:40px;height:40px;font-size:13px">${u.initials}</div>
         <div>
-          <div class="msg-thread-name">${u.name}</div>
-          <div class="msg-thread-role">${u.role || ''}</div>
+          <div class="msg-thread-name">${_esc(u.name)}</div>
+          <div class="msg-thread-role">${_esc(u.role || '')}</div>
         </div>
       </div>
       <div class="msg-thread-messages" id="msg-thread-messages">
         ${msgs.length
-          ? msgs.map(m => `
-              <div class="msg-group ${m.from === 'me' ? 'mine' : 'theirs'}">
-                <div class="msg-bubble ${m.from === 'me' ? 'msg-mine' : 'msg-theirs'}">${m.text}</div>
-                <div class="msg-time">${relTime(m.ts)}</div>
-              </div>`).join('')
-          : `<div style="text-align:center;padding:40px 16px;color:var(--muted);font-size:13px">
-               Say hello to ${u.name.split(' ')[0]} 👋
-             </div>`}
+          ? msgs.map(m => {
+              const mine = m.sender_id === userId;
+              return `<div class="msg-group ${mine ? 'mine' : 'theirs'}">
+                <div class="msg-bubble ${mine ? 'msg-mine' : 'msg-theirs'}">${_esc(m.content)}</div>
+                <div class="msg-time">${timeAgo(m.created_at)}</div>
+              </div>`;
+            }).join('')
+          : `<div style="text-align:center;padding:40px 16px;color:var(--muted);font-size:13px">Say hello to ${_esc(u.name.split(' ')[0])} 👋</div>`}
       </div>
       <div class="msg-input-row">
         <button class="msg-emoji-btn" onclick="insertMsgEmoji('${otherId}')" title="Emoji">😊</button>
@@ -9081,24 +8751,21 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     input.focus();
   }
 
-  function sendMsgTo(otherId) {
+  async function sendMsgTo(otherId) {
     const input = document.getElementById('msg-text-input');
     if (!input) return;
     const text = input.value.trim();
     if (!text) return;
     input.value = '';
-    const msgs = getMsgs(otherId);
-    msgs.push({ from: 'me', text, ts: Date.now(), read: true });
-    saveMsgs(otherId, msgs);
-    apiPost('/api/messages', { conv_id: convId(otherId), sender_id: userId, receiver_id: otherId, content: text }).catch(() => {});
+    msgState.thread.push({ sender_id: userId, receiver_id: otherId, content: text, created_at: new Date().toISOString() });
     renderMsgThread(otherId);
-    renderMsgConvList();
+    try { await apiPost('/api/messages', { conv_id: convId(otherId), sender_id: userId, receiver_id: otherId, content: text }); } catch(e){}
+    refreshConversations();
   }
 
   function openMessageTo(otherId) {
-    const c = loadConnections();
     showMessages();
-    if (c.connected.includes(otherId)) openMsgConversation(otherId);
+    openMsgConversation(otherId);
   }
 
   // ── Map Page ──
@@ -9779,26 +9446,21 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   const NOTIF_KEY       = 'playr_notifs';
   const NOTIF_SEED_KEY  = 'playr_notifs_seeded';
 
-  function loadNotifs() {
-    try { return JSON.parse(localStorage.getItem(NOTIF_KEY) || '[]'); } catch { return []; }
+  // Notifications are server-backed.
+  let _notifCache = [];
+  function addNotif() { refreshNotifs(); }  // created server-side; just refresh
+  async function refreshNotifs() {
+    try {
+      const data = await apiGet('/api/notifications?user_id=' + encodeURIComponent(userId));
+      _notifCache = data.items || [];
+      const el = document.getElementById('nav-badge-notifs');
+      if (el) { const u = data.unread||0; el.textContent = u > 9 ? '9+' : u; el.style.display = u > 0 ? 'flex' : 'none'; }
+    } catch(e){}
   }
-  function saveNotifs(arr) {
-    localStorage.setItem(NOTIF_KEY, JSON.stringify(arr.slice(0, 40)));
-  }
-  function addNotif(type, text, icon) {
-    const arr = loadNotifs();
-    arr.unshift({ id: Date.now() + Math.random(), type, text, icon, ts: Date.now(), read: false });
-    saveNotifs(arr);
-    updateBellBadge();
-  }
-  function markAllNotifsRead() {
-    saveNotifs(loadNotifs().map(n => ({ ...n, read: true })));
-    updateBellBadge();
-  }
-  function updateBellBadge() {
-    const count = loadNotifs().filter(n => !n.read).length;
-    const el = document.getElementById('nav-badge-notifs');
-    if (el) { el.textContent = count > 9 ? '9+' : count; el.style.display = count > 0 ? 'flex' : 'none'; }
+  function updateBellBadge() { /* badge maintained by refreshNotifs */ }
+  async function markAllNotifsRead() {
+    try { await apiPatch('/api/notifications/read', { user_id: userId }); } catch(e){}
+    await refreshNotifs();
   }
 
   const notifState = { open: false };
@@ -9807,7 +9469,7 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     notifState.open ? closeNotifDropdown() : openNotifDropdown();
   }
   function openNotifDropdown() {
-    renderNotifDropdown();
+    refreshNotifs().then(renderNotifDropdown);
     document.getElementById('notif-dropdown').classList.add('open');
     notifState.open = true;
     // Mark all read after a short delay so user sees the unread highlight briefly
@@ -9835,22 +9497,18 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   function renderNotifDropdown() {
-    const arr = loadNotifs();
     const list = document.getElementById('notif-list');
-    if (!arr.length) {
-      list.innerHTML = '<div class="notif-empty">You\'re all caught up 👋</div>';
-      return;
-    }
-    list.innerHTML = arr.map(n => `
-      <div class="notif-item${n.read ? '' : ' unread'}">
-        <div class="notif-item-icon">${n.icon}</div>
+    if (!list) return;
+    if (!_notifCache.length) { list.innerHTML = `<div class="notif-empty">You're all caught up 👋</div>`; return; }
+    list.innerHTML = _notifCache.map(n => `
+      <div class="notif-item${n.is_read ? '' : ' unread'}">
+        <div class="notif-item-icon">${n.icon || '🔔'}</div>
         <div class="notif-item-body">
-          <div class="notif-item-text">${n.text}</div>
-          <div class="notif-item-ts">${_notifRelTime(n.ts)}</div>
+          <div class="notif-item-text">${_esc(n.text)}</div>
+          <div class="notif-item-ts">${timeAgo(n.created_at)}</div>
         </div>
-        ${n.read ? '' : '<div class="notif-unread-dot"></div>'}
-      </div>
-    `).join('');
+        ${n.is_read ? '' : '<div class="notif-unread-dot"></div>'}
+      </div>`).join('');
   }
 
   function _seedInitialNotifs() {
@@ -10412,92 +10070,14 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   function submitFabPost() {
-    const text    = document.getElementById('cmp-text')?.value?.trim() || '';
-    const url     = document.getElementById('cmp-url')?.value?.trim() || '';
-    const matchR  = document.getElementById('cmp-match')?.value?.trim() || '';
-    const type    = _fabType;
-    if (!text && !url && !_fabPhotoFiles.length) { document.getElementById('cmp-text')?.focus(); return; }
-
-    // Auto-tags
-    const d = typeof _mpData === 'function' ? _mpData() : {};
-    const role = localStorage.getItem('playr_role') || 'player';
-    const posLabel = d.position || { player:'Player', scout:'Scout', coach:'Coach', club:'Club' }[role] || 'Athlete';
-    const autoTag = `#Football #${posLabel.replace(/\s+/g,'')}`;
-    const fullText = [text, matchR ? `📊 ${matchR}` : '', autoTag].filter(Boolean).join('\n\n');
-
-    // SVGs
-    const H = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`;
-    const C = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`;
-    const R = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 014-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>`;
-
-    const myName = document.getElementById('network-profile-name')?.textContent || 'You';
-    const myAv   = document.getElementById('network-profile-avatar')?.textContent || 'A';
-
-    // Media
-    let mediaHtml = '';
-    const ytId = url ? (typeof extractYouTubeId === 'function' ? extractYouTubeId(url) : null) : null;
-    if (ytId) {
-      mediaHtml = `<div class="post-media"><iframe src="https://www.youtube.com/embed/${ytId}" allowfullscreen loading="lazy"></iframe></div>`;
-    } else if (url) {
-      mediaHtml = `<div class="post-media"><img src="${url.replace(/"/g,'')}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"></div>`;
-    } else if (type === 'photo' && _fabPhotoFiles.length) {
-      const cells = _fabPhotoFiles.slice(0,4).map(f =>
-        `<div class="post-photo-cell"><img src="${URL.createObjectURL(f)}" style="width:100%;height:100%;object-fit:cover"></div>`).join('');
-      mediaHtml = `<div class="post-media-photo"><div class="post-photo-grid">${cells}</div></div>`;
-    } else if (type === 'photo') {
-      mediaHtml = `<div class="post-media-photo" style="background:#162030"><div class="post-photo-grid"><div class="post-photo-cell">📸</div><div class="post-photo-cell">🎞️</div><div class="post-photo-cell">🏃</div><div class="post-photo-cell">⚽</div></div></div>`;
-    }
-
-    // Build card
-    const card = document.createElement('div');
-    card.className = 'post-card post-new';
-    card.dataset.category = type;
-    const typeLabel = {training:'Training',photo:'Photo',highlights:'Highlights',text:'Update'}[type]||'Post';
-    card.innerHTML = `
-      ${mediaHtml}
-      <div class="post-body">
-        <div class="post-header">
-          <div class="post-avatar" style="background:linear-gradient(135deg,#00FF87,#00C9A7);font-size:14px">${myAv}</div>
-          <div class="post-author-info">
-            <div class="post-author-name">${myName} <span class="post-type-pill ${type}">${typeLabel}</span></div>
-            <div class="post-author-sub">${posLabel} · Football</div>
-            <div class="post-timestamp">Just now</div>
-          </div>
-          <div class="post-more">···</div>
-        </div>
-        <div class="post-text">${fullText.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}</div>
-        <div class="post-reactions">
-          <button class="post-react-btn" onclick="feedLike(this)">${H} <span>0</span></button>
-          <button class="post-react-btn" onclick="feedComment(this)">${C} <span>0</span></button>
-          <button class="post-react-btn" onclick="feedRepost(this)">${R} <span>0</span></button>
-        </div>
-        <div class="post-comments-wrap" style="display:none">
-          <div class="comment-input-row">
-            <div class="comment-av-sm" style="background:linear-gradient(135deg,#00FF87,#00C9A7)">${myAv}</div>
-            <input class="comment-input" placeholder="Add a comment…">
-            <button class="comment-send-btn" onclick="sendComment(this)">Post</button>
-          </div>
-          <div class="comments-list"></div>
-        </div>
-      </div>`;
-
-    // Prepend to feed
-    const feed = document.getElementById('network-feed-posts');
-    feed.insertBefore(card, feed.firstChild);
-    const af = document.querySelector('.filter-btn.active');
-    if (af && af.dataset.filter !== 'all' && af.dataset.filter !== type) card.style.display = 'none';
-
-    // Persist
-    const stored = JSON.parse(localStorage.getItem('playr_feed_posts') || '[]');
-    const grad = 'linear-gradient(135deg,#00FF87,#00C9A7)';
-    stored.unshift({ type, text: fullText, url, ytId: ytId||null, ts:'Just now', grad });
-    localStorage.setItem('playr_feed_posts', JSON.stringify(stored.slice(0, 50)));
-
-    // Refresh My Profile grid if visible
-    if (document.getElementById('screen-my-profile')?.classList.contains('active')) {
-      renderMpPostsGrid();
-    }
-
+    if (!authToken) { showLogin(); return; }
+    const text   = document.getElementById('cmp-text')?.value?.trim() || '';
+    const url    = document.getElementById('cmp-url')?.value?.trim() || '';
+    const matchR = document.getElementById('cmp-match')?.value?.trim() || '';
+    const type   = _fabType;
+    if (!text && !url) { document.getElementById('cmp-text')?.focus(); return; }
+    const fullText = [text, matchR ? `📊 ${matchR}` : ''].filter(Boolean).join('\n\n');
+    createPostOnServer({ type, text: fullText, url });
     closeComposer();
   }
 
@@ -10665,6 +10245,315 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
     if (topbar) { topbar.style.display = 'none'; delete topbar.dataset.side; }
     const eafNav = document.getElementById('eaf-bottom-nav');
     if (eafNav) eafNav.style.display = 'none';
+  }
+
+  // ════════════════════════════════════════════════
+  //  REAL BACKEND WIRING — auth, directory, feed, stories
+  // ════════════════════════════════════════════════
+  function pushNotif() { /* legacy no-op — notifications are server-side now */ }
+  function _initials(name) {
+    return (name || 'A').split(/\s+/).map(w => w[0]).join('').slice(0,2).toUpperCase() || 'A';
+  }
+  function _esc(str){ return (str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function timeAgo(iso) {
+    if (!iso) return '';
+    const t = Date.parse(String(iso).replace(' ', 'T') + (String(iso).includes('Z') ? '' : 'Z'));
+    if (isNaN(t)) return '';
+    const sec = Math.floor((Date.now() - t) / 1000);
+    if (sec < 60) return 'just now';
+    if (sec < 3600) return Math.floor(sec/60) + 'm';
+    if (sec < 86400) return Math.floor(sec/3600) + 'h';
+    if (sec < 604800) return Math.floor(sec/86400) + 'd';
+    return Math.floor(sec/604800) + 'w';
+  }
+
+  // ── Auth flow ──
+  function _seedOwnProfileFromME() {
+    if (!ME) return;
+    try {
+      const cur = JSON.parse(localStorage.getItem('playr_my_profile') || '{}');
+      if (!cur.name) {
+        localStorage.setItem('playr_my_profile', JSON.stringify({
+          name: ME.name, position: ME.position || '',
+          location: [ME.city, ME.country].filter(Boolean).join(', '), bio: ME.bio || ''
+        }));
+      }
+    } catch(e){}
+  }
+
+  async function afterAuth() {
+    _seedOwnProfileFromME();
+    try { await hydrateDirectory(); } catch(e){ console.warn('directory', e); }
+    try { await syncConnections(); } catch(e){}
+    _enterNetwork(ME.role);
+    try { await refreshNotifs(); } catch(e){}
+    try { await refreshConversations(); } catch(e){}
+    renderFeed();
+    renderStories();
+  }
+
+  async function bootSession() {
+    if (!authToken) return;  // not signed in → stay on the landing screen
+    try {
+      const { user } = await apiGet('/api/auth/me');
+      ME = user; userId = user.id;
+      localStorage.setItem('playr_user_id', user.id);
+      localStorage.setItem('playr_role', user.role);
+      localStorage.setItem('playr_account', JSON.stringify({ email: user.email, role: user.role, name: user.name }));
+      await afterAuth();
+    } catch (e) {
+      _clearSession();
+      goToEntry();
+    }
+  }
+
+  async function login(e) {
+    if (e) e.preventDefault();
+    const email = (document.getElementById('li-email')?.value || '').trim();
+    const password = document.getElementById('li-password')?.value || '';
+    const errEl = document.getElementById('li-error');
+    const btn = document.getElementById('li-submit');
+    if (errEl) errEl.textContent = '';
+    if (!email || !password) { if (errEl) errEl.textContent = 'Enter your email and password.'; return; }
+    if (btn) { btn.disabled = true; btn.textContent = 'Logging in…'; }
+    try {
+      const { token, user } = await apiPost('/api/auth/login', { email, password });
+      _setSession(token, user);
+      await afterAuth();
+    } catch (err) {
+      if (errEl) errEl.textContent = 'Invalid email or password.';
+      if (btn) { btn.disabled = false; btn.textContent = 'Log in →'; }
+      return;
+    }
+    if (btn) { btn.disabled = false; btn.textContent = 'Log in →'; }
+  }
+  function showLogin() {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-login').classList.add('active');
+    document.getElementById('playr-nav').style.display = 'none';
+    const err = document.getElementById('li-error'); if (err) err.textContent = '';
+  }
+  async function logout() {
+    try { await apiPost('/api/auth/logout', { token: authToken }); } catch(e){}
+    _clearSession();
+    localStorage.removeItem('playr_my_profile');
+    location.reload();
+  }
+
+  // ── Directory hydration: fill PROFILES + DISCOVER_USERS from the server ──
+  function mapUserToProfile(u) {
+    const loc = [u.city, u.country].filter(Boolean).join(', ');
+    const career = (u.career || []).map(c => ({
+      club: c.club || '', role: c.role || u.position || '',
+      dates: c.dates || c.period || '', current: !!c.current
+    }));
+    return {
+      id: u.id, role: u.role, name: u.name,
+      initials: _initials(u.name), grad: u.grad || u.avatar_color,
+      cover: u.cover || u.grad || u.avatar_color,
+      badgeHtml: (ROLE_META[u.role] || ROLE_META.player).badge,
+      location: loc, position: u.position || '', nationality: u.nationality || '',
+      age: u.age || null, verified: !!u.verified, open: !!u.open, bio: u.bio || '',
+      connections: u.connections || 0, views: u.views || 0, impressions: u.impressions || 0,
+      stats: u.stats || [], career, highlights: [], certs: [], posts: []
+    };
+  }
+  async function hydrateDirectory() {
+    let users = [];
+    try { users = await apiGet('/api/users?viewer_id=' + encodeURIComponent(userId)); }
+    catch (e) { return; }
+    DISCOVER_USERS.length = 0;
+    for (const k of Object.keys(PROFILES)) delete PROFILES[k];
+    users.forEach(u => {
+      const p = mapUserToProfile(u);
+      PROFILES[u.id] = p;
+      if (u.id !== userId) {
+        DISCOVER_USERS.push({
+          id: u.id, role: u.role, name: u.name, initials: p.initials, grad: p.grad,
+          badgeHtml: p.badgeHtml, position: u.position || '', nationality: u.nationality || '',
+          age: u.age || null, location: p.location, verified: !!u.verified
+        });
+      }
+    });
+    if (ME) PROFILES['__me__'] = mapUserToProfile(ME);
+  }
+
+  // ── Feed (server-backed) ──
+  function postMediaHtml(p) {
+    if (p.yt_id) return `<div class="post-media"><iframe src="https://www.youtube.com/embed/${p.yt_id}" allowfullscreen loading="lazy"></iframe></div>`;
+    if (p.media_url) {
+      if (/youtube|youtu\.be/.test(p.media_url)) return `<div class="post-media"><iframe src="${p.media_url}" allowfullscreen loading="lazy"></iframe></div>`;
+      return `<div class="post-media"><img src="${p.media_url.replace(/"/g,'')}" alt="" style="width:100%;height:100%;object-fit:cover" onerror="this.parentElement.style.display='none'"></div>`;
+    }
+    return '';
+  }
+  function postCardHtml(p) {
+    const initials = _initials(p.author_name);
+    const typeLabel = (p.type||'update').charAt(0).toUpperCase() + (p.type||'update').slice(1);
+    const heartSVG = `<svg viewBox="0 0 24 24" fill="${p.liked?'currentColor':'none'}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>`;
+    const commentSVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`;
+    const sub = [p.author_position, p.author_city].filter(Boolean).join(' · ') || (p.author_role ? p.author_role.charAt(0).toUpperCase()+p.author_role.slice(1) : 'Athlete');
+    return `<div class="post-card" data-category="${p.type||'update'}" data-user-id="${p.user_id}" data-post-id="${p.id}">
+      ${postMediaHtml(p)}
+      <div class="post-body">
+        <div class="post-header">
+          <div class="post-avatar" style="background:${p.author_grad};font-size:14px;cursor:pointer" onclick="showProfile('${p.user_id}')">${initials}</div>
+          <div class="post-author-info">
+            <div class="post-author-name" style="cursor:pointer" onclick="showProfile('${p.user_id}')">${_esc(p.author_name)} <span class="post-type-pill ${p.type||'update'}">${typeLabel}</span></div>
+            <div class="post-author-sub">${_esc(sub)}</div>
+            <div class="post-timestamp">${timeAgo(p.created_at)}</div>
+          </div>
+          <div class="post-more">···</div>
+        </div>
+        <div class="post-text">${_esc(p.content).replace(/\n/g,'<br>')}</div>
+        <div class="post-reactions">
+          <button class="post-react-btn${p.liked?' liked':''}" onclick="togglePostLike(this)">${heartSVG} <span>${p.like_count||0}</span></button>
+          <button class="post-react-btn" onclick="toggleComments(this)">${commentSVG} <span>${p.comment_count||0}</span></button>
+        </div>
+        <div class="post-comments-wrap" style="display:none">
+          <div class="comment-input-row">
+            <div class="comment-av-sm" style="background:${ME?ME.grad:'#00FF87'}">${ME?_initials(ME.name):'A'}</div>
+            <input class="comment-input" placeholder="Add a comment…" onkeydown="if(event.key==='Enter'){event.preventDefault();submitPostComment(this)}">
+            <button class="comment-send-btn" onclick="submitPostComment(this.previousElementSibling)">Post</button>
+          </div>
+          <div class="comments-list"></div>
+        </div>
+      </div>
+    </div>`;
+  }
+  async function renderFeed() {
+    const container = document.getElementById('network-feed-posts');
+    if (!container) return;
+    let posts = [];
+    try { posts = await apiGet('/api/posts?viewer_id=' + encodeURIComponent(userId)); }
+    catch (e) { container.innerHTML = '<div style="padding:40px;text-align:center;color:#888">Could not load the feed.</div>'; return; }
+    if (!posts.length) { container.innerHTML = '<div style="padding:40px;text-align:center;color:#888">No posts yet — be the first to share an update.</div>'; return; }
+    container.innerHTML = posts.map(postCardHtml).join('');
+    const af = document.querySelector('.filter-btn.active');
+    if (af && af.dataset.filter !== 'all') applyFilter(af.dataset.filter, af);
+  }
+  async function togglePostLike(btn) {
+    const card = btn.closest('.post-card'); if (!card) return;
+    try {
+      const r = await apiPost('/api/posts/' + card.dataset.postId + '/like', {});
+      btn.classList.toggle('liked', r.liked);
+      const span = btn.querySelector('span'); if (span) span.textContent = r.count;
+      const svg = btn.querySelector('svg'); if (svg) svg.setAttribute('fill', r.liked ? 'currentColor' : 'none');
+    } catch(e){}
+  }
+  function toggleComments(btn) {
+    const card = btn.closest('.post-card'); if (!card) return;
+    const wrap = card.querySelector('.post-comments-wrap'); if (!wrap) return;
+    const showing = wrap.style.display !== 'none';
+    wrap.style.display = showing ? 'none' : 'block';
+    if (!showing) loadPostComments(card.dataset.postId, wrap.querySelector('.comments-list'));
+  }
+  async function loadPostComments(postId, listEl) {
+    if (!listEl) return;
+    try {
+      const rows = await apiGet('/api/posts/' + postId + '/comments');
+      listEl.innerHTML = rows.map(c => `
+        <div class="comment-item" style="display:flex;gap:8px;padding:6px 0;align-items:flex-start">
+          <div class="comment-av-sm" style="background:${c.author_grad||'#00FF87'};flex:none">${_initials(c.author_name)}</div>
+          <div><div style="font-weight:700;font-size:12px">${_esc(c.author_name)}</div><div style="font-size:13px">${_esc(c.content)}</div></div>
+        </div>`).join('');
+    } catch(e){}
+  }
+  async function submitPostComment(inputEl) {
+    if (!inputEl) return;
+    const text = inputEl.value.trim(); if (!text) return;
+    const card = inputEl.closest('.post-card'); if (!card) return;
+    inputEl.value = '';
+    try {
+      await apiPost('/api/posts/' + card.dataset.postId + '/comments', { content: text });
+      await loadPostComments(card.dataset.postId, card.querySelector('.comments-list'));
+      const cBtn = card.querySelectorAll('.post-react-btn')[1];
+      if (cBtn) { const sp = cBtn.querySelector('span'); if (sp) sp.textContent = (parseInt(sp.textContent)||0)+1; }
+    } catch(e){}
+  }
+  async function createPostOnServer(opts) {
+    const text = (opts.text || '').trim();
+    const url  = (opts.url || '').trim();
+    if (!text && !url) return false;
+    let yt = '';
+    if (url && typeof extractYouTubeId === 'function') yt = extractYouTubeId(url) || '';
+    try {
+      await apiPost('/api/posts', { type: opts.type || 'update', content: text, media_url: yt ? '' : url, yt_id: yt });
+      await renderFeed();
+      return true;
+    } catch(e){ return false; }
+  }
+
+  // ── Stories (server-backed, 24h) ──
+  let _storyGroups = [];
+  async function renderStories() {
+    const rail = document.getElementById('stories-rail');
+    if (!rail) return;
+    try { _storyGroups = await apiGet('/api/stories'); } catch(e){ _storyGroups = []; }
+    const myInit = ME ? _initials(ME.name) : 'A';
+    const myGrad = ME ? ME.grad : 'linear-gradient(135deg,#00FF87,#00C9A7)';
+    let html = `<div class="story-cell" onclick="addStory()">
+      <div class="story-ring story-add"><div class="story-av" style="background:${myGrad}">${myInit}</div><div class="story-plus">+</div></div>
+      <div class="story-name">Your story</div></div>`;
+    html += _storyGroups.map((g, i) => `
+      <div class="story-cell" onclick="openStoryViewer(${i})">
+        <div class="story-ring"><div class="story-av" style="background:${g.grad}">${_initials(g.name)}</div></div>
+        <div class="story-name">${_esc((g.name||'').split(' ')[0])}</div>
+      </div>`).join('');
+    rail.innerHTML = html;
+  }
+  function openStoryViewer(groupIdx) {
+    const g = _storyGroups[groupIdx]; if (!g || !g.items.length) return;
+    let idx = 0;
+    let ov = document.getElementById('story-viewer');
+    if (!ov) { ov = document.createElement('div'); ov.id = 'story-viewer'; ov.className = 'story-overlay'; document.body.appendChild(ov); }
+    function paint() {
+      const it = g.items[idx];
+      const bg = it.bg || g.grad || 'linear-gradient(135deg,#00FF87,#00C9A7)';
+      ov.innerHTML = `
+        <div class="sv-backdrop" onclick="closeStoryViewer()"></div>
+        <div class="sv-card" style="background:${bg}">
+          <div class="sv-bars">${g.items.map((_,k)=>`<div class="sv-bar"><div class="sv-bar-fill" style="width:${k<=idx?100:0}%"></div></div>`).join('')}</div>
+          <div class="sv-head"><div class="story-av" style="background:${g.grad};width:34px;height:34px;font-size:12px">${_initials(g.name)}</div><div class="sv-name">${_esc(g.name)}</div><div class="sv-time">${timeAgo(it.created_at)}</div><button class="sv-close" onclick="closeStoryViewer()">✕</button></div>
+          ${it.media_url ? `<img class="sv-media" src="${it.media_url.replace(/"/g,'')}" alt="">` : ''}
+          <div class="sv-caption">${_esc(it.caption||'')}</div>
+          <button class="sv-nav sv-prev" onclick="event.stopPropagation();_storyPrev()">‹</button>
+          <button class="sv-nav sv-next" onclick="event.stopPropagation();_storyNext()">›</button>
+        </div>`;
+    }
+    window._storyNext = () => { idx++; if (idx >= g.items.length) closeStoryViewer(); else paint(); };
+    window._storyPrev = () => { idx = Math.max(0, idx-1); paint(); };
+    ov.style.display = 'flex';
+    paint();
+  }
+  function closeStoryViewer() { const ov = document.getElementById('story-viewer'); if (ov) ov.style.display = 'none'; }
+  function addStory() {
+    if (!authToken) { showLogin(); return; }
+    let ov = document.getElementById('story-composer');
+    if (!ov) { ov = document.createElement('div'); ov.id = 'story-composer'; ov.className = 'story-overlay'; document.body.appendChild(ov); }
+    const grads = ['linear-gradient(135deg,#00FF87,#00C9A7)','linear-gradient(135deg,#6C3EFF,#00C9FF)','linear-gradient(135deg,#FF6B6B,#FFD93D)','linear-gradient(135deg,#FF8A00,#FF2D92)'];
+    ov.innerHTML = `
+      <div class="sv-backdrop" onclick="closeStoryComposer()"></div>
+      <div class="story-composer-card">
+        <h3 style="margin:0 0 12px;color:var(--text)">Add to your story</h3>
+        <textarea id="story-caption" class="post-textarea" rows="3" placeholder="Say something…"></textarea>
+        <input id="story-url" class="post-url-input" type="url" placeholder="Optional image URL">
+        <div style="display:flex;gap:8px;margin:12px 0">${grads.map((gr,i)=>`<div class="story-grad-pick${i===0?' sel':''}" data-grad="${gr}" style="background:${gr}" onclick="_pickStoryGrad(this)"></div>`).join('')}</div>
+        <div style="display:flex;gap:8px"><button class="su-submit" style="flex:1" onclick="submitStory()">Share</button><button class="post-cancel-btn" style="flex:none;width:auto;padding:0 18px" onclick="closeStoryComposer()">Cancel</button></div>
+      </div>`;
+    ov.style.display = 'flex';
+    ov.dataset.grad = grads[0];
+  }
+  function _pickStoryGrad(el){ document.querySelectorAll('.story-grad-pick').forEach(p=>p.classList.remove('sel')); el.classList.add('sel'); const c=document.getElementById('story-composer'); if(c) c.dataset.grad = el.dataset.grad; }
+  function closeStoryComposer(){ const ov=document.getElementById('story-composer'); if(ov) ov.style.display='none'; }
+  async function submitStory() {
+    const caption = document.getElementById('story-caption')?.value.trim() || '';
+    const url = document.getElementById('story-url')?.value.trim() || '';
+    const bg = document.getElementById('story-composer')?.dataset.grad || '';
+    if (!caption && !url) { closeStoryComposer(); return; }
+    try { await apiPost('/api/stories', { caption, media_url: url, bg }); } catch(e){}
+    closeStoryComposer();
+    renderStories();
   }
 
   // ─── THEME TOGGLE ───

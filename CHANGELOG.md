@@ -4,6 +4,40 @@ A running log of every change made to the platform. Written in plain English so 
 
 ---
 
+## 2026-06-11 (2)
+
+### Made Playr a real, networked app (real accounts, real feed, real everything)
+
+Up to now most of the app only worked on your own device — data lived in the browser and nobody else could see it. This release moves everything to a real backend so the network is genuinely shared between people. The server (`server.js`) was rebuilt with a proper database and API, and the front end was rewired to use it.
+
+**Real accounts & login**
+- Sign-up now creates a real account on the server with a securely hashed password (scrypt) — passwords are never stored in plain text.
+- There's a proper **Log in** screen, so you can sign back in from any device. A session token keeps you logged in across refreshes, and a **Log out** is available.
+- A full-name field was added to sign-up so your name shows on your posts and profile.
+
+**A real, shared feed**
+- The old hardcoded/fake posts are gone. The feed now loads real posts from the server, newest first, from everyone on the network.
+- **Likes and comments are real and permanent** — they save to the server and are still there after you refresh or open the app on another device. Like counts and comment counts are accurate and shared.
+- Posting an update (from the home composer or the + button) creates a real post that everyone can see.
+
+**A real people directory**
+- **Discover** is no longer empty — it lists real members and filters by role, position, nationality, age and location.
+- **Profiles work** — tapping anyone (including the author of a post) opens their real profile with their stats, career history, bio and connection button.
+- The app ships with a starter set of demo members (players, a scout, a coach and a club) plus some posts and stories, so the network feels alive from the first visit. Real sign-ups join the same shared network.
+
+**Stories (brand new)**
+- A real Instagram-style **Stories** row sits at the top of the feed. Tap a ring to view someone's story full-screen with progress bars; tap your own to add one (caption + optional image + colour). Stories automatically expire after 24 hours.
+
+**Messaging, connections & notifications — now truly networked**
+- **Messages** are stored on the server, so a message you send actually reaches the other person and your conversation list and unread badges stay in sync.
+- **Connections** (connect / accept / decline) are stored server-side and shared between both people.
+- **Notifications are real** — when someone likes or comments on your post, sends you a message, or wants to connect, the server creates a notification that shows up in your bell menu.
+- Your **day streak** is now calculated by the server from your posting activity.
+
+*Note: photo-file uploads in the composer aren't stored yet (image posts use a pasted image URL for now). The old learning-framework API endpoints were removed since that section no longer exists.*
+
+---
+
 ## 2026-06-11
 
 ### Removed the Elite Athlete Framework — Playr is now a pure social/discovery app
