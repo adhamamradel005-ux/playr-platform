@@ -6266,32 +6266,43 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 </div>
 
 <script>
-  // ─── USER IDENTITY ───
-  const userId = (() => {
-    let id = localStorage.getItem('playr_user_id');
-    if (!id) {
-      id = 'user_' + Math.random().toString(36).substr(2, 9);
-      localStorage.setItem('playr_user_id', id);
-    }
-    return id;
-  })();
+  // ─── SESSION / IDENTITY ───
+  let authToken = localStorage.getItem('playr_token') || null;
+  let ME = null;                                            // current authed user (server)
+  let userId = localStorage.getItem('playr_user_id') || ''; // server user id once authed
 
-  // ─── API HELPERS ───
+  function _authHeaders(extra) {
+    const h = Object.assign({ 'Content-Type': 'application/json' }, extra || {});
+    if (authToken) h['Authorization'] = 'Bearer ' + authToken;
+    return h;
+  }
+  function _setSession(token, user) {
+    authToken = token; ME = user; userId = user.id;
+    localStorage.setItem('playr_token', token);
+    localStorage.setItem('playr_user_id', user.id);
+    localStorage.setItem('playr_role', user.role);
+    localStorage.setItem('playr_account', JSON.stringify({ email: user.email, role: user.role, name: user.name }));
+  }
+  function _clearSession() {
+    authToken = null; ME = null;
+    localStorage.removeItem('playr_token');
+    localStorage.removeItem('playr_account');
+  }
+
+  // ─── API HELPERS (auth-aware) ───
   async function apiGet(path) {
-    const res = await fetch(path);
+    const res = await fetch(path, { headers: _authHeaders() });
     if (!res.ok) throw new Error(await res.text());
     return res.json();
   }
-
-  async function apiPost(path, body) {
-    const res = await fetch(path, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
+  async function apiSend(method, path, body) {
+    const res = await fetch(path, { method, headers: _authHeaders(), body: body !== undefined ? JSON.stringify(body) : undefined });
     if (!res.ok) throw new Error(await res.text());
     return res.json();
   }
+  const apiPost   = (path, body) => apiSend('POST', path, body);
+  const apiPatch  = (path, body) => apiSend('PATCH', path, body);
+  const apiDelete = (path, body) => apiSend('DELETE', path, body);
 
   // ─── MODULE DATA ───
   const modules = [
@@ -7612,19 +7623,8 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   function showNetwork() {
-    const account = _getAccount();
-    const legacyRole = localStorage.getItem('playr_role');
-
-    if (account) {
-      // Returning user with full account — go straight to network
-      _enterNetwork(account.role);
-    } else if (legacyRole) {
-      // Legacy session (role set before signup screen existed) — honour it
-      _enterNetwork(legacyRole);
-    } else {
-      // Brand-new user — start the onboarding flow
-      showRoleScreen();
-    }
+    if (authToken && ME) { afterAuth(); }
+    else { showRoleScreen(); }   // not signed in → onboarding (role → signup)
     updateFabVisibility();
   }
 
@@ -7686,12 +7686,12 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
   async function createAccount(e) {
     e.preventDefault();
+    const name = (document.getElementById('su-name')?.value || '').trim();
     const email = (document.getElementById('su-email')?.value || '').trim();
     const password = document.getElementById('su-password')?.value || '';
     const errEl = document.getElementById('su-error');
     const btn = document.getElementById('su-submit');
 
-    // Validate
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       errEl.textContent = 'Please enter a valid email address.';
       document.getElementById('su-email').classList.add('error');
@@ -7708,21 +7708,23 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
 
     btn.disabled = true;
     btn.textContent = 'Creating account…';
-
     const role = _pendingRole || 'player';
 
-    // Persist account locally
-    _saveAccount({ email, role });
-
-    // Persist to server
     try {
-      await apiPost('/api/users', { user_id: userId, email, role });
-    } catch { /* offline — local save is enough */ }
-
+      const { token, user } = await apiPost('/api/auth/signup', { email, password, role, name });
+      _setSession(token, user);
+      await afterAuth();
+    } catch (err) {
+      const msg = String(err && err.message || '');
+      errEl.textContent = msg.includes('email_taken')
+        ? 'That email is already registered — log in instead.'
+        : 'Could not create account. Please try again.';
+      btn.disabled = false;
+      btn.textContent = 'Create Account →';
+      return;
+    }
     btn.disabled = false;
     btn.textContent = 'Create Account →';
-
-    _enterNetwork(role);
     updateFabVisibility();
   }
 
@@ -7771,35 +7773,16 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   }
 
   function updateNetworkStreak() {
-    // Pull streak value from the framework stat element if available, else from localStorage activity
-    const frameworkStreak = document.getElementById('stat-streak');
-    let streak = frameworkStreak ? parseInt(frameworkStreak.textContent) || 0 : 0;
-    // Compute from journal localStorage if available
-    try {
-      const entries = JSON.parse(localStorage.getItem('playr_journal') || '[]');
-      if (entries.length) {
-        const days = [...new Set(entries.map(e => new Date(e.created_at || e.ts || Date.now()).toDateString()))];
-        let s = 0;
-        for (let i = 0; i < days.length; i++) {
-          const d = new Date(); d.setDate(d.getDate() - i);
-          if (days.includes(d.toDateString())) s++; else break;
-        }
-        if (s > streak) streak = s;
-      }
-    } catch(e) {}
+    const streak = ME ? (ME.streak || 0) : 0;
     const numEl = document.getElementById('network-streak-num');
     const msgEl = document.getElementById('network-streak-msg');
     if (!numEl) return;
     numEl.textContent = streak || '—';
-    if (streak >= 7) {
-      msgEl.textContent = `${streak} days straight — elite consistency 🏆`;
-    } else if (streak >= 3) {
-      msgEl.textContent = `${streak} days in a row — keep it going!`;
-    } else if (streak >= 1) {
-      msgEl.textContent = `${streak} day streak — log again tomorrow to extend it`;
-    } else {
-      msgEl.textContent = 'Log today to start your streak';
-    }
+    if (!msgEl) return;
+    if (streak >= 7)      msgEl.textContent = `${streak} days straight — elite consistency 🏆`;
+    else if (streak >= 3) msgEl.textContent = `${streak} days in a row — keep it going!`;
+    else if (streak >= 1) msgEl.textContent = `${streak} day streak — post again tomorrow to extend it`;
+    else                  msgEl.textContent = 'Post today to start your streak';
   }
 
   function feedComment(btn) {
@@ -10706,12 +10689,8 @@ Gym. Pitch. Recovery. Repeat. This is what the grind looks like behind the highl
   // Sync toggle button icon with the theme applied by the head script
   applyTheme(document.documentElement.getAttribute('data-theme') || 'dark');
 
-  // Init connections (seeds simulated requests on first visit) + update badges
-  loadConnections();
-  updateNotifBadges();
-  updateChatBadge();
-  _seedInitialNotifs();
-  updateBellBadge();
+  // Restore session (if any) and route to the correct screen
+  bootSession();
 </script>
 <!-- ══════════════════════════════════════════
      ME DROPDOWN (global overlay)
