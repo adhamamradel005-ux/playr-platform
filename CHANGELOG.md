@@ -4,6 +4,22 @@ A running log of every change made to the platform. Written in plain English so 
 
 ---
 
+## 2026-06-11
+
+### Removed the Elite Athlete Framework — Playr is now a pure social/discovery app
+
+Playr previously shipped two products behind one landing page: the **Elite Athlete Framework** (EAF — the psychology/learning side: 10 modules, journaling, daily check-ins, progress, badges) and the **Athlete Discovery Network** (ADN — the social/scouting side). The EAF pathway has been removed entirely so the app is now just the ADN social network for athletes.
+
+- **Landing page** rebranded to a single ADN call-to-action. The two-path chooser and the "Train your mind" framework card are gone; the headline now leads straight into "Join the Network."
+- **Framework screen deleted** — the entire EAF platform (Home dashboard, Modules, Progress, Journal, Explore, Elite Stories, Community) and its mobile bottom-nav have been removed from the page.
+- **All cross-links to the framework removed** — the sidebar Framework/Network switcher, the "Framework" buttons on the network home and profile screens, the streak banner's "Log today" link, the mobile "Switch to Elite Athlete Framework" card, and the "Switch to Framework" item in the profile menu.
+- **Navigation cleaned up** so entering the network no longer references the now-deleted switcher controls.
+- The ADN experience is unchanged: feed, Discover, Map, Messages, Profile, trials, and scout shortlist all work exactly as before.
+
+*Note: some inert framework code (the old module/journal data and helper functions) remains in the file but is now unreachable — no screen, button, or link can trigger it. It can be stripped out in a follow-up cleanup.*
+
+---
+
 ## 2026-03-31 (3)
 
 ### Fix: Post Update composer broken layout on desktop and mobile
